@@ -1,0 +1,12 @@
+
+gemstoneDir="`dirname $0`/../gemstone"
+
+if [ "$GEMSTONE"x = "x" ] ; then
+	export GEMSTONE="$gemstoneDir/gemstoneProductTree"
+fi
+
+$GEMSTONE/bin/topaz -l -- $1 \
+	-I "$gemstoneDir/.topazini" \
+	-C "GEM_SOLO_EXTENT=$scriptDir/snapshots/extent0.dbf" \
+	-q \
+	-S gemstoneDir/superdoit.tpz

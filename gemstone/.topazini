@@ -1,0 +1,3 @@
+set user SystemUser
+set password swordfish
+set solologin on
