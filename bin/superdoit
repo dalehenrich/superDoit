@@ -7,6 +7,6 @@ fi
 
 $GEMSTONE/bin/topaz -l -- $1 \
 	-I "$gemstoneDir/.topazini" \
-	-C "GEM_SOLO_EXTENT=$scriptDir/snapshots/extent0.dbf" \
+	-C "GEM_SOLO_EXTENT=$gemstoneDir/gemstoneProductTree/../hidden/bin/extent0.rowan.dbf" \
 	-q \
 	-S gemstoneDir/superdoit.tpz
