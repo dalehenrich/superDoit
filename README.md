@@ -1,5 +1,11 @@
 # superDoIt
 
+### install
+**TBD - requires GemStone 3.7.0, which has not been released**
+
+### usage
+Add `superDoit/bin` to you path and you're good to go ...
+
 ### simple executable doit 
 ```
 #!/usr/bin/env superdoit
