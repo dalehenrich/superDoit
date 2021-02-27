@@ -9,7 +9,9 @@ Add `superDoit/bin` to you path and you're good to go ...
 ### simple executable doit 
 ```
 #!/usr/bin/env superdoit
+doit
 3+4
+%
 ```
 ### executable doit with methods and specs
 ```

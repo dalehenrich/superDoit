@@ -1,2 +1,4 @@
 #!/usr/bin/env superdoit
+doit
 3+4
+%
