@@ -42,7 +42,7 @@ SuperDoit >> isSeparator: aCharacter [
 SuperDoit >> parseAndExecuteScriptFile: scriptFileReference [
 	scriptFileReference
 		readStreamDo: [ :fStream | 
-			stream := fStream.
+			stream := ZnBufferedReadStream on: fStream.
 			^ self createClassFrom: self document ]
 ]
 
