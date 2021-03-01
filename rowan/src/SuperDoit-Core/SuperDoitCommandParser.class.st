@@ -25,15 +25,12 @@ SuperDoitCommandParser class >> processInputFile [
 	^ self new parseAndExecuteScriptFile: scriptFile asFileReference
 ]
 
-{ #category : 'parsing' }
-SuperDoitCommandParser >> document [
-	[ self done ] whileFalse: [ self processNextCommand ]
-]
-
 { #category : 'commands' }
 SuperDoitCommandParser >> doit: string [
+	| instance |
 	self superDoitExecutionClass compileMethod: 'doit ^ ' , string.
-	^ doitResult := self superDoitExecutionClass new doit
+	instance := self superDoitExecutionClass new.
+ 	instance displayResult: instance doit
 ]
 
 { #category : 'accessing' }
@@ -76,7 +73,8 @@ SuperDoitCommandParser >> parseAndExecuteScriptFile: scriptFileReference [
 	scriptFileReference
 		readStreamDo: [ :fStream | 
 			stream := ZnBufferedReadStream on: fStream.
-			^ self createClassFrom: self document ]
+			[ self done ] whileFalse: [ self processNextCommand ].
+			^ doitResult ]
 ]
 
 { #category : 'parsing' }
@@ -136,7 +134,7 @@ SuperDoitCommandParser >> specUrls: string [
 
 { #category : 'accessing' }
 SuperDoitCommandParser >> superDoitExecutionClass [
-	superDoitExecutionClass
+	^ superDoitExecutionClass
 		ifNil: [ 
 			superDoitExecutionClass := SuperDoitExecution
 				subclass: 'SuperDoitExecutionClass'
