@@ -1,0 +1,25 @@
+
+# set -x 
+
+export projectDir="`dirname $0`/.."
+gemstoneDir="$projectDir/gemstone"
+
+if [ $# -lt 2 ] ; then
+	echo "incorrect number of args $# (2 expected)"
+	exit 1
+fi
+scriptFile=$1
+shift
+stoneName=$1
+shift
+
+export stoneDir=$GS_HOME/server/stones/$stoneName
+
+if [ "$GEMSTONE"x = "x" ] ; then
+	export GEMSTONE="$stoneDir/product"
+fi
+
+$GEMSTONE/bin/topaz -l \
+	-I "$stoneDir/.topazini" \
+	-q \
+	-S $gemstoneDir/superdoit.tpz -- $scriptFile -- $*
