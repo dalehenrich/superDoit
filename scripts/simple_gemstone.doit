@@ -1,0 +1,4 @@
+#!/usr/bin/env superdoit_gemstone
+doit
+3+4
+%

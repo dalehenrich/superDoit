@@ -4,12 +4,15 @@
 export projectDir="`dirname $0`/.."
 gemstoneDir="$projectDir/gemstone"
 
-if [ "$GEMSTONE"x = "x" ] ; then
-	export GEMSTONE="$gemstoneDir/gs/product"
+if [ "$ARCHBASE"x = "x" ] ; then
+	echo "expected \$ARCHBASE to be defined"
+	exit 1
 fi
+
+export GEMSTONE="$ARCHBASE/fast50/gs/product"
 
 $GEMSTONE/bin/topaz -l \
 	-I "$gemstoneDir/.topazini" \
-	-C "GEM_SOLO_EXTENT=$gemstoneDir/gs/hidden/bin/extent0.rowan.dbf" \
+	-C "GEM_SOLO_EXTENT=$ARCHBASE/fast50/gs/hidden/bin/extent0.rowan.dbf" \
 	-q \
 	-S $gemstoneDir/superdoit.tpz -- $1 -- $*

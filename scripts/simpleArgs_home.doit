@@ -1,0 +1,9 @@
+#!/usr/bin/env superdoit_solo
+method
+displayResult: anObject
+self stdout nextPutAll: self scriptArgs printString; lf.
+super displayResult: anObject
+%
+doit
+3+4
+%
