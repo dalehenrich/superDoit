@@ -10,5 +10,5 @@ run
 	"the first non-topaz argument is the name of the script file
 		extract the file name and parse the script to extract information
 		needed to create class for running the script"
-SuperDoit processInputFile
+SuperDoitCommandParser processInputFile
 %
