@@ -1,0 +1,5 @@
+#!/usr/bin/env superdoit
+doit
+self stdout nextPutAll: self scriptArgs printString; lf
+
+%
