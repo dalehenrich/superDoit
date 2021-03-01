@@ -8,6 +8,7 @@ Class {
 		'specs',
 		'superDoitExecutionClass',
 		'instVarNames',
+		'scriptArgs',
 		'systemDictionary'
 	],
 	#category : 'SuperDoit-Core'
@@ -15,14 +16,32 @@ Class {
 
 { #category : 'instance creation' }
 SuperDoitCommandParser class >> processInputFile [
-	| args scriptArgStart argIndex scriptFile |
+	| args scriptArgStart argIndex scriptFile scriptArgs scriptArgIndex |
 	args := System commandLineArguments.
 	scriptArgStart := args indexOf: '--'.
 	argIndex := scriptArgStart + 1.	"arg after initial --"
 	(scriptArgStart <= 0 or: [ argIndex > args size ])
 		ifTrue: [ self error: 'input file is expected to be specified on the command line' ].
 	scriptFile := args at: argIndex.
-	^ self new parseAndExecuteScriptFile: scriptFile asFileReference
+	scriptArgIndex := args indexOf: '--' startingAt: argIndex + 1.
+	scriptArgs := scriptArgIndex = 0
+		ifTrue: [ #() ]
+		ifFalse: [ args copyFrom: scriptArgIndex + 1 to: args size ].
+	 
+	^ self new 
+		scriptArgs: scriptArgs;
+		parseAndExecuteScriptFile: scriptFile asFileReference;
+		yourself
+]
+
+{ #category : 'accessing' }
+SuperDoitCommandParser >> scriptArgs: aColl [
+ scriptArgs := aColl
+]
+
+{ #category : 'accessing' }
+SuperDoitCommandParser >> scriptArgs [
+^ scriptArgs ifNil: [ #() ]
 ]
 
 { #category : 'commands' }
@@ -30,6 +49,7 @@ SuperDoitCommandParser >> doit: string [
 	| instance |
 	self superDoitExecutionClass compileMethod: 'doit ^ ' , string.
 	instance := self superDoitExecutionClass new.
+	instance scriptArgs: self scriptArgs.
  	instance displayResult: instance doit
 ]
 

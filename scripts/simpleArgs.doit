@@ -1,5 +1,9 @@
 #!/usr/bin/env superdoit
+method
+displayResult: anObject
+self stdout nextPutAll: self scriptArgs printString; lf.
+super displayResult: anObject
+%
 doit
-self stdout nextPutAll: self scriptArgs printString; lf
-
+3+4
 %
