@@ -1,0 +1,21 @@
+#!/usr/bin/env superdoit_solo
+#
+#	add an instance var to script; set the iv; return the iv as the result
+#
+
+instvars
+opts
+%
+method
+getOpts: optionsSpec
+	opts := Dictionary new
+%
+doit
+"dictionary of options and option values"
+	self getOpts: 
+		{
+			#( help $h none ) .
+		}.
+	opts.
+%
+

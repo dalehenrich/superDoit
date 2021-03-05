@@ -47,7 +47,12 @@ SuperDoitCommandParser >> scriptArgs [
 { #category : 'commands' }
 SuperDoitCommandParser >> doit: string [
 	| instance |
-	self superDoitExecutionClass compileMethod: 'doit ^ ' , string.
+	self superDoitExecutionClass 
+		compileMethod: 
+			'doit ^ ',
+			string printString,
+			' evaluateInContext: self 
+				symbolList: GsCurrentSession currentSession transientSymbolList '.
 	instance := self superDoitExecutionClass new.
 	instance scriptArgs: self scriptArgs.
  	instance displayResult: instance doit
@@ -60,7 +65,7 @@ SuperDoitCommandParser >> done [
 
 { #category : 'accessing' }
 SuperDoitCommandParser >> instVarNames [
-	instVarNames ifNil: [ ^ #() ]
+	^ instVarNames ifNil: [ #() ]
 ]
 
 { #category : 'commands' }
@@ -106,6 +111,7 @@ SuperDoitCommandParser >> processNextCommand [
 			^ self ].
 	line := stream nextLine trimSeparators.
 	words := line subStrings.
+	words isEmpty ifTrue: [ ^ nil ].
 	command := words first asUppercase.
 	((firstChar := command at: 1) == $! or: [ firstChar == $# ])
 		ifTrue: [ ^ nil ].
@@ -114,12 +120,13 @@ SuperDoitCommandParser >> processNextCommand [
 		ifTrue: [ ^ self doit: self nextChunk ].
 	command = 'METHOD'
 		ifTrue: [ ^ self method: self nextChunk ].
-	command = 'INSVARS'
+	command = 'INSTVARS'
 		ifTrue: [ ^ self instVarNames: self nextChunk ].
 	command = 'SPECS'
 		ifTrue: [ ^ self specSton: self nextChunk ].
 	command = 'SPECURLS'
-		ifTrue: [ ^ self specUrls: self nextChunk ]
+		ifTrue: [ ^ self specUrls: self nextChunk ].
+	self error: 'Unknown command ', command printString.
 ]
 
 { #category : 'accessing' }
