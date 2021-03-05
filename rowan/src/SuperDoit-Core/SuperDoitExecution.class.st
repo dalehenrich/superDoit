@@ -8,13 +8,21 @@ Class {
 }
 
 { #category : 'accessing' }
-SuperDoitExecution >> stdout [
-	^ GsFile stdout 
+SuperDoitExecution >> displayResult: anObject [
+	self ston: anObject on: GsFile stdout
 ]
 
 { #category : 'accessing' }
-SuperDoitExecution >> displayResult: anObject [
-	^ GsFile stdout nextPutAll: anObject printString
+SuperDoitExecution >> log: anObject [
+	| stdout |
+	stdout := GsFile stdout.
+	self ston: anObject on: stdout.
+	stdout lf
+]
+
+{ #category : 'accessing' }
+SuperDoitExecution >> scriptArgs [
+	^ scriptArgs ifNil: [ #() ]
 ]
 
 { #category : 'accessing' }
@@ -23,7 +31,11 @@ SuperDoitExecution >> scriptArgs: aColl [
 ]
 
 { #category : 'accessing' }
-SuperDoitExecution >> scriptArgs [
-	^ scriptArgs ifNil: [ #() ]
+SuperDoitExecution >> stdout [
+	^ GsFile stdout 
 ]
 
+{ #category : 'accessing' }
+SuperDoitExecution >> ston: anObject on: aStream [
+	STON put: anObject onStreamPretty: aStream
+]

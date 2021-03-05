@@ -5,10 +5,33 @@
 
 instvars
 opts
+args
 %
 method
 getOpts: optionsSpec
-	opts := Dictionary new
+	| argStream opt |
+	opts := Dictionary new.
+	args := {}.
+	argStream := ReadStream on: self scriptArgs asArray.
+self log: self scriptArgs.
+	[ argStream atEnd ] 
+		whileFalse: [
+			| optOrArg |
+			optOrArg := argStream next.
+self log: '[1] ', optOrArg .
+			(optOrArg beginsWith: '-')
+				ifTrue: [ opt := optOrArg ]
+				ifFalse: [
+					opt 
+						ifNil: [ 
+							"naked arg"
+							args add: optOrArg ]
+						ifNotNil: [ :theOpt |
+							opts at: theOpt put: optOrArg.
+							opt := nil ] ] ].
+		opt ifNotNil: [
+			"naked option"
+			opts at: opt put: nil ].
 %
 doit
 "dictionary of options and option values"
@@ -16,6 +39,6 @@ doit
 		{
 			#( help $h none ) .
 		}.
-	opts.
+	{ opts. args }
 %
 

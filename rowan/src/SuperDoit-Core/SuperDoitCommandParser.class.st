@@ -34,16 +34,6 @@ SuperDoitCommandParser class >> processInputFile [
 		yourself
 ]
 
-{ #category : 'accessing' }
-SuperDoitCommandParser >> scriptArgs: aColl [
- scriptArgs := aColl
-]
-
-{ #category : 'accessing' }
-SuperDoitCommandParser >> scriptArgs [
-^ scriptArgs ifNil: [ #() ]
-]
-
 { #category : 'commands' }
 SuperDoitCommandParser >> doit: string [
 	| instance |
@@ -127,6 +117,16 @@ SuperDoitCommandParser >> processNextCommand [
 	command = 'SPECURLS'
 		ifTrue: [ ^ self specUrls: self nextChunk ].
 	self error: 'Unknown command ', command printString.
+]
+
+{ #category : 'accessing' }
+SuperDoitCommandParser >> scriptArgs [
+^ scriptArgs ifNil: [ #() ]
+]
+
+{ #category : 'accessing' }
+SuperDoitCommandParser >> scriptArgs: aColl [
+ scriptArgs := aColl
 ]
 
 { #category : 'accessing' }
