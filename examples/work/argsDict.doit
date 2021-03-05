@@ -9,10 +9,12 @@ args
 %
 method
 getOpts: optionsSpec
-	| argStream opt |
+	| argStream opt theArgs |
 	opts := Dictionary new.
 	args := {}.
-	argStream := ReadStream on: self scriptArgs asArray.
+	theArgs := self scriptArgs asArray.
+	theArgs size = 1 ifTrue: [ ^self ].
+	argStream := ReadStream on: (theArgs copyFrom: 2 to: theArgs size).
 self log: self scriptArgs.
 	[ argStream atEnd ] 
 		whileFalse: [
