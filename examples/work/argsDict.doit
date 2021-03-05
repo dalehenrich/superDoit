@@ -65,8 +65,10 @@ getOpts: optionsSpec
 							argExpected := nil ]
 						ifNotNil: [ :theOpt |
 							argExpected == #none
-								ifTrue: [ self error: 'no argument expected for option ', opt printString ].
-							opts at: theOpt put: optOrArg.
+								ifTrue: [ 
+									args add: optOrArg.
+									opts at: theOpt put: nil ]
+								ifFalse: [ opts at: theOpt put: optOrArg ].
 							argExpected := opt := nil ] ] ].
 		opt ifNotNil: [
 			"naked option"
@@ -82,18 +84,27 @@ commandSummary
 		yourself.
 %
 doit
+"
+	TESTED patterns
+		argDict.doit -h
+		argDict.doit 123
+		argDict.doit -h 123
+"
+	self logMessage: '========='.
 	self getOpts: 
 		{
 			#( help h none ) .
 		}.
 	self log: self commandSummary.
+	self logMessage: '========='.
 	opts at: 'h' 
 		ifPresent: [:ignored | opts removeKey: 'h' ]
-		ifAbsent: [ self error: 'expected option ''h''' ].
+		ifAbsent: [ ].
 	opts isEmpty 
 		ifFalse: [
 			self log: self commandSummary. 
 			self error: 'Unexpected options' ].
+	args remove: '123' ifAbsent: [].
 	args isEmpty 
 		ifFalse: [ 
 			self log: self commandSummary. 

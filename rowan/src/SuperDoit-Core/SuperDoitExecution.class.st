@@ -13,6 +13,11 @@ SuperDoitExecution >> displayResult: anObject [
 ]
 
 { #category : 'accessing' }
+SuperDoitExecution >> logMessage: aString [
+	self stdout nextPutAll: aString; lf
+]
+
+{ #category : 'accessing' }
 SuperDoitExecution >> log: anObject [
 	| stdout |
 	stdout := GsFile stdout.
