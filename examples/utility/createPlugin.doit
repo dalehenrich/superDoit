@@ -1,0 +1,4 @@
+#!/usr/bin/env superdoit_solo
+doit
+"create a plugin from a .doit script"
+%

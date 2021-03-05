@@ -8,31 +8,69 @@ opts
 args
 %
 method
+specsDictFor: optionsSpec
+	specsDict := Dictionary new.
+		at: 'long' put: Dictionary new;
+		at: 'short' put: Dictionary new;
+		yourself.
+	optionsSpec do: [:specArray |
+		| argSpec |
+		argSpec := specArray at: 3.	"#none #required #optional"
+		(specArray at: 1) ifNotNil: [:option |
+			(specsDict at: 'long') at: option put: argSpec].
+		(specArray at: 2) ifNotNil: [:option |
+			(specsDict at: 'short') at: option put: argSpec].
+	^ specsDict
+%
+method
 getOpts: optionsSpec
-	| argStream opt theArgs |
+	| argStream opt theArgs argExpected |
+	specsDict := self specsDictFor: optionsSpec.
 	opts := Dictionary new.
 	args := {}.
 	theArgs := self scriptArgs asArray.
 	theArgs size = 1 ifTrue: [ ^self ].
 	argStream := ReadStream on: (theArgs copyFrom: 2 to: theArgs size).
-self log: self scriptArgs.
 	[ argStream atEnd ] 
 		whileFalse: [
 			| optOrArg |
 			optOrArg := argStream next.
-self log: '[1] ', optOrArg .
+			(optOrArg = '--' or: [optOrArg = '-'])
+				ifTrue: [ self error: 'Cannot handle naked dashes ', optOrArg printString ].
 			(optOrArg beginsWith: '-')
-				ifTrue: [ opt := optOrArg ]
+				ifTrue: [ 
+					(optOrArg beginsWith: '--')
+						ifTrue: [
+							opt :=  optOrArg copyFrom: 3 to: optOrArg size.
+							(opt indexOf: $= ifAbsent: [])
+								ifNotNil: [
+"strip out arg and make sure that arg is #required or #optional (not #none)"
+"if arg is enclosed in "" then they need to be stripped"]
+								ifNil: [
+									argExpected := (specsDict at: 'long') 
+										at: opt 
+										ifAbsent: [self error: 'Unknown option ', opt printString ] ] ]
+						ifFalse: [
+							opt :=  optOrArg copyFrom: 2 to: optOrArg size.
+							argExpected := (specsDict at: 'short') 
+								at: opt 
+								ifAbsent: [self error: 'Unknown option ', opt printString ] ] ]
 				ifFalse: [
+"if arg is enclosed in "" then they need to be stripped"
 					opt 
 						ifNil: [ 
 							"naked arg"
-							args add: optOrArg ]
+							args add: optOrArg.
+							argExpected := nil ]
 						ifNotNil: [ :theOpt |
+							argExpected == #none
+								ifTrue: [ self error: 'no argument expected for option ', opt printString ].
 							opts at: theOpt put: optOrArg.
-							opt := nil ] ] ].
+							argExpected := opt := nil ] ] ].
 		opt ifNotNil: [
 			"naked option"
+			argExpected == #required
+				ifTrue: [ self error: 'missing required argument for option ', opt printString ].
 			opts at: opt put: nil ].
 %
 doit
@@ -41,6 +79,9 @@ doit
 		{
 			#( help $h none ) .
 		}.
-	{ opts. args }
+	Dictionary new
+		at: 'options' put: opts;
+		at: 'positional args' put: args; 
+		yourself.
 %
 
