@@ -1,17 +1,16 @@
 RwPlatformNestedProjectLoadComponentV2 {
-	#name : 'gemstone36/SuperDoit',
+	#name : 'gemstone/SuperDoit',
 	#condition : [
-		'gs3.6.x',
-		'gs3.7.x'
+		'gemstone'
 	],
 	#packageNames : [
-		'SuperDoit-GemStone-Kernel-36x'
+		'SuperDoit-GemStone-Kernel'
 	],
 	#conditionalPackageMapSpecs : {
 		'gemstone' : {
 			'allusers' : {
 				#packageNameToPlatformPropertiesMap : {
-					'SuperDoit-GemStone-Kernel-36x' : {
+					'SuperDoit-GemStone-Kernel' : {
 						'symbolDictName' : 'Globals'
 					}
 				}

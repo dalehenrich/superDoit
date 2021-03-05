@@ -9,7 +9,8 @@ args
 %
 method
 specsDictFor: optionsSpec
-	specsDict := Dictionary new.
+	| specsDict |
+	specsDict := Dictionary new
 		at: 'long' put: Dictionary new;
 		at: 'short' put: Dictionary new;
 		yourself.
@@ -17,14 +18,14 @@ specsDictFor: optionsSpec
 		| argSpec |
 		argSpec := specArray at: 3.	"#none #required #optional"
 		(specArray at: 1) ifNotNil: [:option |
-			(specsDict at: 'long') at: option put: argSpec].
+			(specsDict at: 'long') at: option asString put: argSpec].
 		(specArray at: 2) ifNotNil: [:option |
-			(specsDict at: 'short') at: option put: argSpec].
+			(specsDict at: 'short') at: option asString put: argSpec] ].
 	^ specsDict
 %
 method
 getOpts: optionsSpec
-	| argStream opt theArgs argExpected |
+	| argStream opt theArgs argExpected specsDict |
 	specsDict := self specsDictFor: optionsSpec.
 	opts := Dictionary new.
 	args := {}.
@@ -73,15 +74,30 @@ getOpts: optionsSpec
 				ifTrue: [ self error: 'missing required argument for option ', opt printString ].
 			opts at: opt put: nil ].
 %
+method
+commandSummary
+	^ Dictionary new
+		at: 'options' put: opts;
+		at: 'args' put: args; 
+		yourself.
+%
 doit
-"dictionary of options and option values"
 	self getOpts: 
 		{
-			#( help $h none ) .
+			#( help h none ) .
 		}.
-	Dictionary new
-		at: 'options' put: opts;
-		at: 'positional args' put: args; 
-		yourself.
+	self log: self commandSummary.
+	opts at: 'h' 
+		ifPresent: [:ignored | opts removeKey: 'h' ]
+		ifAbsent: [ self error: 'expected option ''h''' ].
+	opts isEmpty 
+		ifFalse: [
+			self log: self commandSummary. 
+			self error: 'Unexpected options' ].
+	args isEmpty 
+		ifFalse: [ 
+			self log: self commandSummary. 
+			self error: 'Unexpected positional arguments' ].
+	'SUCCESS'
 %
 
