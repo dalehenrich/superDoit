@@ -1,7 +1,7 @@
 RwPlatformNestedProjectLoadComponentV2 {
-	#name : 'gemstone/SuperDoit',
+	#name : 'gemstone36/SuperDoit',
 	#condition : [
-		'gemstone'
+		'gs3.6.x'
 	],
 	#packageNames : [
 		'SuperDoit-GemStone-Kernel'
@@ -17,5 +17,5 @@ RwPlatformNestedProjectLoadComponentV2 {
 			}
 		}
 	},
-	#comment : 'Core gemstone  packages '
+	#comment : 'GsFile>>print: is missing from 3.6; added to 3.7'
 }
