@@ -13,19 +13,28 @@ specsDictFor: optionsSpec
 	specsDict := Dictionary new
 		at: 'long' put: Dictionary new;
 		at: 'short' put: Dictionary new;
+		at: 'shortKey' put: Dictionary new;
 		yourself.
 	optionsSpec do: [:specArray |
 		| argSpec |
 		argSpec := specArray at: 3.	"#none #required #optional"
-		(specArray at: 1) ifNotNil: [:option |
-			(specsDict at: 'long') at: option asString put: argSpec].
-		(specArray at: 2) ifNotNil: [:option |
-			(specsDict at: 'short') at: option asString put: argSpec] ].
+		(specArray at: 1) 
+			ifNil: [ self error: 'Long option required' ]
+			ifNotNil: [:longOption |
+				(specsDict at: 'long') 
+					at: longOption asString put: argSpec.
+				(specArray at: 2) ifNotNil: [:shortOption |
+					(specsDict at: 'short') 
+						at: shortOption asString put: argSpec.
+					(specsDict 
+						at: 'shortKey' 
+						ifAbsentPut: [ Dictionary new ]) 
+							at: shortOption asString put: longOption asString ] ] ].
 	^ specsDict
 %
 method
 getOpts: optionsSpec
-	| argStream opt theArgs argExpected specsDict |
+	| argStream opt optKey theArgs argExpected specsDict |
 	specsDict := self specsDictFor: optionsSpec.
 	opts := Dictionary new.
 	args := {}.
@@ -50,12 +59,14 @@ getOpts: optionsSpec
 								ifNil: [
 									argExpected := (specsDict at: 'long') 
 										at: opt 
-										ifAbsent: [self error: 'Unknown option ', opt printString ] ] ]
+										ifAbsent: [self error: 'Unknown option ', opt printString ] ].
+							optKey := opt ]
 						ifFalse: [
 							opt :=  optOrArg copyFrom: 2 to: optOrArg size.
 							argExpected := (specsDict at: 'short') 
 								at: opt 
-								ifAbsent: [self error: 'Unknown option ', opt printString ] ] ]
+								ifAbsent: [self error: 'Unknown option ', opt printString ].
+							optKey := (specsDict at: 'shortKey') at: opt ] ]
 				ifFalse: [
 "if arg is enclosed in "" then they need to be stripped"
 					opt 
@@ -67,14 +78,14 @@ getOpts: optionsSpec
 							argExpected == #none
 								ifTrue: [ 
 									args add: optOrArg.
-									opts at: theOpt put: nil ]
-								ifFalse: [ opts at: theOpt put: optOrArg ].
+									opts at: optKey put: nil ]
+								ifFalse: [ opts at: optKey put: optOrArg ].
 							argExpected := opt := nil ] ] ].
 		opt ifNotNil: [
 			"naked option"
 			argExpected == #required
 				ifTrue: [ self error: 'missing required argument for option ', opt printString ].
-			opts at: opt put: nil ].
+			opts at: optKey put: nil ].
 %
 method
 commandSummary
@@ -86,9 +97,11 @@ commandSummary
 doit
 "
 	TESTED patterns
-		argDict.doit -h
 		argDict.doit 123
+		argDict.doit -h
 		argDict.doit -h 123
+		argDict.doit --help
+		argDict.doit --help 123
 "
 	self logMessage: '========='.
 	self getOpts: 
@@ -97,8 +110,8 @@ doit
 		}.
 	self log: self commandSummary.
 	self logMessage: '========='.
-	opts at: 'h' 
-		ifPresent: [:ignored | opts removeKey: 'h' ]
+	opts at: 'help' 
+		ifPresent: [:ignored | opts removeKey: 'help' ]
 		ifAbsent: [ ].
 	opts isEmpty 
 		ifFalse: [
