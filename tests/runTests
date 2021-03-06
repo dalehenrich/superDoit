@@ -9,4 +9,8 @@ ls
 		./argsDict.doit -a 123
 		./argsDict.doit --add=123
 		./argsDict.doit -ha 123
+		./argsDict.doit -h -a 123
+		./argsDict.doit -a 123 -h
+		./argsDict.doit --help --add=123
+		./argsDict.doit --add=123 --help
 

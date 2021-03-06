@@ -112,17 +112,8 @@ commandSummary
 		yourself.
 %
 doit
-"
-	TESTED patterns
-		argsDict.doit 123
-		argsDict.doit -h
-		argsDict.doit -h 123
-		argsDict.doit --help
-		argsDict.doit --help 123
-		argsDict.doit -a 123
-		argsDict.doit --add=123
-		argsDict.doit -ha 123
-"
+	self logMessage: '========='.
+	self logMessage: self commandLine.
 	self logMessage: '========='.
 	self getOpts: 
 		{

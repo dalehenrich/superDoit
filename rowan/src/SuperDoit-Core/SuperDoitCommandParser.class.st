@@ -31,7 +31,7 @@ SuperDoitCommandParser class >> processInputFile [
 	 
 	scriptPath := scriptFile asFileReference.
 	^ self new 
-		scriptPath: scriptPath pathString;
+		scriptPath: scriptPath;
 		scriptArgs: scriptArgs;
 		parseAndExecuteScriptFile: scriptPath;
 		yourself

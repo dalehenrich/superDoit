@@ -10,6 +10,11 @@ Class {
 }
 
 { #category : 'accessing' }
+SuperDoitExecution >> dirname [
+	^ self scriptPath parent
+]
+
+{ #category : 'accessing' }
 SuperDoitExecution >> displayResult: anObject [
 	self ston: anObject on: GsFile stdout
 ]
@@ -54,10 +59,10 @@ SuperDoitExecution >> commandLine [
 			ifNil: [ 
 				| stream |
 				stream := WriteStream on: String new.
-				stream nextPutAll: self scriptPath pathString; space.
-				self scriptArgs do: [:element |
-					stream nextPutAll: element; space.
-				commandLine := stream contents ] ]
+				stream nextPutAll: self scriptPath basename; space.
+				2 to: scriptArgs size do: [:index |
+					stream nextPutAll: (scriptArgs at: index); space ].
+				commandLine := stream contents ]
 ]
 
 { #category : 'accessing' }
