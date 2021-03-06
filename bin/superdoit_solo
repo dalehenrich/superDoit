@@ -2,7 +2,6 @@
 # set -x 
 
 export projectDir="`dirname $0`/.."
-export basename="`basename $0`"
 
 gemstoneDir="$projectDir/gemstone"
 

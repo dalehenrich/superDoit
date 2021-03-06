@@ -50,6 +50,7 @@ SuperDoitCommandParser >> doit: string [
 	instance := self superDoitExecutionClass new.
 	instance scriptPath: self scriptPath.
 	instance scriptArgs: self scriptArgs.
+	instance usage: self usage.
 	instance displayResult: instance doit
 ]
 
@@ -106,7 +107,8 @@ SuperDoitCommandParser >> processNextCommand [
 			^ self ].
 	line := stream nextLine trimSeparators.
 	words := line subStrings.
-	words isEmpty ifTrue: [ ^ nil ].
+	words isEmpty
+		ifTrue: [ ^ nil ].
 	command := words first asUppercase.
 	((firstChar := command at: 1) == $! or: [ firstChar == $# ])
 		ifTrue: [ ^ nil ].
@@ -121,9 +123,9 @@ SuperDoitCommandParser >> processNextCommand [
 		ifTrue: [ ^ self specSton: self nextChunk ].
 	command = 'SPECURLS'
 		ifTrue: [ ^ self specUrls: self nextChunk ].
-	self error: 'Unknown command ', command printString.
 	command = 'USAGE'
 		ifTrue: [ ^ self usage: self nextChunk ].
+	self error: 'Unknown command ' , command printString
 ]
 
 { #category : 'accessing' }
@@ -138,12 +140,12 @@ SuperDoitCommandParser >> scriptArgs: aColl [
 
 { #category : 'accessing' }
 SuperDoitCommandParser >> scriptPath [
-^ scriptPath ifNil: [ '' ]
+	^ scriptPath
 ]
 
 { #category : 'accessing' }
-SuperDoitCommandParser >> scriptPath: aString [
- scriptPath := aString
+SuperDoitCommandParser >> scriptPath: aFileReference [
+	scriptPath := aFileReference
 ]
 
 { #category : 'accessing' }
@@ -199,6 +201,11 @@ SuperDoitCommandParser >> systemDictionary [
 				insertDictionary: systemDictionary
 				at: 1.
 			systemDictionary ]
+]
+
+{ #category : 'accessing' }
+SuperDoitCommandParser >> usage [
+	^ usage ifNil: [ ^ 'NO HELP' ]
 ]
 
 { #category : 'commands' }

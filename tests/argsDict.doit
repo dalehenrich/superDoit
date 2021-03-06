@@ -1,69 +1,69 @@
 #!/usr/bin/env superdoit_solo
 usage
 USAGE $basename [--help | -h] [--required=<something>] \
-			[--optional=<something> | -o <something>] \
-			[<something>]...
+      [--optional=<something> | -o <something>] \
+      [<something>]...
 
 DESCRIPTION
-	Posix long and short argument handling support.
+  Posix long and short argument handling support.
 
-	Specify desired options using an <optionsSpec> which is an array of arrays:
-	
-		{
-			#( help h none ) .
-			#( required nil required ) .
-			#( optional o optional ) .
-		}.
-	
-		There is an array for each option of the form:
-	
-			#( longName shortName [none | required | optional )
-	
-		The shortName may be nil.
-	
-	When the #getOpts: message is sent with <optionsSpec> as the argument,
-		the options are read from the command line and the 'opts' instance variable
-		is set to a dictionary of options and the 'args' instance variable is set
-		to an array of positional parameters.
-	
-	The 'opts' dictionary contains two assocations keyed by 'options' and 'args'. 
-	
-	The 'options'	value is a dictionary whose keys are the long names of the 
-		options	appearing on the command line and whose values are the value of the
-		option specified on the command line. If not value was specified on the
-		command line, the value is 'nil'.
-	
-	Errors are generated during command line parsing if an option argument is 
-		specified when the options spec is #none, or if no option argument is 
-		specified when the options spec is #required.
+  Specify desired options using an <optionsSpec> which is an array of arrays:
+
+    {
+      #( help h none ) .
+      #( required nil required ) .
+      #( optional o optional ) .
+    }.
+
+    There is an array for each option of the form:
+
+      #( longName shortName [none | required | optional )
+
+    The shortName may be nil.
+
+  When the #getOpts: message is sent with <optionsSpec> as the argument,
+    the options are read from the command line and the 'opts' instance variable
+    is set to a dictionary of options and the 'args' instance variable is set
+    to an array of positional parameters.
+
+  The 'opts' dictionary contains two assocations keyed by 'options' and 'args'. 
+
+  The 'options'  value is a dictionary whose keys are the long names of the 
+    options  appearing on the command line and whose values are the value of the
+    option specified on the command line. If not value was specified on the
+    command line, the value is 'nil'.
+
+  Errors are generated during command line parsing if an option argument is 
+    specified when the options spec is #none, or if no option argument is 
+    specified when the options spec is #required.
 
 OPTIONS
-	[<positional-arguments>...]
-		any number of positional arguments may be specified
-	--help | -h
-		display usage message
-	--required=<required-value>
-		example of a long option with a required value
+  [<positional-arguments>...]
+    any number of positional arguments may be specified
+  --help | -h
+    display usage message
+  --required=<required-value>
+    example of a long option with a required value
   --optional[=<optional-value>] | -o [<optional-value]
-		example of a long and short option with an optional value
+    example of a long and short option with an optional value
 
 EXAMPLES
-	$basename --help
-	$basename -h
-	$basename 123
-	$basename 123 456
-	$basename --required=123
-	$basename -r 123
-	$basename	--optional
-	$basename -o
-	$basename	--optional=123
-	$basename -o 123
-	$basename -or 123
-	$basename -or 123 456
-	$basename 456 -or 123
-	$basename --required=123 --optional=123
-	$basename --required=123 -o
-	$basename --required=123 -o 456 789
+  $basename --help
+  $basename -h
+  $basename 123
+  $basename 123 456
+  $basename --required=123
+  $basename -r 123
+  $basename --optional
+  $basename -o
+  $basename --optional=123
+  $basename -o 123
+  $basename -or 123
+  $basename -or 123 456
+  $basename 456 -or 123
+  $basename --required=123 --optional=123
+  $basename --required=123 -o
+  $basename --required=123 -o 456 789
 %
 instvars
 opts
@@ -177,6 +177,11 @@ commandSummary
 		at: 'args' put: args; 
 		yourself.
 %
+method
+usage
+	self stdout nextPutAll: super usage.
+	^ self noResult
+%
 doit
 	self logMessage: '========='.
 	self logMessage: self commandLine.
@@ -189,7 +194,7 @@ doit
 	self log: self commandSummary.
 	self logMessage: '========='.
 	opts at: 'help' 
-		ifPresent: [:ignored | opts removeKey: 'help' ]
+		ifPresent: [:ignored | ^ self usage ]
 		ifAbsent: [ ].
 	opts at: 'add' 
 		ifPresent: [:arg | 

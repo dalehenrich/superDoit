@@ -4,10 +4,17 @@ Class {
 	#instVars : [
 		'commandLine',
 		'scriptArgs',
-		'scriptPath'
+		'scriptPath',
+		'usage',
+		'noResult'
 	],
 	#category : 'SuperDoit-Core'
 }
+
+{ #category : 'accessing' }
+SuperDoitExecution >> basename [
+	^ self scriptPath basename
+]
 
 { #category : 'accessing' }
 SuperDoitExecution >> commandLine [
@@ -16,7 +23,7 @@ SuperDoitExecution >> commandLine [
 			| stream |
 			stream := WriteStream on: String new.
 			stream
-				nextPutAll: self scriptPath basename;
+				nextPutAll: self basename;
 				space.
 			2 to: scriptArgs size do: [ :index | 
 				stream
@@ -37,7 +44,8 @@ SuperDoitExecution >> dirname [
 
 { #category : 'accessing' }
 SuperDoitExecution >> displayResult: anObject [
-	self ston: anObject on: GsFile stdout
+	anObject ~~ self noResult
+		ifTrue: [ self ston: anObject on: self stdout ]
 ]
 
 { #category : 'accessing' }
@@ -54,6 +62,13 @@ SuperDoitExecution >> logMessage: aString [
 ]
 
 { #category : 'accessing' }
+SuperDoitExecution >> noResult [
+	"unique object to use a return value when no result should be written to stdout"
+
+	^ noResult ifNil: [ noResult := Object new ]
+]
+
+{ #category : 'accessing' }
 SuperDoitExecution >> scriptArgs [
 	^ scriptArgs ifNil: [ #() ]
 ]
@@ -65,12 +80,12 @@ SuperDoitExecution >> scriptArgs: aColl [
 
 { #category : 'accessing' }
 SuperDoitExecution >> scriptPath [
-	^ scriptPath ifNil: [ '' ]
+	^ scriptPath
 ]
 
 { #category : 'accessing' }
-SuperDoitExecution >> scriptPath: aString [
-	scriptPath := aString
+SuperDoitExecution >> scriptPath: aFileReference [
+	scriptPath := aFileReference
 ]
 
 { #category : 'accessing' }
@@ -81,4 +96,17 @@ SuperDoitExecution >> stdout [
 { #category : 'accessing' }
 SuperDoitExecution >> ston: anObject on: aStream [
 	STON put: anObject onStreamPretty: aStream
+]
+
+{ #category : 'accessing' }
+SuperDoitExecution >> usage [
+	| string |
+	string := usage copy.
+	string copyReplaceAll: '$basename' with: self basename.
+	^ string
+]
+
+{ #category : 'accessing' }
+SuperDoitExecution >> usage: object [
+	usage := object
 ]
