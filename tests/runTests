@@ -6,12 +6,9 @@ ls
 		./argsDict.doit -o 123
 		./argsDict.doit --help
 		./argsDict.doit --help 123
-		./argsDict.doit -r 123
 		./argsDict.doit --required=123
-		./argsDict.doit -or 123
-		./argsDict.doit 456 -or 123
-		./argsDict.doit -o -r 123
-		./argsDict.doit -r 123 -o
+		./argsDict.doit -o 123
+		./argsDict.doit 123 -o
 		./argsDict.doit --required=123 --optional
 		./argsDict.doit 789 --required=123 --optional
 		./argsDict.doit --required=123 789 --optional

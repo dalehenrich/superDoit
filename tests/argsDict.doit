@@ -1,7 +1,8 @@
 #!/usr/bin/env superdoit_solo
 usage
 USAGE $basename [--help | -h] [--required=<something>] \
-      [--optional=<something> | -o <something>] \
+      [--optional[=<something>] | -o [<something>] ] \
+      [--another=<something> | -a <something>] \
       [<something>]...
 
 DESCRIPTION
@@ -13,6 +14,7 @@ DESCRIPTION
       #( help h none ) .
       #( required nil required ) .
       #( optional o optional ) .
+      #( another a required ) .
     }.
 
     There is an array for each option of the form:
@@ -46,6 +48,8 @@ OPTIONS
     example of a long option with a required value
   --optional[=<optional-value>] | -o [<optional-value]
     example of a long and short option with an optional value
+  --another=<another-required-value>] | -a [<another-required-value]
+    example of a long and short option with a required value
 
 EXAMPLES
   $basename --help
@@ -53,17 +57,22 @@ EXAMPLES
   $basename 123
   $basename 123 456
   $basename --required=123
-  $basename -r 123
+  $basename --another=123
+  $basename -a 123
   $basename --optional
   $basename -o
   $basename --optional=123
   $basename -o 123
-  $basename -or 123
-  $basename -or 123 456
+  $basename -o 123 -a 456
+  $basename -oa 123
+  $basename -oa 123 456
   $basename 456 -or 123
-  $basename --required=123 --optional=123
+  $basename --required=123 --optional=123 --another=123
+  $basename --required=123 --optional --another=123
   $basename --required=123 -o
   $basename --required=123 -o 456 789
+  $basename --required=123 -oa 123
+  $basename --required=123 -o 456 --another=123 789
 %
 instvars
 opts
@@ -188,29 +197,16 @@ doit
 	self logMessage: '========='.
 	self getOpts: 
 		{
-			#( help h none ) .
-			#( add a required ) .
+      #( help h none ) .
+      #( required nil required ) .
+      #( optional o optional ) .
+      #( another a optional ) .
 		}.
-	self log: self commandSummary.
-	self logMessage: '========='.
 	opts at: 'help' 
 		ifPresent: [:ignored | ^ self usage ]
 		ifAbsent: [ ].
-	opts at: 'add' 
-		ifPresent: [:arg | 
-			arg = '123' 
-				ifFalse: [ self error: 'incorrect required option value ', arg printString, ' for ''add'' option' ].
-			opts removeKey: 'add' ]
-		ifAbsent: [ ].
-	opts isEmpty 
-		ifFalse: [
-			self log: self commandSummary. 
-			self error: 'Unexpected options' ].
-	args remove: '123' ifAbsent: [].
-	args isEmpty 
-		ifFalse: [ 
-			self log: self commandSummary. 
-			self error: 'Unexpected positional arguments' ].
-	'SUCCESS'
+	self log: self commandSummary.
+	self logMessage: '========='.
+	^ true
 %
 
