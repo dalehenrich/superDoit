@@ -13,4 +13,3 @@ ls
 		./argsDict.doit -a 123 -h
 		./argsDict.doit --help --add=123
 		./argsDict.doit --add=123 --help
-
