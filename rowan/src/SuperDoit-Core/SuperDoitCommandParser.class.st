@@ -5,6 +5,7 @@ Class {
 		'stream',
 		'done',
 		'doitResult',
+		'usage',
 		'specs',
 		'superDoitExecutionClass',
 		'instVarNames',
@@ -121,6 +122,8 @@ SuperDoitCommandParser >> processNextCommand [
 	command = 'SPECURLS'
 		ifTrue: [ ^ self specUrls: self nextChunk ].
 	self error: 'Unknown command ', command printString.
+	command = 'USAGE'
+		ifTrue: [ ^ self usage: self nextChunk ].
 ]
 
 { #category : 'accessing' }
@@ -196,4 +199,10 @@ SuperDoitCommandParser >> systemDictionary [
 				insertDictionary: systemDictionary
 				at: 1.
 			systemDictionary ]
+]
+
+{ #category : 'commands' }
+SuperDoitCommandParser >> usage: string [
+	"any env var refs in string should be substituted upon display"
+	usage := string
 ]
