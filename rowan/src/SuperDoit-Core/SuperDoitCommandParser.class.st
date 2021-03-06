@@ -9,6 +9,7 @@ Class {
 		'superDoitExecutionClass',
 		'instVarNames',
 		'scriptArgs',
+		'scriptPath',
 		'systemDictionary'
 	],
 	#category : 'SuperDoit-Core'
@@ -16,7 +17,7 @@ Class {
 
 { #category : 'instance creation' }
 SuperDoitCommandParser class >> processInputFile [
-	| args scriptArgStart argIndex scriptFile scriptArgs scriptArgIndex |
+	| args scriptArgStart argIndex scriptPath scriptFile scriptArgs scriptArgIndex |
 	args := System commandLineArguments.
 	scriptArgStart := args indexOf: '--'.
 	argIndex := scriptArgStart + 1.	"arg after initial --"
@@ -28,9 +29,11 @@ SuperDoitCommandParser class >> processInputFile [
 		ifTrue: [ #() ]
 		ifFalse: [ args copyFrom: scriptArgIndex + 1 to: args size ].
 	 
+	scriptPath := scriptFile asFileReference.
 	^ self new 
+		scriptPath: scriptPath pathString;
 		scriptArgs: scriptArgs;
-		parseAndExecuteScriptFile: scriptFile asFileReference;
+		parseAndExecuteScriptFile: scriptPath;
 		yourself
 ]
 
@@ -44,6 +47,7 @@ SuperDoitCommandParser >> doit: string [
 			' evaluateInContext: self 
 				symbolList: GsCurrentSession currentSession transientSymbolList '.
 	instance := self superDoitExecutionClass new.
+	instance scriptPath: self scriptPath.
 	instance scriptArgs: self scriptArgs.
  	instance displayResult: instance doit
 ]
@@ -127,6 +131,16 @@ SuperDoitCommandParser >> scriptArgs [
 { #category : 'accessing' }
 SuperDoitCommandParser >> scriptArgs: aColl [
  scriptArgs := aColl
+]
+
+{ #category : 'accessing' }
+SuperDoitCommandParser >> scriptPath [
+^ scriptPath ifNil: [ '' ]
+]
+
+{ #category : 'accessing' }
+SuperDoitCommandParser >> scriptPath: aString [
+ scriptPath := aString
 ]
 
 { #category : 'accessing' }

@@ -2,7 +2,9 @@ Class {
 	#name : 'SuperDoitExecution',
 	#superclass : 'Object',
 	#instVars : [
-		'scriptArgs'
+		'commandLine',
+		'scriptArgs',
+		'scriptPath'
 	],
 	#category : 'SuperDoit-Core'
 }
@@ -26,6 +28,17 @@ SuperDoitExecution >> log: anObject [
 ]
 
 { #category : 'accessing' }
+SuperDoitExecution >> scriptPath [
+	^ scriptPath ifNil: [ '' ]
+]
+
+{ #category : 'accessing' }
+SuperDoitExecution >> scriptPath: aString [
+	scriptPath := aString
+]
+
+
+{ #category : 'accessing' }
 SuperDoitExecution >> scriptArgs [
 	^ scriptArgs ifNil: [ #() ]
 ]
@@ -33,6 +46,23 @@ SuperDoitExecution >> scriptArgs [
 { #category : 'accessing' }
 SuperDoitExecution >> scriptArgs: aColl [
 	scriptArgs := aColl
+]
+
+{ #category : 'accessing' }
+SuperDoitExecution >> commandLine [
+	^ commandLine 
+			ifNil: [ 
+				| stream |
+				stream := WriteStream on: String new.
+				stream nextPutAll: self scriptPath pathString; space.
+				self scriptArgs do: [:element |
+					stream nextPutAll: element; space.
+				commandLine := stream contents ] ]
+]
+
+{ #category : 'accessing' }
+SuperDoitExecution >> commandLine: aString [
+	commandLine := aString
 ]
 
 { #category : 'accessing' }
