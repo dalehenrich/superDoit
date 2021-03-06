@@ -47,6 +47,14 @@ getOpts: optionsSpec
 			optOrArg := argStream next.
 			(optOrArg = '--' or: [optOrArg = '-'])
 				ifTrue: [ self error: 'Cannot handle naked dashes ', optOrArg printString ].
+			opt 
+				ifNotNil: [ :theOpt |
+					argExpected == #none
+						ifTrue: [ 
+							opts at: optKey put: nil.
+							opt := nil ]
+						ifFalse: [ opts at: optKey put: optOrArg ].
+					optKey := argExpected := nil ].
 			(optOrArg beginsWith: '-')
 				ifTrue: [ 
 					(optOrArg beginsWith: '--')
@@ -66,9 +74,11 @@ getOpts: optionsSpec
 									((specsDict at: 'long') 
 										at: opt 
 										ifAbsent: [ self error: 'Unknown option ', opt printString ]) == #required
-											ifTrue: [ self error: 'Missing required option argument for option ', opt printString ] ].
+											ifTrue: [ self error: 'Missing required option argument for option ', opt printString ].
+									opts at: opt put: nil ].
 							argExpected := opt := optKey := nil ]
 						ifFalse: [
+							"optOrArg beginsWith: '-'"
 							| theOpts numOpts |
 							theOpts :=  optOrArg copyFrom: 2 to: optOrArg size.
 							numOpts := theOpts size.
@@ -91,13 +101,7 @@ getOpts: optionsSpec
 							"naked arg"
 							args add: optOrArg.
 							argExpected := nil ]
-						ifNotNil: [ :theOpt |
-							argExpected == #none
-								ifTrue: [ 
-									args add: optOrArg.
-									opts at: optKey put: nil ]
-								ifFalse: [ opts at: optKey put: optOrArg ].
-							optKey := argExpected := opt := nil ] ] ].
+						ifNotNil: [ optKey := argExpected := opt := nil ] ] ].
 		opt ifNotNil: [
 			"naked option"
 			argExpected == #required
