@@ -53,14 +53,21 @@ getOpts: optionsSpec
 						ifTrue: [
 							opt :=  optOrArg copyFrom: 3 to: optOrArg size.
 							(opt indexOf: $= ifAbsent: [])
-								ifNotNil: [
-"strip out arg and make sure that arg is #required or #optional (not #none)"
-"if arg is enclosed in "" then they need to be stripped"]
-								ifNil: [
-									argExpected := (specsDict at: 'long') 
+								ifNotNil: [ :index |
+									| arg |
+									arg := opt copyFrom: index + 1 to: opt size.
+									opt := opt copyFrom: 1 to: index - 1.
+									((specsDict at: 'long') 
 										at: opt 
-										ifAbsent: [self error: 'Unknown option ', opt printString ] ].
-							optKey := opt ]
+										ifAbsent: [ self error: 'Unknown option ', opt printString ]) == #none
+											ifTrue: [ self error: 'Unexpected option argument ', arg printString, ' for option ', opt printString ].
+									opts at: opt put: arg ]
+								ifNil: [
+									((specsDict at: 'long') 
+										at: opt 
+										ifAbsent: [ self error: 'Unknown option ', opt printString ]) == #required
+											ifTrue: [ self error: 'Missing required option argument for option ', opt printString ] ].
+								opt := optKey := nil ]
 						ifFalse: [
 							opt :=  optOrArg copyFrom: 2 to: optOrArg size.
 							argExpected := (specsDict at: 'short') 
@@ -97,14 +104,14 @@ commandSummary
 doit
 "
 	TESTED patterns
-		argDict.doit 123
-		argDict.doit -h
-		argDict.doit -h 123
-		argDict.doit --help
-		argDict.doit --help 123
-		argDict.doit -a 123
-		argDict.doit --add=123
-		argDict.doit -ha 123
+		argsDict.doit 123
+		argsDict.doit -h
+		argsDict.doit -h 123
+		argsDict.doit --help
+		argsDict.doit --help 123
+		argsDict.doit -a 123
+		argsDict.doit --add=123
+		argsDict.doit -ha 123
 "
 	self logMessage: '========='.
 	self getOpts: 
