@@ -1,5 +1,5 @@
 export projectDir="`dirname $0`/.."
-cd ${projectDir}/examples/work
+cd ${projectDir}/tests
 ls
 		./argsDict.doit 123
 		./argsDict.doit -h

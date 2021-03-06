@@ -67,13 +67,23 @@ getOpts: optionsSpec
 										at: opt 
 										ifAbsent: [ self error: 'Unknown option ', opt printString ]) == #required
 											ifTrue: [ self error: 'Missing required option argument for option ', opt printString ] ].
-								opt := optKey := nil ]
+							argExpected := opt := optKey := nil ]
 						ifFalse: [
-							opt :=  optOrArg copyFrom: 2 to: optOrArg size.
-							argExpected := (specsDict at: 'short') 
-								at: opt 
-								ifAbsent: [self error: 'Unknown option ', opt printString ].
-							optKey := (specsDict at: 'shortKey') at: opt ] ]
+							| theOpts numOpts |
+							theOpts :=  optOrArg copyFrom: 2 to: optOrArg size.
+							numOpts := theOpts size.
+							1 to: numOpts do: [:index |
+								opt := (theOpts at: index) asString.
+								argExpected := (specsDict at: 'short') 
+									at: opt 
+									ifAbsent: [ self error: 'Unknown option ', opt printString ].
+								optKey := (specsDict at: 'shortKey') at: opt.
+								index < numOpts
+									ifTrue: [
+										"multiple options"
+										argExpected == #required
+											ifTrue: [ self error: 'Missing required option argument for option ', opt printString ].
+										opts at: optKey put: nil ] ] ] ]
 				ifFalse: [
 "if arg is enclosed in "" then they need to be stripped"
 					opt 
@@ -87,7 +97,7 @@ getOpts: optionsSpec
 									args add: optOrArg.
 									opts at: optKey put: nil ]
 								ifFalse: [ opts at: optKey put: optOrArg ].
-							argExpected := opt := nil ] ] ].
+							optKey := argExpected := opt := nil ] ] ].
 		opt ifNotNil: [
 			"naked option"
 			argExpected == #required
