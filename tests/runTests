@@ -1,15 +1,19 @@
 export projectDir="`dirname $0`/.."
 cd ${projectDir}/tests
 ls
-		./argsDict.doit 123
+		./argsDict.doit 789
 		./argsDict.doit -h
-		./argsDict.doit -h 123
+		./argsDict.doit -o 123
 		./argsDict.doit --help
 		./argsDict.doit --help 123
-		./argsDict.doit -a 123
-		./argsDict.doit --add=123
-		./argsDict.doit -ha 123
-		./argsDict.doit -h -a 123
-		./argsDict.doit -a 123 -h
-		./argsDict.doit --help --add=123
-		./argsDict.doit --add=123 --help
+		./argsDict.doit -r 123
+		./argsDict.doit --required=123
+		./argsDict.doit -or 123
+		./argsDict.doit 456 -or 123
+		./argsDict.doit -o -r 123
+		./argsDict.doit -r 123 -o
+		./argsDict.doit --required=123 --optional
+		./argsDict.doit 789 --required=123 --optional
+		./argsDict.doit --required=123 789 --optional
+		./argsDict.doit --required=123 --optional 789
+		./argsDict.doit --optional --required=123

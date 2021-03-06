@@ -1,41 +1,78 @@
 #!/usr/bin/env superdoit_solo
-#
-#	add an instance var to script; set the iv; return the iv as the result
-#
+usage
+USAGE $basename [--help | -h] [--required=<something>] \
+			[--optional=<something> | -o <something>] \
+			[<something>]...
 
+DESCRIPTION
+	Posix long and short argument handling support.
+
+	Specify desired options using an <optionsSpec> which is an array of arrays:
+	
+		{
+			#( help h none ) .
+			#( required nil required ) .
+			#( optional o optional ) .
+		}.
+	
+		There is an array for each option of the form:
+	
+			#( longName shortName [none | required | optional )
+	
+		The shortName may be nil.
+	
+	When the #getOpts: message is sent with <optionsSpec> as the argument,
+		the options are read from the command line and the 'opts' instance variable
+		is set to a dictionary of options and the 'args' instance variable is set
+		to an array of positional parameters.
+	
+	The 'opts' dictionary contains two assocations keyed by 'options' and 'args'. 
+	
+	The 'options'	value is a dictionary whose keys are the long names of the 
+		options	appearing on the command line and whose values are the value of the
+		option specified on the command line. If not value was specified on the
+		command line, the value is 'nil'.
+	
+	Errors are generated during command line parsing if an option argument is 
+		specified when the options spec is #none, or if no option argument is 
+		specified when the options spec is #required.
+
+OPTIONS
+	[<positional-arguments>...]
+		any number of positional arguments may be specified
+	--help | -h
+		display usage message
+	--required=<required-value>
+		example of a long option with a required value
+  --optional[=<optional-value>] | -o [<optional-value]
+		example of a long and short option with an optional value
+
+EXAMPLES
+	$basename --help
+	$basename -h
+	$basename 123
+	$basename 123 456
+	$basename --required=123
+	$basename -r 123
+	$basename	--optional
+	$basename -o
+	$basename	--optional=123
+	$basename -o 123
+	$basename -or 123
+	$basename -or 123 456
+	$basename 456 -or 123
+	$basename --required=123 --optional=123
+	$basename --required=123 -o
+	$basename --required=123 -o 456 789
+%
 instvars
 opts
 args
 %
 method
-specsDictFor: optionsSpec
-	| specsDict |
-	specsDict := Dictionary new
-		at: 'long' put: Dictionary new;
-		at: 'short' put: Dictionary new;
-		at: 'shortKey' put: Dictionary new;
-		yourself.
-	optionsSpec do: [:specArray |
-		| argSpec |
-		argSpec := specArray at: 3.	"#none #required #optional"
-		(specArray at: 1) 
-			ifNil: [ self error: 'Long option required' ]
-			ifNotNil: [:longOption |
-				(specsDict at: 'long') 
-					at: longOption asString put: argSpec.
-				(specArray at: 2) ifNotNil: [:shortOption |
-					(specsDict at: 'short') 
-						at: shortOption asString put: argSpec.
-					(specsDict 
-						at: 'shortKey' 
-						ifAbsentPut: [ Dictionary new ]) 
-							at: shortOption asString put: longOption asString ] ] ].
-	^ specsDict
-%
-method
 getOpts: optionsSpec
 	| argStream opt optKey theArgs argExpected specsDict |
-	specsDict := self specsDictFor: optionsSpec.
+	specsDict := self _specsDictFor: optionsSpec.
 	opts := Dictionary new.
 	args := {}.
 	theArgs := self scriptArgs asArray.
@@ -107,6 +144,31 @@ getOpts: optionsSpec
 			argExpected == #required
 				ifTrue: [ self error: 'missing required argument for option ', opt printString ].
 			opts at: optKey put: nil ].
+%
+method
+_specsDictFor: optionsSpec
+	| specsDict |
+	specsDict := Dictionary new
+		at: 'long' put: Dictionary new;
+		at: 'short' put: Dictionary new;
+		at: 'shortKey' put: Dictionary new;
+		yourself.
+	optionsSpec do: [:specArray |
+		| argSpec |
+		argSpec := specArray at: 3.	"#none #required #optional"
+		(specArray at: 1) 
+			ifNil: [ self error: 'Long option required' ]
+			ifNotNil: [:longOption |
+				(specsDict at: 'long') 
+					at: longOption asString put: argSpec.
+				(specArray at: 2) ifNotNil: [:shortOption |
+					(specsDict at: 'short') 
+						at: shortOption asString put: argSpec.
+					(specsDict 
+						at: 'shortKey' 
+						ifAbsentPut: [ Dictionary new ]) 
+							at: shortOption asString put: longOption asString ] ] ].
+	^ specsDict
 %
 method
 commandSummary
