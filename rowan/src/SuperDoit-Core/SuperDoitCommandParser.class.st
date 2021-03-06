@@ -40,16 +40,16 @@ SuperDoitCommandParser class >> processInputFile [
 { #category : 'commands' }
 SuperDoitCommandParser >> doit: string [
 	| instance |
-	self superDoitExecutionClass 
-		compileMethod: 
-			'doit ^ ',
-			string printString,
-			' evaluateInContext: self 
+	self superDoitExecutionClass
+		compileMethod:
+			'doit ^ ' , string printString
+				,
+					' evaluateInContext: self 
 				symbolList: GsCurrentSession currentSession transientSymbolList '.
 	instance := self superDoitExecutionClass new.
 	instance scriptPath: self scriptPath.
 	instance scriptArgs: self scriptArgs.
- 	instance displayResult: instance doit
+	instance displayResult: instance doit
 ]
 
 { #category : 'accessing' }

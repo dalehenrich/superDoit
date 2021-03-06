@@ -10,6 +10,27 @@ Class {
 }
 
 { #category : 'accessing' }
+SuperDoitExecution >> commandLine [
+	^ commandLine
+		ifNil: [ 
+			| stream |
+			stream := WriteStream on: String new.
+			stream
+				nextPutAll: self scriptPath basename;
+				space.
+			2 to: scriptArgs size do: [ :index | 
+				stream
+					nextPutAll: (scriptArgs at: index);
+					space ].
+			commandLine := stream contents ]
+]
+
+{ #category : 'accessing' }
+SuperDoitExecution >> commandLine: aString [
+	commandLine := aString
+]
+
+{ #category : 'accessing' }
 SuperDoitExecution >> dirname [
 	^ self scriptPath parent
 ]
@@ -17,11 +38,6 @@ SuperDoitExecution >> dirname [
 { #category : 'accessing' }
 SuperDoitExecution >> displayResult: anObject [
 	self ston: anObject on: GsFile stdout
-]
-
-{ #category : 'accessing' }
-SuperDoitExecution >> logMessage: aString [
-	self stdout nextPutAll: aString; lf
 ]
 
 { #category : 'accessing' }
@@ -33,15 +49,9 @@ SuperDoitExecution >> log: anObject [
 ]
 
 { #category : 'accessing' }
-SuperDoitExecution >> scriptPath [
-	^ scriptPath ifNil: [ '' ]
+SuperDoitExecution >> logMessage: aString [
+	self stdout nextPutAll: aString; lf
 ]
-
-{ #category : 'accessing' }
-SuperDoitExecution >> scriptPath: aString [
-	scriptPath := aString
-]
-
 
 { #category : 'accessing' }
 SuperDoitExecution >> scriptArgs [
@@ -54,20 +64,13 @@ SuperDoitExecution >> scriptArgs: aColl [
 ]
 
 { #category : 'accessing' }
-SuperDoitExecution >> commandLine [
-	^ commandLine 
-			ifNil: [ 
-				| stream |
-				stream := WriteStream on: String new.
-				stream nextPutAll: self scriptPath basename; space.
-				2 to: scriptArgs size do: [:index |
-					stream nextPutAll: (scriptArgs at: index); space ].
-				commandLine := stream contents ]
+SuperDoitExecution >> scriptPath [
+	^ scriptPath ifNil: [ '' ]
 ]
 
 { #category : 'accessing' }
-SuperDoitExecution >> commandLine: aString [
-	commandLine := aString
+SuperDoitExecution >> scriptPath: aString [
+	scriptPath := aString
 ]
 
 { #category : 'accessing' }
