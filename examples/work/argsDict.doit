@@ -102,16 +102,26 @@ doit
 		argDict.doit -h 123
 		argDict.doit --help
 		argDict.doit --help 123
+		argDict.doit -a 123
+		argDict.doit --add=123
+		argDict.doit -ha 123
 "
 	self logMessage: '========='.
 	self getOpts: 
 		{
 			#( help h none ) .
+			#( add a required ) .
 		}.
 	self log: self commandSummary.
 	self logMessage: '========='.
 	opts at: 'help' 
 		ifPresent: [:ignored | opts removeKey: 'help' ]
+		ifAbsent: [ ].
+	opts at: 'add' 
+		ifPresent: [:arg | 
+			arg = '123' 
+				ifFalse: [ self error: 'incorrect required option value ', arg printString, ' for ''add'' option' ].
+			opts removeKey: 'add' ]
 		ifAbsent: [ ].
 	opts isEmpty 
 		ifFalse: [
