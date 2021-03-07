@@ -193,13 +193,18 @@ commandSummary
 		yourself.
 %
 doit
-	self getOpts: 
-		{
-      #( help h none ) .
-      #( required nil required ) .
-      #( optional o optional ) .
-      #( another a optional ) .
-		}.
+	[
+		self getOpts: 
+			{
+				#( debug D none ) .
+				#( help h none ) .
+				#( required nil required ) .
+				#( optional o optional ) .
+				#( another a required ) .
+			}.
+	] on: Error do: [:ex | 
+		opts at: 'debug' ifAbsent: [ ^ ex description ].
+		ex pass ].
 	opts at: 'help' 
 		ifPresent: [:ignored | ^ self usage ]
 		ifAbsent: [ ].
