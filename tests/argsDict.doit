@@ -201,6 +201,7 @@ doit
 				#( required nil required ) .
 				#( optional o optional ) .
 				#( another a required ) .
+				#( none n none ) .
 			}.
 	] on: Error do: [:ex | 
 		opts at: 'debug' ifAbsent: [ ^ ex description ].
