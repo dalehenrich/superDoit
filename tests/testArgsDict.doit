@@ -1,0 +1,14 @@
+#!/usr/bin/env superdoit_solo
+doit
+	| argDictCommand stdout expectedArgs expectedArgsDict actualArgsDict |
+	argDictCommand := '$projectDir'  asFileReference / 'tests' / 'argsDict.doit'.
+	expectedArgsDict := Dictionary new
+		at: 'args' 
+			put: { '789' };
+		at: 'options'
+			put: (Dictionary new);
+		yourself.
+	stdout := GsHostProcess execute: argDictCommand pathString, ' 789'.
+	actualArgsDict := STON fromString: stdout.
+	actualArgsDict = expectedArgsDict
+%

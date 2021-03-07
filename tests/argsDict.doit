@@ -192,9 +192,6 @@ usage
 	^ self noResult
 %
 doit
-	self logMessage: '========='.
-	self logMessage: self commandLine.
-	self logMessage: '========='.
 	self getOpts: 
 		{
       #( help h none ) .
@@ -205,8 +202,6 @@ doit
 	opts at: 'help' 
 		ifPresent: [:ignored | ^ self usage ]
 		ifAbsent: [ ].
-	self log: self commandSummary.
-	self logMessage: '========='.
-	^ true
+	^ self commandSummary
 %
 
