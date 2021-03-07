@@ -12,12 +12,18 @@ OPTIONS
     debug; halt when a test fails
 %
 doit
-	| debug argDictCommand count passed failed failedArgs summary |
+	| debug argDictCommand count passed failed errors failedArgs summary |
 	argDictCommand := '$projectDir'  asFileReference / 'tests' / 'argsDict.doit'.
-	count := passed := failed := 0.
+	count := passed := failed := errors := 0.
 	failedArgs := {}.
-	((self scriptArgs at: 2) = '-h') ifTrue: [ ^ self usage ].
-	debug := (self scriptArgs at: 2) = '-D'.
+	debug := false.
+	(self scriptArgs size > 1)
+		ifTrue: [ 
+			((self scriptArgs at: 2) = '-h')
+				ifTrue: [ ^ self usage ].
+			((self scriptArgs at: 2) = '-D')
+				ifTrue: [ debug := true ].
+			self error: 'Unknown option ', (self scriptArgs at: 2) printString ].
 	{
 		'123' -> (Dictionary new
 			at: 'args' 
@@ -111,6 +117,16 @@ doit
 						at: 'required' put: '456';
 						yourself);
 			yourself).
+		'-r --optional=123' -> (Dictionary new
+			at: 'args' 
+				put: { };
+			at: 'options'
+				put: 
+					(Dictionary new
+						at: 'optional' put: nil;
+						at: 'required' put: 'error message';
+						yourself);
+			yourself).
 		'--another=123' -> (Dictionary new
 			at: 'args' 
 				put: { };
@@ -125,17 +141,21 @@ doit
 		count := count + 1.
 		args := assoc key.
 		expectedArgsDict := assoc value.
-		ston := GsHostProcess execute: argDictCommand pathString, ' ', args.
+		[ ston := GsHostProcess execute: argDictCommand pathString, ' ', args.
 		actualArgsDict := STON fromString: ston.
 		actualArgsDict = expectedArgsDict
 			ifTrue: [ passed := passed + 1 ]
 			ifFalse: [ 
 				failed := failed + 1.
 				failedArgs add: args.
-				debug ifTrue: [ self halt] ] ].
-	summary := count printString, ' run, ', passed printString, ' passed, ', failed printString, ' failed'.
+				debug ifTrue: [ self halt] ] 
+			] on: ChildError do: [:ex |
+					errors := errors + 1.
+					failedArgs add: args.
+					debug ifTrue: [ self halt] ] ].
+	summary := count printString, ' run, ', passed printString, ' passing, ', failed printString, ' failures ',  errors printString, ' errors'.
 	self stdout nextPutAll: summary; lf. 
-	failed = 0
+	(failed = 0 and: [ errors = 0])
 		ifTrue: [ ^ true  ].
 	self log: failedArgs.
 	^ false 
