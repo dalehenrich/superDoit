@@ -1,14 +1,31 @@
 #!/usr/bin/env superdoit_solo
 doit
-	| argDictCommand stdout expectedArgs expectedArgsDict actualArgsDict |
+	| argDictCommand count passed failed failedArgs summary |
 	argDictCommand := '$projectDir'  asFileReference / 'tests' / 'argsDict.doit'.
-	expectedArgsDict := Dictionary new
-		at: 'args' 
-			put: { '789' };
-		at: 'options'
-			put: (Dictionary new);
-		yourself.
-	stdout := GsHostProcess execute: argDictCommand pathString, ' 789'.
-	actualArgsDict := STON fromString: stdout.
-	actualArgsDict = expectedArgsDict
+	count := passed := failed := 0.
+	{
+		'789' -> (Dictionary new
+			at: 'args' 
+				put: { '789' };
+			at: 'options'
+				put: (Dictionary new);
+			yourself).
+	} do: [:assoc |
+		| expectedArgsDict actualArgsDict ston args summary |
+		count := count + 1.
+		args := assoc key.
+		expectedArgsDict := assoc value.
+		ston := GsHostProcess execute: argDictCommand pathString, ' ', args.
+		actualArgsDict := STON fromString: ston.
+		actualArgsDict = expectedArgsDict
+			ifTrue: [ passed := passed + 1 ]
+			ifFalse: [ 
+				failed := failed + 1.
+				failedArgs add: args ] ].
+	summary := count printString, ' run, ', passed printString, ' passed, ', failed printString, ' failed'.
+	self stdout nextPutAll: summary; lf. 
+	failed = 0
+		ifTrue: [ ^ true  ].
+	self log: failedArgs.
+	^ false 
 %
