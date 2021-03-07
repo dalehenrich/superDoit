@@ -127,6 +127,13 @@ doit
 						yourself);
 			yourself).
 		'-a --optional=123' -> 'UserDefinedError: Missing required option argument for option ''another'''.
+		'-' -> 'UserDefinedError: Cannot handle naked dashes ''-'''.
+		'--' -> 'UserDefinedError: Cannot handle naked dashes ''--'''.
+		'-x' -> 'UserDefinedError: Unknown option ''x'''.
+		'-x something' -> 'UserDefinedError: Unknown option ''x'''.
+		'--unknown' -> 'UserDefinedError: Unknown option ''unknown'''.
+		'--unknown=something' -> 'UserDefinedError: Unknown option ''unknown'''.
+		'--help=something' -> 'UserDefinedError: Unexpected option argument ''something'' for option ''help'''.
 	} do: [:assoc |
 		| expectedArgsDict actualArgsDict ston args summary |
 		count := count + 1.
