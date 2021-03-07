@@ -2,11 +2,11 @@ Class {
 	#name : 'SuperDoitExecution',
 	#superclass : 'Object',
 	#instVars : [
-		'commandLine',
-		'scriptArgs',
-		'scriptPath',
-		'usage',
-		'noResult'
+		'_commandLine',
+		'_scriptArgs',
+		'_scriptPath',
+		'_usage',
+		'_noResult'
 	],
 	#category : 'SuperDoit-Core'
 }
@@ -18,23 +18,23 @@ SuperDoitExecution >> basename [
 
 { #category : 'accessing' }
 SuperDoitExecution >> commandLine [
-	^ commandLine
+	^ _commandLine
 		ifNil: [ 
 			| stream |
 			stream := WriteStream on: String new.
 			stream
 				nextPutAll: self basename;
 				space.
-			2 to: scriptArgs size do: [ :index | 
+			2 to: _scriptArgs size do: [ :index | 
 				stream
-					nextPutAll: (scriptArgs at: index);
+					nextPutAll: (_scriptArgs at: index);
 					space ].
-			commandLine := stream contents ]
+			_commandLine := stream contents ]
 ]
 
 { #category : 'accessing' }
 SuperDoitExecution >> commandLine: aString [
-	commandLine := aString
+	_commandLine := aString
 ]
 
 { #category : 'accessing' }
@@ -65,27 +65,27 @@ SuperDoitExecution >> logMessage: aString [
 SuperDoitExecution >> noResult [
 	"unique object to use a return value when no result should be written to stdout"
 
-	^ noResult ifNil: [ noResult := Object new ]
+	^ _noResult ifNil: [ _noResult := Object new ]
 ]
 
 { #category : 'accessing' }
 SuperDoitExecution >> scriptArgs [
-	^ scriptArgs ifNil: [ #() ]
+	^ _scriptArgs ifNil: [ #() ]
 ]
 
 { #category : 'accessing' }
 SuperDoitExecution >> scriptArgs: aColl [
-	scriptArgs := aColl
+	_scriptArgs := aColl
 ]
 
 { #category : 'accessing' }
 SuperDoitExecution >> scriptPath [
-	^ scriptPath
+	^ _scriptPath
 ]
 
 { #category : 'accessing' }
 SuperDoitExecution >> scriptPath: aFileReference [
-	scriptPath := aFileReference
+	_scriptPath := aFileReference
 ]
 
 { #category : 'accessing' }
@@ -101,12 +101,12 @@ SuperDoitExecution >> ston: anObject on: aStream [
 { #category : 'accessing' }
 SuperDoitExecution >> usage [
 	| string |
-	string := usage copy.
+	string := _usage copy.
 	string copyReplaceAll: '$basename' with: self basename.
 	^ string
 ]
 
 { #category : 'accessing' }
 SuperDoitExecution >> usage: object [
-	usage := object
+	_usage := object
 ]
