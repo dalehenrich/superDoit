@@ -99,7 +99,13 @@ getOpts: optionsSpec
 						ifTrue: [ 
 							opts at: optKey put: nil.
 							opt := nil ]
-						ifFalse: [ opts at: optKey put: optOrArg ].
+						ifFalse: [ 
+							(optOrArg beginsWith: '-')
+								ifTrue: [
+									argExpected == #optional
+										ifTrue: [ opts at: optKey put: nil ]
+										ifFalse: [self error: 'Missing required option argument for option ', optKey printString ] ]
+								ifFalse: [ opts at: optKey put: optOrArg ] ].
 					optKey := argExpected := nil ].
 			(optOrArg beginsWith: '-')
 				ifTrue: [ 
