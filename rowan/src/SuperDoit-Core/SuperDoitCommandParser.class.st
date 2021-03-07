@@ -74,6 +74,13 @@ SuperDoitCommandParser >> method: string [
 	self superDoitExecutionClass compileMethod: string
 ]
 
+{ #category : 'commands' }
+SuperDoitCommandParser >> method: string in: className [
+	(Rowan globalNamed: className)
+		ifNotNil: [ :class | class compileMethod: string ]
+		ifNil: [ self error: 'No class ' , className printString , ' found' ]
+]
+
 { #category : 'parsing' }
 SuperDoitCommandParser >> nextChunk [
 	| str line |
@@ -100,7 +107,7 @@ SuperDoitCommandParser >> parseAndExecuteScriptFile: scriptFileReference [
 
 { #category : 'parsing' }
 SuperDoitCommandParser >> processNextCommand [
-	| line words command firstChar |
+	| line words command firstChar commandSelector |
 	stream atEnd
 		ifTrue: [ 
 			done := true.
@@ -117,6 +124,8 @@ SuperDoitCommandParser >> processNextCommand [
 		ifTrue: [ ^ self doit: self nextChunk ].
 	command = 'METHOD'
 		ifTrue: [ ^ self method: self nextChunk ].
+	command = 'METHOD:'
+		ifTrue: [ ^ self method: self nextChunk in: (words at: 2) ].
 	command = 'INSTVARS'
 		ifTrue: [ ^ self instVarNames: self nextChunk ].
 	command = 'SPECS'
@@ -125,6 +134,9 @@ SuperDoitCommandParser >> processNextCommand [
 		ifTrue: [ ^ self specUrls: self nextChunk ].
 	command = 'USAGE'
 		ifTrue: [ ^ self usage: self nextChunk ].
+	commandSelector := (command asLowerCase , ':') asSymbol.
+	(self respondsTo: commandSelector)
+		ifTrue: [ ^ self perform: commandSelector with: self nextChunk ].
 	self error: 'Unknown command ' , command printString
 ]
 
