@@ -101,9 +101,9 @@ SuperDoitExecution >> ston: anObject on: aStream [
 { #category : 'accessing' }
 SuperDoitExecution >> usage [
 	| string |
-	string := _usage copy.
-	string copyReplaceAll: '$basename' with: self basename.
-	^ string
+	string := _usage copyReplaceAll: '$basename' with: self basename.
+	self stdout nextPutAll: string.
+	^ self noResult
 ]
 
 { #category : 'accessing' }

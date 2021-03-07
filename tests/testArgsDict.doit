@@ -1,12 +1,33 @@
 #!/usr/bin/env superdoit_solo
+usage
+USAGE $basename [-h | -D]
+
+DESCRIPTION
+  Test argsDict.doit script
+
+OPTIONS
+  -h
+    display usage message
+  -D
+    debug; halt when a test fails
+%
 doit
-	| argDictCommand count passed failed failedArgs summary |
+	| debug argDictCommand count passed failed failedArgs summary |
 	argDictCommand := '$projectDir'  asFileReference / 'tests' / 'argsDict.doit'.
 	count := passed := failed := 0.
+	failedArgs := {}.
+	((self scriptArgs at: 2) = '-h') ifTrue: [ ^ self usage ].
+	debug := (self scriptArgs at: 2) = '-D'.
 	{
-		'789' -> (Dictionary new
+		'123' -> (Dictionary new
 			at: 'args' 
-				put: { '789' };
+				put: { '123' };
+			at: 'options'
+				put: (Dictionary new);
+			yourself).
+		'123 456' -> (Dictionary new
+			at: 'args' 
+				put: { '123 456' };
 			at: 'options'
 				put: (Dictionary new);
 			yourself).
@@ -21,7 +42,8 @@ doit
 			ifTrue: [ passed := passed + 1 ]
 			ifFalse: [ 
 				failed := failed + 1.
-				failedArgs add: args ] ].
+				failedArgs add: args.
+				debug ifTrue: [ self halt] ] ].
 	summary := count printString, ' run, ', passed printString, ' passed, ', failed printString, ' failed'.
 	self stdout nextPutAll: summary; lf. 
 	failed = 0

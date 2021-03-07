@@ -186,11 +186,6 @@ commandSummary
 		at: 'args' put: args; 
 		yourself.
 %
-method
-usage
-	self stdout nextPutAll: super usage.
-	^ self noResult
-%
 doit
 	self getOpts: 
 		{
