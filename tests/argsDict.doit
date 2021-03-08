@@ -1,4 +1,25 @@
 #!/usr/bin/env superdoit_solo
+method: SuperDoitCommandParser
+options: string
+	| optionSpecStream optionSpecs |
+	optionSpecs := {}.
+	optionSpecStream := string readStreamPortable.
+	[ optionSpecStream atEnd ]
+		whileFalse: [ 
+			| optionSpec spec |
+			optionSpec := optionSpecStream nextLine.
+			spec := ('#( ', optionSpec, ' )') evaluate.
+			optionSpecs add: spec ].
+	self dynamicInstVarAt: #optionSpecs put: optionSpecs
+%
+options
+debug D none
+help h none
+required nil required
+optional o optional
+another a required
+none n none
+%
 usage
 USAGE $basename [--help | -h] [--required=<something>] \
       [--optional[=<something>] | -o [<something>] ] \
@@ -75,8 +96,13 @@ EXAMPLES
   $basename --required=123 -o 456 --another=123 789
 %
 instvars
+optionSpec
 opts
 args
+%
+method
+processDynamicSections: aSuperDoitCommandParser
+	optionSpec := aSuperDoitCommandParser dynamicInstVarAt: #optionSpecs  
 %
 method
 getOpts: optionsSpec
@@ -194,15 +220,7 @@ commandSummary
 %
 doit
 	[
-		self getOpts: 
-			{
-				#( debug D none ) .
-				#( help h none ) .
-				#( required nil required ) .
-				#( optional o optional ) .
-				#( another a required ) .
-				#( none n none ) .
-			}.
+		self getOpts: optionSpec.
 	] on: Error do: [:ex | 
 		opts at: 'debug' ifAbsent: [ ^ ex description ].
 		ex pass ].

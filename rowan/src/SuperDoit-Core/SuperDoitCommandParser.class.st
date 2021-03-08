@@ -51,6 +51,7 @@ SuperDoitCommandParser >> doit: string [
 	instance scriptPath: self scriptPath.
 	instance scriptArgs: self scriptArgs.
 	instance usage: self usage.
+	instance processDynamicSections: self.
 	instance displayResult: instance doit
 ]
 
@@ -134,7 +135,7 @@ SuperDoitCommandParser >> processNextCommand [
 		ifTrue: [ ^ self specUrls: self nextChunk ].
 	command = 'USAGE'
 		ifTrue: [ ^ self usage: self nextChunk ].
-	commandSelector := (command asLowerCase , ':') asSymbol.
+	commandSelector := (command asLowercase , ':') asSymbol.
 	(self respondsTo: commandSelector)
 		ifTrue: [ ^ self perform: commandSelector with: self nextChunk ].
 	self error: 'Unknown command ' , command printString

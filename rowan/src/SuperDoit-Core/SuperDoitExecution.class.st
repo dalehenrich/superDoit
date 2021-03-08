@@ -69,6 +69,13 @@ SuperDoitExecution >> noResult [
 ]
 
 { #category : 'accessing' }
+SuperDoitExecution >> processDynamicSections: aSuperDoitCommandParser [
+	"placeholder for picking up dynamic section content"
+
+	"noop"
+]
+
+{ #category : 'accessing' }
 SuperDoitExecution >> scriptArgs [
 	^ _scriptArgs ifNil: [ #() ]
 ]
