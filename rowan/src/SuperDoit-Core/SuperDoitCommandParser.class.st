@@ -101,23 +101,20 @@ SuperDoitCommandParser >> nextChunk [
 
 { #category : 'commands' }
 SuperDoitCommandParser >> options: string [
-	| optionSpecStream ivNames optionNames |
+	| ivNames |
 	ivNames := self instVarNames.
-	optionSpecs := {}.
-	optionNames := {}.
-	optionSpecStream := string readStreamPortable.
-	[ optionSpecStream atEnd ]
-		whileFalse: [ 
-			| optionSpec spec ivName |
-			optionSpec := optionSpecStream nextLine.
-			spec := ('#( ', optionSpec, ' )') evaluate.
-			ivName := (spec at: 1) asString.
-			ivNames add: ivName.
-			optionNames add: ivName.
-			optionSpecs add: spec ].
-	optionNames do: [:optionName |
-					self method: optionName, '  ^ ', optionName.
-					self method: optionName, ': optionValue ', optionName, ' := optionValue' ]
+	optionSpecs := Dictionary new.
+	string evaluate do: [:optionSpec |
+		optionSpecs at: optionSpec longName put: optionSpec ].
+	optionSpecs
+		do: [ :option | 
+			| longName |
+			longName := option longName.
+			self method: longName , '  ^ (self optionSpecs at: ' , longName printString , ') value'.
+			self
+				method:
+					longName , ': optionValue (self optionSpecs at:' , longName printString
+						, ') value: optionValue' ]
 ]
 
 { #category : 'accessing' }

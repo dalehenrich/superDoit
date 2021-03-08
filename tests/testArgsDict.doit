@@ -70,6 +70,24 @@ doit
 						at: 'required' put: '123';
 						yourself);
 			yourself).
+		'--noshort=123' -> (Dictionary new
+			at: 'args' 
+				put: { };
+			at: 'options'
+				put: 
+					(Dictionary new
+						at: 'noshort' put: '123';
+						yourself);
+			yourself).
+		'--noshort' -> (Dictionary new
+			at: 'args' 
+				put: { };
+			at: 'options'
+				put: 
+					(Dictionary new
+						at: 'noshort' put: '0';
+						yourself);
+			yourself).
 		'--optional=123' -> (Dictionary new
 			at: 'args' 
 				put: { };
@@ -85,7 +103,7 @@ doit
 			at: 'options'
 				put: 
 					(Dictionary new
-						at: 'optional' put: nil;
+						at: 'optional' put: '0';
 						yourself);
 			yourself).
 		'-o 123' -> (Dictionary new
@@ -103,7 +121,7 @@ doit
 			at: 'options'
 				put: 
 					(Dictionary new
-						at: 'optional' put: nil;
+						at: 'optional' put: '0';
 						yourself);
 			yourself).
 		'-o 123 456 --required=789 12' -> (Dictionary new
@@ -122,7 +140,7 @@ doit
 			at: 'options'
 				put: 
 					(Dictionary new
-						at: 'optional' put: nil;
+						at: 'optional' put: '0';
 						at: 'required' put: '456';
 						yourself);
 			yourself).
@@ -201,7 +219,7 @@ doit
 					(Dictionary new
 						at: 'none' put: nil;
 						at: 'debug' put: nil;
-						at: 'optional' put: nil;
+						at: 'optional' put: '0';
 						at: 'another' put: '123';
 						yourself);
 			yourself).
@@ -231,6 +249,10 @@ doit
 						yourself);
 			yourself).
 
+		'-a 123 --another=123' -> 'UserDefinedError: The option ''another'' has already been processed.'.
+		'-n --none' -> 'UserDefinedError: The option ''none'' has already been processed.'.
+		'-n -n' -> 'UserDefinedError: The option ''none'' has already been processed.'.
+		'-o 123 --optional' -> 'UserDefinedError: The option ''optional'' has already been processed.'.
 		'-a --optional=123' -> 'UserDefinedError: Missing required option argument for option ''another'''.
 		'-' -> 'UserDefinedError: Cannot handle naked dashes ''-'''.
 		'--' -> 'UserDefinedError: Cannot handle naked dashes ''--'''.

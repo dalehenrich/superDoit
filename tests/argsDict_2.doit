@@ -3,16 +3,20 @@ instvars
 args
 %
 options
-debug D none
-help h none
-required nil required
-optional o optional
-another a required
-none n none
+{
+  SuperDoitCommandLineOption long: 'debug' short: 'D'.
+  SuperDoitCommandLineOption long: 'help' short: 'h'.
+  SuperDoitCommandLineOption long: 'none' short: 'n'.
+  SuperDoitRequiredCommandLineOption long: 'required'.
+  SuperDoitRequiredCommandLineOption long: 'another' short: 'a'.
+  SuperDoitOptionalCommandLineOption long: 'optional' short: 'o' default: '0'.
+  SuperDoitOptionalCommandLineOption long: 'noshort' default: '0'.
+}
 %
 usage
 USAGE $basename [--help | -h] [--debug | -D] \
       [--required=<something>] \
+      [--noshort[=<something>] ] \
       [--optional[=<something>] | -o [<something>] ] \
       [--another=<something> | -a <something>] \
       [--none | -n] [<something>]...
@@ -23,12 +27,15 @@ DESCRIPTION
   Specify desired options using the 'options' section:
 
     options
-    debug D none
-    help h none
-    required nil required
-    optional o optional
-    another a required
-    none n none
+    {
+      SuperDoitCommandLineOption long: 'debug' short: 'D'.
+      SuperDoitCommandLineOption long: 'help' short: 'h'.
+      SuperDoitCommandLineOption long: 'none' short: 'n'.
+      SuperDoitRequiredCommandLineOption long: 'required'.
+      SuperDoitRequiredCommandLineOption long: 'another' short: 'a'.
+      SuperDoitOptionalCommandLineOption long: 'optional' short: 'o' default: '0'.
+      SuperDoitOptionalCommandLineOption long: 'noshort' default: '0'.
+    }
     %
 
   where an option is declared on a line with three fields:
@@ -68,7 +75,9 @@ OPTIONS
   --required=<required-value>
     Example of a long option with a required value.
   --optional[=<optional-value>] | -o [<optional-value]
-    Example of a long and short option with an optional value.
+    Example of a long and short option with an optional value. The default value is '0'.
+  --noshort[=<optional-value>]
+    Example of a long option with an optional value. The default value is '0'.
   --another=<another-required-value>] | -a [<another-required-value]
     Example of a long and short option with a required value.
   --none | -n
@@ -85,6 +94,8 @@ EXAMPLES
   $basename --required=123
   $basename --another=123
   $basename -a 123
+  $basename --noshort
+  $basename --noshort=123
   $basename --optional
   $basename -o
   $basename --optional=123
@@ -95,6 +106,8 @@ EXAMPLES
   $basename 456 -or 123
   $basename --required=123 --optional=123 --another=123
   $basename --required=123 --optional --another=123
+  $basename --required=123 --noshort=123 --another=123
+  $basename --required=123 --noshort --another=123
   $basename --required=123 -o
   $basename --required=123 -o 456 789
   $basename --required=123 -oa 123
@@ -102,7 +115,7 @@ EXAMPLES
 %
 method
 getOpts: optionsSpec
-	| argStream opt optKey theArgs argExpected specsDict |
+	| argStream opt theArgs specsDict |
 	specsDict := self _specsDictFor: optionsSpec.
 	args := {}.
 	theArgs := self scriptArgs asArray.
@@ -116,70 +129,75 @@ getOpts: optionsSpec
 				ifTrue: [ self error: 'Cannot handle naked dashes ', optOrArg printString ].
 			opt 
 				ifNotNil: [ :theOpt |
-					argExpected == #none
-						ifTrue: [ 
-							self perform: (optKey, ':') asSymbol with: (optKey -> nil).
-							opt := nil ]
-						ifFalse: [ 
+					theOpt argExpected
+						ifTrue: [
 							(optOrArg beginsWith: '-')
 								ifTrue: [
-									argExpected == #optional
-										ifTrue: [ self perform: (optKey, ':') asSymbol with: (optKey -> nil) ]
-										ifFalse: [self error: 'Missing required option argument for option ', optKey printString ] ]
-								ifFalse: [ self perform: (optKey, ':') asSymbol with: (optKey -> optOrArg) ] ].
-					optKey := argExpected := nil ].
+									theOpt argRequired
+										ifTrue: [ self error: 'Missing required option argument for option ', opt longName printString ]
+										ifFalse: [ theOpt value: nil "will pick up default value" ] ]
+								ifFalse: [ theOpt value: optOrArg ] ]
+						ifFalse: [
+ 							theOpt value: true.	"set value to true, to indicate that the option WAS specified"
+							opt := nil ] ].
 			(optOrArg beginsWith: '-')
 				ifTrue: [ 
 					(optOrArg beginsWith: '--')
 						ifTrue: [
-							opt :=  optOrArg copyFrom: 3 to: optOrArg size.
-							(opt indexOf: $= ifAbsent: [])
+							| optKey |
+							optKey :=  optOrArg copyFrom: 3 to: optOrArg size.
+							(optKey indexOf: $= ifAbsent: [])
 								ifNotNil: [ :index |
 									| arg |
-									arg := opt copyFrom: index + 1 to: opt size.
-									opt := opt copyFrom: 1 to: index - 1.
-									((specsDict at: 'long') 
-										at: opt 
-										ifAbsent: [ self error: 'Unknown option ', opt printString ]) == #none
-											ifTrue: [ self error: 'Unexpected option argument ', arg printString, ' for option ', opt printString ].
-									self perform: (opt, ':') asSymbol with: (opt -> arg) ]
+									arg := optKey copyFrom: index + 1 to: optKey size.
+									optKey := optKey copyFrom: 1 to: index - 1.
+									opt := (specsDict at: 'long') 
+										at: optKey 
+										ifAbsent: [ self error: 'Unknown option ', opt printString ].
+									opt argExpected
+											ifFalse: [ self error: 'Unexpected option argument ', arg printString, ' for option ', optKey printString ].
+									opt value: arg ]
 								ifNil: [
-									((specsDict at: 'long') 
-										at: opt 
-										ifAbsent: [ self error: 'Unknown option ', opt printString ]) == #required
-											ifTrue: [ self error: 'Missing required option argument for option ', opt printString ].
-									self perform: (opt, ':') asSymbol with: (opt -> nil) ].
-							argExpected := opt := optKey := nil ]
+									opt := (specsDict at: 'long') 
+										at: optKey
+										ifAbsent: [ self error: 'Unknown option ', opt printString ].
+									opt argRequired
+											ifTrue: [ self error: 'Missing required option argument for option ', optKey printString ].
+									opt value: nil ].
+							opt := nil ]
 						ifFalse: [
 							"optOrArg beginsWith: '-'"
 							| theOpts numOpts |
 							theOpts :=  optOrArg copyFrom: 2 to: optOrArg size.
 							numOpts := theOpts size.
 							1 to: numOpts do: [:index |
-								opt := (theOpts at: index) asString.
-								argExpected := (specsDict at: 'short') 
-									at: opt 
-									ifAbsent: [ self error: 'Unknown option ', opt printString ].
-								optKey := (specsDict at: 'shortKey') at: opt.
+								| optKey |
+								optKey := (theOpts at: index) asString.
+								opt := (specsDict at: 'short') 
+									at: optKey
+									ifAbsent: [ self error: 'Unknown option ', optKey printString ].
 								index < numOpts
 									ifTrue: [
 										"multiple options"
-										argExpected == #required
-											ifTrue: [ self error: 'Missing required option argument for option ', opt printString ].
-										self perform: (optKey, ':') asSymbol with: (optKey -> nil) ] ] ] ]
+										opt argRequired
+											ifTrue: [ self error: 'Missing required option argument for option ', opt longName printString ].
+										opt argExpected
+											ifTrue: [ opt value: nil ]
+											ifFalse: [  opt value: true ] ] ] ] ]
 				ifFalse: [
 "if arg is enclosed in "" then they need to be stripped"
 					opt 
 						ifNil: [ 
 							"naked arg"
-							args add: optOrArg.
-							argExpected := nil ]
-						ifNotNil: [ optKey := argExpected := opt := nil ] ] ].
+							args add: optOrArg ]
+						ifNotNil: [ opt := nil ] ] ].
 		opt ifNotNil: [
 			"naked option"
-			argExpected == #required
-				ifTrue: [ self error: 'missing required argument for option ', opt printString ].
-			self perform: (optKey, ':') asSymbol with: (optKey -> nil) ].
+			opt argRequired
+				ifTrue: [ self error: 'missing required argument for option ', opt longName printString ].
+			opt argExpected
+				ifTrue: [ opt value: nil ]
+				ifFalse: [  opt value: true ] ].
 %
 method
 _specsDictFor: optionsSpec
@@ -187,34 +205,24 @@ _specsDictFor: optionsSpec
 	specsDict := Dictionary new
 		at: 'long' put: Dictionary new;
 		at: 'short' put: Dictionary new;
-		at: 'shortKey' put: Dictionary new;
 		yourself.
-	optionsSpec do: [:specArray |
-		| argSpec |
-		argSpec := specArray at: 3.	"#none #required #optional"
-		(specArray at: 1) 
-			ifNil: [ self error: 'Long option required' ]
-			ifNotNil: [:longOption |
-				(specsDict at: 'long') 
-					at: longOption asString put: argSpec.
-				(specArray at: 2) ifNotNil: [:shortOption |
-					(specsDict at: 'short') 
-						at: shortOption asString put: argSpec.
-					(specsDict 
-						at: 'shortKey' 
-						ifAbsentPut: [ Dictionary new ]) 
-							at: shortOption asString put: longOption asString ] ] ].
+	optionsSpec do: [:option |
+		(specsDict at: 'long') 
+			at: option longName put: option.
+		option shortName ifNotNil: [:shortName |
+			(specsDict at: 'short') 
+				at: shortName put: option ] ].
 	^ specsDict
 %
 method
 commandSummary
 	| opts |
 	opts := Dictionary new.
-	self optionSpecs do: [:optArray |
-		| option optKey |
-		optKey := optArray at: 1.
-		(option := self perform: optKey asSymbol)
-			ifNotNil: [ :assoc | opts at: optKey asString put: assoc value ] ].
+	self optionSpecs do: [:option |
+		| longName |
+		longName := option longName.
+		(option value ~= option defaultValue)
+			ifTrue: [ opts at: longName put: option value ] ].
 	^ Dictionary new
 		at: 'options' put: opts;
 		at: 'args' put: args; 
@@ -224,9 +232,9 @@ doit
 	[
 		self getOpts: self optionSpecs.
 	] on: Error do: [:ex | 
-		self debug ifNil: [ ^ ex description ].
+		self debug ifFalse: [ ^ ex description ].
 		ex pass ].
-	self help ifNotNil: [ ^ self usage ].
+	self help ifTrue: [ ^ self usage ].
 	^ self commandSummary
 %
 
