@@ -62,12 +62,12 @@ SuperDoitCommandParser >> done [
 
 { #category : 'accessing' }
 SuperDoitCommandParser >> instVarNames [
-	^ instVarNames ifNil: [ #() ]
+	^ instVarNames ifNil: [ instVarNames := {} ]
 ]
 
 { #category : 'commands' }
 SuperDoitCommandParser >> instVarNames: string [
-	instVarNames := ('#(' , string , ')') evaluate
+	instVarNames := self instVarNames , (('#(' , string , ')') evaluate)
 ]
 
 { #category : 'commands' }
