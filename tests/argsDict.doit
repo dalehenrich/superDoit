@@ -21,30 +21,36 @@ another a required
 none n none
 %
 usage
-USAGE $basename [--help | -h] [--required=<something>] \
+USAGE $basename [--help | -h] [--debug | -D] \
+      [--required=<something>] \
       [--optional[=<something>] | -o [<something>] ] \
       [--another=<something> | -a <something>] \
-      [<something>]...
+      [--none | -n] [<something>]...
 
 DESCRIPTION
   Posix long and short argument handling support.
 
-  Specify desired options using an <optionsSpec> which is an array of arrays:
+  Specify desired options using the 'options' section:
 
-    {
-      #( help h none ) .
-      #( required nil required ) .
-      #( optional o optional ) .
-      #( another a required ) .
-    }.
+    options
+    debug D none
+    help h none
+    required nil required
+    optional o optional
+    another a required
+    none n none
+    %
 
-    There is an array for each option of the form:
+  where an option is declared on a line with three fields:
 
-      #( longName shortName [none | required | optional )
+    longName shortName [none | required | optional
 
-    The shortName may be nil.
+  The shortName may be nil.
 
-  When the #getOpts: message is sent with <optionsSpec> as the argument,
+	When the 'options' section is processed the resulting option spec is added to
+	  the 'optionSpec' inst var.
+
+  When the #getOpts: message is sent with optionsSpec inst var as the argument,
     the options are read from the command line and the 'opts' instance variable
     is set to a dictionary of options and the 'args' instance variable is set
     to an array of positional parameters.
@@ -62,19 +68,28 @@ DESCRIPTION
 
 OPTIONS
   [<positional-arguments>...]
-    any number of positional arguments may be specified
+    Any number of positional arguments may be specified.
   --help | -h
-    display usage message
+    Display usage message.
+  --debug | -D
+    Without this option, when an error occurs, the error message is written to
+      stdout. If this option is supplied, the error is allowed to bring up the
+      topaz debugger.
   --required=<required-value>
-    example of a long option with a required value
+    Example of a long option with a required value.
   --optional[=<optional-value>] | -o [<optional-value]
-    example of a long and short option with an optional value
+    Example of a long and short option with an optional value.
   --another=<another-required-value>] | -a [<another-required-value]
-    example of a long and short option with a required value
+    Example of a long and short option with a required value.
+  --none | -n
+    Example of a long and short option with no required value.
 
 EXAMPLES
   $basename --help
   $basename -h
+  $basename --debug -required 123 -ona 456
+  $basename --none
+  $basename -D
   $basename 123
   $basename 123 456
   $basename --required=123
