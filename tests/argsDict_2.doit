@@ -118,7 +118,7 @@ getOpts: optionsSpec
 				ifNotNil: [ :theOpt |
 					argExpected == #none
 						ifTrue: [ 
-							self perform: (optKey, ':') asSymbol with: (optKey -> true).
+							self perform: (optKey, ':') asSymbol with: (optKey -> nil).
 							opt := nil ]
 						ifFalse: [ 
 							(optOrArg beginsWith: '-')
@@ -142,13 +142,13 @@ getOpts: optionsSpec
 										at: opt 
 										ifAbsent: [ self error: 'Unknown option ', opt printString ]) == #none
 											ifTrue: [ self error: 'Unexpected option argument ', arg printString, ' for option ', opt printString ].
-									self perform: (optKey, ':') asSymbol with: (optKey -> arg) ]
+									self perform: (opt, ':') asSymbol with: (opt -> arg) ]
 								ifNil: [
 									((specsDict at: 'long') 
 										at: opt 
 										ifAbsent: [ self error: 'Unknown option ', opt printString ]) == #required
 											ifTrue: [ self error: 'Missing required option argument for option ', opt printString ].
-									self perform: (optKey, ':') asSymbol with: (optKey -> nil) ].
+									self perform: (opt, ':') asSymbol with: (opt -> nil) ].
 							argExpected := opt := optKey := nil ]
 						ifFalse: [
 							"optOrArg beginsWith: '-'"
@@ -214,7 +214,7 @@ commandSummary
 		| option optKey |
 		optKey := optArray at: 1.
 		(option := self perform: optKey asSymbol)
-			ifNotNil: [ :assoc | opts at: optKey put: assoc value ] ].
+			ifNotNil: [ :assoc | opts at: optKey asString put: assoc value ] ].
 	^ Dictionary new
 		at: 'options' put: opts;
 		at: 'args' put: args; 
