@@ -1,27 +1,5 @@
 #!/usr/bin/env superdoit_solo
-method: SuperDoitCommandParser
-options: string
-	| optionSpecStream optionSpecs ivNames optionNames |
-	ivNames := self instVarNames.
-	optionSpecs := {}.
-	optionNames := {}.
-	optionSpecStream := string readStreamPortable.
-	[ optionSpecStream atEnd ]
-		whileFalse: [ 
-			| optionSpec spec ivName |
-			optionSpec := optionSpecStream nextLine.
-			spec := ('#( ', optionSpec, ' )') evaluate.
-			ivName := (spec at: 1) asString.
-			ivNames add: ivName.
-			optionNames add: ivName.
-			optionSpecs add: spec ].
-	self dynamicInstVarAt: #optionSpecs put: optionSpecs.
-	optionNames do: [:optionName |
-					self method: optionName, '  ^ ', optionName.
-					self method: optionName, ': optionValue ', optionName, ' := optionValue' ]
-%
 instvars
-optionSpec
 args
 %
 options
@@ -121,10 +99,6 @@ EXAMPLES
   $basename --required=123 -o 456 789
   $basename --required=123 -oa 123
   $basename --required=123 -o 456 --another=123 789
-%
-method
-processDynamicSections: aSuperDoitCommandParser
-	optionSpec := aSuperDoitCommandParser dynamicInstVarAt: #optionSpecs  
 %
 method
 getOpts: optionsSpec
@@ -236,7 +210,7 @@ method
 commandSummary
 	| opts |
 	opts := Dictionary new.
-	optionSpec do: [:optArray |
+	self optionSpecs do: [:optArray |
 		| option optKey |
 		optKey := optArray at: 1.
 		(option := self perform: optKey asSymbol)
@@ -248,7 +222,7 @@ commandSummary
 %
 doit
 	[
-		self getOpts: optionSpec.
+		self getOpts: self optionSpecs.
 	] on: Error do: [:ex | 
 		self debug ifNil: [ ^ ex description ].
 		ex pass ].

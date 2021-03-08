@@ -6,7 +6,8 @@ Class {
 		'_scriptArgs',
 		'_scriptPath',
 		'_usage',
-		'_noResult'
+		'_noResult',
+		'_optionSpecs'
 	],
 	#category : 'SuperDoit-Core'
 }
@@ -66,6 +67,16 @@ SuperDoitExecution >> noResult [
 	"unique object to use a return value when no result should be written to stdout"
 
 	^ _noResult ifNil: [ _noResult := Object new ]
+]
+
+{ #category : 'accessing' }
+SuperDoitExecution >> optionSpecs [
+	^ _optionSpecs
+]
+
+{ #category : 'accessing' }
+SuperDoitExecution >> optionSpecs: specs [
+	_optionSpecs := specs
 ]
 
 { #category : 'accessing' }

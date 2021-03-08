@@ -11,7 +11,8 @@ Class {
 		'instVarNames',
 		'scriptArgs',
 		'scriptPath',
-		'systemDictionary'
+		'systemDictionary',
+		'optionSpecs'
 	],
 	#category : 'SuperDoit-Core'
 }
@@ -51,6 +52,7 @@ SuperDoitCommandParser >> doit: string [
 	instance scriptPath: self scriptPath.
 	instance scriptArgs: self scriptArgs.
 	instance usage: self usage.
+	instance optionSpecs: self optionSpecs.
 	instance processDynamicSections: self.
 	instance displayResult: instance doit
 ]
@@ -97,6 +99,32 @@ SuperDoitCommandParser >> nextChunk [
 	self error: 'ran off end of file!'
 ]
 
+{ #category : 'commands' }
+SuperDoitCommandParser >> options: string [
+	| optionSpecStream ivNames optionNames |
+	ivNames := self instVarNames.
+	optionSpecs := {}.
+	optionNames := {}.
+	optionSpecStream := string readStreamPortable.
+	[ optionSpecStream atEnd ]
+		whileFalse: [ 
+			| optionSpec spec ivName |
+			optionSpec := optionSpecStream nextLine.
+			spec := ('#( ', optionSpec, ' )') evaluate.
+			ivName := (spec at: 1) asString.
+			ivNames add: ivName.
+			optionNames add: ivName.
+			optionSpecs add: spec ].
+	optionNames do: [:optionName |
+					self method: optionName, '  ^ ', optionName.
+					self method: optionName, ': optionValue ', optionName, ' := optionValue' ]
+]
+
+{ #category : 'accessing' }
+SuperDoitCommandParser >> optionSpecs [
+	^ optionSpecs
+]
+
 { #category : 'execution' }
 SuperDoitCommandParser >> parseAndExecuteScriptFile: scriptFileReference [
 	scriptFileReference
@@ -127,6 +155,8 @@ SuperDoitCommandParser >> processNextCommand [
 		ifTrue: [ ^ self method: self nextChunk ].
 	command = 'METHOD:'
 		ifTrue: [ ^ self method: self nextChunk in: (words at: 2) ].
+	command = 'OPTIONS'
+		ifTrue: [ ^ self options: self nextChunk ].
 	command = 'INSTVARS'
 		ifTrue: [ ^ self instVarNames: self nextChunk ].
 	command = 'SPECS'
