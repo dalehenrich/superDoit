@@ -297,14 +297,14 @@ doit
 		'-n --none' -> 'UserDefinedError: The option ''none'' has already been processed.'.
 		'-n -n' -> 'UserDefinedError: The option ''none'' has already been processed.'.
 		'-o 123 --optional' -> 'UserDefinedError: The option ''optional'' has already been processed.'.
-		'-a --optional=123' -> 'UserDefinedError: Missing required option argument for option ''another'''.
+		'-a --optional=123' -> 'UserDefinedError: Missing required argument for option ''another'' [a]'.
 		'-' -> 'UserDefinedError: Cannot handle naked dashes ''-'''.
 		'--' -> 'UserDefinedError: Cannot handle naked dashes ''--'''.
-		'-x' -> 'UserDefinedError: Unknown option ''x'''.
-		'-x something' -> 'UserDefinedError: Unknown option ''x'''.
-		'--unknown' -> 'UserDefinedError: Unknown option ''unknown'''.
-		'--unknown=something' -> 'UserDefinedError: Unknown option ''unknown'''.
-		'--none=something' -> 'UserDefinedError: Unexpected option argument ''something'' for option ''none'''.
+		'--unknown=something' -> 'UserDefinedError: Unknown option ''unknown'' [a]'.
+		'--unknown' -> 'UserDefinedError: Unknown option ''unknown'' [b]'.
+		'-x something' -> 'UserDefinedError: Unknown option ''x'' [c]'.
+		'-x' -> 'UserDefinedError: Unknown option ''x'' [c]'.
+		'--none=something' -> 'UserDefinedError: Unexpected argument ''something'' for option ''none'''.
 	} do: [:assoc |
 		| expectedArgsDict actualArgsDict ston args summary |
 		count := count + 1.
