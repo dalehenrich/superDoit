@@ -298,6 +298,9 @@ doit
 		'-n -n' -> 'UserDefinedError: The option ''none'' has already been processed.'.
 		'-o 123 --optional' -> 'UserDefinedError: The option ''optional'' has already been processed.'.
 		'-a --optional=123' -> 'UserDefinedError: Missing required argument for option ''another'' [a]'.
+		'--another' -> 'UserDefinedError: Missing required argument for option ''another'' [b]'.
+		'-an' -> 'UserDefinedError: Missing required argument for option ''another'' [c]'.
+		'-a' -> 'UserDefinedError: Missing required argument for option ''another'' [d]'.
 		'-' -> 'UserDefinedError: Cannot handle naked dashes ''-'''.
 		'--' -> 'UserDefinedError: Cannot handle naked dashes ''--'''.
 		'--unknown=something' -> 'UserDefinedError: Unknown option ''unknown'' [a]'.
