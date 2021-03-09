@@ -186,7 +186,12 @@ getOpts: optionsSpec
 											ifTrue: [ self error: 'Missing required option argument for option ', opt longName printString ].
 										opt argExpected
 											ifTrue: [ opt markNoValue ]
-											ifFalse: [  opt value: true ] ] ] ] ]
+											ifFalse: [ opt value: true ] ]
+									ifFalse: [
+										opt argExpected 
+											ifFalse: [
+												opt value: true.
+												opt := nil ] ] ] ] ]
 				ifFalse: [
 "if arg is enclosed in "" then they need to be stripped"
 					opt 
