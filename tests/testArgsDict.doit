@@ -13,7 +13,7 @@ OPTIONS
 %
 doit
 	| debug argDictCommand count passed failed errors failedArgs summary |
-	argDictCommand := '$projectDir'  asFileReference / 'tests' / 'argsDict_2.doit'.
+	argDictCommand := '$projectDir'  asFileReference / 'tests' / 'argsDict.doit'.
 	count := passed := failed := errors := 0.
 	failedArgs := {}.
 	debug := false.
