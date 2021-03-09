@@ -134,7 +134,7 @@ getOpts: optionsSpec
 							(optOrArg beginsWith: '-')
 								ifTrue: [
 									theOpt argRequired
-										ifTrue: [ self error: 'Missing required option argument for option ', opt longName printString ]
+										ifTrue: [ self error: 'Missing required argument for option [a] ', opt longName printString ]
 										ifFalse: [ theOpt markNoValue "will pick up default value" ] ]
 								ifFalse: [ theOpt value: optOrArg ] ]
 						ifFalse: [
@@ -153,17 +153,17 @@ getOpts: optionsSpec
 									optKey := optKey copyFrom: 1 to: index - 1.
 									opt := (specsDict at: 'long') 
 										at: optKey 
-										ifAbsent: [ self error: 'Unknown option ', optKey printString ].
+										ifAbsent: [ self error: 'Unknown option [a] ', optKey printString ].
 									opt argExpected
-											ifFalse: [ self error: 'Unexpected option argument ', arg printString, ' for option ', optKey printString ].
+											ifFalse: [ self error: 'Unexpected argument ', arg printString, ' for option ', optKey printString ].
 									opt value: arg ]
 								ifNil: [
 									"naked long option"
 									opt := (specsDict at: 'long') 
 										at: optKey
-										ifAbsent: [ self error: 'Unknown option ', optKey printString ].
+										ifAbsent: [ self error: 'Unknown option [b] ', optKey printString ].
 									opt argRequired
-										ifTrue: [ self error: 'Missing required option argument for option ', optKey printString ].
+										ifTrue: [ self error: 'Missing required argument for option [b] ', optKey printString ].
 									opt argExpected
                      ifTrue: [ opt markNoValue ]
                      ifFalse: [ opt value: true ] ].
@@ -178,12 +178,12 @@ getOpts: optionsSpec
 								optKey := (theOpts at: index) asString.
 								opt := (specsDict at: 'short') 
 									at: optKey
-									ifAbsent: [ self error: 'Unknown option ', optKey printString ].
+									ifAbsent: [ self error: 'Unknown option [c] ', optKey printString ].
 								index < numOpts
 									ifTrue: [
 										"multiple options"
 										opt argRequired
-											ifTrue: [ self error: 'Missing required option argument for option ', opt longName printString ].
+											ifTrue: [ self error: 'Missing required argument for option [c] ', opt longName printString ].
 										opt argExpected
 											ifTrue: [ opt markNoValue ]
 											ifFalse: [ opt value: true ] ]
@@ -202,7 +202,7 @@ getOpts: optionsSpec
 		opt ifNotNil: [
 			"naked option"
 			opt argRequired
-				ifTrue: [ self error: 'missing required argument for option ', opt longName printString ].
+				ifTrue: [ self error: 'Missing required argument for option [d] ', opt longName printString ].
 			opt argExpected
 				ifTrue: [ opt markNoValue ]
 				ifFalse: [  opt value: true ] ].
