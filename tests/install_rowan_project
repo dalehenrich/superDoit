@@ -1,0 +1,43 @@
+#!/usr/bin/env superdoit_home
+options
+{
+  SuperDoitCommandLineOption long: 'help' short: 'h'.
+  SuperDoitCommandLineOption long: 'debug' short: 'D'.
+}
+%
+usage
+USAGE $basename <stone-name> [--help | -h] [--debug | -D] <rowan-load-spec-url>
+
+DESCRIPTION
+  Load the project referenced by the <rowan-load-spec-url> into the given
+    GsDevKit_home stone. The stone must have Rowan installed, prior to running
+    the script.
+
+OPTIONS
+  <stone-name>
+    Name of the stone.
+  <rowan-load-spec-url>
+    url pointing to a Rowan load spec
+  --debug | -D
+    bring up topaz debugger in the event of a script error.
+  --help | -h
+    Display usage message.
+
+EXAMPLES
+  $basename --help
+  $basename -h
+  $basename rowan_test_stats_l -D file:$GS_HOME/shared/repos/GsTestStats/rowan/specs/GsTestStats.ston
+  $basename rowan_test_stats_l file:$GS_HOME/shared/repos/GsTestStats/rowan/specs/GsTestStats.ston
+%
+doit
+	[
+		self getOpts: self optionSpecs.
+		self help ifTrue: [ ^ self usage ].
+		(Rowan projectFromUrl: (self positionalArgs at: 1))
+			load.
+	] on: Error do: [:ex | 
+		self debug ifTrue: [ ex pass ].
+		^ ex description ].
+	^System commit
+%
+

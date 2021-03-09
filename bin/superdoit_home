@@ -15,6 +15,11 @@ shift
 
 export stoneDir=$GS_HOME/server/stones/$stoneName
 
+if [ ! -d "$stoneDir" ] ; then
+	echo "No stone named '$stoneName' found in '$GS_HOME/server/stones'"
+	exit 1
+fi
+
 if [ "$GEMSTONE"x = "x" ] ; then
 	export GEMSTONE="$stoneDir/product"
 fi
@@ -22,4 +27,4 @@ fi
 $GEMSTONE/bin/topaz -l \
 	-I "$stoneDir/.topazini" \
 	-q \
-	-S $gemstoneDir/superdoit.tpz -- $scriptFile -- $*
+	-S $gemstoneDir/superdoit.tpz -- $scriptFile -- $scriptFile $*
