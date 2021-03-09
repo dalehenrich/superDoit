@@ -135,11 +135,11 @@ getOpts: optionsSpec
 								ifTrue: [
 									theOpt argRequired
 										ifTrue: [ self error: 'Missing required option argument for option ', opt longName printString ]
-										ifFalse: [ theOpt value: nil "will pick up default value" ] ]
+										ifFalse: [ theOpt markNoValue "will pick up default value" ] ]
 								ifFalse: [ theOpt value: optOrArg ] ]
 						ifFalse: [
- 							theOpt value: true.	"set value to true, to indicate that the option WAS specified"
-							opt := nil ] ].
+ 							theOpt value: true	"set value to true, to indicate that the option WAS specified" ].
+					opt := nil ].
 			(optOrArg beginsWith: '-')
 				ifTrue: [ 
 					(optOrArg beginsWith: '--')
@@ -148,6 +148,7 @@ getOpts: optionsSpec
 							optKey :=  optOrArg copyFrom: 3 to: optOrArg size.
 							(optKey indexOf: $= ifAbsent: [])
 								ifNotNil: [ :index |
+									"long option with value"
 									| arg |
 									arg := optKey copyFrom: index + 1 to: optKey size.
 									optKey := optKey copyFrom: 1 to: index - 1.
@@ -158,12 +159,13 @@ getOpts: optionsSpec
 											ifFalse: [ self error: 'Unexpected option argument ', arg printString, ' for option ', optKey printString ].
 									opt value: arg ]
 								ifNil: [
+									"naked long option"
 									opt := (specsDict at: 'long') 
 										at: optKey
-										ifAbsent: [ self error: 'Unknown option ', opt printString ].
+										ifAbsent: [ self error: 'Unknown option ', optKey printString ].
 									opt argRequired
 											ifTrue: [ self error: 'Missing required option argument for option ', optKey printString ].
-									opt value: nil ].
+									opt markNoValue ].
 							opt := nil ]
 						ifFalse: [
 							"optOrArg beginsWith: '-'"
@@ -182,7 +184,7 @@ getOpts: optionsSpec
 										opt argRequired
 											ifTrue: [ self error: 'Missing required option argument for option ', opt longName printString ].
 										opt argExpected
-											ifTrue: [ opt value: nil ]
+											ifTrue: [ opt markNoValue ]
 											ifFalse: [  opt value: true ] ] ] ] ]
 				ifFalse: [
 "if arg is enclosed in "" then they need to be stripped"
@@ -190,13 +192,13 @@ getOpts: optionsSpec
 						ifNil: [ 
 							"naked arg"
 							args add: optOrArg ]
-						ifNotNil: [ opt := nil ] ] ].
+						ifNotNil: [ "what exactly is going on in this case" self halt. opt := nil ] ] ].
 		opt ifNotNil: [
 			"naked option"
 			opt argRequired
 				ifTrue: [ self error: 'missing required argument for option ', opt longName printString ].
 			opt argExpected
-				ifTrue: [ opt value: nil ]
+				ifTrue: [ opt markNoValue ]
 				ifFalse: [  opt value: true ] ].
 %
 method
@@ -219,10 +221,8 @@ commandSummary
 	| opts |
 	opts := Dictionary new.
 	self optionSpecs do: [:option |
-		| longName |
-		longName := option longName.
-		(option value ~= option defaultValue)
-			ifTrue: [ opts at: longName put: option value ] ].
+		option wasSet
+			ifTrue: [ opts at: option longName put: option value ] ].
 	^ Dictionary new
 		at: 'options' put: opts;
 		at: 'args' put: args; 

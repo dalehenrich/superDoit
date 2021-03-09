@@ -6,6 +6,9 @@ Class {
 		'shortName',
 		'value'
 	],
+	#classVars : [
+		'NoValue'
+	],
 	#category : 'SuperDoit-Core'
 }
 
@@ -22,6 +25,11 @@ SuperDoitCommandLineOption class >> long: longName short: shortName [
 		longName: longName;
 		shortName: shortName;
 		yourself
+]
+
+{ #category : 'accessing' }
+SuperDoitCommandLineOption class >> noValue [
+	^ NoValue ifNil: [ NoValue := Object new ]
 ]
 
 { #category : 'testing' }
@@ -50,6 +58,11 @@ SuperDoitCommandLineOption >> longName: object [
 ]
 
 { #category : 'accessing' }
+SuperDoitCommandLineOption >> noValue [
+	^ self class noValue
+]
+
+{ #category : 'accessing' }
 SuperDoitCommandLineOption >> shortName [
 	^shortName
 ]
@@ -72,4 +85,11 @@ SuperDoitCommandLineOption >> value: object [
 				error:
 					'The option ' , self longName printString , ' has already been processed.' ].
 	value := object
+]
+
+{ #category : 'testing' }
+SuperDoitCommandLineOption >> wasSet [
+	"answer true if the receiver was set on the command line"
+
+	^ value == true
 ]
