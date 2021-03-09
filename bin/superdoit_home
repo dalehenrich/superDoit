@@ -13,8 +13,12 @@ shift
 stoneName=$1
 shift
 
-export stoneDir=$GS_HOME/server/stones/$stoneName
+if [ "$GS_HOME"x = "x" ] ; then
+	echo "The env var \$GS_HOME is expected to be defined when running GsDevKit_home scripts"
+	exit 1
+fi
 
+export stoneDir=$GS_HOME/server/stones/$stoneName
 if [ ! -d "$stoneDir" ] ; then
 	echo "No stone named '$stoneName' found in '$GS_HOME/server/stones'"
 	exit 1
@@ -22,6 +26,10 @@ fi
 
 if [ "$GEMSTONE"x = "x" ] ; then
 	export GEMSTONE="$stoneDir/product"
+fi
+
+if [ "$ROWAN_PROJECTS_HOME"x = "x" ] ; then
+	export ROWAN_PROJECTS_HOME="$GS_HOME/shared/repos"
 fi
 
 $GEMSTONE/bin/topaz -l \
