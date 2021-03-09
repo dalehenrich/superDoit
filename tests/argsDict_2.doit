@@ -138,8 +138,7 @@ getOpts: optionsSpec
 										ifFalse: [ theOpt markNoValue "will pick up default value" ] ]
 								ifFalse: [ theOpt value: optOrArg ] ]
 						ifFalse: [
- 							theOpt value: true	"set value to true, to indicate that the option WAS specified" ].
-					opt := nil ].
+ 							theOpt value: true	"set value to true, to indicate that the option WAS specified" ] ].
 			(optOrArg beginsWith: '-')
 				ifTrue: [ 
 					(optOrArg beginsWith: '--')
@@ -192,7 +191,7 @@ getOpts: optionsSpec
 						ifNil: [ 
 							"naked arg"
 							args add: optOrArg ]
-						ifNotNil: [ "what exactly is going on in this case" self halt. opt := nil ] ] ].
+						ifNotNil: [ "op has already had it's option set" opt := nil ] ] ].
 		opt ifNotNil: [
 			"naked option"
 			opt argRequired
