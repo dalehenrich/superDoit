@@ -178,7 +178,7 @@ doit
 			at: 'options'
 				put: 
 					(Dictionary new
-						at: 'none' put: nil;
+						at: 'none' put: true;
 						yourself);
 			yourself).
 		'-n' -> (Dictionary new
@@ -187,7 +187,7 @@ doit
 			at: 'options'
 				put: 
 					(Dictionary new
-						at: 'none' put: nil;
+						at: 'none' put: true;
 						yourself);
 			yourself).
 		'-n 456 --required=789 12' -> (Dictionary new
@@ -196,7 +196,7 @@ doit
 			at: 'options'
 				put: 
 					(Dictionary new
-						at: 'none' put: nil;
+						at: 'none' put: true;
 						at: 'required' put: '789';
 						yourself);
 			yourself).
@@ -206,7 +206,7 @@ doit
 			at: 'options'
 				put: 
 					(Dictionary new
-						at: 'none' put: nil;
+						at: 'none' put: true;
 						at: 'optional' put: '456';
 						at: 'another' put: '123';
 						yourself);
@@ -217,8 +217,8 @@ doit
 			at: 'options'
 				put: 
 					(Dictionary new
-						at: 'none' put: nil;
-						at: 'debug' put: nil;
+						at: 'none' put: true;
+						at: 'debug' put: true;
 						at: 'optional' put: '0';
 						at: 'another' put: '123';
 						yourself);
@@ -230,7 +230,7 @@ doit
 			at: 'options'
 				put: 
 					(Dictionary new
-						at: 'none' put: nil;
+						at: 'none' put: true;
 						at: 'required' put: '123';
 						at: 'optional' put: '456';
 						at: 'another' put: '789';
@@ -242,7 +242,7 @@ doit
 			at: 'options'
 				put: 
 					(Dictionary new
-						at: 'none' put: nil;
+						at: 'none' put: true;
 						at: 'required' put: '123';
 						at: 'optional' put: '456';
 						at: 'another' put: '789';

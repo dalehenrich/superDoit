@@ -163,8 +163,10 @@ getOpts: optionsSpec
 										at: optKey
 										ifAbsent: [ self error: 'Unknown option ', optKey printString ].
 									opt argRequired
-											ifTrue: [ self error: 'Missing required option argument for option ', optKey printString ].
-									opt markNoValue ].
+										ifTrue: [ self error: 'Missing required option argument for option ', optKey printString ].
+									opt argExpected
+                     ifTrue: [ opt markNoValue ]
+                     ifFalse: [ opt value: true ] ].
 							opt := nil ]
 						ifFalse: [
 							"optOrArg beginsWith: '-'"
