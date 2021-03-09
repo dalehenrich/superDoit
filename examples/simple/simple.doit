@@ -1,4 +1,37 @@
 #!/usr/bin/env superdoit_solo
+options
+{
+  SuperDoitCommandLineOption long: 'help' short: 'h'.
+  SuperDoitCommandLineOption long: 'debug' short: 'D'.
+}
+%
+usage
+USAGE $basename [--help | -h] [--debug | -D]
+
+DESCRIPTION
+  Evaluate the Smalltalk expression: 3+4 and return the result on stdout.
+
+OPTIONS
+ --help | -h
+    Display usage message.
+  --debug | -D
+    Without this option, when an error occurs, the error message is written to
+      stdout. If this option is supplied, the topaz debugger will come in the 
+      event of an error.
+
+EXAMPLES
+  $basename --help
+  $basename -h
+  $basename --debug
+  $basename -D
+  $basename
+%
 doit
-3+4
+	[
+		self getOpts: self optionSpecs.
+	] on: Error do: [:ex | 
+		self debug ifFalse: [ ^ ex description ].
+		ex pass ].
+	self help ifTrue: [ ^ self usage ].
+	3+4
 %
