@@ -233,14 +233,20 @@ SuperDoitCommandParser >> superDoitExecutionClass [
 
 { #category : 'accessing' }
 SuperDoitCommandParser >> systemDictionary [
+	"install the script class in a symbol dictionary in the transient symbol list ... 
+		we do not want the class persisted"
+
 	^ systemDictionary
 		ifNil: [ 
-			System refreshTransientSymbolList.
-			systemDictionary := SymbolDictionary new name: #'superDoitSymbolDict'.
-			GsCurrentSession currentSession userProfile
-				insertDictionary: systemDictionary
-				at: 1.
-			systemDictionary ]
+			| sess symbolList name |
+			sess := GsCurrentSession currentSession.
+			sess _transientSymbolList ifNil: [ System refreshTransientSymbolList ].
+			symbolList := sess transientSymbolList.
+			name := #'superDoitSymbolDict'.
+			^ systemDictionary := (symbolList resolveSymbol: name)
+				ifNil: [ 
+					systemDictionary := SymbolDictionary new name: name.
+					symbolList insertObject: systemDictionary at: 1 ] ]
 ]
 
 { #category : 'accessing' }
