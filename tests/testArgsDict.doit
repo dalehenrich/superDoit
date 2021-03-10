@@ -1,29 +1,34 @@
 #!/usr/bin/env superdoit_solo
+options
+{
+  SuperDoitCommandLineOption long: 'debug' short: 'D'.
+  SuperDoitCommandLineOption long: 'help' short: 'h'.
+}
+%
 usage
+-----
 USAGE $basename [-h | -D]
 
 DESCRIPTION
   Test argsDict.doit script
 
 OPTIONS
-  -h
-    display usage message
-  -D
-    debug; halt when a test fails
+  -h, --help                 display usage message
+  -D, --debug                halt when a test fails
+-----
+%
+method
+getAndVerifyOptions
+		self getOpts: self optionSpecs.
+		self help ifTrue: [ ^ self usage ].
 %
 doit
-	| debug argDictCommand count passed failed errors failedArgs summary |
+	| argDictCommand count passed failed errors failedArgs summary |
+	self getAndVerifyOptions == self noResult
+		ifTrue: [ ^ self noResult ].
 	argDictCommand := '$projectDir'  asFileReference / 'tests' / 'argsDict.doit'.
 	count := passed := failed := errors := 0.
 	failedArgs := {}.
-	debug := false.
-	(self scriptArgs size > 1)
-		ifTrue: [ 
-			((self scriptArgs at: 2) = '-h')
-				ifTrue: [ ^ self usage ].
-			((self scriptArgs at: 2) = '-D')
-				ifTrue: [ debug := true ]
-				ifFalse: [ self error: 'Unknown option ', (self scriptArgs at: 2) printString ] ].
 	{
 		'123' -> (Dictionary new
 			at: 'args' 
@@ -320,7 +325,7 @@ doit
 			ifFalse: [ 
 				failed := failed + 1.
 				failedArgs add: args.
-				debug 
+				self debug 
 					ifTrue: [ 
 						self logMessage: 'actualArgsDict:'.
 						STON put: actualArgsDict onStreamPretty: self stdout.

@@ -11,6 +11,7 @@ options
 }
 %
 usage
+-----
 USAGE $basename [--help | -h] [--debug | -D] \
       [--required=<something>] \
       [--noshort[=<something>] ] \
@@ -61,24 +62,22 @@ DESCRIPTION
     specified when the options spec is #required.
 
 OPTIONS
-  [<positional-arguments>...]
-    Any number of positional arguments may be specified.
-  --help | -h
-    Display usage message.
-  --debug | -D
-    Without this option, when an error occurs, the error message is written to
-      stdout. If this option is supplied, the error is allowed to bring up the
-      topaz debugger.
+  <stone-name>               name of the stone.
+
+  <positional-arguments>     any number of positional arguments may be specified.
+  -h, --help                 display usage message
+  -D, --debug                bring up topaz debugger in the event of a script error
   --required=<required-value>
-    Example of a long option with a required value.
-  --optional[=<optional-value>] | -o [<optional-value]
-    Example of a long and short option with an optional value. The default value is '0'.
+                             example of a long option with a required value.
+  -o, --optional[=<optional-value>]
+                             example of a long and short option with an optional value. 
+                             The default value is '0'.
   --noshort[=<optional-value>]
-    Example of a long option with an optional value. The default value is '0'.
-  --another=<another-required-value>] | -a [<another-required-value]
-    Example of a long and short option with a required value.
-  --none | -n
-    Example of a long and short option with no required value.
+                             example of a long option with an optional value. The 
+                             default value is '0'.
+  -a, --another=<another-required-value>]
+                             example of a long and short option with a required value.
+  -n, --none                 example of a long and short option with no required value.
 
 EXAMPLES
   $basename --help
@@ -109,14 +108,20 @@ EXAMPLES
   $basename --required=123 -o 456 789
   $basename --required=123 -oa 123
   $basename --required=123 -o 456 --another=123 789
+-----
+%
+method
+getAndVerifyOptions
+		self getOpts: self optionSpecs.
+		self help ifTrue: [ ^ self usage ].
 %
 doit
 	[
-		self getOpts: self optionSpecs.
+		self getAndVerifyOptions == self noResult
+			ifTrue: [ ^ self noResult ].
+		^ self commandLineSummary
 	] on: Error do: [:ex | 
 		self debug ifFalse: [ ^ ex description ].
 		ex pass ].
-	self help ifTrue: [ ^ self usage ].
-	^ self commandLineSummary
 %
 

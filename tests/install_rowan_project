@@ -6,6 +6,7 @@ options
 }
 %
 usage
+-----
 USAGE $basename <stone-name> [--help | -h] [--debug | -D] <rowan-load-spec-url>
 
 DESCRIPTION
@@ -14,25 +15,29 @@ DESCRIPTION
     the script.
 
 OPTIONS
-  <stone-name>
-    Name of the stone.
-  <rowan-load-spec-url>
-    url pointing to a Rowan load spec
-  --debug | -D
-    bring up topaz debugger in the event of a script error.
-  --help | -h
-    Display usage message.
+  <stone-name>               Name of the stone.
+  <rowan-load-spec-url>      url pointing to a Rowan load spec
+  -h, --help                 display usage message
+  -D, --debug                bring up topaz debugger in the event of a script error
 
 EXAMPLES
   $basename --help
   $basename -h
   $basename rowan_test_stats_l -D file:$GS_HOME/shared/repos/GsTestStats/rowan/specs/GsTestStats.ston
   $basename rowan_test_stats_l file:$GS_HOME/shared/repos/GsTestStats/rowan/specs/GsTestStats.ston
+-----
+%
+method
+getAndVerifyOptions
+		self getOpts: self optionSpecs.
+		self help ifTrue: [ ^ self usage ].
+		self positionalArgs size < 1 
+			ifTrue: [self error: 'Missing positional argument  <rowan-load-spec-url>'].
 %
 doit
 	[
-		self getOpts: self optionSpecs.
-		self help ifTrue: [ ^ self usage ].
+		self getAndVerifyOptions == self noResult
+			ifTrue: [ ^ self noResult ].
 		(Rowan projectFromUrl: (self positionalArgs at: 1))
 			load.
 	] on: Error do: [:ex | 
