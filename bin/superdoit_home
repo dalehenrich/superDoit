@@ -1,3 +1,4 @@
+#! /usr/bin/env bash
 
 # set -x 
 
@@ -23,6 +24,11 @@ if [ ! -d "$stoneDir" ] ; then
 	echo "No stone named '$stoneName' found in '$GS_HOME/server/stones'"
 	exit 1
 fi
+
+# set up GsDevKit_home stone environment
+pushd "$stoneDir" >& /dev/null
+  source "$stoneDir/stone.env"
+popd >& /dev/null
 
 if [ "$GEMSTONE"x = "x" ] ; then
 	export GEMSTONE="$stoneDir/product"

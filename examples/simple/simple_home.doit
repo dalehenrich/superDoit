@@ -1,4 +1,13 @@
 #!/usr/bin/env superdoit_home
 doit
-3+4
+"expect SUPERDOIT_TEST to be defined in a stone's custom_stone.env"
+| superdoit_test |
+superdoit_test := (System gemEnvironmentVariable: 'SUPERDOIT_TEST').
+superdoit_test 
+	ifNil: [ self error: 'SUPERDOIT_TEST env not defined in stone''s custome_stone.env file' ].
+self stdout
+	nextPutAll: 'value of SUPERDOIT_TEST environment var '; 
+	nextPutAll: superdoit_test printString;
+	yourself.
+self noResult
 %

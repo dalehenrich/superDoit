@@ -10,7 +10,7 @@ usage
 USAGE $basename [--help | -h] [--debug | -D]
 
 DESCRIPTION
-  Evaluate the Smalltalk expression: 3+4 and return the result on stdout.
+  Generate an error.
 
 OPTIONS
   -h, --help                 display usage message
@@ -33,7 +33,7 @@ doit
 	[
 		self getAndVerifyOptions == self noResult
 			ifTrue: [ ^ self noResult ].
-		^ 3 + 4
+		^ 3 foo
 	] on: Error do: [:ex | 
 		self debug ifFalse: [ ^ ex description ].
 		ex pass ].
