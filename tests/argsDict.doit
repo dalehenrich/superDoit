@@ -121,7 +121,7 @@ doit
 			ifTrue: [ ^ self noResult ].
 		^ self commandLineSummary
 	] on: Error do: [:ex | 
-		self debug ifFalse: [ ^ ex description ].
-		ex pass ].
+		self debug ifTrue: [ ex pass ].
+		self exit: ex description withStatus: 1 "does not return" ].
 %
 

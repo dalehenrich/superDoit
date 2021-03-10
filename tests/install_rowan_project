@@ -40,9 +40,9 @@ doit
 			ifTrue: [ ^ self noResult ].
 		(Rowan projectFromUrl: (self positionalArgs at: 1))
 			load.
+	^ System commit
 	] on: Error do: [:ex | 
 		self debug ifTrue: [ ex pass ].
-		^ ex description ].
-	^System commit
+		self exit: ex description withStatus: 1 "does not return" ].
 %
 
