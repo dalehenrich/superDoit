@@ -6,18 +6,15 @@ options
 }
 %
 usage
+-----
 USAGE $basename [--help | -h] [--debug | -D]
 
 DESCRIPTION
   Evaluate the Smalltalk expression: 3+4 and return the result on stdout.
 
 OPTIONS
- --help | -h
-    Display usage message.
-  --debug | -D
-    Without this option, when an error occurs, the error message is written to
-      stdout. If this option is supplied, the topaz debugger will come in the 
-      event of an error.
+  -h, --help                 display usage message
+  -D, --debug                bring up topaz debugger in the event of a script error
 
 EXAMPLES
   $basename --help
@@ -25,6 +22,7 @@ EXAMPLES
   $basename --debug
   $basename -D
   $basename
+-----
 %
 doit
 	[
