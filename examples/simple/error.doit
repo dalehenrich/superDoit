@@ -35,6 +35,6 @@ doit
 			ifTrue: [ ^ self noResult ].
 		^ 3 foo
 	] on: Error do: [:ex | 
-		self debug ifFalse: [ ^ ex description ].
+		self debug ifFalse: [ self exit: ex description withStatus: 1 "does not return" ].
 		ex pass ].
 %

@@ -78,6 +78,14 @@ SuperDoitExecution >> displayResult: anObject [
 		ifTrue: [ self ston: anObject on: self stdout ]
 ]
 
+{ #category : 'exit' }
+SuperDoitExecution >> exit: message withStatus: statusInteger [
+	"Does not return and terminates the os process with exit status <statusInteger>"
+
+	self logMessage: message.
+	ExitClientError signal: 'explit process exit' status: statusInteger
+]
+
 { #category : 'command line' }
 SuperDoitExecution >> getOpts: optionsSpec [
 	| argStream opt theArgs specsDict |
