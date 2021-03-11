@@ -5,25 +5,64 @@
 export projectDir="`dirname $0`/.."
 gemstoneDir="$projectDir/gemstone"
 
-if [ $# -lt 2 ] ; then
-	echo "missing stone name"
-	exit 1
-fi
-scriptFile=$1
-shift
-stoneName=$1
-shift
-
 if [ "$GS_HOME"x = "x" ] ; then
 	echo "The env var \$GS_HOME is expected to be defined when running GsDevKit_home scripts"
 	exit 1
 fi
 
-export stoneDir=$GS_HOME/server/stones/$stoneName
-if [ ! -d "$stoneDir" ] ; then
-	echo "No stone named '$stoneName' found in '$GS_HOME/server/stones'"
-	exit 1
+# process command line args
+#		collect scriptFile, then scan looking for scriptFile
+#		and topaz args (up to, but not including --)
+#		remainder passed to topaz as script args
+
+defaultTopazArgs="-L"
+scriptFile=$1
+shift
+
+for arg in "$@"; do
+		if [ "$arg" = "--" ] ; then
+			break
+		fi
+		if [ "$stoneName"x = "x" ] ; then
+			stoneName=$arg
+		else
+			topazArgs="$topazArgs $arg"
+			defaultTopazArgs=""
+		fi
+		shift
+done
+
+if [ "$stoneName"x = "x" ] ; then
+	# expect current directory to be a stone directory
+	currentDir=`pwd`
+	stoneName="`basename $currentDir`"
+	export stoneDir=$GS_HOME/server/stones/$stoneName
+	if [ ! -d "$stoneDir" ] ; then
+		echo "No stone name specified on the command line AND the current directory"
+		echo "$stoneDir is NOT a \$GS_HOME stone directory."
+		echo ""
+		echo "Specify the stoneName as the first argument on command line OR run the script"
+		echo "in a proper \$GS_HOME stone directory"
+		exit 1
+	fi
+else
+	export stoneDir=$GS_HOME/server/stones/$stoneName
+	if [ ! -d "$stoneDir" ] ; then
+		echo "The stone name $stoneName (first positional argument)."
+		echo "$stoneDir is NOT a \$GS_HOME/server/stones stone directory."
+		echo ""
+		echo "Specify the stoneName as the first argument on command line OR run the script"
+		echo "in a proper \$GS_HOME stone directory"
+		exit 1
+	fi
 fi
+#	echo "script file: $scriptFile"
+#	echo "stone name: $stoneName"
+#	echo "default topaz args: $defaultTopazArgs"
+#	echo "topaz args: $topazArgs"
+#	echo "script args: $*"
+#	echo "======================"
+#	exit 0
 
 # set up GsDevKit_home stone environment
 pushd "$stoneDir" >& /dev/null
@@ -38,7 +77,7 @@ if [ "$ROWAN_PROJECTS_HOME"x = "x" ] ; then
 	export ROWAN_PROJECTS_HOME="$GS_HOME/shared/repos"
 fi
 
-$GEMSTONE/bin/topaz -l \
+$GEMSTONE/bin/topaz $defaultTopazArgs  $topazArgs \
 	-I "$stoneDir/.topazini" \
 	-q \
-	-S $gemstoneDir/superdoit.tpz -- $scriptFile -- $*
+	-S $gemstoneDir/superdoit.tpz -- $scriptFile $*
