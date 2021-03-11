@@ -92,9 +92,9 @@ SuperDoitExecution >> getOpts: optionsSpec [
 	specsDict := self _specsDictFor: optionsSpec.
 	_positionalArgs := {}.
 	theArgs := self scriptArgs asArray.
-	theArgs size = 1
+	theArgs size = 0
 		ifTrue: [ ^ self ].
-	argStream := ReadStream on: (theArgs copyFrom: 2 to: theArgs size).
+	argStream := ReadStream on: (theArgs copyFrom: 1 to: theArgs size).
 	[ argStream atEnd ]
 		whileFalse: [ 
 			| optOrArg |

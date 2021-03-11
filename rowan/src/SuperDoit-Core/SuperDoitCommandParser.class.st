@@ -19,6 +19,10 @@ Class {
 
 { #category : 'instance creation' }
 SuperDoitCommandParser class >> processInputFile [
+	"command line looks like the following:
+		<path-to-topaz>/topaz <topaz arguments> -- <script-file-path> -- <script-args>
+	"
+
 	| args scriptArgStart argIndex scriptPath scriptFile scriptArgs scriptArgIndex |
 	args := System commandLineArguments.
 	scriptArgStart := args indexOf: '--'.

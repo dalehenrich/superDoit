@@ -1,13 +1,40 @@
 #!/usr/bin/env superdoit_home
+options
+{
+  SuperDoitCommandLineOption long: 'help' short: 'h'.
+  SuperDoitCommandLineOption long: 'debug' short: 'D'.
+}
+%
+usage
+-----
+USAGE $basename [--help | -h] [--debug | -D]
+
+DESCRIPTION
+  Evaluate the Smalltalk expression: 3+4 and return the result on stdout.
+
+OPTIONS
+  -h, --help                 display usage message
+  -D, --debug                bring up topaz debugger in the event of a script error
+
+EXAMPLES
+  $basename --help
+  $basename -h
+  $basename --debug
+  $basename -D
+  $basename
+-----
+%
+method
+getAndVerifyOptions
+		self getOpts: self optionSpecs.
+		self help ifTrue: [ ^ self usage ].
+%
 doit
-"expect SUPERDOIT_TEST to be defined in a stone's custom_stone.env"
-| superdoit_test |
-superdoit_test := (System gemEnvironmentVariable: 'SUPERDOIT_TEST').
-superdoit_test 
-	ifNil: [ self error: 'SUPERDOIT_TEST env not defined in stone''s custome_stone.env file' ].
-self stdout
-	nextPutAll: 'value of SUPERDOIT_TEST environment var '; 
-	nextPutAll: superdoit_test printString;
-	yourself.
-self noResult
+	[
+		self getAndVerifyOptions == self noResult
+			ifTrue: [ ^ self noResult ].
+		^ 3 + 4
+	] on: Error do: [:ex | 
+		self debug ifTrue: [ ex pass ].
+		self exit: ex description withStatus: 1 "does not return" ].
 %

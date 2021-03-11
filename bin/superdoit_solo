@@ -5,6 +5,10 @@ export projectDir="`dirname $0`/.."
 
 gemstoneDir="$projectDir/gemstone"
 
+
+scriptFile=$1
+shift
+
 if [ "$GEMSTONE"x = "x" ] ; then
 	export GEMSTONE="$gemstoneDir/gs/product"
 fi
@@ -13,4 +17,4 @@ $GEMSTONE/bin/topaz -l \
 	-I "$gemstoneDir/.topazini" \
 	-C "GEM_SOLO_EXTENT=$gemstoneDir/gs/hidden/bin/extent0.rowan.dbf" \
 	-q \
-	-S $gemstoneDir/superdoit.tpz -- $1 -- $*
+	-S $gemstoneDir/superdoit.tpz -- $scriptFile -- $*
