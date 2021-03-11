@@ -15,16 +15,16 @@ DESCRIPTION
     the script.
 
 OPTIONS
-  <stone-name>               Name of the stone.
+  <stone-name>               Name of the Name of the GsDevKit_home stone.
   <rowan-load-spec-url>      url pointing to a Rowan load spec
   -h, --help                 display usage message
   -D, --debug                bring up topaz debugger in the event of a script error
 
 EXAMPLES
-  $basename --help
-  $basename -h
-  $basename rowan_test_stats_l -D file:$GS_HOME/shared/repos/GsTestStats/rowan/specs/GsTestStats.ston
-  $basename rowan_test_stats_l file:$GS_HOME/shared/repos/GsTestStats/rowan/specs/GsTestStats.ston
+  $basename gs_370 --help
+  $basename gs_370 -h
+  $basename gs_370 -D file:$GS_HOME/shared/repos/GsTestStats/rowan/specs/GsTestStats.ston
+  $basename gs_370 file:$GS_HOME/shared/repos/GsTestStats/rowan/specs/GsTestStats.ston
 -----
 %
 method

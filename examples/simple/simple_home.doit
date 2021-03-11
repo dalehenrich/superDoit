@@ -7,12 +7,13 @@ options
 %
 usage
 -----
-USAGE $basename [--help | -h] [--debug | -D]
+USAGE $basename <stone-name> [--help | -h] [--debug | -D]
 
 DESCRIPTION
   Evaluate the Smalltalk expression: 3+4 and return the result on stdout.
 
 OPTIONS
+  <stone-name>               Name of the GsDevKit_home stone.
   -h, --help                 display usage message
   -D, --debug                bring up topaz debugger in the event of a script error
 

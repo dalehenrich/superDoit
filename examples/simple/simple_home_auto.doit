@@ -1,0 +1,59 @@
+#!/usr/bin/env superdoit_home_auto
+options
+{
+  SuperDoitCommandLineOption long: 'help' short: 'h'.
+  SuperDoitCommandLineOption long: 'debug' short: 'D'.
+}
+%
+usage
+-----
+USAGE 
+      $basename 
+      $basename -- [SCRIPT-OPTION]
+      $basename <stone-name>
+      $basename <stone-name> --
+      $basename <stone-name> <topaz-args> -- 
+      $basename <stone-name> <topaz-args> -- SCRIPT-OPTION
+
+DESCRIPTION
+  Evaluate the Smalltalk expression: 3+4 and return the result on stdout.
+
+	The <stone-name> is optional if the script is executed in a GsDevKit_home
+    stone directory as determined by `pwd`. '--' must be used on the command
+    line if you want to pass in SCRIPT-OPTIONS or to specify your own
+    <topaz-args>.
+
+OPTIONS
+  <stone-name>               Name of the GsDevKit_home stone. If present it
+                             MUST be the first positional argument.
+  <topaz-args>               Command line arguments to be passed to topaz. '--'
+                             MUST be present on the command line following the
+                             <topaz-args>
+  -h, --help                 Display usage message
+  -D, --debug                Bring up topaz debugger in the event of a script error
+
+EXAMPLES
+  $basename -- --help
+  $basename -- -h
+  $basename -- --debug
+  $basename -- -D
+  $basename
+  $basename gs_370
+  $basename gs_370 -h --
+  $basename gs_370 -- -D
+-----
+%
+method
+getAndVerifyOptions
+		self getOpts: self optionSpecs.
+		self help ifTrue: [ ^ self usage ].
+%
+doit
+	[
+		self getAndVerifyOptions == self noResult
+			ifTrue: [ ^ self noResult ].
+		^ 3 + 4
+	] on: Error do: [:ex | 
+		self debug ifTrue: [ ex pass ].
+		self exit: ex description withStatus: 1 "does not return" ].
+%
