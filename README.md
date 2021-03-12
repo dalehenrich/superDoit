@@ -67,17 +67,26 @@ RwLoadSpecificationV2 {
 	...
 }
 %
+options
+{ SuperDoitCommandLineOption long: 'option' short: 'o' }
+%
+usage
+USAGE $basename [--debug | -D]
+... and more
+%
+
 instvars
 %
 method
 x
-self y
+^ self y
 %
 method
 y
 ^ 3+4
 %
 doit
-self x
+self getOpts: self optionSpecs.
+^ self x
 %
 ```

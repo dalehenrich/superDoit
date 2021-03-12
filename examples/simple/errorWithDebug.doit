@@ -1,18 +1,16 @@
 #!/usr/bin/env superdoit_solo
 options
-{
-  SuperDoitCommandLineOption long: 'debug' short: 'D'.
-}
+{ SuperDoitCommandLineOption long: 'debug' short: 'D' }
 %
 usage
------
+Example script that signals an error.
+
 USAGE $basename [--help | -h] [--debug | -D]
 
 EXAMPLES
   $basename --debug
   $basename -D
   $basename
------
 %
 doit
 	[
