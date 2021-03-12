@@ -1,0 +1,24 @@
+#!/usr/bin/env superdoit_solo
+options
+{
+  SuperDoitCommandLineOption long: 'debug' short: 'D'.
+}
+%
+usage
+-----
+USAGE $basename [--help | -h] [--debug | -D]
+
+EXAMPLES
+  $basename --debug
+  $basename -D
+  $basename
+-----
+%
+doit
+	[
+		self getOpts: self optionSpecs.
+		^ 3 foo
+	] on: Error do: [:ex | 
+		self debug ifTrue: [ ex pass ].
+		self exit: ex description withStatus: 1 "does not return" ].
+%
