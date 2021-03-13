@@ -1,8 +1,7 @@
 RwPlatformNestedProjectLoadComponentV2 {
 	#name : 'gemstone36/SuperDoit',
 	#condition : [
-		'gs3.6.x',
-		'gs3.7.x'
+		'gs3.6.x'
 	],
 	#packageNames : [
 		'SuperDoit-GemStone-Kernel-36x'
