@@ -23,11 +23,11 @@ getAndVerifyOptions
 		self help ifTrue: [ ^ self usage ].
 %
 doit
-	| argDictCommand count passed failed errors failedArgs summary scriptErrorClass |
+	| argDictCommand count passed failed errors failedArgs summary scriptErrorClass expectedFail |
 	self getAndVerifyOptions == self noResult
 		ifTrue: [ ^ self noResult ].
 	argDictCommand := '$projectDir'  asFileReference / 'tests' / 'argsDict.doit'.
-	count := passed := failed := errors := 0.
+	count := passed := failed := errors := expectedFail := 0.
 	failedArgs := {}.
 	scriptErrorClass := (Rowan globalNamed: 'ChildError') 
 		ifNil: [
@@ -319,10 +319,11 @@ doit
 		'-x' -> 'UserDefinedError: Unknown option ''x'' [c]'.
 		'--none=something' -> 'UserDefinedError: Unexpected argument ''something'' for option ''none'''.
 	} do: [:assoc |
-		| expectedArgsDict actualArgsDict ston args summary |
+		| expectedArgsDict actualArgsDict ston args summary expectedFailureMessage |
 		count := count + 1.
 		args := assoc key.
 		expectedArgsDict := assoc value.
+		expectedFailureMessage := 'expected to fail in 3.6.0'.
 		[ 
 			ston := GsHostProcess execute: argDictCommand pathString, ' ', args.
 			actualArgsDict := STON fromString: ston
@@ -331,21 +332,24 @@ doit
 			do: [:ex | 
 				actualArgsDict := (ex respondsTo: #stderr)
 					ifTrue: [ ex stderr asString trimBoth ]
-					ifFalse: [ 'expected to fail in 3.6.0' ] ].
+					ifFalse: [ expectedFailureMessage ] ].
 
 		actualArgsDict = expectedArgsDict
 			ifTrue: [ passed := passed + 1 ]
-			ifFalse: [ 
-				failed := failed + 1.
-				failedArgs add: args.
-				self debug 
-					ifTrue: [ 
-						self logMessage: 'actualArgsDict:'.
-						STON put: actualArgsDict onStreamPretty: self stdout.
-						self logMessage: 'expectedArgsDict:'.
-						STON put: expectedArgsDict onStreamPretty: self stdout.
-						self halt] ] ].
-	summary := count printString, ' run, ', passed printString, ' passing, ', failed printString, ' failures ',  errors printString, ' errors'.
+			ifFalse: [
+				actualArgsDict = expectedFailureMessage
+					ifTrue: [ expectedFail := expectedFail + 1]
+          ifFalse: [
+						failed := failed + 1.
+						failedArgs add: args.
+						self debug 
+							ifTrue: [ 
+								self logMessage: 'actualArgsDict:'.
+								STON put: actualArgsDict onStreamPretty: self stdout.
+								self logMessage: 'expectedArgsDict:'.
+								STON put: expectedArgsDict onStreamPretty: self stdout.
+								self halt ] ] ] ].
+	summary := count printString, ' run, ', passed printString, ' passing, ', failed printString, ' failures ',  expectedFail printString, ' expected failures ', errors printString, ' errors'.
 	self stdout nextPutAll: summary; lf. 
 	(failed = 0 and: [ errors = 0])
 		ifTrue: [ ^ true  ].
