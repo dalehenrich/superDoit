@@ -1,7 +1,8 @@
 RwLoadSpecificationV2 {
 	#specName : 'SuperDoit',
 	#projectName : 'superDoit',
-	#gitUrl : 'file:$ROWAN_PROJECTS_HOME/superDoit',
+	#gitUrl : 'git@github.com:dalehenrich/superDoit.git',
+	#revision : 'master',
 	#projectSpecFile : 'rowan/project.ston',
 	#componentNames : [
 		'SuperDoit'
