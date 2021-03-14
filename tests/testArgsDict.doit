@@ -23,12 +23,17 @@ getAndVerifyOptions
 		self help ifTrue: [ ^ self usage ].
 %
 doit
-	| argDictCommand count passed failed errors failedArgs summary |
+	| argDictCommand count passed failed errors failedArgs summary scriptErrorClass |
 	self getAndVerifyOptions == self noResult
 		ifTrue: [ ^ self noResult ].
 	argDictCommand := '$projectDir'  asFileReference / 'tests' / 'argsDict.doit'.
 	count := passed := failed := errors := 0.
 	failedArgs := {}.
+	scriptErrorClass := (Rowan globalNamed: 'ChildError') 
+		ifNil: [
+			"ChildError class is not available in 3.6.0 (present in 3.6.1), so the
+				tests for error handling will fail in 3.6.0" 
+			Error ].
 	{
 		'123' -> (Dictionary new
 			at: 'args' 
@@ -322,8 +327,11 @@ doit
 			ston := GsHostProcess execute: argDictCommand pathString, ' ', args.
 			actualArgsDict := STON fromString: ston
 		]
-			on: ChildError
-			do: [:ex | actualArgsDict := ex stderr asString trimBoth ].
+			on: scriptErrorClass
+			do: [:ex | 
+				actualArgsDict := (ex respondsTo: #stderr)
+					ifTrue: [ ex stderr asString trimBoth ]
+					ifFalse: [ 'expected to fail in 3.6.0' ] ].
 
 		actualArgsDict = expectedArgsDict
 			ifTrue: [ passed := passed + 1 ]
