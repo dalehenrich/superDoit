@@ -318,8 +318,13 @@ doit
 		count := count + 1.
 		args := assoc key.
 		expectedArgsDict := assoc value.
-		ston := GsHostProcess execute: argDictCommand pathString, ' ', args.
-		actualArgsDict := STON fromString: ston.
+		[ 
+			ston := GsHostProcess execute: argDictCommand pathString, ' ', args.
+			actualArgsDict := STON fromString: ston
+		]
+			on: ChildError
+			do: [:ex | actualArgsDict := ex stderr asString trimBoth ].
+
 		actualArgsDict = expectedArgsDict
 			ifTrue: [ passed := passed + 1 ]
 			ifFalse: [ 

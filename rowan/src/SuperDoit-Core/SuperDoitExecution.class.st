@@ -82,8 +82,8 @@ SuperDoitExecution >> displayResult: anObject [
 SuperDoitExecution >> exit: message withStatus: statusInteger [
 	"Does not return and terminates the os process with exit status <statusInteger>"
 
-	self logMessage: message.
-	ExitClientError signal: 'explit process exit' status: statusInteger
+	self logErrorMessage: message.
+	ExitClientError signal: 'explicit process exit' status: statusInteger
 ]
 
 { #category : 'command line' }
@@ -207,8 +207,17 @@ SuperDoitExecution >> log: anObject [
 ]
 
 { #category : 'logging' }
+SuperDoitExecution >> logErrorMessage: aString [
+	self stderr
+		nextPutAll: aString;
+		lf
+]
+
+{ #category : 'logging' }
 SuperDoitExecution >> logMessage: aString [
-	self stdout nextPutAll: aString; lf
+	self stdout
+		nextPutAll: aString;
+		lf
 ]
 
 { #category : 'private' }
@@ -263,6 +272,11 @@ SuperDoitExecution >> scriptPath [
 { #category : 'accessing' }
 SuperDoitExecution >> scriptPath: aFileReference [
 	_scriptPath := aFileReference
+]
+
+{ #category : 'logging' }
+SuperDoitExecution >> stderr [
+	^ GsFile stderr
 ]
 
 { #category : 'logging' }
