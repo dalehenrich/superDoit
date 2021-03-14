@@ -303,21 +303,21 @@ doit
 						yourself);
 			yourself).
 
-		'-a 123 --another=123' -> 'UserDefinedError: The option ''another'' has already been processed.'.
-		'-n --none' -> 'UserDefinedError: The option ''none'' has already been processed.'.
-		'-n -n' -> 'UserDefinedError: The option ''none'' has already been processed.'.
-		'-o 123 --optional' -> 'UserDefinedError: The option ''optional'' has already been processed.'.
-		'-a --optional=123' -> 'UserDefinedError: Missing required argument for option ''another'' [a]'.
-		'--another' -> 'UserDefinedError: Missing required argument for option ''another'' [b]'.
-		'-an' -> 'UserDefinedError: Missing required argument for option ''another'' [c]'.
-		'-a' -> 'UserDefinedError: Missing required argument for option ''another'' [d]'.
-		'-' -> 'UserDefinedError: Cannot handle naked dashes ''-'''.
-		'--' -> 'UserDefinedError: Cannot handle naked dashes ''--'''.
-		'--unknown=something' -> 'UserDefinedError: Unknown option ''unknown'' [a]'.
-		'--unknown' -> 'UserDefinedError: Unknown option ''unknown'' [b]'.
-		'-x something' -> 'UserDefinedError: Unknown option ''x'' [c]'.
-		'-x' -> 'UserDefinedError: Unknown option ''x'' [c]'.
-		'--none=something' -> 'UserDefinedError: Unexpected argument ''something'' for option ''none'''.
+		'-a 123 --another=123' -> 'The option ''another'' has already been processed.'.
+		'-n --none' -> 'The option ''none'' has already been processed.'.
+		'-n -n' -> 'The option ''none'' has already been processed.'.
+		'-o 123 --optional' -> 'The option ''optional'' has already been processed.'.
+		'-a --optional=123' -> 'Missing required argument for option ''another'' [a]'.
+		'--another' -> 'Missing required argument for option ''another'' [b]'.
+		'-an' -> 'Missing required argument for option ''another'' [c]'.
+		'-a' -> 'Missing required argument for option ''another'' [d]'.
+		'-' -> 'Cannot handle naked dashes ''-'''.
+		'--' -> 'Cannot handle naked dashes ''--'''.
+		'--unknown=something' -> 'Unknown option ''unknown'' [a]'.
+		'--unknown' -> 'Unknown option ''unknown'' [b]'.
+		'-x something' -> 'Unknown option ''x'' [c]'.
+		'-x' -> 'Unknown option ''x'' [c]'.
+		'--none=something' -> 'Unexpected argument ''something'' for option ''none'''.
 	} do: [:assoc |
 		| expectedArgsDict actualArgsDict ston args summary expectedFailureMessage |
 		count := count + 1.
