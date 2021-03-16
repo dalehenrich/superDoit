@@ -7,6 +7,7 @@ Class {
 		'value'
 	],
 	#classVars : [
+		'NotSet',
 		'NoValue'
 	],
 	#category : 'SuperDoit-Core'
@@ -15,6 +16,7 @@ Class {
 { #category : 'instance creation' }
 SuperDoitCommandLineOption class >> long: longName [
 	^ self new
+		initialize;
 		longName: longName;
 		yourself
 ]
@@ -22,9 +24,15 @@ SuperDoitCommandLineOption class >> long: longName [
 { #category : 'instance creation' }
 SuperDoitCommandLineOption class >> long: longName short: shortName [
 	^ self new
+		initialize;
 		longName: longName;
 		shortName: shortName;
 		yourself
+]
+
+{ #category : 'accessing' }
+SuperDoitCommandLineOption class >> notSet [
+	^ NotSet ifNil: [ NotSet := Object new ]
 ]
 
 { #category : 'accessing' }
@@ -47,6 +55,11 @@ SuperDoitCommandLineOption >> defaultValue [
 	^ false
 ]
 
+{ #category : 'initialization' }
+SuperDoitCommandLineOption >> initialize [
+	value := self notSet
+]
+
 { #category : 'accessing' }
 SuperDoitCommandLineOption >> longName [
 	^longName
@@ -55,6 +68,11 @@ SuperDoitCommandLineOption >> longName [
 { #category : 'accessing' }
 SuperDoitCommandLineOption >> longName: object [
 	longName := object
+]
+
+{ #category : 'accessing' }
+SuperDoitCommandLineOption >> notSet [
+	^ self class notSet
 ]
 
 { #category : 'accessing' }
@@ -74,7 +92,8 @@ SuperDoitCommandLineOption >> shortName: object [
 
 { #category : 'accessing' }
 SuperDoitCommandLineOption >> value [
-	^ value ifNil: [ value := self defaultValue ]
+	^ value == self notSet
+		ifTrue: [ value := self defaultValue ]
 ]
 
 { #category : 'accessing' }
