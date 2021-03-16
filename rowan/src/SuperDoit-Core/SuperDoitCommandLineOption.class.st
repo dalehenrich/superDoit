@@ -93,13 +93,14 @@ SuperDoitCommandLineOption >> shortName: object [
 { #category : 'accessing' }
 SuperDoitCommandLineOption >> value [
 	^ value == self notSet
-		ifTrue: [ value := self defaultValue ]
+		ifTrue: [ self defaultValue ]
+		ifFalse: [ value ]
 ]
 
 { #category : 'accessing' }
 SuperDoitCommandLineOption >> value: object [
-	value
-		ifNotNil: [ 
+	value ~~ self notSet
+		ifTrue: [ 
 			self
 				error:
 					'The option ' , self longName printString , ' has already been processed.' ].
@@ -110,5 +111,5 @@ SuperDoitCommandLineOption >> value: object [
 SuperDoitCommandLineOption >> wasSet [
 	"answer true if the receiver was set on the command line"
 
-	^ value == true
+	^ value ~~ self notSet
 ]
