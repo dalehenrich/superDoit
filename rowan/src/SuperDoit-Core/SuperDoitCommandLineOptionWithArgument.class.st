@@ -5,26 +5,12 @@ Class {
 }
 
 { #category : 'instance creation' }
-SuperDoitCommandLineOptionWithArgument class >> long: longName [
-	self
-		error:
-			'optional command line options REQUIRE a default value, use long:default: instead'
-]
-
-{ #category : 'instance creation' }
 SuperDoitCommandLineOptionWithArgument class >> long: longName default: default [
 	^ self new
 		initialize;
 		longName: longName;
 		defaultValue: default;
 		yourself
-]
-
-{ #category : 'instance creation' }
-SuperDoitCommandLineOptionWithArgument class >> long: longName short: shortName [
-	self
-		error:
-			'optional command line options REQUIRE a default value, use long:short:default: instead'
 ]
 
 { #category : 'instance creation' }
