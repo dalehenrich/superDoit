@@ -1,6 +1,9 @@
 Class {
 	#name : 'SuperDoitCommandLineOptionWithArgument',
 	#superclass : 'SuperDoitCommandLineOption',
+	#instVars : [
+		'defaultValue'
+	],
 	#category : 'SuperDoit-Core'
 }
 
@@ -26,6 +29,16 @@ SuperDoitCommandLineOptionWithArgument class >> long: longName short: shortName 
 { #category : 'testing' }
 SuperDoitCommandLineOptionWithArgument >> argExpected [
 	^ true
+]
+
+{ #category : 'accessing' }
+SuperDoitCommandLineOptionWithArgument >> defaultValue [
+	^defaultValue
+]
+
+{ #category : 'accessing' }
+SuperDoitCommandLineOptionWithArgument >> defaultValue: object [
+	defaultValue := object
 ]
 
 { #category : 'accessing' }
