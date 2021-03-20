@@ -1,4 +1,0 @@
-#!/usr/bin/env superdoit_archbase
-doit
-3+4
-%

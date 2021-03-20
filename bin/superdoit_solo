@@ -1,20 +1,39 @@
 
 # set -x 
 
-export projectDir="`dirname $0`/.."
+export superdoitDir="`dirname $0`/.."
 
-gemstoneDir="$projectDir/gemstone"
-
+gemstoneDir="$superdoitDir/gemstone"
 
 scriptFile=$1
 shift
 
-if [ "$GEMSTONE"x = "x" ] ; then
+if [ "$ARCHBASE"x != "x" ] ; then
+	# Internal GemStone private or sanctioned build (3.6.0 and newer)"
+  if [ -d "$ARCHBASE/fast42" ] ; then
+		# private build i386.Darwin"
+		export GEMSTONE="$ARCHBASE/fast42/gs/product"
+		export GEM_SOLO_EXTENT="$ARCHBASE/fast42/gs/hidden/bin/extent0.rowan.dbf"
+  elif [ -d "$ARCHBASE/fast50" ] ; then
+		# private build x86_64.Linux"
+		export GEMSTONE="$ARCHBASE/fast50/gs/product"
+		export GEM_SOLO_EXTENT="$ARCHBASE/fast50/gs/hidden/bin/extent0.rowan.dbf"
+	else
+		# sanctioned build"
+		export GEMSTONE="$ARCHBASE/fast/gs/product"
+		export GEM_SOLO_EXTENT="$ARCHBASE/fast/gs/hidden/bin/extent0.rowan.dbf"
+	fi
+else
+	# Installation using extent0.solo.dbf from GsDevKit_home
 	export GEMSTONE="$gemstoneDir/gs/product"
+	export GEM_SOLO_EXTENT="$gemstoneDir/gs/extent0.solo.dbf"
+	if [ "$ROWAN_PROJECTS_HOME"x = "x" ] ; then
+		export ROWAN_PROJECTS_HOME="$GS_HOME/shared/repos"
+	fi
 fi
 
 $GEMSTONE/bin/topaz -l \
-	-I "$gemstoneDir/.topazini" \
-	-C "GEM_SOLO_EXTENT=$gemstoneDir/gs/extent0.solo.dbf" \
+	-I "$gemstoneDir/topazini" \
+	-C "GEM_SOLO_EXTENT=$GEM_SOLO_EXTENT" \
 	-q \
 	-S $gemstoneDir/superdoit.tpz -- $scriptFile -- $*
