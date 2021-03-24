@@ -1,14 +1,14 @@
 #! /usr/bin/env bash
 #
 #	Expected script command line:
-#		script [ <script-args> ] [ -- [ <stone-name> ] <topaz-command-line-args> ]
+#		script [ <script-args> ] [ -- [ <stone-name> [ <topaz-command-line-args> ] ] ]
 #
 #	Not worried about duplicate topaz options at this point ... let the cards fall where they may
 #
 # set -x 
 
-export projectDir="`dirname $0`/.."
-gemstoneDir="$projectDir/gemstone"
+export superdoitDir="`dirname $0`/.."
+gemstoneDir="$superdoitDir/gemstone"
 
 if [ "$GS_HOME"x = "x" ] ; then
 	echo "The env var \$GS_HOME is expected to be defined when running GsDevKit_home scripts"
@@ -16,23 +16,26 @@ if [ "$GS_HOME"x = "x" ] ; then
 fi
 
 # process command line args
-#		collect scriptFile, then scan looking for scriptFile
-#		and topaz args (up to, but not including --)
-#		remainder passed to topaz as script args
+#		collect scriptFile, then scan for scriptArgs, if -- encountered, 
 
-defaultTopazArgs="-L"
 scriptFile=$1
 shift
 
+defaultTopazArgs="-L"	# if no topaz args specified, then default to -L 
 for arg in "$@"; do
 		if [ "$arg" = "--" ] ; then
-			break
-		fi
-		if [ "$stoneName"x = "x" ] ; then
-			stoneName=$arg
+			endOfScriptArgs="true"
 		else
-			topazArgs="$topazArgs $arg"
-			defaultTopazArgs=""
+			if [ "$endOfScriptArgs"x = "x" ] ; then
+				scriptArgs="$scriptArgs $arg"
+			else
+				if [ "$stoneName"x = "x" ] ; then
+					stoneName=$arg
+				else
+					topazArgs="$topazArgs $arg"
+					defaultTopazArgs=""
+				fi
+			fi
 		fi
 		shift
 done
@@ -61,13 +64,15 @@ else
 		exit 1
 	fi
 fi
-#	echo "script file: $scriptFile"
-#	echo "stone name: $stoneName"
-#	echo "default topaz args: $defaultTopazArgs"
-#	echo "topaz args: $topazArgs"
-#	echo "script args: $*"
-#	echo "======================"
-#	exit 0
+
+if [ "skip"x = "x" ] ; then
+	echo "script file: $scriptFile"
+	echo "stone name: $stoneName"
+	echo "topaz args: $topazArgs"
+	echo "script args: $scriptArgs"
+	echo "======================"
+	exit 0
+fi
 
 # set up GsDevKit_home stone environment
 pushd "$stoneDir" >& /dev/null
@@ -82,7 +87,7 @@ if [ "$ROWAN_PROJECTS_HOME"x = "x" ] ; then
 	export ROWAN_PROJECTS_HOME="$GS_HOME/shared/repos"
 fi
 
-$GEMSTONE/bin/topaz $defaultTopazArgs  $topazArgs \
+$GEMSTONE/bin/topaz $defaultTopazArgs $topazArgs \
 	-I "$stoneDir/.topazini" \
 	-q \
-	-S $gemstoneDir/superdoit.tpz -- $scriptFile $*
+	-S $gemstoneDir/superdoit.tpz -- $scriptFile $criptArgs
