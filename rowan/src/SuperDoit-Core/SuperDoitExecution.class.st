@@ -274,6 +274,11 @@ SuperDoitExecution >> scriptPath: aFileReference [
 	_scriptPath := aFileReference
 ]
 
+{ #category : 'accessing' }
+SuperDoitExecution >> stoneName [
+	^GsNetworkResourceString currentStoneName
+]
+
 { #category : 'logging' }
 SuperDoitExecution >> stderr [
 	^ GsFile stderr

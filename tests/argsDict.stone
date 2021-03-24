@@ -17,7 +17,8 @@ USAGE $basename [--help | -h] [--debug | -D] \
       [--noshort[=<something>] ] \
       [--optional[=<something>] | -o [<something>] ] \
       [--another=<something> | -a <something>] \
-      [--none | -n] [<something>]...
+      [--none | -n] [<something>]... \
+      [-- [<stone-name> [<topaz-command-line-args>] ] ]
 
 DESCRIPTION
   Posix long and short argument handling support.
@@ -62,8 +63,10 @@ DESCRIPTION
     specified when the options spec is #required.
 
 OPTIONS
-  <stone-name>               name of the stone.
-
+  <stone-name>               Name of the GsDevKit_home stone. <stone-name> argument
+                             may be skipped if the script is run in a GsDevKit_home
+                             stone directory (i.e., $GS_HOME/server/stones/<stone-name>
+  <topaz-command-line-args>  topaz options that should be passed to topaz when running
   <positional-arguments>     any number of positional arguments may be specified.
   -h, --help                 display usage message
   -D, --debug                bring up topaz debugger in the event of a script error
@@ -80,11 +83,15 @@ OPTIONS
   -n, --none                 example of a long and short option with no required value.
 
 EXAMPLES
+  NOTE : if the script is not run from a $GS_HOME/stones/<stone-name> directory,
+    the "-- <stone-name>" argument is required! 
+
   $basename --help
   $basename -h
   $basename --debug -required 123 -ona 456
   $basename --none
   $basename -D
+  $basename 123 -- gs_370
   $basename 123
   $basename 123 456
   $basename --required=123
@@ -108,6 +115,8 @@ EXAMPLES
   $basename --required=123 -o 456 789
   $basename --required=123 -oa 123
   $basename --required=123 -o 456 --another=123 789
+
+  $basename --required=123 -o 456 --another=123 789 -- gs_370
 -----
 %
 method

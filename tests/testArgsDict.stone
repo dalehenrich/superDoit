@@ -312,7 +312,7 @@ doit
 		'-an' -> 'Missing required argument for option ''another'' [c]'.
 		'-a' -> 'Missing required argument for option ''another'' [d]'.
 		'-' -> 'Cannot handle naked dashes ''-'''.
-		'--' -> 'Cannot handle naked dashes ''--'''.
+		'--' -> 'The stone name -- is not the name of an existing stone:  /home/dhenrich/rogue/_homes/rogue/_home/server/stones/-- is NOT a valid $GS_HOME/server/stones stone directory. --- run the script in a proper $GS_HOME stone directory or specify the stone-name:   Usage: script [ <script-args> ] [ -- [ <stone-name> [ <topaz-command-line-args> ] ] ]'.
 		'--unknown=something' -> 'Unknown option ''unknown'' [a]'.
 		'--unknown' -> 'Unknown option ''unknown'' [b]'.
 		'-x something' -> 'Unknown option ''x'' [c]'.
@@ -325,13 +325,16 @@ doit
 		expectedArgsDict := assoc value.
 		expectedFailureMessage := 'expected to fail in 3.6.0'.
 		[ 
-			ston := GsHostProcess execute: argDictCommand pathString, ' ', args.
+			ston := GsHostProcess execute: argDictCommand pathString, ' ', args, ' -- ', self stoneName.
 			actualArgsDict := STON fromString: ston
 		]
 			on: scriptErrorClass
 			do: [:ex | 
 				actualArgsDict := (ex respondsTo: #stderr)
-					ifTrue: [ ex stderr asString trimBoth ]
+					ifTrue: [ 
+						(ex stderr asString trimBoth 
+							copyReplaceChar: Character tab with: Character space)
+								copyReplaceChar: Character lf with: Character space]
 					ifFalse: [ expectedFailureMessage ] ].
 
 		actualArgsDict = expectedArgsDict
@@ -346,8 +349,10 @@ doit
 							ifTrue: [ 
 								self logMessage: 'actualArgsDict:'.
 								STON put: actualArgsDict onStreamPretty: self stdout.
+								self stdout lf.
 								self logMessage: 'expectedArgsDict:'.
 								STON put: expectedArgsDict onStreamPretty: self stdout.
+								self stdout lf.
 								self halt ] ] ] ].
 	summary := count printString, ' run, ', passed printString, ' passing, ', failed printString, ' failures ',  expectedFail printString, ' expected failures ', errors printString, ' errors'.
 	self stdout nextPutAll: summary; lf. 

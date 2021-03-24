@@ -23,7 +23,7 @@ shift
 
 defaultTopazArgs="-L"	# if no topaz args specified, then default to -L 
 for arg in "$@"; do
-		if [ "$arg" = "--" ] ; then
+		if [[ "$endOfScriptArgs"x = "x" ]] && [[ "$arg" = "--" ]] ; then
 			endOfScriptArgs="true"
 		else
 			if [ "$endOfScriptArgs"x = "x" ] ; then
@@ -67,6 +67,7 @@ fi
 
 skip="skip"
 if [ "$skip"x = "x" ] ; then
+	echo "======================"
 	echo "script file: $scriptFile"
 	echo "stone name: $stoneName"
 	echo "topaz args: $topazArgs"
@@ -91,4 +92,4 @@ fi
 $GEMSTONE/bin/topaz $defaultTopazArgs $topazArgs \
 	-I "$stoneDir/.topazini" \
 	-q \
-	-S $gemstoneDir/superdoit.tpz -- $scriptFile $criptArgs
+	-S $gemstoneDir/superdoit.tpz -- $scriptFile -- $scriptArgs
