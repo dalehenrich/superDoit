@@ -1,4 +1,10 @@
 #! /usr/bin/env bash
+#
+#	Expected script command line:
+#		script [ <script-args> ] [ -- [ <stone-name> ] <topaz-command-line-args> ]
+#
+#	Not worried about duplicate topaz options at this point ... let the cards fall where they may
+#
 # set -x 
 
 set -e
