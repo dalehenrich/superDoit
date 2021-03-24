@@ -48,19 +48,19 @@ if [ "$stoneName"x = "x" ] ; then
 	if [ ! -d "$stoneDir" ] ; then
 		echo "No stone name specified on the command line AND the current directory"
 		echo "$stoneDir is NOT a \$GS_HOME stone directory."
-		echo ""
-		echo "Specify the stoneName as the first argument on command line OR run the script"
-		echo "in a proper \$GS_HOME stone directory"
+		echo "---"
+		echo "run the script in a proper \$GS_HOME stone directory or specify the stone-name:"
+		echo "  Usage: script [ <script-args> ] [ -- [ <stone-name> [ <topaz-command-line-args> ] ] ]"
 		exit 1
 	fi
 else
 	export stoneDir=$GS_HOME/server/stones/$stoneName
 	if [ ! -d "$stoneDir" ] ; then
-		echo "The stone name $stoneName (first positional argument)."
-		echo "$stoneDir is NOT a \$GS_HOME/server/stones stone directory."
-		echo ""
-		echo "Specify the stoneName as the first argument on command line OR run the script"
-		echo "in a proper \$GS_HOME stone directory"
+		echo "The stone name $stoneName is not the name of an existing stone:"
+		echo "	$stoneDir is NOT a valid \$GS_HOME/server/stones stone directory."
+		echo "---"
+		echo "run the script in a proper \$GS_HOME stone directory or specify the stone-name:"
+		echo "  Usage: script [ <script-args> ] [ -- [ <stone-name> [ <topaz-command-line-args> ] ] ]"
 		exit 1
 	fi
 fi
