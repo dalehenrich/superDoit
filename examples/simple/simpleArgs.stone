@@ -1,4 +1,4 @@
-#!/usr/bin/env superdoit_home
+#!/usr/bin/env superdoit_stone
 method
 displayResult: anObject
 self stdout nextPutAll: self scriptArgs printString; lf.

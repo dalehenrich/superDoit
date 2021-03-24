@@ -11,7 +11,7 @@ options
 %
 usage
 -----
-USAGE $basename [--help | -h] [--debug | -D]
+USAGE $basename [--help | -h] [--debug | -D] [-- [<stone-name> [<topaz-command-line-args>] ] ]
 
 DESCRIPTION
   Evaluate the Smalltalk expression: 3+4 and return the result on stdout.
@@ -26,6 +26,8 @@ EXAMPLES
   $basename --debug
   $basename -D
   $basename
+  $basename -- gs_360
+  $basename -- gs_360 -T 100000
 -----
 %
 method

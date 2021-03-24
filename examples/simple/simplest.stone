@@ -1,0 +1,4 @@
+#!/usr/bin/env superdoit_stone
+doit
+3+4
+%
