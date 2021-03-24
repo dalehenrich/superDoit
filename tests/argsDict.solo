@@ -62,8 +62,6 @@ DESCRIPTION
     specified when the options spec is #required.
 
 OPTIONS
-  <stone-name>               name of the stone.
-
   <positional-arguments>     any number of positional arguments may be specified.
   -h, --help                 display usage message
   -D, --debug                bring up topaz debugger in the event of a script error

@@ -346,8 +346,10 @@ doit
 							ifTrue: [ 
 								self logMessage: 'actualArgsDict:'.
 								STON put: actualArgsDict onStreamPretty: self stdout.
+								self stdout lf.
 								self logMessage: 'expectedArgsDict:'.
 								STON put: expectedArgsDict onStreamPretty: self stdout.
+								self stdout lf.
 								self halt ] ] ] ].
 	summary := count printString, ' run, ', passed printString, ' passing, ', failed printString, ' failures ',  expectedFail printString, ' expected failures ', errors printString, ' errors'.
 	self stdout nextPutAll: summary; lf. 
