@@ -23,6 +23,10 @@ if [ "$ARCHBASE"x != "x" ] ; then
 		export GEMSTONE="$ARCHBASE/fast/gs/product"
 		export GEM_SOLO_EXTENT="$ARCHBASE/fast/gs/hidden/bin/extent0.rowan.dbf"
 	fi
+elif [ "$GEMSTONE"x != "x" ] ; then
+	echo "A GemStone product tree including extent0.rowan.dbf has not been shipped yet."
+	echo "	until then use https://github.com/GsDevKit/GsDevKit_home."
+	exit 1
 else
 	# Installation using extent0.solo.dbf from GsDevKit_home
 	export GEMSTONE="$gemstoneDir/gs/product"
