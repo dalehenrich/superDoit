@@ -1,0 +1,358 @@
+#!/usr/bin/env superdoit_stone
+options
+{
+  SuperDoitCommandLineOption long: 'debug' short: 'D'.
+  SuperDoitCommandLineOption long: 'help' short: 'h'.
+}
+%
+usage
+-----
+USAGE $basename [-h | -D]
+
+DESCRIPTION
+  Test argsDict.doit script
+
+OPTIONS
+  -h, --help                 display usage message
+  -D, --debug                halt when a test fails
+-----
+%
+method
+getAndVerifyOptions
+		self getOpts: self optionSpecs.
+		self help ifTrue: [ ^ self usage ].
+%
+doit
+	| argDictCommand count passed failed errors failedArgs summary scriptErrorClass expectedFail |
+	self getAndVerifyOptions == self noResult
+		ifTrue: [ ^ self noResult ].
+	argDictCommand := '$superdoitDir'  asFileReference / 'tests' / 'argsDict.stone'.
+	count := passed := failed := errors := expectedFail := 0.
+	failedArgs := {}.
+	scriptErrorClass := (Rowan globalNamed: 'ChildError') 
+		ifNil: [
+			"ChildError class is not available in 3.6.0 (present in 3.6.1), so the
+				tests for error handling will fail in 3.6.0" 
+			Error ].
+	{
+		'123' -> (Dictionary new
+			at: 'args' 
+				put: { '123' };
+			at: 'options'
+				put: (Dictionary new);
+			yourself).
+		'123 456' -> (Dictionary new
+			at: 'args' 
+				put: { '123' . '456' };
+			at: 'options'
+				put: (Dictionary new);
+			yourself).
+		'456 123' -> (Dictionary new
+			at: 'args' 
+				put: { '456' .'123' };
+			at: 'options'
+				put: (Dictionary new);
+			yourself).
+		'--required=123' -> (Dictionary new
+			at: 'args' 
+				put: { };
+			at: 'options'
+				put: 
+					(Dictionary new
+						at: 'required' put: '123';
+						yourself);
+			yourself).
+		'--required=123 456' -> (Dictionary new
+			at: 'args' 
+				put: { '456' };
+			at: 'options'
+				put: 
+					(Dictionary new
+						at: 'required' put: '123';
+						yourself);
+			yourself).
+		'456 --required=123' -> (Dictionary new
+			at: 'args' 
+				put: { '456' };
+			at: 'options'
+				put: 
+					(Dictionary new
+						at: 'required' put: '123';
+						yourself);
+			yourself).
+		'--noshort=123' -> (Dictionary new
+			at: 'args' 
+				put: { };
+			at: 'options'
+				put: 
+					(Dictionary new
+						at: 'noshort' put: '123';
+						yourself);
+			yourself).
+		'--noshort' -> (Dictionary new
+			at: 'args' 
+				put: { };
+			at: 'options'
+				put: 
+					(Dictionary new
+						at: 'noshort' put: '0';
+						yourself);
+			yourself).
+		'--optional=123' -> (Dictionary new
+			at: 'args' 
+				put: { };
+			at: 'options'
+				put: 
+					(Dictionary new
+						at: 'optional' put: '123';
+						yourself);
+			yourself).
+		'--optional' -> (Dictionary new
+			at: 'args' 
+				put: { };
+			at: 'options'
+				put: 
+					(Dictionary new
+						at: 'optional' put: '0';
+						yourself);
+			yourself).
+		'-o 123' -> (Dictionary new
+			at: 'args' 
+				put: { };
+			at: 'options'
+				put: 
+					(Dictionary new
+						at: 'optional' put: '123';
+						yourself);
+			yourself).
+		'-o' -> (Dictionary new
+			at: 'args' 
+				put: { };
+			at: 'options'
+				put: 
+					(Dictionary new
+						at: 'optional' put: '0';
+						yourself);
+			yourself).
+		'-o 123 456 --required=789 12' -> (Dictionary new
+			at: 'args' 
+				put: { '456' . '12' };
+			at: 'options'
+				put: 
+					(Dictionary new
+						at: 'optional' put: '123';
+						at: 'required' put: '789';
+						yourself);
+			yourself).
+		'123 -o --required=456 789' -> (Dictionary new
+			at: 'args' 
+				put: { '123' . '789' };
+			at: 'options'
+				put: 
+					(Dictionary new
+						at: 'optional' put: '0';
+						at: 'required' put: '456';
+						yourself);
+			yourself).
+		'--another=123' -> (Dictionary new
+			at: 'args' 
+				put: { };
+			at: 'options'
+				put: 
+					(Dictionary new
+						at: 'another' put: '123';
+						yourself);
+			yourself).
+		'--another=123 456' -> (Dictionary new
+			at: 'args' 
+				put: { '456' };
+			at: 'options'
+				put: 
+					(Dictionary new
+						at: 'another' put: '123';
+						yourself);
+			yourself).
+		'456 --another=123' -> (Dictionary new
+			at: 'args' 
+				put: { '456' };
+			at: 'options'
+				put: 
+					(Dictionary new
+						at: 'another' put: '123';
+						yourself);
+			yourself).
+
+		'--none' -> (Dictionary new
+			at: 'args' 
+				put: { };
+			at: 'options'
+				put: 
+					(Dictionary new
+						at: 'none' put: true;
+						yourself);
+			yourself).
+		'-n' -> (Dictionary new
+			at: 'args' 
+				put: { };
+			at: 'options'
+				put: 
+					(Dictionary new
+						at: 'none' put: true;
+						yourself);
+			yourself).
+		'-n 456 --required=789 12' -> (Dictionary new
+			at: 'args' 
+				put: { '456' . '12' };
+			at: 'options'
+				put: 
+					(Dictionary new
+						at: 'none' put: true;
+						at: 'required' put: '789';
+						yourself);
+			yourself).
+		'-on 456 --required=789 12' -> (Dictionary new
+			at: 'args' 
+				put: { '456' . '12' };
+			at: 'options'
+				put: 
+					(Dictionary new
+						at: 'none' put: true;
+						at: 'optional' put: '0';
+						at: 'required' put: '789';
+						yourself);
+			yourself).
+		'-no 456 --required=789 12' -> (Dictionary new
+			at: 'args' 
+				put: { '12' };
+			at: 'options'
+				put: 
+					(Dictionary new
+						at: 'none' put: true;
+						at: 'optional' put: '456';
+						at: 'required' put: '789';
+						yourself);
+			yourself).
+		'-on 456 --required=789 12' -> (Dictionary new
+			at: 'args' 
+				put: { '456' . '12' };
+			at: 'options'
+				put: 
+					(Dictionary new
+						at: 'none' put: true;
+						at: 'optional' put: '0';
+						at: 'required' put: '789';
+						yourself);
+			yourself).
+		'-na 456 --required=789 12' -> (Dictionary new
+			at: 'args' 
+				put: { '12' };
+			at: 'options'
+				put: 
+					(Dictionary new
+						at: 'none' put: true;
+						at: 'another' put: '456';
+						at: 'required' put: '789';
+						yourself);
+			yourself).
+		'-a 123 -no 456 789' -> (Dictionary new
+			at: 'args' 
+				put: { '789' };
+			at: 'options'
+				put: 
+					(Dictionary new
+						at: 'none' put: true;
+						at: 'optional' put: '456';
+						at: 'another' put: '123';
+						yourself);
+			yourself).
+		'-nDoa 123 456' -> (Dictionary new
+			at: 'args' 
+				put: { '456' };
+			at: 'options'
+				put: 
+					(Dictionary new
+						at: 'none' put: true;
+						at: 'debug' put: true;
+						at: 'optional' put: '0';
+						at: 'another' put: '123';
+						yourself);
+			yourself).
+
+		'--required=123 -o 456 -a 789 -n' -> (Dictionary new
+			at: 'args' 
+				put: { };
+			at: 'options'
+				put: 
+					(Dictionary new
+						at: 'none' put: true;
+						at: 'required' put: '123';
+						at: 'optional' put: '456';
+						at: 'another' put: '789';
+						yourself);
+			yourself).
+		'--required=123 --optional=456 --another=789 --none' -> (Dictionary new
+			at: 'args' 
+				put: { };
+			at: 'options'
+				put: 
+					(Dictionary new
+						at: 'none' put: true;
+						at: 'required' put: '123';
+						at: 'optional' put: '456';
+						at: 'another' put: '789';
+						yourself);
+			yourself).
+
+		'-a 123 --another=123' -> 'The option ''another'' has already been processed.'.
+		'-n --none' -> 'The option ''none'' has already been processed.'.
+		'-n -n' -> 'The option ''none'' has already been processed.'.
+		'-o 123 --optional' -> 'The option ''optional'' has already been processed.'.
+		'-a --optional=123' -> 'Missing required argument for option ''another'' [a]'.
+		'--another' -> 'Missing required argument for option ''another'' [b]'.
+		'-an' -> 'Missing required argument for option ''another'' [c]'.
+		'-a' -> 'Missing required argument for option ''another'' [d]'.
+		'-' -> 'Cannot handle naked dashes ''-'''.
+		'--' -> 'Cannot handle naked dashes ''--'''.
+		'--unknown=something' -> 'Unknown option ''unknown'' [a]'.
+		'--unknown' -> 'Unknown option ''unknown'' [b]'.
+		'-x something' -> 'Unknown option ''x'' [c]'.
+		'-x' -> 'Unknown option ''x'' [c]'.
+		'--none=something' -> 'Unexpected argument ''something'' for option ''none'''.
+	} do: [:assoc |
+		| expectedArgsDict actualArgsDict ston args summary expectedFailureMessage |
+		count := count + 1.
+		args := assoc key.
+		expectedArgsDict := assoc value.
+		expectedFailureMessage := 'expected to fail in 3.6.0'.
+		[ 
+			ston := GsHostProcess execute: argDictCommand pathString, ' ', args.
+			actualArgsDict := STON fromString: ston
+		]
+			on: scriptErrorClass
+			do: [:ex | 
+				actualArgsDict := (ex respondsTo: #stderr)
+					ifTrue: [ ex stderr asString trimBoth ]
+					ifFalse: [ expectedFailureMessage ] ].
+
+		actualArgsDict = expectedArgsDict
+			ifTrue: [ passed := passed + 1 ]
+			ifFalse: [
+				actualArgsDict = expectedFailureMessage
+					ifTrue: [ expectedFail := expectedFail + 1]
+          ifFalse: [
+						failed := failed + 1.
+						failedArgs add: args.
+						self debug 
+							ifTrue: [ 
+								self logMessage: 'actualArgsDict:'.
+								STON put: actualArgsDict onStreamPretty: self stdout.
+								self logMessage: 'expectedArgsDict:'.
+								STON put: expectedArgsDict onStreamPretty: self stdout.
+								self halt ] ] ] ].
+	summary := count printString, ' run, ', passed printString, ' passing, ', failed printString, ' failures ',  expectedFail printString, ' expected failures ', errors printString, ' errors'.
+	self stdout nextPutAll: summary; lf. 
+	(failed = 0 and: [ errors = 0])
+		ifTrue: [ ^ true  ].
+	self log: failedArgs.
+	^ false 
+%

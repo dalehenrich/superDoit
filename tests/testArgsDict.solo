@@ -26,7 +26,7 @@ doit
 	| argDictCommand count passed failed errors failedArgs summary scriptErrorClass expectedFail |
 	self getAndVerifyOptions == self noResult
 		ifTrue: [ ^ self noResult ].
-	argDictCommand := '$superdoitDir'  asFileReference / 'tests' / 'argsDict.doit'.
+	argDictCommand := '$superdoitDir'  asFileReference / 'tests' / 'argsDict.solo'.
 	count := passed := failed := errors := expectedFail := 0.
 	failedArgs := {}.
 	scriptErrorClass := (Rowan globalNamed: 'ChildError') 

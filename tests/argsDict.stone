@@ -1,0 +1,127 @@
+#!/usr/bin/env superdoit_stone
+options
+{
+  SuperDoitCommandLineOption long: 'debug' short: 'D'.
+  SuperDoitCommandLineOption long: 'help' short: 'h'.
+  SuperDoitCommandLineOption long: 'none' short: 'n'.
+  SuperDoitRequiredCommandLineOption long: 'required'.
+  SuperDoitRequiredCommandLineOption long: 'another' short: 'a'.
+  SuperDoitOptionalCommandLineOption long: 'optional' short: 'o' default: '0'.
+  SuperDoitOptionalCommandLineOption long: 'noshort' default: '0'.
+}
+%
+usage
+-----
+USAGE $basename [--help | -h] [--debug | -D] \
+      [--required=<something>] \
+      [--noshort[=<something>] ] \
+      [--optional[=<something>] | -o [<something>] ] \
+      [--another=<something> | -a <something>] \
+      [--none | -n] [<something>]...
+
+DESCRIPTION
+  Posix long and short argument handling support.
+
+  Specify desired options using the 'options' section:
+
+    options
+    {
+      SuperDoitCommandLineOption long: 'debug' short: 'D'.
+      SuperDoitCommandLineOption long: 'help' short: 'h'.
+      SuperDoitCommandLineOption long: 'none' short: 'n'.
+      SuperDoitRequiredCommandLineOption long: 'required'.
+      SuperDoitRequiredCommandLineOption long: 'another' short: 'a'.
+      SuperDoitOptionalCommandLineOption long: 'optional' short: 'o' default: '0'.
+      SuperDoitOptionalCommandLineOption long: 'noshort' default: '0'.
+    }
+    %
+
+  where an option is declared on a line with three fields:
+
+    longName shortName [none | required | optional
+
+  The shortName may be nil.
+
+	When the 'options' section is processed the resulting option spec is added to
+	  the 'optionSpec' inst var.
+
+  When the #getOpts: message is sent with optionsSpec inst var as the argument,
+    the options are read from the command line and the 'opts' instance variable
+    is set to a dictionary of options and the 'args' instance variable is set
+    to an array of positional parameters.
+
+  The 'opts' dictionary contains two assocations keyed by 'options' and 'args'. 
+
+  The 'options'  value is a dictionary whose keys are the long names of the 
+    options  appearing on the command line and whose values are the value of the
+    option specified on the command line. If not value was specified on the
+    command line, the value is 'nil'.
+
+  Errors are generated during command line parsing if an option argument is 
+    specified when the options spec is #none, or if no option argument is 
+    specified when the options spec is #required.
+
+OPTIONS
+  <stone-name>               name of the stone.
+
+  <positional-arguments>     any number of positional arguments may be specified.
+  -h, --help                 display usage message
+  -D, --debug                bring up topaz debugger in the event of a script error
+  --required=<required-value>
+                             example of a long option with a required value.
+  -o, --optional[=<optional-value>]
+                             example of a long and short option with an optional value. 
+                             The default value is '0'.
+  --noshort[=<optional-value>]
+                             example of a long option with an optional value. The 
+                             default value is '0'.
+  -a, --another=<another-required-value>]
+                             example of a long and short option with a required value.
+  -n, --none                 example of a long and short option with no required value.
+
+EXAMPLES
+  $basename --help
+  $basename -h
+  $basename --debug -required 123 -ona 456
+  $basename --none
+  $basename -D
+  $basename 123
+  $basename 123 456
+  $basename --required=123
+  $basename --another=123
+  $basename -a 123
+  $basename --noshort
+  $basename --noshort=123
+  $basename --optional
+  $basename -o
+  $basename --optional=123
+  $basename -o 123
+  $basename -o 123 -a 456
+  $basename -oa 123
+  $basename -oa 123 456
+  $basename 456 -or 123
+  $basename --required=123 --optional=123 --another=123
+  $basename --required=123 --optional --another=123
+  $basename --required=123 --noshort=123 --another=123
+  $basename --required=123 --noshort --another=123
+  $basename --required=123 -o
+  $basename --required=123 -o 456 789
+  $basename --required=123 -oa 123
+  $basename --required=123 -o 456 --another=123 789
+-----
+%
+method
+getAndVerifyOptions
+		self getOpts: self optionSpecs.
+		self help ifTrue: [ ^ self usage ].
+%
+doit
+	[
+		self getAndVerifyOptions == self noResult
+			ifTrue: [ ^ self noResult ].
+		^ self commandLineSummary
+	] on: Error do: [:ex | 
+		self debug ifTrue: [ ex pass ].
+		self exit: ex messageText withStatus: 1 "does not return" ].
+%
+

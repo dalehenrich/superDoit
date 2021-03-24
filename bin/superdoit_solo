@@ -42,6 +42,14 @@ else
 	fi
 fi
 
+skip="skip"
+if [ "$skip"x = "x" ] ; then
+	echo "script file: $scriptFile"
+	echo "script args: $*"
+	echo "======================"
+	# exit 0
+fi
+
 $GEMSTONE/bin/topaz -l \
 	-I "$gemstoneDir/topazini" \
 	-C "GEM_SOLO_EXTENT=$GEM_SOLO_EXTENT" \
