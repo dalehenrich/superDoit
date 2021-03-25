@@ -7,6 +7,8 @@
 #
 # set -x 
 
+set -e
+
 export superdoitDir="`dirname $0`/.."
 gemstoneDir="$superdoitDir/gemstone"
 
