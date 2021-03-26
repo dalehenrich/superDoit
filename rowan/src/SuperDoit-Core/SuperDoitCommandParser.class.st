@@ -13,7 +13,8 @@ Class {
 		'scriptPath',
 		'systemDictionary',
 		'optionSpecs',
-		'projectsHome'
+		'projectsHome',
+		'commandDefinition'
 	],
 	#category : 'SuperDoit-Core'
 }
@@ -44,23 +45,23 @@ SuperDoitCommandParser class >> processInputFile [
 		yourself
 ]
 
-{ #category : 'doit' }
-SuperDoitCommandParser >> doit: string [
-	| instance |
-	self superDoitExecutionClass
-		compileMethod:
-			'doit ^ ' , string printString
-				,
-					' evaluateInContext: self 
-				symbolList: GsCurrentSession currentSession transientSymbolList '.
-	instance := self superDoitExecutionClass new.
-	instance scriptPath: self scriptPath.
-	instance scriptArgs: self scriptArgs.
-	instance usage: self usage.
-	instance optionSpecs: self optionSpecs.
-	instance processDynamicSections: self.
-	instance _loadSpecs: self specs.
-	instance displayResult: instance doit
+{ #category : 'commands' }
+SuperDoitCommandParser >> classMethod: aString in: className [
+	^ SuperDoitExtensionMethodCommand
+		chunk: aString
+		className: className
+		isMeta: true
+]
+
+{ #category : 'accessing' }
+SuperDoitCommandParser >> commandDefinition [
+	^ commandDefinition
+		ifNil: [ commandDefinition := SuperDoitCommandDefinition new ]
+]
+
+{ #category : 'commands' }
+SuperDoitCommandParser >> doit: aString [
+	^ SuperDoitDoitCommand chunk: aString
 ]
 
 { #category : 'accessing' }
@@ -73,21 +74,24 @@ SuperDoitCommandParser >> instVarNames [
 	^ instVarNames ifNil: [ instVarNames := {} ]
 ]
 
-{ #category : 'commands' }
-SuperDoitCommandParser >> instVarNames: string [
-	instVarNames := self instVarNames , (('#(' , string , ')') evaluate)
+{ #category : 'accessing' }
+SuperDoitCommandParser >> instVarNames: anArray [
+	instVarNames := anArray
 ]
 
 { #category : 'commands' }
-SuperDoitCommandParser >> method: string [
-	self superDoitExecutionClass compileMethod: string
+SuperDoitCommandParser >> instVarNamesCommand: string [
+	^ SuperDoitInstVarNamesCommand chunk: string
 ]
 
 { #category : 'commands' }
-SuperDoitCommandParser >> method: string in: className [
-	(Rowan globalNamed: className)
-		ifNotNil: [ :class | class compileMethod: string ]
-		ifNil: [ self error: 'No class ' , className printString , ' found' ]
+SuperDoitCommandParser >> method: aString [
+	^ SuperDoitMethodCommand chunk: aString
+]
+
+{ #category : 'commands' }
+SuperDoitCommandParser >> method: aString in: className [
+	^ SuperDoitExtensionMethodCommand chunk: aString className: className
 ]
 
 { #category : 'parsing' }
@@ -107,25 +111,12 @@ SuperDoitCommandParser >> nextChunk [
 
 { #category : 'commands' }
 SuperDoitCommandParser >> options: string [
-	| ivNames |
-	ivNames := self instVarNames.
-	optionSpecs := Dictionary new.
-	string evaluate do: [:optionSpec |
-		optionSpecs at: optionSpec longName put: optionSpec ].
-	optionSpecs
-		do: [ :option | 
-			| longName |
-			longName := option longName.
-			self method: longName , '  ^ (self optionSpecs at: ' , longName printString , ') value'.
-			self
-				method:
-					longName , ': optionValue (self optionSpecs at:' , longName printString
-						, ') value: optionValue' ]
+	^ SuperDoitOptionsCommand chunk: string
 ]
 
 { #category : 'accessing' }
 SuperDoitCommandParser >> optionSpecs [
-	^ optionSpecs
+	^ optionSpecs ifNil: [ optionSpecs := Dictionary new ]
 ]
 
 { #category : 'execution' }
@@ -133,43 +124,49 @@ SuperDoitCommandParser >> parseAndExecuteScriptFile: scriptFileReference [
 	scriptFileReference
 		readStreamDo: [ :fStream | 
 			stream := ZnBufferedReadStream on: fStream.
-			[ self done ] whileFalse: [ self processNextCommand ].
+			[ self done ]
+				whileFalse: [ 
+					self processNextCommand
+						ifNotNil: [ :command | self commandDefinition addCommand: command ] ].
+			self commandDefinition executeAgainst: self.
 			^ doitResult ]
 ]
 
 { #category : 'parsing' }
 SuperDoitCommandParser >> processNextCommand [
-	| line words command firstChar commandSelector |
+	| line words command commandSelector |
 	stream atEnd
 		ifTrue: [ 
 			done := true.
-			^ self ].
+			^ nil ].
 	line := stream nextLine trimSeparators.
 	words := line subStrings.
 	words isEmpty
 		ifTrue: [ ^ nil ].
-	command := words first asUppercase.
-	((firstChar := command at: 1) == $! or: [ firstChar == $# ])
-		ifTrue: [ ^ nil ].
 
+	command := words first asUppercase.
+	(command at: 1) == $# 
+		ifTrue: [ ^ self scriptComment: line ].
 	command = 'DOIT'
 		ifTrue: [ ^ self doit: self nextChunk ].
 	command = 'METHOD'
-		ifTrue: [ ^ self method: self nextChunk ].
+		ifTrue: [ ^ self method: self nextChunk  ].
 	command = 'METHOD:'
-		ifTrue: [ ^ self method: self nextChunk in: (words at: 2) ].
+		ifTrue: [  ^ self method: self nextChunk className: (words at: 2) ].
+	command = 'CLASSMETHOD:'
+		ifTrue: [ ^ self classMethod: self nextChunk className: (words at: 2) ].
 	command = 'OPTIONS'
 		ifTrue: [ ^ self options: self nextChunk ].
 	command = 'INSTVARS'
-		ifTrue: [ ^ self instVarNames: self nextChunk ].
+		ifTrue: [ ^ self instVarNamesCommand: self nextChunk ].
 	command = 'PROJECTSHOME'
-		ifTrue: [ ^ self projectsHome: self nextChunk ].
+		ifTrue: [ ^ self projectsHomeCommand: self nextChunk ].
 	command = 'SPECS'
-		ifTrue: [ ^ self specSton: self nextChunk ].
+		ifTrue: [ ^ self specsCommand: self nextChunk ].
 	command = 'SPECURLS'
 		ifTrue: [ ^ self specUrls: self nextChunk ].
 	command = 'USAGE'
-		ifTrue: [ ^ self usage: self nextChunk ].
+		ifTrue: [ ^ self usageCommand: self nextChunk ].
 	commandSelector := (command asLowercase , ':') asSymbol.
 	(self respondsTo: commandSelector)
 		ifTrue: [ ^ self perform: commandSelector with: self nextChunk ].
@@ -181,14 +178,14 @@ SuperDoitCommandParser >> projectsHome [
 	^ projectsHome ifNil: [ 'ROWAN_PROJECTS_HOME' ]
 ]
 
+{ #category : 'accessing' }
+SuperDoitCommandParser >> projectsHome: aString [
+	projectsHome := aString
+]
+
 { #category : 'commands' }
-SuperDoitCommandParser >> projectsHome: string [
-	| projectsHomeStream |
-	projectsHomeStream := string readStreamPortable.
-	[ projectsHomeStream atEnd ]
-		whileFalse: [ 
-			"last declaration wins"
-			projectsHome := projectsHomeStream nextLine ]
+SuperDoitCommandParser >> projectsHomeCommand: string [
+	^ SuperDoitProjectsHomeCommand chunk: string
 ]
 
 { #category : 'accessing' }
@@ -199,6 +196,11 @@ SuperDoitCommandParser >> scriptArgs [
 { #category : 'accessing' }
 SuperDoitCommandParser >> scriptArgs: aColl [
  scriptArgs := aColl
+]
+
+{ #category : 'commands' }
+SuperDoitCommandParser >> scriptComment: aString [
+	^ SuperDoitScriptCommentCommand chunk: aString
 ]
 
 { #category : 'accessing' }
@@ -217,39 +219,13 @@ SuperDoitCommandParser >> specs [
 ]
 
 { #category : 'commands' }
-SuperDoitCommandParser >> specSton: string [
-	| stonStream |
-	stonStream := string readStreamPortable.
-	[ stonStream atEnd ]
-		whileFalse: [ 
-			| obj |
-			obj := STON fromStream: stonStream.
-			obj _isArray
-				ifTrue: [ 
-					self specs
-						addAll:
-							(obj
-								collect: [ :each | 
-									each
-										projectsHome: self projectsHome;
-										yourself ]) ]
-				ifFalse: [ 
-					obj projectsHome: self projectsHome.
-					self specs add: obj ] ]
+SuperDoitCommandParser >> specsCommand: string [
+	^ SuperDoitSpecsCommand chunk: string
 ]
 
 { #category : 'commands' }
 SuperDoitCommandParser >> specUrls: string [
-	| urlStream |
-	urlStream := string readStreamPortable.
-	[ urlStream atEnd ]
-		whileFalse: [ 
-			| url spec |
-			url := urlStream nextLine.
-			spec := (RwSpecification fromUrl: url)
-				projectsHome: self projectsHome;
-				yourself.
-			self specs add: spec ]
+	^ SuperDoitSpecUrlsCommand chunk: string
 ]
 
 { #category : 'accessing' }
@@ -288,8 +264,13 @@ SuperDoitCommandParser >> usage [
 	^ usage ifNil: [ ^ 'NO HELP' ]
 ]
 
-{ #category : 'commands' }
+{ #category : 'accessing' }
 SuperDoitCommandParser >> usage: string [
 	"any env var refs in string should be substituted upon display"
 	usage := string
+]
+
+{ #category : 'commands' }
+SuperDoitCommandParser >> usageCommand: string [
+	^ SuperDoitUsageCommand chunk: string
 ]
