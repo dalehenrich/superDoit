@@ -78,6 +78,11 @@ SuperDoitExecution >> displayResult: anObject [
 		ifTrue: [ self ston: anObject on: self stdout ]
 ]
 
+{ #category : 'script info' }
+SuperDoitExecution >> executionStoneName [
+	^GsNetworkResourceString currentStoneName
+]
+
 { #category : 'exit' }
 SuperDoitExecution >> exit: message withStatus: statusInteger [
 	"Does not return and terminates the os process with exit status <statusInteger>"
@@ -272,11 +277,6 @@ SuperDoitExecution >> scriptPath [
 { #category : 'accessing' }
 SuperDoitExecution >> scriptPath: aFileReference [
 	_scriptPath := aFileReference
-]
-
-{ #category : 'accessing' }
-SuperDoitExecution >> stoneName [
-	^GsNetworkResourceString currentStoneName
 ]
 
 { #category : 'logging' }

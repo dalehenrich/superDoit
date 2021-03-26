@@ -43,7 +43,7 @@ SuperDoitCommandParser class >> processInputFile [
 		yourself
 ]
 
-{ #category : 'commands' }
+{ #category : 'doit' }
 SuperDoitCommandParser >> doit: string [
 	| instance |
 	self superDoitExecutionClass
@@ -58,6 +58,7 @@ SuperDoitCommandParser >> doit: string [
 	instance usage: self usage.
 	instance optionSpecs: self optionSpecs.
 	instance processDynamicSections: self.
+	self loadSpecs.
 	instance displayResult: instance doit
 ]
 
@@ -74,6 +75,14 @@ SuperDoitCommandParser >> instVarNames [
 { #category : 'commands' }
 SuperDoitCommandParser >> instVarNames: string [
 	instVarNames := self instVarNames , (('#(' , string , ')') evaluate)
+]
+
+{ #category : 'doit' }
+SuperDoitCommandParser >> loadSpecs [
+"create a project set from the specs and load the whole enchilada"
+
+	self specs isEmpty ifTrue: [ ^ self ].
+self halt.
 ]
 
 { #category : 'commands' }
@@ -160,6 +169,8 @@ SuperDoitCommandParser >> processNextCommand [
 		ifTrue: [ ^ self options: self nextChunk ].
 	command = 'INSTVARS'
 		ifTrue: [ ^ self instVarNames: self nextChunk ].
+	command = 'PROJECTSHOME'
+		ifTrue: [ ^ self projectsHome: self nextChunk ].
 	command = 'SPECS'
 		ifTrue: [ ^ self specSton: self nextChunk ].
 	command = 'SPECURLS'

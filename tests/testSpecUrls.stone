@@ -11,7 +11,7 @@ usage
 USAGE $basename [--help | -h] [--debug | -D] [-- [<stone-name> [<topaz-command-line-args>] ] ]
 
 DESCRIPTION
-  Test the examples/utility/install_rowan_project.stone script.
+  Load the spec url for RowanSample9_spec_0001.ston and run the RowanSample9 tests
 
 OPTIONS
   <stone-name>               Name of the GsDevKit_home stone. <stone-name> argument
@@ -28,24 +28,30 @@ EXAMPLES
   $basename
 -----
 %
+projectshome
+$GS_HOME/server/stones/$stoneName/git
+%
+specUrls
+file:$SUPERDOIT_STONE_DIR/tests/specs/RowanSample9_spec_0001.ston
+%
 method
 getAndVerifyOptions
 		self getOpts: self optionSpecs.
 		self help ifTrue: [ ^ self usage ].
 %
 doit
-	| installCommand |
+	| testResult testSuite |
 	self getAndVerifyOptions == self noResult
 		ifTrue: [ ^ self noResult ].
-	installCommand := '$SUPERDOIT_STONE_DIR'  asFileReference / 'examples/utility/install_rowan_project.stone'.
 	[
-		| args |
-		args := '--noCommit --projectsHome=$GS_HOME/server/stones/', self executionStoneName, '/git ',
-			'file:$SUPERDOIT_STONE_DIR/tests/specs/RowanSample9_spec_0001.ston'.
-		GsHostProcess execute: installCommand pathString, ' ', args, ' -- ', self executionStoneName.
+		testSuite := (Rowan projectNamed: 'RowanSample9') testSuite.
+		self debug
+			ifTrue: [ 
+				testSuite debug.
+				^ 'all tests pass' ]
+			ifFalse: [ testResult := testSuite run ].
+		^ testResult printString.
 	] on: Error do: [:ex | 
 		self debug ifTrue: [ ex pass ].
 		self exit: ex description withStatus: 1 "does not return" ].
-	^ true
-
 %

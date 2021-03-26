@@ -1,8 +1,5 @@
 #!/usr/bin/env superdoit_stone
 #
-#	copy (or symbolically link) me to $GS_HOME/stones/<stone-name>/bin
-#		and I will be executed in that stone when run
-#
 options
 {
   SuperDoitCommandLineOption long: 'help' short: 'h'.
@@ -46,7 +43,7 @@ doit
 			ifTrue: [ ^ self noResult ].
 		
 		self stdout nextPutAll: '--------------------'; lf.
-		self stdout nextPutAll: 'Stone Version Report for ', self stoneName printString; lf.
+		self stdout nextPutAll: 'Stone Version Report for ', self executionStoneName printString; lf.
 		self stdout nextPutAll: '--------------------'; lf.
 		System stoneVersionReport keysAndValuesDo: [:key :value |
 			self stdout

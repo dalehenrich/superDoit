@@ -26,7 +26,7 @@ doit
 	| argDictCommand count passed failed errors failedArgs summary scriptErrorClass expectedFail |
 	self getAndVerifyOptions == self noResult
 		ifTrue: [ ^ self noResult ].
-	argDictCommand := '$superdoitDir'  asFileReference / 'tests' / 'argsDict.stone'.
+	argDictCommand := '$SUPERDOIT_STONE_DIR'  asFileReference / 'tests' / 'argsDict.stone'.
 	count := passed := failed := errors := expectedFail := 0.
 	failedArgs := {}.
 	scriptErrorClass := (Rowan globalNamed: 'ChildError') 
@@ -325,7 +325,7 @@ doit
 		expectedArgsDict := assoc value.
 		expectedFailureMessage := 'expected to fail in 3.6.0'.
 		[ 
-			ston := GsHostProcess execute: argDictCommand pathString, ' ', args, ' -- ', self stoneName.
+			ston := GsHostProcess execute: argDictCommand pathString, ' ', args, ' -- ', self executionStoneName.
 			actualArgsDict := STON fromString: ston
 		]
 			on: scriptErrorClass
