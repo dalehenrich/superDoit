@@ -46,7 +46,7 @@ SuperDoitCommandParser class >> processInputFile [
 ]
 
 { #category : 'commands' }
-SuperDoitCommandParser >> classMethod: aString in: className [
+SuperDoitCommandParser >> classMethod: aString className: className [
 	^ SuperDoitExtensionMethodCommand
 		chunk: aString
 		className: className
@@ -95,7 +95,7 @@ SuperDoitCommandParser >> method: aString [
 ]
 
 { #category : 'commands' }
-SuperDoitCommandParser >> method: aString in: className [
+SuperDoitCommandParser >> method: aString className: className [
 	^ SuperDoitExtensionMethodCommand chunk: aString className: className
 ]
 

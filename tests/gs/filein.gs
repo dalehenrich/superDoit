@@ -13,6 +13,6 @@ true.
 %
 method: SuperDoitGsTest
 foo
-^'success'
+^'success (foo)'
 %
 

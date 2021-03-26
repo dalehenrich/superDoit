@@ -31,20 +31,29 @@ EXAMPLES
 input
 $SUPERDOIT_DIR/tests/gs/filein.gs
 %
+classmethod: SuperDoitGsTest
+bar
+	^ 'success (bar)'
+%
+method: SuperDoitGsTest
+baz
+	^ 'success (baz)'
+%
 method
 getAndVerifyOptions
 		self getOpts: self optionSpecs.
 		self help ifTrue: [ ^ self usage ].
 %
 doit
-	| testResult testSuite |
+	| testResult testSuite class |
 	self getAndVerifyOptions == self noResult
 		ifTrue: [ ^ self noResult ].
 	[
 		| className |
 		className := 'SuperDoitGsTest'.
-		^ (self globalNamed: className 
-				ifAbsent: [ self error: 'the class ', className printString, ' not found']) new foo
+		class := self globalNamed: className 
+				ifAbsent: [ self error: 'the class ', className printString, ' not found'].
+		^ {class new foo. class bar . class new baz}
 	] on: Error do: [:ex | 
 		self debug ifTrue: [ ex pass ].
 		self exit: ex description withStatus: 1 "does not return" ].
