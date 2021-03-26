@@ -102,6 +102,13 @@ SuperDoitExecution >> exit: message withStatus: statusInteger [
 	ExitClientError signal: 'explicit process exit' status: statusInteger
 ]
 
+{ #category : 'exit' }
+SuperDoitExecution >> exitWithStatus: statusInteger [
+	"Does not return and terminates the os process with exit status <statusInteger>"
+
+	ExitClientError signal: 'explicit process exit' status: statusInteger
+]
+
 { #category : 'command line' }
 SuperDoitExecution >> getOpts: optionsSpec [
 	| argStream opt theArgs specsDict |
@@ -267,12 +274,26 @@ SuperDoitExecution >> positionalArgs: object [
 SuperDoitExecution >> preDoitSpecLoad [
 	"create a project set from the specs and load the whole enchilada"
 
+	"return list of RwProjects loaded"
+
+	^ self preDoitSpecLoad: [  ]
+]
+
+{ #category : 'doit' }
+SuperDoitExecution >> preDoitSpecLoad: specBlock [
+	"create a project set from the specs and load the whole enchilada"
+
+	"return list of RwProjects loaded"
+
 	| projectSet |
 	self _loadSpecs isEmpty
 		ifTrue: [ ^ self ].
 	projectSet := RwProjectSetDefinition new.
-	self _loadSpecs do: [ :spec | projectSet addAll: spec resolve readProjectSet ].
-	projectSet load
+	self _loadSpecs
+		do: [ :spec | 
+			specBlock cull: spec.
+			projectSet addAll: spec resolve readProjectSet ].
+	^ projectSet load
 ]
 
 { #category : 'accessing' }
