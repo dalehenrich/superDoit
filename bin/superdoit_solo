@@ -9,9 +9,9 @@
 
 set -e
 
-export SUPERDOIT_STONE_DIR="`dirname $0`/.."
+export SUPERDOIT_DIR="`dirname $0`/.."
 
-gemstoneDir="$SUPERDOIT_STONE_DIR/gemstone"
+gemstoneDir="$SUPERDOIT_DIR/gemstone"
 
 scriptFile=$1
 shift
