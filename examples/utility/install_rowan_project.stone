@@ -45,6 +45,7 @@ EXAMPLES
             file:$GS_HOME/shared/repos/GsTestStats/rowan/specs/GsTestStats.ston
   $basename file:$GS_HOME/shared/repos/GsTestStats/rowan/specs/GsTestStats.ston --noCommit
   $basename file:$GS_HOME/shared/repos/GsTestStats/rowan/specs/GsTestStats.ston -- gs_370
+  $basename --noCommit --projectsHome=$GS_HOME/server/stones/superdoit_l file:tests/specs/RowanSample9_spec_0001.ston -- superdoit_l
 -----
 %
 method
@@ -62,6 +63,7 @@ doit
 			projectFromUrl: (self positionalArgs at: 1)
 				projectsHome: self projectsHome )
 			load.
+	self noCommit ifTrue: [ ^ 'loaded (no commit)' ].
 	^ System commit
 	] on: Error do: [:ex | 
 		self debug ifTrue: [ ex pass ].

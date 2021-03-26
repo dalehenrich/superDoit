@@ -37,11 +37,11 @@ doit
 	| installCommand |
 	self getAndVerifyOptions == self noResult
 		ifTrue: [ ^ self noResult ].
-	installCommand := '$SUPERDOIT_STONE_DIR'  asFileReference / 'examples/utility/install_rowan_project.stone'.
+	installCommand := '$SUPERDOIT_DIR'  asFileReference / 'examples/utility/install_rowan_project.stone'.
 	[
 		| args |
 		args := '--noCommit --projectsHome=$GS_HOME/server/stones/', self executionStoneName, '/git ',
-			'file:$SUPERDOIT_STONE_DIR/tests/specs/RowanSample9_spec_0001.ston'.
+			'file:$SUPERDOIT_DIR/tests/specs/RowanSample9_spec_0001.ston'.
 		GsHostProcess execute: installCommand pathString, ' ', args, ' -- ', self executionStoneName.
 	] on: Error do: [:ex | 
 		self debug ifTrue: [ ex pass ].
