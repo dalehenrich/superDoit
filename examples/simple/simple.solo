@@ -1,8 +1,5 @@
 #!/usr/bin/env superdoit_solo
 #
-#	copy (or symbolically link) me to $GS_HOME/stones/<stone-name>/bin
-#		and I will be executed in that stone when run
-#
 options
 {
   SuperDoitCommandLineOption long: 'help' short: 'h'.

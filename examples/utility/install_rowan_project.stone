@@ -1,4 +1,5 @@
 #!/usr/bin/env superdoit_stone
+#
 options
 {
   SuperDoitCommandLineOption long: 'help' short: 'h'.

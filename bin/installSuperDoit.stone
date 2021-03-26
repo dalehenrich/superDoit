@@ -1,0 +1,23 @@
+#!/usr/bin/env superdoit_stone
+#
+#	if superDoit project is not present in $ROWAN_PROJECTS_HOME. it will be cloned there
+#
+specs
+RwLoadSpecificationV2 {
+	#specName : 'SuperDoit',
+	#projectName : 'superDoit',
+	#gitUrl : 'git@github.com:dalehenrich/superDoit.git',
+	#revision : 'master',
+	#projectSpecFile : 'rowan/project.ston',
+	#componentNames : [
+		'SuperDoit'
+	],
+	#customConditionalAttributes : [
+		'rowan'
+	],
+	#comment : ''
+}
+%
+doit
+System commit
+%
