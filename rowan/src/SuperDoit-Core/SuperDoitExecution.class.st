@@ -8,10 +8,21 @@ Class {
 		'_usage',
 		'_noResult',
 		'_optionSpecs',
-		'_positionalArgs'
+		'_positionalArgs',
+		'_loadSpecs'
 	],
 	#category : 'SuperDoit-Core'
 }
+
+{ #category : 'accessing' }
+SuperDoitExecution >> _loadSpecs [
+	^ _loadSpecs
+]
+
+{ #category : 'accessing' }
+SuperDoitExecution >> _loadSpecs: specs [
+	_loadSpecs := specs
+]
 
 { #category : 'private' }
 SuperDoitExecution >> _specsDictFor: optionsSpec [
@@ -250,6 +261,18 @@ SuperDoitExecution >> positionalArgs [
 { #category : 'accessing' }
 SuperDoitExecution >> positionalArgs: object [
 	_positionalArgs := object
+]
+
+{ #category : 'doit' }
+SuperDoitExecution >> preDoitSpecLoad [
+	"create a project set from the specs and load the whole enchilada"
+
+	| projectSet |
+	self _loadSpecs isEmpty
+		ifTrue: [ ^ self ].
+	projectSet := RwProjectSetDefinition new.
+	self _loadSpecs do: [ :spec | projectSet addAll: spec resolve readProjectSet ].
+	projectSet load
 ]
 
 { #category : 'accessing' }

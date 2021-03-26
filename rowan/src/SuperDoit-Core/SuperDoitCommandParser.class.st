@@ -12,7 +12,8 @@ Class {
 		'scriptArgs',
 		'scriptPath',
 		'systemDictionary',
-		'optionSpecs'
+		'optionSpecs',
+		'projectsHome'
 	],
 	#category : 'SuperDoit-Core'
 }
@@ -58,7 +59,7 @@ SuperDoitCommandParser >> doit: string [
 	instance usage: self usage.
 	instance optionSpecs: self optionSpecs.
 	instance processDynamicSections: self.
-	self loadSpecs.
+	instance _loadSpecs: self specs.
 	instance displayResult: instance doit
 ]
 
@@ -75,14 +76,6 @@ SuperDoitCommandParser >> instVarNames [
 { #category : 'commands' }
 SuperDoitCommandParser >> instVarNames: string [
 	instVarNames := self instVarNames , (('#(' , string , ')') evaluate)
-]
-
-{ #category : 'doit' }
-SuperDoitCommandParser >> loadSpecs [
-"create a project set from the specs and load the whole enchilada"
-
-	self specs isEmpty ifTrue: [ ^ self ].
-self halt.
 ]
 
 { #category : 'commands' }
@@ -184,6 +177,21 @@ SuperDoitCommandParser >> processNextCommand [
 ]
 
 { #category : 'accessing' }
+SuperDoitCommandParser >> projectsHome [
+	^ projectsHome ifNil: [ 'ROWAN_PROJECTS_HOME' ]
+]
+
+{ #category : 'commands' }
+SuperDoitCommandParser >> projectsHome: string [
+	| projectsHomeStream |
+	projectsHomeStream := string readStreamPortable.
+	[ projectsHomeStream atEnd ]
+		whileFalse: [ 
+			"last declaration wins"
+			projectsHome := projectsHomeStream nextLine ]
+]
+
+{ #category : 'accessing' }
 SuperDoitCommandParser >> scriptArgs [
 ^ scriptArgs ifNil: [ #() ]
 ]
@@ -217,8 +225,17 @@ SuperDoitCommandParser >> specSton: string [
 			| obj |
 			obj := STON fromStream: stonStream.
 			obj _isArray
-				ifTrue: [ self specs addAll: obj ]
-				ifFalse: [ self specs add: obj ] ]
+				ifTrue: [ 
+					self specs
+						addAll:
+							(obj
+								collect: [ :each | 
+									each
+										projectsHome: self projectsHome;
+										yourself ]) ]
+				ifFalse: [ 
+					obj projectsHome: self projectsHome.
+					self specs add: obj ] ]
 ]
 
 { #category : 'commands' }
@@ -229,7 +246,9 @@ SuperDoitCommandParser >> specUrls: string [
 		whileFalse: [ 
 			| url spec |
 			url := urlStream nextLine.
-			spec := RwSpecification fromUrl: url.
+			spec := (RwSpecification fromUrl: url)
+				projectsHome: self projectsHome;
+				yourself.
 			self specs add: spec ]
 ]
 

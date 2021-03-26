@@ -29,10 +29,10 @@ EXAMPLES
 -----
 %
 projectshome
-$GS_HOME/server/stones/$stoneName/git
+$SUPERDOIT_STONE_DIR/git
 %
 specUrls
-file:$SUPERDOIT_STONE_DIR/tests/specs/RowanSample9_spec_0001.ston
+file:$SUPERDOIT_DIR/tests/specs/RowanSample9_spec_0001.ston
 %
 method
 getAndVerifyOptions
@@ -44,13 +44,18 @@ doit
 	self getAndVerifyOptions == self noResult
 		ifTrue: [ ^ self noResult ].
 	[
-		testSuite := (Rowan projectNamed: 'RowanSample9') testSuite.
+		| projectName |
+		projectName := 'RowanSample9'.
+		('$SUPERDOIT_STONE_DIR/git/', projectName) asFileReference ensureDeleteAll. "make sure that we're forced to clone RowanSample9"
+		self preDoitSpecLoad.	"reload RowanSample9"
+		testSuite := (Rowan projectNamed: projectName) testSuite.
 		self debug
 			ifTrue: [ 
 				testSuite debug.
-				^ 'all tests pass' ]
+				^ 'all tests ', projectName, ' tests pass' ]
 			ifFalse: [ testResult := testSuite run ].
-		^ testResult printString.
+		('$SUPERDOIT_STONE_DIR/git/', projectName) asFileReference ensureDeleteAll. "clean up after we're done"
+		^ projectName, ' test results: ', testResult printString.
 	] on: Error do: [:ex | 
 		self debug ifTrue: [ ex pass ].
 		self exit: ex description withStatus: 1 "does not return" ].
