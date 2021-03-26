@@ -69,6 +69,11 @@ SuperDoitCommandParser >> done [
 ^ done ifNil: [ false ]
 ]
 
+{ #category : 'commands' }
+SuperDoitCommandParser >> input: aString [
+	^ SuperDoitInputCommand chunk: aString
+]
+
 { #category : 'accessing' }
 SuperDoitCommandParser >> instVarNames [
 	^ instVarNames ifNil: [ instVarNames := {} ]
@@ -155,6 +160,8 @@ SuperDoitCommandParser >> processNextCommand [
 		ifTrue: [  ^ self method: self nextChunk className: (words at: 2) ].
 	command = 'CLASSMETHOD:'
 		ifTrue: [ ^ self classMethod: self nextChunk className: (words at: 2) ].
+	command = 'INPUT'
+		ifTrue: [ ^ self input: self nextChunk ].
 	command = 'OPTIONS'
 		ifTrue: [ ^ self options: self nextChunk ].
 	command = 'INSTVARS'
