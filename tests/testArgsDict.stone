@@ -26,7 +26,7 @@ doit
 	| argDictCommand count passed failed errors failedArgs summary scriptErrorClass expectedFail |
 	self getAndVerifyOptions == self noResult
 		ifTrue: [ ^ self noResult ].
-	argDictCommand := '$SUPERDOIT_STONE_DIR'  asFileReference / 'tests' / 'argsDict.stone'.
+	argDictCommand := '$SUPERDOIT_DIR'  asFileReference / 'tests' / 'argsDict.stone'.
 	count := passed := failed := errors := expectedFail := 0.
 	failedArgs := {}.
 	scriptErrorClass := (Rowan globalNamed: 'ChildError') 
