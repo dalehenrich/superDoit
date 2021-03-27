@@ -182,7 +182,7 @@ SuperDoitCommandParser >> processNextCommand [
 
 { #category : 'accessing' }
 SuperDoitCommandParser >> projectsHome [
-	^ projectsHome ifNil: [ 'ROWAN_PROJECTS_HOME' ]
+	^ projectsHome ifNil: [ '$ROWAN_PROJECTS_HOME' ]
 ]
 
 { #category : 'accessing' }
