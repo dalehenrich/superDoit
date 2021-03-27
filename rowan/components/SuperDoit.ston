@@ -11,7 +11,8 @@ RwSimpleProjectLoadComponentV2 {
 	],
 	#packageNames : [
 		'SuperDoit-Core',
-		'SuperDoit-Command'
+		'SuperDoit-Command',
+		'SuperDoit-Option'
 	],
 	#comment : ''
 }
