@@ -2,10 +2,10 @@
 #
 options
 {
-  SuperDoitCommandLineOption long: 'help' short: 'h'.
-  SuperDoitCommandLineOption long: 'debug' short: 'D'.
-  SuperDoitRequiredCommandLineOption long: 'projectsHome' default: '$ROWAN_PROJECTS_HOME'.
-  SuperDoitCommandLineOption long: 'noCommit'.
+  SuperDoitOptionalOptionWithNoArg long: 'help' short: 'h'.
+  SuperDoitOptionalOptionWithNoArg long: 'debug' short: 'D'.
+  SuperDoitOptionalOptionWithRequiredArg long: 'projectsHome' default: '$ROWAN_PROJECTS_HOME'.
+  SuperDoitOptionalOptionWithNoArg long: 'noCommit'.
 }
 %
 usage

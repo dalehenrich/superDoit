@@ -2,9 +2,9 @@
 #
 options
 {
-  SuperDoitCommandLineOption long: 'help' short: 'h'.
-  SuperDoitCommandLineOption long: 'debug' short: 'D'.
-  SuperDoitCommandLineOption long: 'tests' short: 't'.
+  SuperDoitOptionalOptionWithNoArg long: 'help' short: 'h'.
+  SuperDoitOptionalOptionWithNoArg long: 'debug' short: 'D'.
+  SuperDoitOptionalOptionWithNoArg long: 'tests' short: 't'.
 }
 %
 usage

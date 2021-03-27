@@ -1,8 +1,8 @@
 #!/usr/bin/env superdoit_stone
 options
 {
-  SuperDoitCommandLineOption long: 'debug' short: 'D'.
-  SuperDoitCommandLineOption long: 'help' short: 'h'.
+  SuperDoitOptionalOptionWithNoArg long: 'debug' short: 'D'.
+  SuperDoitOptionalOptionWithNoArg long: 'help' short: 'h'.
 }
 %
 usage

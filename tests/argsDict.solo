@@ -1,13 +1,13 @@
 #!/usr/bin/env superdoit_solo
 options
 {
-  SuperDoitCommandLineOption long: 'debug' short: 'D'.
-  SuperDoitCommandLineOption long: 'help' short: 'h'.
-  SuperDoitCommandLineOption long: 'none' short: 'n'.
-  SuperDoitRequiredCommandLineOption long: 'required'.
-  SuperDoitRequiredCommandLineOption long: 'another' short: 'a'.
-  SuperDoitOptionalCommandLineOption long: 'optional' short: 'o' default: '0'.
-  SuperDoitOptionalCommandLineOption long: 'noshort' default: '0'.
+  SuperDoitOptionalOptionWithNoArg long: 'debug' short: 'D'.
+  SuperDoitOptionalOptionWithNoArg long: 'help' short: 'h'.
+  SuperDoitOptionalOptionWithNoArg long: 'none' short: 'n'.
+  SuperDoitOptionalOptionWithRequiredArg long: 'required'.
+  SuperDoitOptionalOptionWithRequiredArg long: 'another' short: 'a'.
+  SuperDoitOptionalOptionWithOptionalArg long: 'optional' short: 'o' default: '0'.
+  SuperDoitOptionalOptionWithOptionalArg long: 'noshort' default: '0'.
 }
 %
 usage
@@ -26,13 +26,13 @@ DESCRIPTION
 
     options
     {
-      SuperDoitCommandLineOption long: 'debug' short: 'D'.
-      SuperDoitCommandLineOption long: 'help' short: 'h'.
-      SuperDoitCommandLineOption long: 'none' short: 'n'.
-      SuperDoitRequiredCommandLineOption long: 'required'.
-      SuperDoitRequiredCommandLineOption long: 'another' short: 'a'.
-      SuperDoitOptionalCommandLineOption long: 'optional' short: 'o' default: '0'.
-      SuperDoitOptionalCommandLineOption long: 'noshort' default: '0'.
+      SuperDoitOptionalOptionWithNoArg long: 'debug' short: 'D'.
+      SuperDoitOptionalOptionWithNoArg long: 'help' short: 'h'.
+      SuperDoitOptionalOptionWithNoArg long: 'none' short: 'n'.
+      SuperDoitOptionalOptionWithRequiredArg long: 'required'.
+      SuperDoitOptionalOptionWithRequiredArg long: 'another' short: 'a'.
+      SuperDoitOptionalOptionWithOptionalArg long: 'optional' short: 'o' default: '0'.
+      SuperDoitOptionalOptionWithOptionalArg long: 'noshort' default: '0'.
     }
     %
 
@@ -80,7 +80,7 @@ OPTIONS
 EXAMPLES
   $basename --help
   $basename -h
-  $basename --debug -required 123 -ona 456
+  $basename --debug --required=123 -ona 456
   $basename --none
   $basename -D
   $basename 123

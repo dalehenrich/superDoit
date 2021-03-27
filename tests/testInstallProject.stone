@@ -2,8 +2,9 @@
 #
 options
 {
-  SuperDoitCommandLineOption long: 'help' short: 'h'.
-  SuperDoitCommandLineOption long: 'debug' short: 'D'.
+  SuperDoitOptionalOptionWithNoArg long: 'help' short: 'h'.
+  SuperDoitOptionalOptionWithNoArg long: 'debug' short: 'D'.
+  SuperDoitOptionalOptionWithNoArg long: 'commit'.
 }
 %
 usage
@@ -14,6 +15,7 @@ DESCRIPTION
   Test the examples/utility/install_rowan_project.stone script.
 
 OPTIONS
+     --commit                If present do a commit after the project is installed
   <stone-name>               Name of the GsDevKit_home stone. <stone-name> argument
                              may be skipped if the script is run in a GsDevKit_home
                              stone directory (i.e., $GS_HOME/server/stones/<stone-name>
@@ -25,6 +27,7 @@ OPTIONS
 EXAMPLES
   $basename -h
   $basename -D
+  $basename --commit
   $basename
 -----
 %
@@ -39,8 +42,9 @@ doit
 		ifTrue: [ ^ self noResult ].
 	installCommand := '$SUPERDOIT_DIR'  asFileReference / 'examples/utility/install_rowan_project.stone'.
 	[
-		| args |
-		args := '--noCommit --projectsHome=$GS_HOME/server/stones/', self executionStoneName, '/git ',
+		| commitArg args |
+		commitArg := self commit ifTrue: [ '' ] ifFalse: ['--noCommit'].
+		args := commitArg, ' --projectsHome=$GS_HOME/server/stones/', self executionStoneName, '/git ',
 			'file:$SUPERDOIT_DIR/tests/specs/RowanSample9_spec_0001.ston'.
 		GsHostProcess execute: installCommand pathString, ' ', args, ' -- ', self executionStoneName.
 	] on: Error do: [:ex | 

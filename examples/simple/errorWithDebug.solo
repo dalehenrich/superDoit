@@ -1,6 +1,6 @@
 #!/usr/bin/env superdoit_solo
 options
-{ SuperDoitCommandLineOption long: 'debug' short: 'D' }
+{ SuperDoitOptionalOptionWithNoArg long: 'debug' short: 'D' }
 %
 usage
 Example script that signals an error.

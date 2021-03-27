@@ -2,8 +2,8 @@
 #
 options
 {
-  SuperDoitCommandLineOption long: 'help' short: 'h'.
-  SuperDoitCommandLineOption long: 'debug' short: 'D'.
+  SuperDoitOptionalOptionWithNoArg long: 'help' short: 'h'.
+  SuperDoitOptionalOptionWithNoArg long: 'debug' short: 'D'.
 }
 %
 usage
