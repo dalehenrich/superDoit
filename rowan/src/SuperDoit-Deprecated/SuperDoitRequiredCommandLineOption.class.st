@@ -1,7 +1,7 @@
 Class {
 	#name : 'SuperDoitRequiredCommandLineOption',
 	#superclass : 'SuperDoitCommandLineOptionWithArgument',
-	#category : 'SuperDoit-Core'
+	#category : 'SuperDoit-Deprecated'
 }
 
 { #category : 'testing' }

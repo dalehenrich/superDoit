@@ -1,7 +1,7 @@
 Class {
 	#name : 'SuperDoitDoitCommand',
 	#superclass : 'SuperDoitCommand',
-	#category : 'SuperDoit-Core'
+	#category : 'SuperDoit-Command'
 }
 
 { #category : 'execution' }

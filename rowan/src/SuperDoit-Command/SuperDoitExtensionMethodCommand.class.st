@@ -5,7 +5,7 @@ Class {
 		'className',
 		'isMeta'
 	],
-	#category : 'SuperDoit-Core'
+	#category : 'SuperDoit-Command'
 }
 
 { #category : 'instance creation' }

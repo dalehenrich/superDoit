@@ -3,13 +3,15 @@ RwSimpleProjectLoadComponentV2 {
 	#condition : 'common',
 	#projectNames : [ ],
 	#componentNames : [
+		'deprecated/SuperDoit',
 		'gemstone/SuperDoit',
 		'gemstone36/SuperDoit',
 		'rowan/SuperDoit',
 		'tode/SuperDoit'
 	],
 	#packageNames : [
-		'SuperDoit-Core'
+		'SuperDoit-Core',
+		'SuperDoit-Command'
 	],
 	#comment : ''
 }

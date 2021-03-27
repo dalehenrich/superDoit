@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'chunk'
 	],
-	#category : 'SuperDoit-Core'
+	#category : 'SuperDoit-Command'
 }
 
 { #category : 'instance creation' }

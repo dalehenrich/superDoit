@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'commands'
 	],
-	#category : 'SuperDoit-Core'
+	#category : 'SuperDoit-Command'
 }
 
 { #category : 'creation' }

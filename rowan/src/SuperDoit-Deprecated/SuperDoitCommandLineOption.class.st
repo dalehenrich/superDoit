@@ -10,7 +10,7 @@ Class {
 		'NotSet',
 		'NoValue'
 	],
-	#category : 'SuperDoit-Core'
+	#category : 'SuperDoit-Deprecated'
 }
 
 { #category : 'instance creation' }

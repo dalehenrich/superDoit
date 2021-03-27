@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'defaultValue'
 	],
-	#category : 'SuperDoit-Core'
+	#category : 'SuperDoit-Deprecated'
 }
 
 { #category : 'instance creation' }
