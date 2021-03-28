@@ -14,7 +14,7 @@ SuperDoitCommandDefinition >> addCommand: aSuperDoitCommand [
 
 { #category : 'accessing' }
 SuperDoitCommandDefinition >> commands [
-	^ commands ifNil: [ commands := {} ]
+	^ commands ifNil: [ commands := OrderedCollection new ]
 ]
 
 { #category : 'execution' }

@@ -1,4 +1,4 @@
-#!/usr/bin/env superdoit_solo
+#!/usr/bin/env superdoit_stone
 #
 # Standard options are always present unless customoptions section is used
 #{
@@ -8,23 +8,23 @@
 #
 usage
 -----
-USAGE $basename [--help | -h] [--debug | -D]
+USAGE $basename [--help | -h] [--debug | -D] [-- [<stone-name> [<topaz-command-line-args>] ] ]
 
 DESCRIPTION
-  Evaluate the Smalltalk expression: 3+4 and return the result on stdout.
+  Generate an error.
 
 OPTIONS
   -h, --help                 display usage message
   -D, --debug                bring up topaz debugger in the event of a script error
 
 EXAMPLES
-  $basename --help
-  $basename -h
-  $basename --debug
-  $basename -D
-  $basename
+  $basename --help  -- gs_360
+  $basename -h      -- gs_360
+  $basename --debug -- gs_360
+  $basename -D      -- gs_360
+  $basename         -- gs_360
 -----
 %
 doit
-	^ 3 + 4
+	^ 3 foo
 %

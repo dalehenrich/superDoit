@@ -1,17 +1,23 @@
 #!/usr/bin/env superdoit_stone
+
+#
+# Standard options are always present unless customoptions section is used
+#{
+#  SuperDoitOptionalOptionWithNoArg long: 'help' short: 'h'.
+#  SuperDoitOptionalOptionWithNoArg long: 'debug' short: 'D'.
+#}
 #
 options
 {
-  SuperDoitOptionalOptionWithNoArg long: 'help' short: 'h'.
-  SuperDoitOptionalOptionWithNoArg long: 'debug' short: 'D'.
   SuperDoitOptionalOptionWithRequiredArg long: 'projectsHome' default: '$ROWAN_PROJECTS_HOME'.
   SuperDoitOptionalOptionWithNoArg long: 'noCommit'.
 }
 %
 usage
 -----
-USAGE $basename [--help | -h] [--debug | -D] [--projectsHome=<projects-home>] <rowan-load-spec-url> \
-			[ --noCommit ] [-- [<stone-name> [<topaz-command-line-args>] ] ]
+USAGE $basename [--help | -h] [--debug | -D] \
+      [--projectsHome=<projects-home>] [ --noCommit ] <rowan-load-spec-url> \
+      [-- [<stone-name> [<topaz-command-line-args>] ] ]
 
 DESCRIPTION
   Load the project referenced by the <rowan-load-spec-url> into the given
@@ -49,25 +55,14 @@ EXAMPLES
   $basename --noCommit --projectsHome=$GS_HOME/server/stones/superdoit_l file:tests/specs/RowanSample9_spec_0001.ston -- superdoit_l
 -----
 %
-method
-getAndVerifyOptions
-		self getOpts: self optionSpecs.
-		self help ifTrue: [ ^ self usage ].
-		self positionalArgs size < 1 
-			ifTrue: [self error: 'Missing positional argument  <rowan-load-spec-url>'].
-%
 doit
-	[
-		self getAndVerifyOptions == self noResult
-			ifTrue: [ ^ self noResult ].
-		(Rowan 
-			projectFromUrl: (self positionalArgs at: 1)
-				projectsHome: self projectsHome )
-			load.
+	self positionalArgs size < 1 
+		ifTrue: [self error: 'Missing positional argument  <rowan-load-spec-url>'].
+	(Rowan 
+		projectFromUrl: (self positionalArgs at: 1)
+			projectsHome: self projectsHome )
+		load.
 	self noCommit ifTrue: [ ^ 'loaded (no commit)' ].
 	^ System commit
-	] on: Error do: [:ex | 
-		self debug ifTrue: [ ex pass ].
-		self exit: ex messageText withStatus: 1 "does not return" ].
 %
 

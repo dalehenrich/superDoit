@@ -1,18 +1,18 @@
 #!/usr/bin/env superdoit_stone
 options
 {
-  SuperDoitOptionalOptionWithNoArg long: 'debug' short: 'D'.
-  SuperDoitOptionalOptionWithNoArg long: 'help' short: 'h'.
   SuperDoitOptionalOptionWithNoArg long: 'none' short: 'n'.
   SuperDoitOptionalOptionWithRequiredArg long: 'required'.
   SuperDoitOptionalOptionWithRequiredArg long: 'another' short: 'a'.
   SuperDoitOptionalOptionWithOptionalArg long: 'optional' short: 'o' default: '0'.
   SuperDoitOptionalOptionWithOptionalArg long: 'noshort' default: '0'.
+	SuperDoitRequiredOptionWithRequiredArg long: 'must' short: 'm'.
 }
 %
 usage
 -----
 USAGE $basename [--help | -h] [--debug | -D] \
+      --must=<something> | -m <something>
       [--required=<something>] \
       [--noshort[=<something>] ] \
       [--optional[=<something>] | -o [<something>] ] \
@@ -34,33 +34,9 @@ DESCRIPTION
       SuperDoitOptionalOptionWithRequiredArg long: 'another' short: 'a'.
       SuperDoitOptionalOptionWithOptionalArg long: 'optional' short: 'o' default: '0'.
       SuperDoitOptionalOptionWithOptionalArg long: 'noshort' default: '0'.
+	    SuperDoitRequiredOptionWithRequiredArg long: 'must' short: 'm'.
     }
     %
-
-  where an option is declared on a line with three fields:
-
-    longName shortName [none | required | optional
-
-  The shortName may be nil.
-
-	When the 'options' section is processed the resulting option spec is added to
-	  the 'optionSpec' inst var.
-
-  When the #getOpts: message is sent with optionsSpec inst var as the argument,
-    the options are read from the command line and the 'opts' instance variable
-    is set to a dictionary of options and the 'args' instance variable is set
-    to an array of positional parameters.
-
-  The 'opts' dictionary contains two assocations keyed by 'options' and 'args'. 
-
-  The 'options'  value is a dictionary whose keys are the long names of the 
-    options  appearing on the command line and whose values are the value of the
-    option specified on the command line. If not value was specified on the
-    command line, the value is 'nil'.
-
-  Errors are generated during command line parsing if an option argument is 
-    specified when the options spec is #none, or if no option argument is 
-    specified when the options spec is #required.
 
 OPTIONS
   <stone-name>               Name of the GsDevKit_home stone. <stone-name> argument
@@ -72,65 +48,57 @@ OPTIONS
   -D, --debug                bring up topaz debugger in the event of a script error
   --required=<required-value>
                              example of a long option with a required value.
-  -o, --optional[=<optional-value>]
+  -o [=<optional-value>], --optional[=<optional-value>]
                              example of a long and short option with an optional value. 
                              The default value is '0'.
   --noshort[=<optional-value>]
                              example of a long option with an optional value. The 
                              default value is '0'.
-  -a, --another=<another-required-value>]
+  -a <another-required-value>, --another=<another-required-value>
                              example of a long and short option with a required value.
   -n, --none                 example of a long and short option with no required value.
+  -m <required-value>, --must=<required-value>
+                             example of a required option with a required value. Must
+                             specified on the command line
 
 EXAMPLES
   NOTE : if the script is not run from a $GS_HOME/stones/<stone-name> directory,
     the "-- <stone-name>" argument is required! 
 
-  $basename --help
-  $basename -h
-  $basename --debug --required=123 -ona 456
-  $basename --none
-  $basename -D
-  $basename 123 -- gs_370
-  $basename 123
-  $basename 123 456
-  $basename --required=123
-  $basename --another=123
-  $basename -a 123
-  $basename --noshort
-  $basename --noshort=123
-  $basename --optional
-  $basename -o
-  $basename --optional=123
-  $basename -o 123
-  $basename -o 123 -a 456
-  $basename -oa 123
-  $basename -oa 123 456
-  $basename 456 -or 123
-  $basename --required=123 --optional=123 --another=123
-  $basename --required=123 --optional --another=123
-  $basename --required=123 --noshort=123 --another=123
-  $basename --required=123 --noshort --another=123
-  $basename --required=123 -o
-  $basename --required=123 -o 456 789
-  $basename --required=123 -oa 123
-  $basename --required=123 -o 456 --another=123 789
+  $basename --help                                                  -- gs_360
+  $basename -h                                                      -- gs_360
+  $basename --debug --required=123 -ona 456 -m must                 -- gs_360
+  $basename --none -m must                                          -- gs_360
+  $basename -D -m must                                              -- gs_360
+  $basename -m 123                                                  -- gs_370
+  $basename 123 -m must                                             -- gs_360
+  $basename 123 -m must 456                                         -- gs_360
+  $basename --must=must --required=123                              -- gs_360
+  $basename --must=must --another=123                               -- gs_360
+  $basename --must=must -a 123                                      -- gs_360
+  $basename --must=must --noshort                                   -- gs_360
+  $basename --must=must --noshort=123                               -- gs_360
+  $basename --must=must --optional                                  -- gs_360
+  $basename --must=must -o                                          -- gs_360
+  $basename --optional=123                                          -- gs_360
+  $basename --must=must -o 123                                      -- gs_360
+  $basename --must=must -o 123 -a 456                               -- gs_360
+  $basename --must=must -oa 123                                     -- gs_360
+  $basename --must=must -oa 123 456                                 -- gs_360
+  $basename --must=must 456 -or 123                                 -- gs_360
+  $basename --must=must --required=123 --optional=123 --another=123 -- gs_360
+  $basename --must=must --required=123 --optional --another=123     -- gs_360
+  $basename --must=must --required=123 --noshort=123 --another=123  -- gs_360
+  $basename --must=must --required=123 --noshort --another=123      -- gs_360
+  $basename -m must --required=123 -o                               -- gs_360
+  $basename -m must --required=123 -o 456 789                       -- gs_360
+  $basename -m must --required=123 -oa 123                          -- gs_360
+  $basename -m must --required=123 -o 456 --another=123 789         -- gs_360
 
-  $basename --required=123 -o 456 --another=123 789 -- gs_370
+  $basename -m must --required=123 -o 456 --another=123 789         -- gs_370
 -----
 %
-method
-getAndVerifyOptions
-		self getOpts: self optionSpecs.
-		self help ifTrue: [ ^ self usage ].
-%
 doit
-	[
-		self getAndVerifyOptions == self noResult
-			ifTrue: [ ^ self noResult ].
-		^ self commandLineSummary
-	] on: Error do: [:ex | 
-		self debug ifTrue: [ ex pass ].
-		self exit: ex messageText withStatus: 1 "does not return" ].
+	^ self commandLineSummary
 %
 

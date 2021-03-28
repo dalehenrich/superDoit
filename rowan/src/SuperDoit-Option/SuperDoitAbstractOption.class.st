@@ -60,6 +60,11 @@ SuperDoitAbstractOption >> initialize [
 	value := self notSet
 ]
 
+{ #category : 'testing' }
+SuperDoitAbstractOption >> isRequired [
+	^ false
+]
+
 { #category : 'accessing' }
 SuperDoitAbstractOption >> longName [
 	^longName

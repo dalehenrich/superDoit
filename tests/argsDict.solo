@@ -1,18 +1,18 @@
 #!/usr/bin/env superdoit_solo
 options
 {
-  SuperDoitOptionalOptionWithNoArg long: 'debug' short: 'D'.
-  SuperDoitOptionalOptionWithNoArg long: 'help' short: 'h'.
   SuperDoitOptionalOptionWithNoArg long: 'none' short: 'n'.
   SuperDoitOptionalOptionWithRequiredArg long: 'required'.
   SuperDoitOptionalOptionWithRequiredArg long: 'another' short: 'a'.
   SuperDoitOptionalOptionWithOptionalArg long: 'optional' short: 'o' default: '0'.
   SuperDoitOptionalOptionWithOptionalArg long: 'noshort' default: '0'.
+	SuperDoitRequiredOptionWithRequiredArg long: 'must' short: 'm'.
 }
 %
 usage
 -----
 USAGE $basename [--help | -h] [--debug | -D] \
+      --must=<something> | -m <something>
       [--required=<something>] \
       [--noshort[=<something>] ] \
       [--optional[=<something>] | -o [<something>] ] \
@@ -33,33 +33,10 @@ DESCRIPTION
       SuperDoitOptionalOptionWithRequiredArg long: 'another' short: 'a'.
       SuperDoitOptionalOptionWithOptionalArg long: 'optional' short: 'o' default: '0'.
       SuperDoitOptionalOptionWithOptionalArg long: 'noshort' default: '0'.
+	    SuperDoitRequiredOptionWithRequiredArg long: 'must' short: 'm'.
     }
     %
 
-  where an option is declared on a line with three fields:
-
-    longName shortName [none | required | optional
-
-  The shortName may be nil.
-
-	When the 'options' section is processed the resulting option spec is added to
-	  the 'optionSpec' inst var.
-
-  When the #getOpts: message is sent with optionsSpec inst var as the argument,
-    the options are read from the command line and the 'opts' instance variable
-    is set to a dictionary of options and the 'args' instance variable is set
-    to an array of positional parameters.
-
-  The 'opts' dictionary contains two assocations keyed by 'options' and 'args'. 
-
-  The 'options'  value is a dictionary whose keys are the long names of the 
-    options  appearing on the command line and whose values are the value of the
-    option specified on the command line. If not value was specified on the
-    command line, the value is 'nil'.
-
-  Errors are generated during command line parsing if an option argument is 
-    specified when the options spec is #none, or if no option argument is 
-    specified when the options spec is #required.
 
 OPTIONS
   <positional-arguments>     any number of positional arguments may be specified.
@@ -76,50 +53,43 @@ OPTIONS
   -a, --another=<another-required-value>]
                              example of a long and short option with a required value.
   -n, --none                 example of a long and short option with no required value.
+  -m <required-value>, --must=<required-value>
+                             example of a required option with a required value. Must
+                             specified on the command line
 
 EXAMPLES
-  $basename --help
+  $basename --help 
   $basename -h
-  $basename --debug --required=123 -ona 456
-  $basename --none
-  $basename -D
-  $basename 123
-  $basename 123 456
-  $basename --required=123
-  $basename --another=123
-  $basename -a 123
-  $basename --noshort
-  $basename --noshort=123
-  $basename --optional
-  $basename -o
+  $basename --debug --required=123 -ona 456 -m must
+  $basename --none -m must
+  $basename -D -m must
+  $basename -m 123 
+  $basename 123 -m must
+  $basename 123 -m must 456 
+  $basename --must=must --required=123
+  $basename --must=must --another=123
+  $basename --must=must -a 123
+  $basename --must=must --noshort
+  $basename --must=must --noshort=123
+  $basename --must=must --optional
+  $basename --must=must -o
   $basename --optional=123
-  $basename -o 123
-  $basename -o 123 -a 456
-  $basename -oa 123
-  $basename -oa 123 456
-  $basename 456 -or 123
-  $basename --required=123 --optional=123 --another=123
-  $basename --required=123 --optional --another=123
-  $basename --required=123 --noshort=123 --another=123
-  $basename --required=123 --noshort --another=123
-  $basename --required=123 -o
-  $basename --required=123 -o 456 789
-  $basename --required=123 -oa 123
-  $basename --required=123 -o 456 --another=123 789
+  $basename --must=must -o 123
+  $basename --must=must -o 123 -a 456
+  $basename --must=must -oa 123
+  $basename --must=must -oa 123 456
+  $basename --must=must 456 -or 123
+  $basename --must=must --required=123 --optional=123 --another=123
+  $basename --must=must --required=123 --optional --another=123
+  $basename --must=must --required=123 --noshort=123 --another=123
+  $basename --must=must --required=123 --noshort --another=123
+  $basename -m must --required=123 -o
+  $basename -m must --required=123 -o 456 789
+  $basename -m must --required=123 -oa 123
+  $basename -m must --required=123 -o 456 --another=123 789
 -----
 %
-method
-getAndVerifyOptions
-		self getOpts: self optionSpecs.
-		self help ifTrue: [ ^ self usage ].
-%
 doit
-	[
-		self getAndVerifyOptions == self noResult
-			ifTrue: [ ^ self noResult ].
-		^ self commandLineSummary
-	] on: Error do: [:ex | 
-		self debug ifTrue: [ ex pass ].
-		self exit: ex messageText withStatus: 1 "does not return" ].
+	^ self commandLineSummary
 %
 

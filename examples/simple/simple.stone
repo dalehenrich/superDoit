@@ -1,11 +1,11 @@
 #!/usr/bin/env superdoit_stone
 #
-options
-{
-  SuperDoitOptionalOptionWithNoArg long: 'help' short: 'h'.
-  SuperDoitOptionalOptionWithNoArg long: 'debug' short: 'D'.
-}
-%
+# Standard options are always present unless customoptions section is used
+#{
+#  SuperDoitOptionalOptionWithNoArg long: 'help' short: 'h'.
+#  SuperDoitOptionalOptionWithNoArg long: 'debug' short: 'D'.
+#}
+#
 usage
 -----
 USAGE $basename [--help | -h] [--debug | -D] [-- [<stone-name> [<topaz-command-line-args>] ] ]
@@ -23,26 +23,15 @@ OPTIONS
   -D, --debug                bring up topaz debugger in the event of a script error
 
 EXAMPLES
-  $basename --help
-  $basename -h
-  $basename --debug
-  $basename -D
-  $basename
-  $basename -- gs_360
-  $basename -- gs_360 -T 100000
+  $basename --help  -- gs_360
+  $basename -h      -- gs_360
+  $basename --debug -- gs_360
+  $basename -D      -- gs_360
+  $basename         -- gs_360
+  $basename         -- gs_360
+  $basename         -- gs_360 -T 100000
 -----
 %
-method
-getAndVerifyOptions
-		self getOpts: self optionSpecs.
-		self help ifTrue: [ ^ self usage ].
-%
 doit
-	[
-		self getAndVerifyOptions == self noResult
-			ifTrue: [ ^ self noResult ].
-		^ 3 + 4
-	] on: Error do: [:ex | 
-		self debug ifTrue: [ ex pass ].
-		self exit: ex description withStatus: 1 "does not return" ].
+	^ 3 + 4
 %

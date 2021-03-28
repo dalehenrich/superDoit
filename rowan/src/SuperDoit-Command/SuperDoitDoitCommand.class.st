@@ -9,7 +9,7 @@ SuperDoitDoitCommand >> executeAgainst: aCommandParser [
 	| instance |
 	aCommandParser superDoitExecutionClass
 		compileMethod:
-			'doit ^ ' , self chunk printString
+			'theDoit ^ ' , self chunk printString
 				,
 					' evaluateInContext: self 
 				symbolList: GsCurrentSession currentSession transientSymbolList '.
@@ -17,7 +17,7 @@ SuperDoitDoitCommand >> executeAgainst: aCommandParser [
 	instance scriptPath: aCommandParser scriptPath.
 	instance scriptArgs: aCommandParser scriptArgs.
 	instance usage: aCommandParser usage.
-	instance optionSpecs: aCommandParser optionSpecs.
+	instance optionsDict: aCommandParser optionsDict.
 	instance processDynamicSections: aCommandParser.
 	instance _loadSpecs: aCommandParser specs.
 	instance displayResult: instance doit

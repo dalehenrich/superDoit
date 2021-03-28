@@ -7,9 +7,9 @@ Class {
 		'_scriptPath',
 		'_usage',
 		'_noResult',
-		'_optionSpecs',
 		'_positionalArgs',
-		'_loadSpecs'
+		'_loadSpecs',
+		'_optionsDict'
 	],
 	#category : 'SuperDoit-Core'
 }
@@ -25,13 +25,13 @@ SuperDoitExecution >> _loadSpecs: specs [
 ]
 
 { #category : 'private' }
-SuperDoitExecution >> _specsDictFor: optionsSpec [
+SuperDoitExecution >> _specsDict [
 	| specsDict |
 	specsDict := Dictionary new
 		at: 'long' put: Dictionary new;
 		at: 'short' put: Dictionary new;
 		yourself.
-	self optionSpecs
+	self optionsDict
 		do: [ :option | 
 			(specsDict at: 'long') at: option longName put: option.
 			option shortName
@@ -69,7 +69,7 @@ SuperDoitExecution >> commandLine: aString [
 SuperDoitExecution >> commandLineSummary [
 	| opts |
 	opts := Dictionary new.
-	self optionSpecs do: [:option |
+	self optionsDict do: [:option |
 		option wasSet
 			ifTrue: [ opts at: option longName put: option value ] ].
 	^ Dictionary new
@@ -87,6 +87,21 @@ SuperDoitExecution >> dirname [
 SuperDoitExecution >> displayResult: anObject [
 	anObject ~~ self noResult
 		ifTrue: [ self ston: anObject on: self stdout ]
+]
+
+{ #category : 'script execution' }
+SuperDoitExecution >> doit [
+	"standard option handling ... for customization override in script"
+
+	[ 
+	self getAndVerifyOptions == self noResult
+		ifTrue: [ ^ self noResult ].
+	^ self theDoit ]
+		on: Error
+		do: [ :ex | 
+			((self respondsTo: #'debug') and: [ self debug ])
+				ifTrue: [ ex pass ].
+			self exit: ex messageText withStatus: 1	"does not return" ]
 ]
 
 { #category : 'script info' }
@@ -109,10 +124,25 @@ SuperDoitExecution >> exitWithStatus: statusInteger [
 	ExitClientError signal: 'explicit process exit' status: statusInteger
 ]
 
+{ #category : 'script execution' }
+SuperDoitExecution >> getAndVerifyOptions [
+	"standard option handling ... for customization override in script"
+
+	self getOpts.
+	((self respondsTo: #'help') and: [ self help ])
+		ifTrue: [ ^ self usage ].
+	self optionsDict
+		keysAndValuesDo: [ :longName :option | 
+			option isRequired
+				ifTrue: [ 
+					option wasSet
+						ifFalse: [ self error: 'The rquired option ' , longName printString , ' was not set' ] ] ]
+]
+
 { #category : 'command line' }
-SuperDoitExecution >> getOpts: optionsSpec [
+SuperDoitExecution >> getOpts [
 	| argStream opt theArgs specsDict |
-	specsDict := self _specsDictFor: optionsSpec.
+	specsDict := self _specsDict.
 	_positionalArgs := {}.
 	theArgs := self scriptArgs asArray.
 	theArgs size = 0
@@ -221,6 +251,11 @@ SuperDoitExecution >> getOpts: optionsSpec [
 				ifFalse: [ opt value: true ] ]
 ]
 
+{ #category : 'script info' }
+SuperDoitExecution >> isSolo [
+	^ GsSession isSolo
+]
+
 { #category : 'logging' }
 SuperDoitExecution >> log: anObject [
 	| stdout |
@@ -251,13 +286,13 @@ SuperDoitExecution >> noResult [
 ]
 
 { #category : 'accessing' }
-SuperDoitExecution >> optionSpecs [
-	^ _optionSpecs
+SuperDoitExecution >> optionsDict [
+	^_optionsDict
 ]
 
 { #category : 'accessing' }
-SuperDoitExecution >> optionSpecs: specs [
-	_optionSpecs := specs
+SuperDoitExecution >> optionsDict: object [
+	_optionsDict := object
 ]
 
 { #category : 'accessing' }

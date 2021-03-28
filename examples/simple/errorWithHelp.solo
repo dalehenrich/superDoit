@@ -6,20 +6,14 @@
 #  SuperDoitOptionalOptionWithNoArg long: 'debug' short: 'D'.
 #}
 #
-options
-{
-SuperDoitRequiredOptionWithRequiredArg long: 'addend' short: 'a'.
-}
-%
 usage
 -----
-USAGE $basename [--help | -h] [--debug | -D] --addend=<number> | -a <number>
+USAGE $basename [--help | -h] [--debug | -D]
 
 DESCRIPTION
-  Evaluate the Smalltalk expression: 3+addend and return the result on stdout.
+  Generate an error.
 
 OPTIONS
-  <number>                   number to be added to 3
   -h, --help                 display usage message
   -D, --debug                bring up topaz debugger in the event of a script error
 
@@ -28,10 +22,9 @@ EXAMPLES
   $basename -h
   $basename --debug
   $basename -D
-  $basename --addend=5
-  $basename -a 100
+  $basename
 -----
 %
 doit
-(self addend) asNumber + 3
+	^ 3 foo
 %

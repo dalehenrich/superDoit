@@ -12,7 +12,7 @@ Class {
 		'scriptArgs',
 		'scriptPath',
 		'systemDictionary',
-		'optionSpecs',
+		'optionsDict',
 		'projectsHome',
 		'commandDefinition'
 	],
@@ -57,6 +57,11 @@ SuperDoitCommandParser >> classMethod: aString className: className [
 SuperDoitCommandParser >> commandDefinition [
 	^ commandDefinition
 		ifNil: [ commandDefinition := SuperDoitCommandDefinition new ]
+]
+
+{ #category : 'commands' }
+SuperDoitCommandParser >> customOptions: string [
+	^ SuperDoitCustomOptionsCommand chunk: string
 ]
 
 { #category : 'commands' }
@@ -120,8 +125,13 @@ SuperDoitCommandParser >> options: string [
 ]
 
 { #category : 'accessing' }
-SuperDoitCommandParser >> optionSpecs [
-	^ optionSpecs ifNil: [ optionSpecs := Dictionary new ]
+SuperDoitCommandParser >> optionsDict [
+	^optionsDict
+]
+
+{ #category : 'accessing' }
+SuperDoitCommandParser >> optionsDict: object [
+	optionsDict := object
 ]
 
 { #category : 'execution' }
@@ -133,6 +143,10 @@ SuperDoitCommandParser >> parseAndExecuteScriptFile: scriptFileReference [
 				whileFalse: [ 
 					self processNextCommand
 						ifNotNil: [ :command | self commandDefinition addCommand: command ] ].
+			optionsDict
+				ifNil: [ 
+					"no options specified, so go with the standard options and add it at the beginning of commands"
+					self commandDefinition commands addFirst: (SuperDoitOptionsCommand chunk: '{}') ].
 			self commandDefinition executeAgainst: self.
 			^ doitResult ]
 ]
@@ -150,20 +164,22 @@ SuperDoitCommandParser >> processNextCommand [
 		ifTrue: [ ^ nil ].
 
 	command := words first asUppercase.
-	(command at: 1) == $# 
+	(command at: 1) == $#
 		ifTrue: [ ^ self scriptComment: line ].
 	command = 'DOIT'
 		ifTrue: [ ^ self doit: self nextChunk ].
 	command = 'METHOD'
-		ifTrue: [ ^ self method: self nextChunk  ].
+		ifTrue: [ ^ self method: self nextChunk ].
 	command = 'METHOD:'
-		ifTrue: [  ^ self method: self nextChunk className: (words at: 2) ].
+		ifTrue: [ ^ self method: self nextChunk className: (words at: 2) ].
 	command = 'CLASSMETHOD:'
 		ifTrue: [ ^ self classMethod: self nextChunk className: (words at: 2) ].
 	command = 'INPUT'
 		ifTrue: [ ^ self input: self nextChunk ].
 	command = 'OPTIONS'
 		ifTrue: [ ^ self options: self nextChunk ].
+	command = 'CUSTOMOPTIONS'
+		ifTrue: [ ^ self customOptions: self nextChunk ].
 	command = 'INSTVARS'
 		ifTrue: [ ^ self instVarNamesCommand: self nextChunk ].
 	command = 'PROJECTSHOME'
@@ -236,6 +252,12 @@ SuperDoitCommandParser >> specUrls: string [
 ]
 
 { #category : 'accessing' }
+SuperDoitCommandParser >> standardOptionSpecs [
+	^ {(SuperDoitOptionalOptionWithNoArg long: 'help' short: 'h').
+	(SuperDoitOptionalOptionWithNoArg long: 'debug' short: 'D')}
+]
+
+{ #category : 'accessing' }
 SuperDoitCommandParser >> superDoitExecutionClass [
 	^ superDoitExecutionClass
 		ifNil: [ 
@@ -268,7 +290,41 @@ SuperDoitCommandParser >> systemDictionary [
 
 { #category : 'accessing' }
 SuperDoitCommandParser >> usage [
-	^ usage ifNil: [ ^ 'NO HELP' ]
+	^ usage
+		ifNil: [ 
+			| stoneArgs stoneName |
+			GsSession isSolo
+				ifTrue: [ stoneName := stoneArgs := '' ]
+				ifFalse: [ 
+					stoneName := '-- gs_360'.
+					stoneArgs := ' [-- [<stone-name> [<topaz-command-line-args>] ] ]' ].
+			^ '-----
+USAGE $basename [--help | -h] [--debug | -D]' , stoneArgs
+				,
+					'
+
+OPTIONS
+  -h, --help                 display usage message
+  -D, --debug                bring up topaz debugger in the event of a script error
+
+EXAMPLES
+  $basename --help  ' , stoneName
+				,
+					'
+  $basename -h      ' , stoneName
+				,
+					'
+  $basename --debug ' , stoneName
+				,
+					'
+  $basename -D      ' , stoneName
+				,
+					'
+  $basename         ' , stoneName
+				,
+					'
+-----
+' ]
 ]
 
 { #category : 'accessing' }
