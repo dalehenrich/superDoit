@@ -136,7 +136,7 @@ SuperDoitExecution >> getAndVerifyOptions [
 			option isRequired
 				ifTrue: [ 
 					option wasSet
-						ifFalse: [ self error: 'The rquired option ' , longName printString , ' was not set' ] ] ]
+						ifFalse: [ self error: 'The required option ' , longName printString , ' was not set.' ] ] ]
 ]
 
 { #category : 'command line' }

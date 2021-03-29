@@ -316,6 +316,7 @@ testArgsArray
 						yourself);
 			yourself).
 
+		'--another=123' -> 'The required option ''must'' was not set.'.
 		'--must=must -a 123 --another=123' -> 'The option ''another'' has already been processed.'.
 		'--must=must -n --none' -> 'The option ''none'' has already been processed.'.
 		'--must=must -n -n' -> 'The option ''none'' has already been processed.'.
@@ -324,9 +325,8 @@ testArgsArray
 		'-m must --another' -> 'Missing required argument for option ''another'' [b]'.
 		'-m must -an' -> 'Missing required argument for option ''another'' [c]'.
 		'-m must -a' -> 'Missing required argument for option ''another'' [d]'.
-		'-a' -> 'Missing required option ''must'''.
+		'-a' -> 'Missing required argument for option ''another'' [d]'.
 		'-' -> 'Cannot handle naked dashes ''-'''.
-		'--' -> 'Cannot handle naked dashes ''--'''.
 		'--unknown=something' -> 'Unknown option ''unknown'' [a]'.
 		'--unknown' -> 'Unknown option ''unknown'' [b]'.
 		'-x something' -> 'Unknown option ''x'' [c]'.
