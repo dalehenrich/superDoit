@@ -1,10 +1,4 @@
 #!/usr/bin/env superdoit_solo
-options
-{
-  SuperDoitOptionalOptionWithNoArg long: 'debug' short: 'D'.
-  SuperDoitOptionalOptionWithNoArg long: 'help' short: 'h'.
-}
-%
 usage
 -----
 USAGE $basename [-h | -D]
@@ -17,15 +11,8 @@ OPTIONS
   -D, --debug                halt when a test fails
 -----
 %
-method
-getAndVerifyOptions
-		self getOpts: self optionSpecs.
-		self help ifTrue: [ ^ self usage ].
-%
 doit
 	| argDictCommand count passed failed errors failedArgs summary scriptErrorClass expectedFail |
-	self getAndVerifyOptions == self noResult
-		ifTrue: [ ^ self noResult ].
 	argDictCommand := '$SUPERDOIT_DIR'  asFileReference / 'tests' / 'argsDict.solo'.
 	count := passed := failed := errors := expectedFail := 0.
 	failedArgs := {}.
@@ -35,106 +22,124 @@ doit
 				tests for error handling will fail in 3.6.0" 
 			Error ].
 	{
-		'123' -> (Dictionary new
+		'123 -m must' -> (Dictionary new
 			at: 'args' 
 				put: { '123' };
 			at: 'options'
-				put: (Dictionary new);
+				put: 
+					(Dictionary new
+						at: 'must' put: 'must';
+						yourself);
 			yourself).
-		'123 456' -> (Dictionary new
+		'-m must 123 456' -> (Dictionary new
 			at: 'args' 
 				put: { '123' . '456' };
 			at: 'options'
-				put: (Dictionary new);
+				put: 
+					(Dictionary new
+						at: 'must' put: 'must';
+						yourself);
 			yourself).
-		'456 123' -> (Dictionary new
+		'456 -m must 123' -> (Dictionary new
 			at: 'args' 
 				put: { '456' .'123' };
 			at: 'options'
-				put: (Dictionary new);
+								put: 
+					(Dictionary new
+						at: 'must' put: 'must';
+						yourself);
 			yourself).
-		'--required=123' -> (Dictionary new
+		'--required=123 -m must' -> (Dictionary new
 			at: 'args' 
 				put: { };
 			at: 'options'
 				put: 
 					(Dictionary new
 						at: 'required' put: '123';
+						at: 'must' put: 'must';
 						yourself);
 			yourself).
-		'--required=123 456' -> (Dictionary new
+		'--required=123 456 --must=must' -> (Dictionary new
 			at: 'args' 
 				put: { '456' };
 			at: 'options'
 				put: 
 					(Dictionary new
 						at: 'required' put: '123';
+						at: 'must' put: 'must';
 						yourself);
 			yourself).
-		'456 --required=123' -> (Dictionary new
+		'456 --required=123 --must=must' -> (Dictionary new
 			at: 'args' 
 				put: { '456' };
 			at: 'options'
 				put: 
 					(Dictionary new
 						at: 'required' put: '123';
+						at: 'must' put: 'must';
 						yourself);
 			yourself).
-		'--noshort=123' -> (Dictionary new
+		'--noshort=123 --must=must' -> (Dictionary new
 			at: 'args' 
 				put: { };
 			at: 'options'
 				put: 
 					(Dictionary new
 						at: 'noshort' put: '123';
+						at: 'must' put: 'must';
 						yourself);
 			yourself).
-		'--noshort' -> (Dictionary new
+		'--noshort --must=must' -> (Dictionary new
 			at: 'args' 
 				put: { };
 			at: 'options'
 				put: 
 					(Dictionary new
 						at: 'noshort' put: '0';
+						at: 'must' put: 'must';
 						yourself);
 			yourself).
-		'--optional=123' -> (Dictionary new
+		'--optional=123 --must=must' -> (Dictionary new
 			at: 'args' 
 				put: { };
 			at: 'options'
 				put: 
 					(Dictionary new
 						at: 'optional' put: '123';
+						at: 'must' put: 'must';
 						yourself);
 			yourself).
-		'--optional' -> (Dictionary new
+		'--optional --must=must' -> (Dictionary new
 			at: 'args' 
 				put: { };
 			at: 'options'
 				put: 
 					(Dictionary new
 						at: 'optional' put: '0';
+						at: 'must' put: 'must';
 						yourself);
 			yourself).
-		'-o 123' -> (Dictionary new
+		'-o 123 --must=must' -> (Dictionary new
 			at: 'args' 
 				put: { };
 			at: 'options'
 				put: 
 					(Dictionary new
 						at: 'optional' put: '123';
+						at: 'must' put: 'must';
 						yourself);
 			yourself).
-		'-o' -> (Dictionary new
+		'-o -m must' -> (Dictionary new
 			at: 'args' 
 				put: { };
 			at: 'options'
 				put: 
 					(Dictionary new
 						at: 'optional' put: '0';
+						at: 'must' put: 'must';
 						yourself);
 			yourself).
-		'-o 123 456 --required=789 12' -> (Dictionary new
+		'-o 123 456 --required=789 12 -m must' -> (Dictionary new
 			at: 'args' 
 				put: { '456' . '12' };
 			at: 'options'
@@ -142,9 +147,10 @@ doit
 					(Dictionary new
 						at: 'optional' put: '123';
 						at: 'required' put: '789';
+						at: 'must' put: 'must';
 						yourself);
 			yourself).
-		'123 -o --required=456 789' -> (Dictionary new
+		'123 -o --required=456 789 -m must' -> (Dictionary new
 			at: 'args' 
 				put: { '123' . '789' };
 			at: 'options'
@@ -152,55 +158,61 @@ doit
 					(Dictionary new
 						at: 'optional' put: '0';
 						at: 'required' put: '456';
+						at: 'must' put: 'must';
 						yourself);
 			yourself).
-		'--another=123' -> (Dictionary new
+		'--another=123 -m must' -> (Dictionary new
 			at: 'args' 
 				put: { };
 			at: 'options'
 				put: 
 					(Dictionary new
 						at: 'another' put: '123';
+						at: 'must' put: 'must';
 						yourself);
 			yourself).
-		'--another=123 456' -> (Dictionary new
+		'--another=123 456 -m must' -> (Dictionary new
 			at: 'args' 
 				put: { '456' };
 			at: 'options'
 				put: 
 					(Dictionary new
 						at: 'another' put: '123';
+						at: 'must' put: 'must';
 						yourself);
 			yourself).
-		'456 --another=123' -> (Dictionary new
+		'456 --another=123 -m must' -> (Dictionary new
 			at: 'args' 
 				put: { '456' };
 			at: 'options'
 				put: 
 					(Dictionary new
 						at: 'another' put: '123';
+						at: 'must' put: 'must';
 						yourself);
 			yourself).
 
-		'--none' -> (Dictionary new
+		'--non -m muste' -> (Dictionary new
 			at: 'args' 
 				put: { };
 			at: 'options'
 				put: 
 					(Dictionary new
 						at: 'none' put: true;
+						at: 'must' put: 'must';
 						yourself);
 			yourself).
-		'-n' -> (Dictionary new
+		'-n -m must' -> (Dictionary new
 			at: 'args' 
 				put: { };
 			at: 'options'
 				put: 
 					(Dictionary new
 						at: 'none' put: true;
+						at: 'must' put: 'must';
 						yourself);
 			yourself).
-		'-n 456 --required=789 12' -> (Dictionary new
+		'-n 456 --required=789 12 -m must' -> (Dictionary new
 			at: 'args' 
 				put: { '456' . '12' };
 			at: 'options'
@@ -208,9 +220,10 @@ doit
 					(Dictionary new
 						at: 'none' put: true;
 						at: 'required' put: '789';
+						at: 'must' put: 'must';
 						yourself);
 			yourself).
-		'-on 456 --required=789 12' -> (Dictionary new
+		'-on 456 --required=789 12 -m must' -> (Dictionary new
 			at: 'args' 
 				put: { '456' . '12' };
 			at: 'options'
@@ -219,9 +232,10 @@ doit
 						at: 'none' put: true;
 						at: 'optional' put: '0';
 						at: 'required' put: '789';
+						at: 'must' put: 'must';
 						yourself);
 			yourself).
-		'-no 456 --required=789 12' -> (Dictionary new
+		'--must=must -no 456 --required=789 12' -> (Dictionary new
 			at: 'args' 
 				put: { '12' };
 			at: 'options'
@@ -230,9 +244,10 @@ doit
 						at: 'none' put: true;
 						at: 'optional' put: '456';
 						at: 'required' put: '789';
+						at: 'must' put: 'must';
 						yourself);
 			yourself).
-		'-on 456 --required=789 12' -> (Dictionary new
+		'--must=must -on 456 --required=789 12' -> (Dictionary new
 			at: 'args' 
 				put: { '456' . '12' };
 			at: 'options'
@@ -241,9 +256,10 @@ doit
 						at: 'none' put: true;
 						at: 'optional' put: '0';
 						at: 'required' put: '789';
+						at: 'must' put: 'must';
 						yourself);
 			yourself).
-		'-na 456 --required=789 12' -> (Dictionary new
+		'--must=must -na 456 --required=789 12' -> (Dictionary new
 			at: 'args' 
 				put: { '12' };
 			at: 'options'
@@ -252,9 +268,10 @@ doit
 						at: 'none' put: true;
 						at: 'another' put: '456';
 						at: 'required' put: '789';
+						at: 'must' put: 'must';
 						yourself);
 			yourself).
-		'-a 123 -no 456 789' -> (Dictionary new
+		'--must=must -a 123 -no 456 789' -> (Dictionary new
 			at: 'args' 
 				put: { '789' };
 			at: 'options'
@@ -263,9 +280,10 @@ doit
 						at: 'none' put: true;
 						at: 'optional' put: '456';
 						at: 'another' put: '123';
+						at: 'must' put: 'must';
 						yourself);
 			yourself).
-		'-nDoa 123 456' -> (Dictionary new
+		'--must=must -nDoa 123 456' -> (Dictionary new
 			at: 'args' 
 				put: { '456' };
 			at: 'options'
@@ -275,10 +293,11 @@ doit
 						at: 'debug' put: true;
 						at: 'optional' put: '0';
 						at: 'another' put: '123';
+						at: 'must' put: 'must';
 						yourself);
 			yourself).
 
-		'--required=123 -o 456 -a 789 -n' -> (Dictionary new
+		'--must=must --required=123 -o 456 -a 789 -n' -> (Dictionary new
 			at: 'args' 
 				put: { };
 			at: 'options'
@@ -288,9 +307,10 @@ doit
 						at: 'required' put: '123';
 						at: 'optional' put: '456';
 						at: 'another' put: '789';
+						at: 'must' put: 'must';
 						yourself);
 			yourself).
-		'--required=123 --optional=456 --another=789 --none' -> (Dictionary new
+		'--must=must --required=123 --optional=456 --another=789 --none' -> (Dictionary new
 			at: 'args' 
 				put: { };
 			at: 'options'
@@ -300,17 +320,19 @@ doit
 						at: 'required' put: '123';
 						at: 'optional' put: '456';
 						at: 'another' put: '789';
+						at: 'must' put: 'must';
 						yourself);
 			yourself).
 
-		'-a 123 --another=123' -> 'The option ''another'' has already been processed.'.
-		'-n --none' -> 'The option ''none'' has already been processed.'.
-		'-n -n' -> 'The option ''none'' has already been processed.'.
-		'-o 123 --optional' -> 'The option ''optional'' has already been processed.'.
-		'-a --optional=123' -> 'Missing required argument for option ''another'' [a]'.
-		'--another' -> 'Missing required argument for option ''another'' [b]'.
-		'-an' -> 'Missing required argument for option ''another'' [c]'.
-		'-a' -> 'Missing required argument for option ''another'' [d]'.
+		'--must=must -a 123 --another=123' -> 'The option ''another'' has already been processed.'.
+		'--must=must -n --none' -> 'The option ''none'' has already been processed.'.
+		'--must=must -n -n' -> 'The option ''none'' has already been processed.'.
+		'--must=must -o 123 --optional' -> 'The option ''optional'' has already been processed.'.
+		'-m must -a --optional=123' -> 'Missing required argument for option ''another'' [a]'.
+		'-m must --another' -> 'Missing required argument for option ''another'' [b]'.
+		'-m must -an' -> 'Missing required argument for option ''another'' [c]'.
+		'-m must -a' -> 'Missing required argument for option ''another'' [d]'.
+		'-a' -> 'Missing required option ''must'''.
 		'-' -> 'Cannot handle naked dashes ''-'''.
 		'--' -> 'Cannot handle naked dashes ''--'''.
 		'--unknown=something' -> 'Unknown option ''unknown'' [a]'.
@@ -319,7 +341,7 @@ doit
 		'-x' -> 'Unknown option ''x'' [c]'.
 		'--none=something' -> 'Unexpected argument ''something'' for option ''none'''.
 	} do: [:assoc |
-		| expectedArgsDict actualArgsDict ston args summary expectedFailureMessage |
+		| expectedArgsDict actualArgsDict ston args expectedFailureMessage |
 		count := count + 1.
 		args := assoc key.
 		expectedArgsDict := assoc value.
