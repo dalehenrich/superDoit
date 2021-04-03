@@ -11,7 +11,7 @@ usage
 USAGE $basename [--help | -h] [--debug | -D] [-- [<stone-name> [<topaz-command-line-args>] ] ]
 
 DESCRIPTION
-  Evaluate the Smalltalk expression: 3+4 and return the result on stdout.
+  Write the Stone Version report for the current stone on stdout.
 
 OPTIONS
   <stone-name>               Name of the GsDevKit_home stone. <stone-name> argument
