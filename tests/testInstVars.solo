@@ -1,8 +1,5 @@
 #!/usr/bin/env superdoit_solo
 #
-instvars
-iv
-%
 usage
 -----
 USAGE $basename [--help | -h] [--debug | -D] <positional-arg> [-- [<stone-name> [<topaz-command-line-args>] ] ]
@@ -33,6 +30,9 @@ iv
 method
 iv: anObject
 	iv := anObject
+%
+instvars
+iv
 %
 method
 getAndVerifyOptions
