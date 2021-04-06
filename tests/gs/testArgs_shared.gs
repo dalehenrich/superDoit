@@ -71,85 +71,13 @@ testArgsArray
 						at: 'must' put: 'must';
 						yourself);
 			yourself).
-		'--noshort=123 --must=must' -> (Dictionary new
-			at: 'args' 
-				put: { };
-			at: 'options'
-				put: 
-					(Dictionary new
-						at: 'noshort' put: '123';
-						at: 'must' put: 'must';
-						yourself);
-			yourself).
-		'--noshort --must=must' -> (Dictionary new
-			at: 'args' 
-				put: { };
-			at: 'options'
-				put: 
-					(Dictionary new
-						at: 'noshort' put: '0';
-						at: 'must' put: 'must';
-						yourself);
-			yourself).
-		'--optional=123 --must=must' -> (Dictionary new
-			at: 'args' 
-				put: { };
-			at: 'options'
-				put: 
-					(Dictionary new
-						at: 'optional' put: '123';
-						at: 'must' put: 'must';
-						yourself);
-			yourself).
-		'--optional --must=must' -> (Dictionary new
-			at: 'args' 
-				put: { };
-			at: 'options'
-				put: 
-					(Dictionary new
-						at: 'optional' put: '0';
-						at: 'must' put: 'must';
-						yourself);
-			yourself).
-		'-o 123 --must=must' -> (Dictionary new
-			at: 'args' 
-				put: { };
-			at: 'options'
-				put: 
-					(Dictionary new
-						at: 'optional' put: '123';
-						at: 'must' put: 'must';
-						yourself);
-			yourself).
-		'-o -m must' -> (Dictionary new
-			at: 'args' 
-				put: { };
-			at: 'options'
-				put: 
-					(Dictionary new
-						at: 'optional' put: '0';
-						at: 'must' put: 'must';
-						yourself);
-			yourself).
-		'-o 123 456 --required=789 12 -m must' -> (Dictionary new
+  	'456 --required=789 12 -m must' -> (Dictionary new
 			at: 'args' 
 				put: { '456' . '12' };
 			at: 'options'
 				put: 
 					(Dictionary new
-						at: 'optional' put: '123';
 						at: 'required' put: '789';
-						at: 'must' put: 'must';
-						yourself);
-			yourself).
-		'123 -o --required=456 789 -m must' -> (Dictionary new
-			at: 'args' 
-				put: { '123' . '789' };
-			at: 'options'
-				put: 
-					(Dictionary new
-						at: 'optional' put: '0';
-						at: 'required' put: '456';
 						at: 'must' put: 'must';
 						yourself);
 			yourself).
@@ -215,38 +143,13 @@ testArgsArray
 						at: 'must' put: 'must';
 						yourself);
 			yourself).
-		'-on 456 --required=789 12 -m must' -> (Dictionary new
-			at: 'args' 
-				put: { '456' . '12' };
-			at: 'options'
-				put: 
-					(Dictionary new
-						at: 'none' put: true;
-						at: 'optional' put: '0';
-						at: 'required' put: '789';
-						at: 'must' put: 'must';
-						yourself);
-			yourself).
-		'--must=must -no 456 --required=789 12' -> (Dictionary new
+		'--must=must -n --required=789 12' -> (Dictionary new
 			at: 'args' 
 				put: { '12' };
 			at: 'options'
 				put: 
 					(Dictionary new
 						at: 'none' put: true;
-						at: 'optional' put: '456';
-						at: 'required' put: '789';
-						at: 'must' put: 'must';
-						yourself);
-			yourself).
-		'--must=must -on 456 --required=789 12' -> (Dictionary new
-			at: 'args' 
-				put: { '456' . '12' };
-			at: 'options'
-				put: 
-					(Dictionary new
-						at: 'none' put: true;
-						at: 'optional' put: '0';
 						at: 'required' put: '789';
 						at: 'must' put: 'must';
 						yourself);
@@ -263,19 +166,18 @@ testArgsArray
 						at: 'must' put: 'must';
 						yourself);
 			yourself).
-		'--must=must -a 123 -no 456 789' -> (Dictionary new
+		'--must=must -a 123 -n 789' -> (Dictionary new
 			at: 'args' 
 				put: { '789' };
 			at: 'options'
 				put: 
 					(Dictionary new
 						at: 'none' put: true;
-						at: 'optional' put: '456';
 						at: 'another' put: '123';
 						at: 'must' put: 'must';
 						yourself);
 			yourself).
-		'--must=must -nDoa 123 456' -> (Dictionary new
+		'--must=must -nDa 123 456' -> (Dictionary new
 			at: 'args' 
 				put: { '456' };
 			at: 'options'
@@ -283,13 +185,12 @@ testArgsArray
 					(Dictionary new
 						at: 'none' put: true;
 						at: 'debug' put: true;
-						at: 'optional' put: '0';
 						at: 'another' put: '123';
 						at: 'must' put: 'must';
 						yourself);
 			yourself).
 
-		'--must=must --required=123 -o 456 -a 789 -n' -> (Dictionary new
+		'--must=must --required=123 -a 789 -n' -> (Dictionary new
 			at: 'args' 
 				put: { };
 			at: 'options'
@@ -297,12 +198,11 @@ testArgsArray
 					(Dictionary new
 						at: 'none' put: true;
 						at: 'required' put: '123';
-						at: 'optional' put: '456';
 						at: 'another' put: '789';
 						at: 'must' put: 'must';
 						yourself);
 			yourself).
-		'--must=must --required=123 --optional=456 --another=789 --none' -> (Dictionary new
+		'--must=must --required=123 --another=789 --none' -> (Dictionary new
 			at: 'args' 
 				put: { };
 			at: 'options'
@@ -310,7 +210,6 @@ testArgsArray
 					(Dictionary new
 						at: 'none' put: true;
 						at: 'required' put: '123';
-						at: 'optional' put: '456';
 						at: 'another' put: '789';
 						at: 'must' put: 'must';
 						yourself);
@@ -320,8 +219,8 @@ testArgsArray
 		'--must=must -a 123 --another=123' -> 'The option ''another'' has already been processed.'.
 		'--must=must -n --none' -> 'The option ''none'' has already been processed.'.
 		'--must=must -n -n' -> 'The option ''none'' has already been processed.'.
-		'--must=must -o 123 --optional' -> 'The option ''optional'' has already been processed.'.
-		'-m must -a --optional=123' -> 'Missing required argument for option ''another'' [a]'.
+		'--must=must -a 123 --another=456' -> 'The option ''another'' has already been processed.'.
+		'-m must -a --noshort' -> 'Missing required argument for option ''another'' [a]'.
 		'-m must --another' -> 'Missing required argument for option ''another'' [b]'.
 		'-m must -an' -> 'Missing required argument for option ''another'' [c]'.
 		'-m must -a' -> 'Missing required argument for option ''another'' [d]'.

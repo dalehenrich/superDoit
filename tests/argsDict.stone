@@ -4,8 +4,6 @@ options
   SuperDoitOptionalOptionWithNoArg long: 'none' short: 'n'.
   SuperDoitOptionalOptionWithRequiredArg long: 'required'.
   SuperDoitOptionalOptionWithRequiredArg long: 'another' short: 'a'.
-  SuperDoitOptionalOptionWithOptionalArg long: 'optional' short: 'o' default: '0'.
-  SuperDoitOptionalOptionWithOptionalArg long: 'noshort' default: '0'.
 	SuperDoitRequiredOptionWithRequiredArg long: 'must' short: 'm'.
 }
 %
@@ -14,8 +12,6 @@ usage
 USAGE $basename [--help | -h] [--debug | -D] \
       --must=<something> | -m <something>
       [--required=<something>] \
-      [--noshort[=<something>] ] \
-      [--optional[=<something>] | -o [<something>] ] \
       [--another=<something> | -a <something>] \
       [--none | -n] [<something>]... \
       [-- [<stone-name> [<topaz-command-line-args>] ] ]
@@ -32,8 +28,6 @@ DESCRIPTION
       SuperDoitOptionalOptionWithNoArg long: 'none' short: 'n'.
       SuperDoitOptionalOptionWithRequiredArg long: 'required'.
       SuperDoitOptionalOptionWithRequiredArg long: 'another' short: 'a'.
-      SuperDoitOptionalOptionWithOptionalArg long: 'optional' short: 'o' default: '0'.
-      SuperDoitOptionalOptionWithOptionalArg long: 'noshort' default: '0'.
 	    SuperDoitRequiredOptionWithRequiredArg long: 'must' short: 'm'.
     }
     %
@@ -48,12 +42,6 @@ OPTIONS
   -D, --debug                bring up topaz debugger in the event of a script error
   --required=<required-value>
                              example of a long option with a required value.
-  -o [=<optional-value>], --optional[=<optional-value>]
-                             example of a long and short option with an optional value. 
-                             The default value is '0'.
-  --noshort[=<optional-value>]
-                             example of a long option with an optional value. The 
-                             default value is '0'.
   -a <another-required-value>, --another=<another-required-value>
                              example of a long and short option with a required value.
   -n, --none                 example of a long and short option with no required value.
@@ -67,7 +55,7 @@ EXAMPLES
 
   $basename --help                                                  -- gs_360
   $basename -h                                                      -- gs_360
-  $basename --debug --required=123 -ona 456 -m must                 -- gs_360
+  $basename --debug --required=123 -na 456 -m must                  -- gs_360
   $basename --none -m must                                          -- gs_360
   $basename -D -m must                                              -- gs_360
   $basename -m 123                                                  -- gs_370
@@ -76,26 +64,11 @@ EXAMPLES
   $basename --must=must --required=123                              -- gs_360
   $basename --must=must --another=123                               -- gs_360
   $basename --must=must -a 123                                      -- gs_360
-  $basename --must=must --noshort                                   -- gs_360
-  $basename --must=must --noshort=123                               -- gs_360
-  $basename --must=must --optional                                  -- gs_360
-  $basename --must=must -o                                          -- gs_360
-  $basename --optional=123                                          -- gs_360
-  $basename --must=must -o 123                                      -- gs_360
-  $basename --must=must -o 123 -a 456                               -- gs_360
-  $basename --must=must -oa 123                                     -- gs_360
-  $basename --must=must -oa 123 456                                 -- gs_360
-  $basename --must=must 456 -or 123                                 -- gs_360
-  $basename --must=must --required=123 --optional=123 --another=123 -- gs_360
-  $basename --must=must --required=123 --optional --another=123     -- gs_360
-  $basename --must=must --required=123 --noshort=123 --another=123  -- gs_360
-  $basename --must=must --required=123 --noshort --another=123      -- gs_360
-  $basename -m must --required=123 -o                               -- gs_360
-  $basename -m must --required=123 -o 456 789                       -- gs_360
-  $basename -m must --required=123 -oa 123                          -- gs_360
-  $basename -m must --required=123 -o 456 --another=123 789         -- gs_360
-
-  $basename -m must --required=123 -o 456 --another=123 789         -- gs_370
+  $basename --must=must                                             -- gs_360
+  $basename --must=must -a 123 456                                  -- gs_360
+  $basename --must=must 456 -r 123                                  -- gs_360
+  $basename --must=must --required=123 --another=123                -- gs_360
+  $basename -m must --required=123--another=123 789                 -- gs_360
 -----
 %
 doit

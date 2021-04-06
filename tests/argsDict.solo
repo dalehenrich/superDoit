@@ -4,8 +4,6 @@ options
   SuperDoitOptionalOptionWithNoArg long: 'none' short: 'n'.
   SuperDoitOptionalOptionWithRequiredArg long: 'required'.
   SuperDoitOptionalOptionWithRequiredArg long: 'another' short: 'a'.
-  SuperDoitOptionalOptionWithOptionalArg long: 'optional' short: 'o' default: '0'.
-  SuperDoitOptionalOptionWithOptionalArg long: 'noshort' default: '0'.
 	SuperDoitRequiredOptionWithRequiredArg long: 'must' short: 'm'.
 }
 %
@@ -14,8 +12,6 @@ usage
 USAGE $basename [--help | -h] [--debug | -D] \
       --must=<something> | -m <something>
       [--required=<something>] \
-      [--noshort[=<something>] ] \
-      [--optional[=<something>] | -o [<something>] ] \
       [--another=<something> | -a <something>] \
       [--none | -n] [<something>]...
 
@@ -31,8 +27,6 @@ DESCRIPTION
       SuperDoitOptionalOptionWithNoArg long: 'none' short: 'n'.
       SuperDoitOptionalOptionWithRequiredArg long: 'required'.
       SuperDoitOptionalOptionWithRequiredArg long: 'another' short: 'a'.
-      SuperDoitOptionalOptionWithOptionalArg long: 'optional' short: 'o' default: '0'.
-      SuperDoitOptionalOptionWithOptionalArg long: 'noshort' default: '0'.
 	    SuperDoitRequiredOptionWithRequiredArg long: 'must' short: 'm'.
     }
     %
@@ -44,12 +38,6 @@ OPTIONS
   -D, --debug                bring up topaz debugger in the event of a script error
   --required=<required-value>
                              example of a long option with a required value.
-  -o, --optional[=<optional-value>]
-                             example of a long and short option with an optional value. 
-                             The default value is '0'.
-  --noshort[=<optional-value>]
-                             example of a long option with an optional value. The 
-                             default value is '0'.
   -a, --another=<another-required-value>]
                              example of a long and short option with a required value.
   -n, --none                 example of a long and short option with no required value.
@@ -60,7 +48,7 @@ OPTIONS
 EXAMPLES
   $basename --help 
   $basename -h
-  $basename --debug --required=123 -ona 456 -m must
+  $basename --debug --required=123 -na 456 -m must
   $basename --none -m must
   $basename -D -m must
   $basename -m 123 
@@ -69,24 +57,15 @@ EXAMPLES
   $basename --must=must --required=123
   $basename --must=must --another=123
   $basename --must=must -a 123
-  $basename --must=must --noshort
-  $basename --must=must --noshort=123
-  $basename --must=must --optional
-  $basename --must=must -o
   $basename --optional=123
-  $basename --must=must -o 123
-  $basename --must=must -o 123 -a 456
-  $basename --must=must -oa 123
-  $basename --must=must -oa 123 456
-  $basename --must=must 456 -or 123
-  $basename --must=must --required=123 --optional=123 --another=123
-  $basename --must=must --required=123 --optional --another=123
-  $basename --must=must --required=123 --noshort=123 --another=123
-  $basename --must=must --required=123 --noshort --another=123
-  $basename -m must --required=123 -o
-  $basename -m must --required=123 -o 456 789
-  $basename -m must --required=123 -oa 123
-  $basename -m must --required=123 -o 456 --another=123 789
+  $basename --must=must -a 456
+  $basename --must=must -a 123
+  $basename --must=must -a 123 456
+  $basename --must=must 456 -r 123
+  $basename --must=must --required=123 --another=123
+  $basename -m must --required=123 789
+  $basename -m must --required=123 -a 123
+  $basename -m must --required=123 --another=123 789
 -----
 %
 doit
