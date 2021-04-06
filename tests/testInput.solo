@@ -1,11 +1,5 @@
 #!/usr/bin/env superdoit_solo
 #
-options
-{
-  SuperDoitOptionalOptionWithNoArg long: 'help' short: 'h'.
-  SuperDoitOptionalOptionWithNoArg long: 'debug' short: 'D'.
-}
-%
 usage
 -----
 USAGE $basename [--help | -h] [--debug | -D] [-- [<stone-name> [<topaz-command-line-args>] ] ]
@@ -39,22 +33,10 @@ method: SuperDoitGsTest
 baz
 	^ 'success (baz)'
 %
-method
-getAndVerifyOptions
-		self getOpts: self optionSpecs.
-		self help ifTrue: [ ^ self usage ].
-%
 doit
-	| testResult testSuite class |
-	self getAndVerifyOptions == self noResult
-		ifTrue: [ ^ self noResult ].
-	[
-		| className |
-		className := 'SuperDoitGsTest'.
-		class := self globalNamed: className 
-				ifAbsent: [ self error: 'the class ', className printString, ' not found'].
-		^ {class new foo. class bar . class new baz}
-	] on: Error do: [:ex | 
-		self debug ifTrue: [ ex pass ].
-		self exit: ex description withStatus: 1 "does not return" ].
+	| class className |
+	className := 'SuperDoitGsTest'.
+	class := self globalNamed: className 
+			ifAbsent: [ self error: 'the class ', className printString, ' not found'].
+	^ {class new foo. class bar . class new baz}
 %

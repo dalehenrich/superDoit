@@ -2,8 +2,6 @@
 #
 options
 {
-  SuperDoitOptionalOptionWithNoArg long: 'help' short: 'h'.
-  SuperDoitOptionalOptionWithNoArg long: 'debug' short: 'D'.
   SuperDoitOptionalOptionWithNoArg long: 'tests' short: 't'.
 }
 %
@@ -58,47 +56,35 @@ RwLoadSpecificationV2 {
 }
 ]
 %
-method
-getAndVerifyOptions
-		self getOpts: self optionSpecs.
-		self help ifTrue: [ ^ self usage ].
-%
 doit
-	| testResult testSuite |
-	self getAndVerifyOptions == self noResult
-		ifTrue: [ ^ self noResult ].
-	[
-		| projectName |
-		projectName := 'RowanSample9'.
-		('$SUPERDOIT_STONE_DIR/git/', projectName) asFileReference ensureDeleteAll. "make sure that we're forced to clone RowanSample9"
-		"reload RowanSample9"
-		self preDoitSpecLoad: [:spec |
-			spec projectName = projectName
-				ifTrue: [ 
-					self tests 
-						ifTrue: [ 
-							spec customConditionalAttributes: #('tests') ] ] ].	
-		self tests
+	| testSuite testResult projectName |
+	projectName := 'RowanSample9'.
+	('$SUPERDOIT_STONE_DIR/git/', projectName) asFileReference ensureDeleteAll. "make sure that we're forced to clone RowanSample9"
+	"reload RowanSample9"
+	self preDoitSpecLoad: [:spec |
+		spec projectName = projectName
 			ifTrue: [ 
-				testSuite := (Rowan projectNamed: projectName) testSuite.
-				self debug
+				self tests 
 					ifTrue: [ 
-						testSuite debug.
-						^ 'all tests ', projectName, ' tests pass' ]
-					ifFalse: [ testResult := testSuite run ] ]
-			ifFalse: [
-				testSuite := (Rowan projectNamed: projectName) testSuite.
-				testSuite tests isEmpty 
-					ifFalse: [ 
-						self stderr 
-							nextPutAll: 'unexpected tests in ', projectName, ' test suite '; lf.
-						testSuite tests do: [:test | self stderr tab; nextPutAll: test printString; lf ].
-						self exitWithStatus: 1 ] ].
-		('$SUPERDOIT_STONE_DIR/git/', projectName) asFileReference ensureDeleteAll. "clean up after we're done"
-		^ self tests
+						spec customConditionalAttributes: #('tests') ] ] ].	
+	self tests
+		ifTrue: [ 
+			testSuite := (Rowan projectNamed: projectName) testSuite.
+		self debug
+				ifTrue: [ 
+					testSuite debug.
+					^ 'all tests ', projectName, ' tests pass' ]
+				ifFalse: [ testResult := testSuite run ] ]
+		ifFalse: [
+			testSuite := (Rowan projectNamed: projectName) testSuite.
+			testSuite tests isEmpty 
+				ifFalse: [ 
+					self stderr 
+						nextPutAll: 'unexpected tests in ', projectName, ' test suite '; lf.
+					testSuite tests do: [:test | self stderr tab; nextPutAll: test printString; lf ].
+					self exitWithStatus: 1 ] ].
+	('$SUPERDOIT_STONE_DIR/git/', projectName) asFileReference ensureDeleteAll. "clean up after we're done"
+	^ self tests
 			ifTrue: [ projectName, ' test results: ', testResult printString ]
 			ifFalse: [ ' NO'. projectName, ' tests run' ].
-	] on: Error do: [:ex | 
-		self debug ifTrue: [ ex pass ].
-		self exit: ex description withStatus: 1 "does not return" ].
 %

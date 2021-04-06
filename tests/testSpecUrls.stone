@@ -1,11 +1,5 @@
 #!/usr/bin/env superdoit_stone
 #
-options
-{
-  SuperDoitOptionalOptionWithNoArg long: 'help' short: 'h'.
-  SuperDoitOptionalOptionWithNoArg long: 'debug' short: 'D'.
-}
-%
 usage
 -----
 USAGE $basename [--help | -h] [--debug | -D] [-- [<stone-name> [<topaz-command-line-args>] ] ]
@@ -34,29 +28,17 @@ $SUPERDOIT_STONE_DIR/git
 specUrls
 file:$SUPERDOIT_DIR/tests/specs/RowanSample9_spec_0001.ston
 %
-method
-getAndVerifyOptions
-		self getOpts: self optionSpecs.
-		self help ifTrue: [ ^ self usage ].
-%
 doit
-	| testResult testSuite |
-	self getAndVerifyOptions == self noResult
-		ifTrue: [ ^ self noResult ].
-	[
-		| projectName |
-		projectName := 'RowanSample9'.
-		('$SUPERDOIT_STONE_DIR/git/', projectName) asFileReference ensureDeleteAll. "make sure that we're forced to clone RowanSample9"
-		self preDoitSpecLoad.	"reload RowanSample9"
-		testSuite := (Rowan projectNamed: projectName) testSuite.
-		self debug
-			ifTrue: [ 
-				testSuite debug.
-				^ 'all tests ', projectName, ' tests pass' ]
-			ifFalse: [ testResult := testSuite run ].
-		('$SUPERDOIT_STONE_DIR/git/', projectName) asFileReference ensureDeleteAll. "clean up after we're done"
-		^ projectName, ' test results: ', testResult printString.
-	] on: Error do: [:ex | 
-		self debug ifTrue: [ ex pass ].
-		self exit: ex description withStatus: 1 "does not return" ].
+	| testResult testSuite projectName |
+	projectName := 'RowanSample9'.
+	('$SUPERDOIT_STONE_DIR/git/', projectName) asFileReference ensureDeleteAll. "make sure that we're forced to clone RowanSample9"
+	self preDoitSpecLoad.	"reload RowanSample9"
+	testSuite := (Rowan projectNamed: projectName) testSuite.
+	self debug
+		ifTrue: [ 
+			testSuite debug.
+			^ 'all tests ', projectName, ' tests pass' ]
+		ifFalse: [ testResult := testSuite run ].
+	('$SUPERDOIT_STONE_DIR/git/', projectName) asFileReference ensureDeleteAll. "clean up after we're done"
+	^ projectName, ' test results: ', testResult printString.
 %
