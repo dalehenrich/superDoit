@@ -1,6 +1,6 @@
 Class {
 	#name : 'SuperDoitOptionalOptionWithRequiredArg',
-	#superclass : 'SuperDoitOptionWithArgument',
+	#superclass : 'SuperDoitAbstractOptionWithRequiredArgument',
 	#category : 'SuperDoit-Option'
 }
 

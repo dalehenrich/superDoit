@@ -1,5 +1,5 @@
 Class {
-	#name : 'SuperDoitOptionWithArgument',
+	#name : 'SuperDoitAbstractOptionWithRequiredArgument',
 	#superclass : 'SuperDoitAbstractOption',
 	#instVars : [
 		'defaultValue'
@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : 'instance creation' }
-SuperDoitOptionWithArgument class >> long: longName default: default [
+SuperDoitAbstractOptionWithRequiredArgument class >> long: longName default: default [
 	^ self new
 		initialize;
 		longName: longName;
@@ -17,7 +17,7 @@ SuperDoitOptionWithArgument class >> long: longName default: default [
 ]
 
 { #category : 'instance creation' }
-SuperDoitOptionWithArgument class >> long: longName short: shortName default: default [
+SuperDoitAbstractOptionWithRequiredArgument class >> long: longName short: shortName default: default [
 	^ self new
 		initialize;
 		longName: longName;
@@ -27,22 +27,22 @@ SuperDoitOptionWithArgument class >> long: longName short: shortName default: de
 ]
 
 { #category : 'testing' }
-SuperDoitOptionWithArgument >> argExpected [
+SuperDoitAbstractOptionWithRequiredArgument >> argExpected [
 	^ true
 ]
 
 { #category : 'accessing' }
-SuperDoitOptionWithArgument >> defaultValue [
+SuperDoitAbstractOptionWithRequiredArgument >> defaultValue [
 	^defaultValue
 ]
 
 { #category : 'accessing' }
-SuperDoitOptionWithArgument >> defaultValue: object [
+SuperDoitAbstractOptionWithRequiredArgument >> defaultValue: object [
 	defaultValue := object
 ]
 
 { #category : 'accessing' }
-SuperDoitOptionWithArgument >> markNoValue [
+SuperDoitAbstractOptionWithRequiredArgument >> markNoValue [
 	"mark with a noValue object that is unique when the optional options have been referenced on command line, should trigger use of defaultValue"
 
 	(value ~~ self notSet and: [ value ~~ self noValue])
@@ -54,7 +54,7 @@ SuperDoitOptionWithArgument >> markNoValue [
 ]
 
 { #category : 'accessing' }
-SuperDoitOptionWithArgument >> value [
+SuperDoitAbstractOptionWithRequiredArgument >> value [
 	^ (value == self noValue or: [ value == self notSet ])
 		ifTrue: [ self defaultValue ]
 		ifFalse: [ value ]
