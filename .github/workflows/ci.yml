@@ -13,6 +13,7 @@ jobs:
       - name: setup
         run: |
           set -x
+          ls ${GITHUB_WORKSPACE}/gemstone/gs
           pushd ${GITHUB_WORKSPACE}/gemstone/gs
             vers=3.6.0
             name=GemStone64Bit${vers}-x86_64.Linux
@@ -23,3 +24,4 @@ jobs:
             curl  -L -O -s -S "https://github.com/dalehenrich/superDoit/releases/download/v0.1.0/${vers}_extent0.solo.dbf.gz"
             gunzip --stdout ${vers}_extent0.solo.dbf.gz > extent0.solo.dbf
           popd
+          ls ${GITHUB_WORKSPACE}/gemstone/gs
