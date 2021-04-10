@@ -33,7 +33,6 @@ jobs:
         uses: vargiuscuola/gen-sh-unittest@master 
       - name: test results?
         run: |
-          echo ${{ github.ref }}
-          simple.solo
+          echo run: echo "The result of gensh-unittest Action was ${{ steps.action-gen-sh-unittest.outputs.result }}"
         
         
