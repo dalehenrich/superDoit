@@ -10,7 +10,9 @@ jobs:
       - uses: actions/checkout@v2
 
      # download the 3.6.1 product truee; download and unzip the 3.6.1 extent
-      - name: setup
+      - name: setup and test
+        id: action-gen-sh-unittest
+        uses: vargiuscuola/gen-sh-unittest@master 
         run: |
           # set -x
           ls -l ${GITHUB_WORKSPACE}/gemstone/gs
@@ -28,11 +30,5 @@ jobs:
           ls -l ${GITHUB_WORKSPACE}/gemstone/gs
           . ${GITHUB_WORKSPACE}/bin/defPath.env
           simple.solo
-      - name: test
-        id: action-gen-sh-unittest
-        uses: vargiuscuola/gen-sh-unittest@master 
-      - name: test results?
-        run: |
-          echo run: echo "The result of gensh-unittest Action was ${{ steps.action-gen-sh-unittest.outputs.result }}"
         
         
