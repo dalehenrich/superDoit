@@ -12,7 +12,7 @@ jobs:
       # download the 3.6.1 product truee; download and unzip the 3.6.1 extent
       - name: setup
         run: |
-          set -x
+          # set -x
           ls -l ${GITHUB_WORKSPACE}/gemstone/gs
           pushd ${GITHUB_WORKSPACE}/gemstone/gs
             vers=3.6.0
@@ -23,6 +23,7 @@ jobs:
             ln -s $name product
             curl  -L -O -s -S "https://github.com/dalehenrich/superDoit/releases/download/v0.1.0/${vers}_extent0.solo.dbf.gz"
             gunzip --stdout ${vers}_extent0.solo.dbf.gz > extent0.solo.dbf
+            chmod -w extent0.solo.dbf
           popd
           ls -l ${GITHUB_WORKSPACE}/gemstone/gs
           . ${GITHUB_WORKSPACE}/bin/defPath.env
