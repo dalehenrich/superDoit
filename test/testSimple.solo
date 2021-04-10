@@ -4,3 +4,8 @@ testSimple_solo() {
   seven=`simple.solo`
   assertEquals "wrong answer (not 7)" '7' "${seven}"
 }
+
+testError_solo() {
+	# this guy is expected to return with non-zero exit code
+	error.solo
+}
