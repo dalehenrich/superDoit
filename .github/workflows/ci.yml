@@ -12,6 +12,7 @@ jobs:
       # download the 3.6.1 product truee; download and unzip the 3.6.1 extent
       - name: setup
         run: |
+          ls $GITHUB_WORKSPACE,
           pushd $GITHUB_WORKSPACE/gemstone/gs,
             vers=3.6.0,
             name=GemStone64Bit${vers}-x86_64.Linux,
