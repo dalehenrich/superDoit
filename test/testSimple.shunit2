@@ -3,8 +3,8 @@
           set -x
 					echo "SUPER_DOIT_HOME = ${SUPER_DOIT_HOME}"
 					echo "GITHUB_WORKSPACE = ${GITHUB_WORKSPACE}"
-          ls -l ${GITHUB_WORKSPACE}/gemstone/gs
-          pushd ${GITHUB_WORKSPACE}/gemstone/gs
+          ls -l ${SUPER_DOIT_HOME}/gemstone/gs
+          pushd ${SUPER_DOIT_HOME}/gemstone/gs
             vers=3.6.0
             name=GemStone64Bit${vers}-x86_64.Linux
             zipfile=${name}.zip
@@ -15,8 +15,8 @@
             gunzip --stdout ${vers}_extent0.solo.dbf.gz > extent0.solo.dbf
             chmod -w extent0.solo.dbf
           popd
-          ls -l ${GITHUB_WORKSPACE}/gemstone/gs
-          . ${GITHUB_WORKSPACE}/bin/defPath.env
+          ls -l ${SUPER_DOIT_HOME}/gemstone/gs
+          . ${SUPER_DOIT_HOME}/bin/defPath.env
           simple.solo
 
 testSimple_solo() {
