@@ -13,4 +13,4 @@ jobs:
       - name: setup and test
         id: action-gen-sh-unittest
         uses: vargiuscuola/gen-sh-unittest@master
-        env: SuperDOIT_HOME : ${GITHUB_WORKSPACE}
+        env: SuperDOIT_HOME:"${GITHUB_WORKSPACE}"
