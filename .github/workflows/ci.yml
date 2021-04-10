@@ -9,8 +9,11 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-     # download the 3.6.1 product truee; download and unzip the 3.6.1 extent
+     - name: Set env
+        run: echo "SUPER_DOIT_HOME=$(echo $GITHUB_WORKSPACE)" >> $GITHUB_ENV
+
+        # download the 3.6.1 product truee; download and unzip the 3.6.1 extent
       - name: setup and test
         id: action-gen-sh-unittest
         uses: vargiuscuola/gen-sh-unittest@master
-        env: SuperDOIT_HOME:"${GITHUB_WORKSPACE}"
+        env: SUPER_DOIT_HOME:"${GITHUB_WORKSPACE}"

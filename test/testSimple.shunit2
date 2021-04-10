@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 
           set -x
-					echo "SuperDOIT_HOME = ${SuperDOIT_HOME}"
+					echo "SUPER_DOIT_HOME = ${SUPER_DOIT_HOME}"
 					echo "GITHUB_WORKSPACE = ${GITHUB_WORKSPACE}"
           ls -l ${GITHUB_WORKSPACE}/gemstone/gs
           pushd ${GITHUB_WORKSPACE}/gemstone/gs
