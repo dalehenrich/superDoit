@@ -9,3 +9,7 @@ testError_solo() {
 	# this guy is expected to return with non-zero exit code
 	error.solo
 }
+
+testFailure() {
+	assertEquals 1 2
+}
