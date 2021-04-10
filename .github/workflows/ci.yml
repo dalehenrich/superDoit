@@ -25,3 +25,5 @@ jobs:
             gunzip --stdout ${vers}_extent0.solo.dbf.gz > extent0.solo.dbf
           popd
           ls -l ${GITHUB_WORKSPACE}/gemstone/gs
+          . ${GITHUB_WORKSPACE}/bin/defPath.env
+          simple.solo
