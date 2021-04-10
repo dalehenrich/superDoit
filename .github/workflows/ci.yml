@@ -31,5 +31,9 @@ jobs:
       - name: test
         id: action-gen-sh-unittest
         uses: vargiuscuola/gen-sh-unittest@master 
+      - name: test results?
+        run: |
+          echo ${{ github.ref }}
+          simple.solo
         
         
