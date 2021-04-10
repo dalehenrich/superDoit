@@ -1,0 +1,6 @@
+#! /usr/bin/env bash
+
+testSimple_solo() {
+  seven=`simple.solo`
+  assertEquals "wrong answer (not 7)" '7' "${seven}"
+}
