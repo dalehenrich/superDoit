@@ -30,5 +30,5 @@ jobs:
           simple.solo
       - name: test
         uses: TheColvinCo/shunit2-github-action@v1.2
-        env:
-          SHUNIT_TEST_FOLDER:"${GITHUB_WORKSPACE}/shunit2"
+        env: 
+          SHUNIT_TEST_FOLDER : "${GITHUB_WORKSPACE}/shunit2"
