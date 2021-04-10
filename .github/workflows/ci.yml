@@ -9,11 +9,8 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      - uses: TheColvinCo/shunit2-github-action@v1.2
-      # download the 3.6.1 product truee; download and unzip the 3.6.1 extent
+     # download the 3.6.1 product truee; download and unzip the 3.6.1 extent
       - name: setup
-        env: 
-          SHUNIT_TEST_FOLDER : "${GITHUB_WORKSPACE}/shunit2"
         run: |
           # set -x
           ls -l ${GITHUB_WORKSPACE}/gemstone/gs
@@ -31,5 +28,8 @@ jobs:
           ls -l ${GITHUB_WORKSPACE}/gemstone/gs
           . ${GITHUB_WORKSPACE}/bin/defPath.env
           simple.solo
+      - name: test
+        id: action-gen-sh-unittest
+        uses: vargiuscuola/gen-sh-unittest@master 
         
         
