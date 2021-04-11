@@ -14,13 +14,6 @@ testError_solo() {
 	assertEquals "expected exit status to be <1> not <${exitStatus}>" ${exitStatus} 1
 }
 
-oneTimeSetUp() {
-	outputDir="${SHUNIT_TMPDIR}/output"
-  mkdir "${outputDir}"
-  stdoutF="${outputDir}/stdout"
-  stderrF="${outputDir}/stderr"
-}
-
 . shunit_tests/shunit2-2.1.8/shunit2_test_helpers
 . shunit_tests/shunit2-2.1.8/shunit2
 
