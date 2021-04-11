@@ -25,7 +25,7 @@ test_testArgsDict_solo() {
 
 	testArgsDict.solo > $resultFile
 	cat $resultFile
-	diff $resultFile ${GITHUB_WORKSPACE}/tests/expected/{GS_VERS}/testArgsDict_1.ston
+	diff $resultFile ${GITHUB_WORKSPACE}/tests/expected/${GS_VERS}/testArgsDict_1.ston
 
 }
 
