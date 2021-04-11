@@ -8,6 +8,8 @@ echo "gemstone/gs"
 ls -l gemstone/gs
 echo "./bin/../gemstone/gs"
 ls -l ./bin/../gemstone/gs
+echo "./bin/../gemstone/gs/product/bin"
+ls -l ./bin/../gemstone/gs/product/bin
 
 testSimple_solo() {
   seven=`simple.solo`
