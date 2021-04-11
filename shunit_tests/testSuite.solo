@@ -20,6 +20,15 @@ test_argsDict_solo() {
 	diff $resultFile ${GITHUB_WORKSPACE}/tests/expected/argsDict_4.ston
 }
 
+test_testArgsDict_solo() {
+	resultFile=`mktemp`
+
+	testArgsDict.solo > $resultFile
+	cat $resultFile
+	diff $resultFile ${GITHUB_WORKSPACE}/tests/expected/{GS_VERS}/testArgsDict_1.ston
+
+}
+
 . shunit_tests/shunit2-2.1.8/shunit2_test_helpers
 . shunit_tests/shunit2-2.1.8/shunit2
 
