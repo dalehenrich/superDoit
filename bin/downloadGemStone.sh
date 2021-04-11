@@ -2,7 +2,7 @@
 
 set -x
             if [ "$PLATFORM" = "macos-10.15" ] ; then
-              name=GemStone64Bit${vers}-i386.Darwin
+              export name=GemStone64Bit${vers}-i386.Darwin
               dmgfile=${name}.dmg
               curl -O -s -S https://downloads.gemtalksystems.com/pub/GemStone64/${vers}/$dmgfile
               attach_result=`hdiutil attach -plist $dmgfile`
@@ -12,7 +12,7 @@ set -x
       	hdiutil detach ${attach_device}
               unzip -q $zipfile
             else
-              name=GemStone64Bit${vers}-x86_64.Linux
+              export name=GemStone64Bit${vers}-x86_64.Linux
               zipfile=${name}.zip
               curl -O -s -S https://downloads.gemtalksystems.com/pub/GemStone64/${vers}/$zipfile
 							ls -l *
