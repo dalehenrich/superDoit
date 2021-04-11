@@ -13,7 +13,7 @@ jobs:
       - name: setup
         run: |
           # set -x
-          curl -L "https://github.com/kward/shunit2/archive/v2.1.7.tar.gz" | tar zx -C ${GITHUB_WORKSPACE}/shunit_tests
+          curl -L "https://github.com/kward/shunit2/archive/refs/tags/v2.1.8.tar.gz" | tar zx -C ${GITHUB_WORKSPACE}/shunit_tests
           ls -l ${GITHUB_WORKSPACE}/gemstone/gs
           pushd ${GITHUB_WORKSPACE}/gemstone/gs
             vers=3.6.0
