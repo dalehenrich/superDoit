@@ -1,15 +1,6 @@
 #! /usr/bin/env bash
 
-export PATH="./bin:./scriptBin:$PATH"
-echo $PATH
-echo "./bin"
-ls -l ./bin
-echo "gemstone/gs"
-ls -l gemstone/gs
-echo "./bin/../gemstone/gs"
-ls -l ./bin/../gemstone/gs
-echo "./bin/../gemstone/gs/product/bin"
-ls -l ./bin/../gemstone/gs/product/bin
+echo "GITHUB_WORKSPACE = $GITHUB_WORKSPACE"
 
 testSimple_solo() {
   seven=`simple.solo`
@@ -24,3 +15,8 @@ testError_solo() {
 testFailure() {
 	assertEquals 1 2
 }
+
+. shunit_tests/shunit2-2.1.7/shunit2_test_helpers
+. shunit_tests/shunit2-2.1.7/shunit2
+
+
