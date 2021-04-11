@@ -1,5 +1,6 @@
 #! /usr/bin/env bash
 
+set -x
             if [ "$PLATFORM" = "macos-10.15" ] ; then
               name=GemStone64Bit${vers}-i386.Darwin
               dmgfile=${name}.dmg
