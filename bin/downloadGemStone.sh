@@ -2,7 +2,7 @@
 
 set -x
             if [ "$PLATFORM" = "macos-10.15" ] ; then
-              export name=GemStone64Bit${vers}-i386.Darwin
+              name=GemStone64Bit${vers}-i386.Darwin
               dmgfile=${name}.dmg
               curl -O -s -S https://downloads.gemtalksystems.com/pub/GemStone64/${vers}/$dmgfile
               attach_result=`hdiutil attach -plist $dmgfile`
@@ -18,4 +18,7 @@ set -x
 							ls -l *
               unzip -q $zipfile
             fi 
+            ls -l *
+            echo "-->${name}<--"
+            ln -s $name product
 

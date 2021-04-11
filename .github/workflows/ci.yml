@@ -26,9 +26,6 @@ jobs:
           pushd ${GITHUB_WORKSPACE}/gemstone/gs
             export vers=${GS_VERS}
             ${GITHUB_WORKSPACE}/bin/downloadGemStone.sh
-            ls -l *
-            echo "-->${name}<--"
-            ln -s $name product
             curl  -L -O -s -S "https://github.com/dalehenrich/superDoit/releases/download/v0.1.0/${vers}_extent0.solo.dbf.gz"
             gunzip --stdout ${vers}_extent0.solo.dbf.gz > extent0.solo.dbf
             chmod -w extent0.solo.dbf
