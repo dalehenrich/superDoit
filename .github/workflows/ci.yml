@@ -38,4 +38,6 @@ jobs:
           simple.solo
  
       - name: test
-        run: shunit_tests/testSimple.shunit2
+        run: |
+          shunit_tests/testExamples.solo
+          shunit_tests/testScriptBin.solo
