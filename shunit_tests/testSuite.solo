@@ -40,7 +40,7 @@ test_testInstVars_solo() {
 
 	foo=`testInstVars.solo foo`
 	echo "$foo"
-	assertEquals "expect 'foo'" '''foo''' "${foo}"
+	assertEquals "expect 'foo'" 'foo' "${foo}"
 }
 
 
