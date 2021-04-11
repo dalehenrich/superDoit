@@ -8,7 +8,7 @@
 ### dkh
 3.6.0 | 3.6.1
 ------------ | -------------
-[![**dkh** build status](https://github.com/dalehenrich/superDoit/actions/workflows/ci.yml/badge.svg?branch=dkh)](https://github.com/dalehenrich/superDoit/actions) | -
+[![**dkh** build status](https://github.com/dalehenrich/superDoit/actions/workflows/test/badge.svg?branch=dkh)](https://github.com/dalehenrich/superDoit/actions) | -
 
 ### install
 **TBD - requires GemStone 3.7.0, which has not been released**

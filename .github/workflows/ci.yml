@@ -10,7 +10,7 @@ jobs:
         gsvers: [ 3.6.0, 3.6.1 ]
     runs-on: ${{ matrix.os }}
     env:
-      GS_VERS = ${{ matrix.gsvers }}
+      GS_VERS: ${{ matrix.gsvers }}
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
