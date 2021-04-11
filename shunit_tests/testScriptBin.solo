@@ -14,6 +14,11 @@ testError_solo() {
 	assertEquals "expected exit status to be <1> not <${exitStatus}>" ${exitStatus} 1
 }
 
+testVersionReport_solo() {
+	"run without error"
+	versionReport.solo
+}
+
 . shunit_tests/shunit2-2.1.8/shunit2_test_helpers
 . shunit_tests/shunit2-2.1.8/shunit2
 

@@ -1,0 +1,38 @@
+#! /usr/bin/env bash
+
+. ${GITHUB_WORKSPACE}/bin/defPath.env
+
+PATH=${GITHUB_WORKSPACE}/examples/simple:$PATH
+
+test_errorWithHelp_solo() {
+	# run without error
+	errorWithHelp.solo -h
+	errorWithHelp.solo --help
+}
+
+test_simplest_solo() {
+	# run without error
+	seven=`simplest.solo`
+	assertEquals "wrong answer" '7' "${seven}"
+	simplest.solo -h
+	simplest.solo --help
+	simplest.solo -D
+	simplest.solo --debug
+}
+
+test_simpleArgs_1_solo() {
+	# run without error
+	seven=`simpleArgs.solo --addend=4`
+	assertEquals "wrong answer" '7' "${seven}"
+}
+
+test_simpleArgs_2_solo() {
+	# run without error
+	seven=`simpleArgs.solo -a 4`
+	assertEquals "wrong answer" '7' "${seven}"
+}
+
+. shunit_tests/shunit2-2.1.8/shunit2_test_helpers
+. shunit_tests/shunit2-2.1.8/shunit2
+
+
