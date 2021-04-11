@@ -24,7 +24,6 @@ test_testArgsDict_solo() {
 	resultFile=`mktemp`
 
 	testArgsDict.solo > $resultFile
-	cat $resultFile
 	diff $resultFile ${GITHUB_WORKSPACE}/tests/expected/${GS_VERS}/testArgsDict_1.ston
 
 }
