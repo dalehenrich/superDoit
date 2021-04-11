@@ -16,6 +16,13 @@ testFailure() {
 	assertEquals 1 2
 }
 
+oneTimeSetUp() {
+	outputDir="${SHUNIT_TMPDIR}/output"
+  mkdir "${outputDir}"
+  stdoutF="${outputDir}/stdout"
+  stderrF="${outputDir}/stderr"
+}
+
 . shunit_tests/shunit2-2.1.7/shunit2_test_helpers
 . shunit_tests/shunit2-2.1.7/shunit2
 
