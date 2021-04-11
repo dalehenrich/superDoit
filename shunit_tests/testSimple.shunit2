@@ -10,10 +10,8 @@ testSimple_solo() {
 testError_solo() {
 	# this guy is expected to return with non-zero exit code
 	error.solo
-}
-
-testFailure() {
-	assertEquals 1 2
+	exitStatus=$?
+	assertEquals "expected exit status to be <1> not <${exitStatus}>" ${exitStatus} 1
 }
 
 oneTimeSetUp() {
