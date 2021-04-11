@@ -1,11 +1,6 @@
 #! /usr/bin/env bash
 
-echo "GITHUB_WORKSPACE = $GITHUB_WORKSPACE"
-ls -l  ${GITHUB_WORKSPACE}/bin
 . ${GITHUB_WORKSPACE}/bin/defPath.env
-which simple.solo
-echo "PATH = $PATH"
-which error.solo
 
 testSimple_solo() {
   seven=`simple.solo`
