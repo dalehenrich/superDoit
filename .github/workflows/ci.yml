@@ -13,6 +13,8 @@ jobs:
         run: |
           echo "GITHUB_WORKSPACE = $(echo $GITHUB_WORKSPACE)"
           echo "SUPER_DOIT_HOME=$(echo $GITHUB_WORKSPACE)" >> $GITHUB_ENV
+     - name: Echo env
+        run: echo "SUPER_DOIT_HOME = $(echo $GITHUB_WORKSPACE)"
 
         # download the 3.6.1 product truee; download and unzip the 3.6.1 extent
       - name: setup and test
