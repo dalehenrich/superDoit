@@ -4,7 +4,13 @@ on: [push, pull_request]
 
 jobs:
   build:
-    runs-on: ubuntu-18.04
+    strategy:
+      matrix:
+        os: [ ubuntu-18.04 ]
+        gsvers: [ 3.6.0, 3.6.1 ]
+    runs-on: ${{ matrix.os }}
+    env:
+      GS_VERS = ${{ matrix.gsvers }}
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
@@ -16,7 +22,7 @@ jobs:
           curl -L "https://github.com/kward/shunit2/archive/refs/tags/v2.1.8.tar.gz" | tar zx -C ${GITHUB_WORKSPACE}/shunit_tests
           ls -l ${GITHUB_WORKSPACE}/gemstone/gs
           pushd ${GITHUB_WORKSPACE}/gemstone/gs
-            vers=3.6.0
+            vers=${GS_VERS}
             name=GemStone64Bit${vers}-x86_64.Linux
             zipfile=${name}.zip
             curl -O -s -S https://downloads.gemtalksystems.com/pub/GemStone64/${vers}/$zipfile
