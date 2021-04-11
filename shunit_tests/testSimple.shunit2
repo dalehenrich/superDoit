@@ -28,6 +28,8 @@ oneTimeSetUp() {
   stderrF="${outputDir}/stderr"
 }
 
+ls -altr shunit_tests
+
 . shunit_tests/v2.1.8/shunit2_test_helpers
 . shunit_tests/v2.1.8/shunit2
 
