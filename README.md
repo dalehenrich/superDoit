@@ -1,7 +1,7 @@
 # superDoIt
 
-[![**dkh** build status](https://github.com/dalehenrich/superDoit/workflows/ci.yml/badge.svg?branch=dkh)](https://github.com/dalehenrich/superDoit/actions)
-[![**master** build status](https://github.com/dalehenrich/superDoit/workflows/ci.yml/badge.svg?branch=master)](https://github.com/dalehenrich/superDoit/actions)
+[![**dkh** build status](https://github.com/dalehenrich/superDoit/actions/workflows/ci.yml/badge.svg?branch=dkh)](https://github.com/dalehenrich/superDoit/actions)
+[![**master** build status](https://github.com/dalehenrich/superDoit/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/dalehenrich/superDoit/actions)
 
 
 ### install
