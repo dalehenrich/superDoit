@@ -5,10 +5,10 @@ on: [push, pull_request]
 jobs:
   build:
     strategy:
+      fail-fast: false
       matrix:
         os: [ ubuntu-18.04 ]
         gsvers: [ 3.6.0, 3.6.1 ]
-        failfast: false
     runs-on: ${{ matrix.os }}
     env:
       GS_VERS: ${{ matrix.gsvers }}
