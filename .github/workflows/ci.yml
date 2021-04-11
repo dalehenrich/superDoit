@@ -24,7 +24,7 @@ jobs:
           curl -L "https://github.com/kward/shunit2/archive/refs/tags/v2.1.8.tar.gz" | tar zx -C ${GITHUB_WORKSPACE}/shunit_tests
           ls -l ${GITHUB_WORKSPACE}/gemstone/gs
           pushd ${GITHUB_WORKSPACE}/gemstone/gs
-            vers=${GS_VERS}
+            export vers=${GS_VERS}
             ${GITHUB_WORKSPACE}/bin/downloadGemStone.sh
             ls -l *
             ln -s $name product
