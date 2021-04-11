@@ -15,5 +15,5 @@ jobs:
         # download the 3.6.1 product truee; download and unzip the 3.6.1 extent
       - name: setup and test
         id: action-gen-sh-unittest
-        uses: vargiuscuola/gen-sh-unittest@v1.0
+        uses: vargiuscuola/gen-sh-unittest@master
         
