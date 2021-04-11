@@ -9,9 +9,9 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-       # download the 3.6.1 product truee; download and unzip the 3.6.1 extent
-       - name: setup
-         run: |
+      # download the 3.6.1 product truee; download and unzip the 3.6.1 extent
+      - name: setup
+        run: |
           # set -x
           ls -l ${GITHUB_WORKSPACE}/gemstone/gs
           pushd ${GITHUB_WORKSPACE}/gemstone/gs
@@ -29,7 +29,7 @@ jobs:
           . ${GITHUB_WORKSPACE}/bin/defPath.env
           simple.solo
  
-     - name: test
+      - name: test
         id: action-gen-sh-unittest
         uses: vargiuscuola/gen-sh-unittest@master
         
