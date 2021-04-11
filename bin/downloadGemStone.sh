@@ -15,6 +15,7 @@ set -x
               name=GemStone64Bit${vers}-x86_64.Linux
               zipfile=${name}.zip
               curl -O -s -S https://downloads.gemtalksystems.com/pub/GemStone64/${vers}/$zipfile
+							ls -l *
               unzip -q $zipfile
             fi 
 
