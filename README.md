@@ -1,5 +1,9 @@
 # superDoIt
 
+![**dkh** build status](https://github.com/dalehenrich/superDoit/workflows/ci.yml/badge.svg?branch=dkh)
+![**master** build status](https://github.com/dalehenrich/superDoit/workflows/ci.yml/badge.svg?branch=master)
+
+
 ### install
 **TBD - requires GemStone 3.7.0, which has not been released**
 
