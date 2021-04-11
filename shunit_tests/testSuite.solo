@@ -20,6 +20,15 @@ test_argsDict_solo() {
 	diff $resultFile ${GITHUB_WORKSPACE}/tests/expected/argsDict_4.ston
 }
 
+test_testInput_solo() {
+	resultFile=`mktemp`
+
+	testInput.solo > $resultFile
+	cat $resultFile
+	diff $resultFile ${GITHUB_WORKSPACE}/tests/expected/testInput_1.ston
+
+}
+
 test_testArgsDict_solo() {
 	resultFile=`mktemp`
 
