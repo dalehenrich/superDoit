@@ -24,7 +24,6 @@ test_testInput_solo() {
 	resultFile=`mktemp`
 
 	testInput.solo > $resultFile
-	cat $resultFile
 	diff $resultFile ${GITHUB_WORKSPACE}/tests/expected/testInput_1.ston
 
 }
@@ -36,6 +35,14 @@ test_testArgsDict_solo() {
 	diff $resultFile ${GITHUB_WORKSPACE}/tests/expected/${GS_VERS}/testArgsDict_1.ston
 
 }
+
+test_testInstVars_solo() {
+
+	foo=`testInstVars.solo foo`
+	echo "$foo"
+	assertEquals "expect 'foo'" '''foo''' "${foo}"
+}
+
 
 . shunit_tests/shunit2-2.1.8/shunit2_test_helpers
 . shunit_tests/shunit2-2.1.8/shunit2

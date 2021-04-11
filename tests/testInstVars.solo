@@ -2,7 +2,7 @@
 #
 usage
 -----
-USAGE $basename [--help | -h] [--debug | -D] <positional-arg> [-- [<stone-name> [<topaz-command-line-args>] ] ]
+USAGE $basename [--help | -h] [--debug | -D] <positional-arg>
 
 DESCRIPTION
   run a script that uses instance variables. Return the positional arg on command line
