@@ -41,3 +41,4 @@ jobs:
         run: |
           shunit_tests/testExamples.solo
           shunit_tests/testScriptBin.solo
+          shunit_tests/testSuite.solo
