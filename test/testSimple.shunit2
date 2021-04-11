@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 
 #          set -x
-SUPER_DOIT_HOME="`pwd`/.."
+SUPER_DOIT_HOME="."
 echo "SUPER_DOIT_HOME = ${SUPER_DOIT_HOME}"
 ls -l ${SUPER_DOIT_HOME}/gemstone/gs
 #          pushd ${SUPER_DOIT_HOME}/gemstone/gs
