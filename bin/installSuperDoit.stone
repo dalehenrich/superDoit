@@ -13,12 +13,12 @@ RwLoadSpecificationV2 {
 		'SuperDoit'
 	],
 	#customConditionalAttributes : [
-		'rowan',
-		'deprecated'
+		'rowan'
 	],
 	#comment : ''
 }
 %
 doit
-System commit
+System commit.
+'superDoit installed'
 %
