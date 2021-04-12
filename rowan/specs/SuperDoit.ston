@@ -8,8 +8,7 @@ RwLoadSpecificationV2 {
 		'SuperDoit'
 	],
 	#customConditionalAttributes : [
-		'rowan',
-		'deprecated'
+		'rowan'
 	],
 	#comment : ''
 }

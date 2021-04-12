@@ -19,6 +19,7 @@ RwLoadSpecificationV2 {
 }
 %
 doit
+self preDoitSpecLoad.
 System commit.
 'superDoit installed'
 %

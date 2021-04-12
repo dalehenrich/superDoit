@@ -327,7 +327,7 @@ SuperDoitExecution >> preDoitSpecLoad: specBlock [
 	self _loadSpecs
 		do: [ :spec | 
 			specBlock cull: spec.
-			projectSet addAll: spec resolve readProjectSet ].
+			spec resolve readProjectSet do: [ :project | projectSet addProject: project ] ].
 	^ projectSet load
 ]
 
