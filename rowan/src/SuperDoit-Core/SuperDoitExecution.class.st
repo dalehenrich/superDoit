@@ -51,11 +51,6 @@ SuperDoitExecution >> _specsDict [
 	^ specsDict
 ]
 
-{ #category : 'script info' }
-SuperDoitExecution >> basename [
-	^ self scriptPath basename
-]
-
 { #category : 'command line' }
 SuperDoitExecution >> commandLine [
 	^ _commandLine
@@ -88,11 +83,6 @@ SuperDoitExecution >> commandLineSummary [
 		at: 'options' put: opts;
 		at: 'args' put: self positionalArgs; 
 		yourself.
-]
-
-{ #category : 'script info' }
-SuperDoitExecution >> dirname [
-	^ self scriptPath parent
 ]
 
 { #category : 'logging' }
@@ -374,11 +364,6 @@ SuperDoitExecution >> scriptArgs: aColl [
 { #category : 'accessing' }
 SuperDoitExecution >> scriptPath [
 	^ _scriptPath
-]
-
-{ #category : 'accessing' }
-SuperDoitExecution >> scriptPath: aFileReference [
-	_scriptPath := aFileReference
 ]
 
 { #category : 'logging' }

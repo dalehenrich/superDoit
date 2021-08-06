@@ -1,0 +1,14 @@
+RwLoadSpecificationV2 {
+	#specName : 'SuperDoit',
+	#projectName : 'superDoit',
+	#gitUrl : 'git@github.com:dalehenrich/superDoit.git',
+	#revision : 'master',
+	#projectSpecFile : 'rowan/project.ston',
+	#componentNames : [
+		'SuperDoit'
+	],
+	#customConditionalAttributes : [
+		'stone'
+	],
+	#comment : 'Used to create superDoit bootstrap .gs files that are used to run superDoit .stone scripts'
+}

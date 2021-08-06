@@ -2,7 +2,7 @@ login
 run
 "install superDoit support code in image"
 (Rowan  
-	projectFromUrl: 'file:$SUPERDOIT_DIR/rowan/specs/SuperDoit.ston'
+	projectFromUrl: 'file:$SUPERDOIT_DIR/rowan/specs/SuperDoit_solo.ston'
 	gitUrl: 'file:$SUPERDOIT_DIR')
 		load.
 %

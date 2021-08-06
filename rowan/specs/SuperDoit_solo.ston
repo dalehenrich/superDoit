@@ -8,7 +8,7 @@ RwLoadSpecificationV2 {
 		'SuperDoit'
 	],
 	#customConditionalAttributes : [
-		'rowan'
+		'solo'
 	],
-	#comment : ''
+	#comment : 'Used to load Rowan into solo extents that are used to run superDoit .solo scripts'
 }

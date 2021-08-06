@@ -19,32 +19,6 @@ Class {
 	#category : 'SuperDoit-Core'
 }
 
-{ #category : 'instance creation' }
-SuperDoitCommandParser class >> processInputFile [
-	"command line looks like the following:
-		<path-to-topaz>/topaz <topaz arguments> -- <script-file-path> -- <script-args>
-	"
-
-	| args scriptArgStart argIndex scriptPath scriptFile scriptArgs scriptArgIndex |
-	args := System commandLineArguments.
-	scriptArgStart := args indexOf: '--'.
-	argIndex := scriptArgStart + 1.	"arg after initial --"
-	(scriptArgStart <= 0 or: [ argIndex > args size ])
-		ifTrue: [ self error: 'input file is expected to be specified on the command line' ].
-	scriptFile := args at: argIndex.
-	scriptArgIndex := args indexOf: '--' startingAt: argIndex + 1.
-	scriptArgs := scriptArgIndex = 0
-		ifTrue: [ #() ]
-		ifFalse: [ args copyFrom: scriptArgIndex + 1 to: args size ].
-	 
-	scriptPath := scriptFile asFileReference.
-	^ self new 
-		scriptPath: scriptPath;
-		scriptArgs: scriptArgs;
-		parseAndExecuteScriptFile: scriptPath;
-		yourself
-]
-
 { #category : 'commands' }
 SuperDoitCommandParser >> classMethod: aString className: className [
 	^ SuperDoitExtensionMethodCommand
@@ -134,24 +108,6 @@ SuperDoitCommandParser >> optionsDict: object [
 	optionsDict := object
 ]
 
-{ #category : 'execution' }
-SuperDoitCommandParser >> parseAndExecuteScriptFile: scriptFileReference [
-	scriptFileReference
-		readStreamDo: [ :fStream | 
-			stream := ZnBufferedReadStream on: fStream.
-			[ self done ]
-				whileFalse: [ 
-					self processNextCommand
-						ifNotNil: [ :command | self commandDefinition addCommand: command ] ].
-			optionsDict
-				ifNil: [ 
-					"no options specified, so go with the standard options and add it at the beginning of commands"
-					self commandDefinition commands addFirst: (SuperDoitOptionsCommand chunk: '{}') ].
-			self commandDefinition preClassCreationExecuteAgainst: self. "make a pass to ensure that all commands that need to be processed BEFORE class creation get a chance to run (i'm looking at you SuperDoitInstVarNamesCommand"
-			self commandDefinition executeAgainst: self.
-			^ doitResult ]
-]
-
 { #category : 'parsing' }
 SuperDoitCommandParser >> processNextCommand [
 	| line words command commandSelector |
@@ -230,11 +186,6 @@ SuperDoitCommandParser >> scriptComment: aString [
 { #category : 'accessing' }
 SuperDoitCommandParser >> scriptPath [
 	^ scriptPath
-]
-
-{ #category : 'accessing' }
-SuperDoitCommandParser >> scriptPath: aFileReference [
-	scriptPath := aFileReference
 ]
 
 { #category : 'accessing' }
