@@ -337,10 +337,16 @@ SuperDoitExecution >> preDoitSpecLoad: specBlock [
 
 	"return list of RwProjects loaded"
 
-	| projectSet |
+	| projectSet rowanProjectSetDefinitionClass |
 	self _loadSpecs isEmpty
 		ifTrue: [ ^ self ].
-	projectSet := RwProjectSetDefinition new.
+	rowanProjectSetDefinitionClass := SuperDoitExecution
+		globalNamed: #'RwProjectSetDefinition'
+		ifAbsent: [ 
+			self
+				error:
+					'Rowan must be present in the image in order to use the specurls command' ].
+	projectSet := rowanProjectSetDefinitionClass new.
 	self _loadSpecs
 		do: [ :spec | 
 			specBlock cull: spec.
