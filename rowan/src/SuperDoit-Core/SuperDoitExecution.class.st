@@ -14,6 +14,18 @@ Class {
 	#category : 'SuperDoit-Core'
 }
 
+{ #category : 'utiities' }
+SuperDoitExecution class >> globalNamed: aString [
+	"return nil if global not defined"
+
+	^ GsSession currentSession objectNamed: aString asSymbol
+]
+
+{ #category : 'utiities' }
+SuperDoitExecution class >> globalNamed: aString ifAbsent: absentBlock [
+	^ (self globalNamed: aString) ifNil: absentBlock
+]
+
 { #category : 'accessing' }
 SuperDoitExecution >> _loadSpecs [
 	^ _loadSpecs
@@ -249,6 +261,11 @@ SuperDoitExecution >> getOpts [
 			opt argExpected
 				ifTrue: [ opt markNoValue ]
 				ifFalse: [ opt value: true ] ]
+]
+
+{ #category : 'accessing' }
+SuperDoitExecution >> globalNamed: aString ifAbsent: absentBlock [
+	^ self class globalNamed: aString ifAbsent: absentBlock
 ]
 
 { #category : 'script info' }

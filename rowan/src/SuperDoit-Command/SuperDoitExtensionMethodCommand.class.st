@@ -37,7 +37,7 @@ SuperDoitExtensionMethodCommand >> className: object [
 
 { #category : 'execution' }
 SuperDoitExtensionMethodCommand >> executeAgainst: aCommandParser [
-	(Rowan globalNamed: self className)
+	(SuperDoitExecution globalNamed: self className)
 		ifNotNil: [ :class | 
 			| beh |
 			beh := self isMeta
