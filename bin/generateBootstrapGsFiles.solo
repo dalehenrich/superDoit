@@ -1,0 +1,114 @@
+#!/usr/bin/env superdoit_solo
+options
+{
+	SuperDoitOptionalOptionWithNoArg long: 'generate'.
+	SuperDoitOptionalOptionWithNoArg long: 'versionMap'.
+	SuperDoitOptionalOptionWithRequiredArg long: 'superDoitRoot' default: '$GS_HOME/superdoit_devkit'
+}
+%
+usage
+-----
+USAGE $basename [--help | -h] [--debug | -D] \
+                ( --versionMap | --generate ) [--superDoitRoot=<superDoit-root>]
+
+DESCRIPTION
+  Rowan-based script for generating .gs files for bootstrapping superDoit into a
+  GemStone image.
+
+  The GemStone version map .ston file maps the GemStone to the superdoit 
+  bootstrap .gs file that should be installed for that version. 
+
+  The version map is used to drive the generation of the bootstrap .gs files 
+  (--generate). Each of the unize files in the map are generating using the
+  gemstone versions associated with the file as the platform conditions.
+
+OPTIONS
+      --generate             generate the superdoit bootstrap files.
+      --versionMap           generate the GemStone version map .ston file.
+      --superDoitRoot=<superDoit-root>
+                             specify the root directory of the target superDoit repository
+                             (default is $GS_HOME/superdoit_devkit).
+  -h, --help                 display usage message.
+  -D, --debug                bring up topaz debugger in the event of a script error.
+
+EXAMPLES
+  $basename --help
+  $basename -h
+  $basename --debug
+  $basename -D
+  $basename --versionMap
+  $basename --versionMap --superDoitRoot=$GS_HOME/shared/repos/superDoit
+  $basename --generate
+  $basename --generate --superDoitRoot=$GS_HOME/shared/repos/superDoit
+-----
+%
+method
+supportedGemStoneVersionMap
+	self supportedGemStoneVersionMapReference 
+		readStreamDo: [:fileStream |
+			| readStream |
+			readStream := ZnBufferedReadStream on: fileStream.	"wrap with buffered stream to bypass https://github.com/GemTalk/FileSystemGs/issues/9"
+			^ STON fromStream: readStream ].
+%
+method
+supportedGemStoneVersionMapReference
+	^ self superDoitRoot asFileReference / 'gemstone/gemstoneVersionMap.ston'  
+%
+method
+generateVersionMap
+	| dict orderedDict |
+	dict := Dictionary new.
+	"this list should be updated whenever support for a new gemstone version is added"
+	#('3.5.0' '3.5.1' '3.5.2' '3.5.3' '3.5.4' '3.5.5' '3.5.6') 
+		do: [:gsVersion | dict at: gsVersion put: 'bootstrapSuperDoit_35x' ].
+	#('3.6.0' '3.6.1') do: [:gsVersion | dict at: gsVersion put: 'bootstrapSuperDoit_36x' ].
+	#('3.7.0') do: [:gsVersion | dict at: gsVersion put: 'bootstrapSuperDoit_37x' ].
+	orderedDict := GsTonelOrderedDictionary new.
+	dict keys sort do: [:key | orderedDict at: key put: (dict at: key) ].
+	self supportedGemStoneVersionMapReference 
+		writeStreamDo: [:writeStream |
+			STON put: orderedDict onStreamPretty: writeStream ].
+	self stdout nextPutAll: 'version map generated (', self supportedGemStoneVersionMapReference pathString, ')'.
+	^ self noResult
+%
+method
+generateBootstrapFiles: supportedGemStoneVersionMap
+	"took inspiration from superdoit_devkit/utils/createFileSystemGsTopaz.solo"
+	| fileToVersionsMap gsDir |
+
+	fileToVersionsMap := Dictionary new.
+	supportedGemStoneVersionMap keysAndValuesDo: [ :version :filename |
+		(fileToVersionsMap at: filename ifAbsentPut: [ Array new ]) 
+			add: version ].
+
+	gsDir :=  self superDoitRoot asFileReference / 'gemstone/bootstrap'.
+	gsDir asFileReference ensureCreateDirectory.
+
+	fileToVersionsMap keysAndValuesDo: [:filename :versions |
+		| attributes projectSetDefinition projectSetModification visitor headerStream importSpec importProject |
+		attributes :=  { 'stone' . 'common' . Rowan platform basePlatformConditionalAttribute }, (versions collect: [:version | version asRwGemStoneVersionNumber]).
+		projectSetDefinition := RwProjectSetDefinition new. 
+		headerStream := WriteStream on: String new.
+		headerStream nextPutAll: '! superDoit fileout'; lf.
+		importSpec := RwSpecification fromUrl: 'file:$GS_HOME/shared/repos/superDoit/rowan/specs/SuperDoit_stone.ston'.
+		importProject := importSpec resolve read: attributes.
+			projectSetDefinition addProject: importProject.
+		projectSetModification := projectSetDefinition
+			compareAgainstBase: RwProjectSetDefinition new.
+		headerStream 
+			nextPutAll: '!	', DateAndTime now printString;
+			lf;
+			lf.
+		visitor := GsModificationTopazWriterVisitor new
+			repositoryRootPath: gsDir;
+			topazFileHeader: headerStream contents;
+			topazFilename: filename;
+			yourself.
+		visitor visit: projectSetModification ].
+	^ self noResult
+%
+doit
+	self versionMap ifTrue: [ ^ self generateVersionMap ].
+	self generate ifFalse: [ self error: 'one of the options --versionMap or --generate must be specified' ].
+	^ self generateBootstrapFiles: self supportedGemStoneVersionMap
+%
