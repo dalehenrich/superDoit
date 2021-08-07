@@ -1,5 +1,5 @@
 ! superDoit fileout
-!	2021-08-07T15:14:28.823884-07:00
+!	2021-08-07T15:28:09.526452-07:00
 
 ! Class Declarations
 ! Generated file, do not Edit
@@ -1618,19 +1618,6 @@ _specsDict
 			option shortName
 				ifNotNil: [ :shortName | (specsDict at: 'short') at: shortName put: option ] ].
 	^ specsDict
-%
-
-! Class extensions for 'AbstractDictionary'
-
-!		Instance methods for 'AbstractDictionary'
-
-category: '*superdoit-gemstone-kernel'
-method: AbstractDictionary
-at: key ifPresent: oneArgBlock ifAbsent: absentBlock
-	"Lookup the given key in the receiver. If it is present, answer the value of evaluating the oneArgBlock with the value associated with the key, otherwise answer the value of absentBlock."
-
-	self at: key ifPresent: [ :v | ^ oneArgBlock cull: v ].
-	^ absentBlock value
 %
 
 ! Class extensions for 'SuperDoitCommandParser'

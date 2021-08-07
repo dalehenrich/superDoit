@@ -3,8 +3,6 @@ RwSimpleProjectLoadComponentV2 {
 	#condition : 'common',
 	#projectNames : [ ],
 	#componentNames : [
-		'deprecated/SuperDoit',
-		'gemstone/SuperDoit',
 		'gemstone31-5/SuperDoit',
 		'gemstone36/SuperDoit',
 		'gemstone36-/SuperDoit',
