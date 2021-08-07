@@ -1,5 +1,5 @@
 RwLoadSpecificationV2 {
-	#specName : 'SuperDoit',
+	#specName : 'SuperDoit_solo',
 	#projectName : 'superDoit',
 	#gitUrl : 'git@github.com:dalehenrich/superDoit.git',
 	#revision : 'master',
