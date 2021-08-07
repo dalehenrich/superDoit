@@ -111,21 +111,6 @@ SuperDoitExecution >> executionStoneName [
 	^GsNetworkResourceString currentStoneName
 ]
 
-{ #category : 'exit' }
-SuperDoitExecution >> exit: message withStatus: statusInteger [
-	"Does not return and terminates the os process with exit status <statusInteger>"
-
-	self logErrorMessage: message.
-	ExitClientError signal: 'explicit process exit' status: statusInteger
-]
-
-{ #category : 'exit' }
-SuperDoitExecution >> exitWithStatus: statusInteger [
-	"Does not return and terminates the os process with exit status <statusInteger>"
-
-	ExitClientError signal: 'explicit process exit' status: statusInteger
-]
-
 { #category : 'script execution' }
 SuperDoitExecution >> getAndVerifyOptions [
 	"standard option handling ... for customization override in script"
