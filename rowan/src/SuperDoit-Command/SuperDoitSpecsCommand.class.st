@@ -17,7 +17,7 @@ SuperDoitSpecsCommand >> executeAgainst: aCommandParser [
 	[ stonStream atEnd ]
 		whileFalse: [ 
 			| obj |
-			obj := STON fromStream: stonStream.
+			obj := (SuperDoitExecution globalNamed: #STON) fromStream: stonStream.
 			obj _isArray
 				ifTrue: [ 
 					aCommandParser specs

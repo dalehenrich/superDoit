@@ -1,5 +1,5 @@
 ! superDoit fileout
-!	2021-08-08T15:21:48.930175-07:00
+!	2021-08-08T16:08:47.336719-07:00
 
 ! Class Declarations
 ! Generated file, do not Edit
@@ -825,7 +825,7 @@ executeAgainst: aCommandParser
 	[ stonStream atEnd ]
 		whileFalse: [ 
 			| obj |
-			obj := STON fromStream: stonStream.
+			obj := (SuperDoitExecution globalNamed: #STON) fromStream: stonStream.
 			obj _isArray
 				ifTrue: [ 
 					aCommandParser specs
@@ -1563,7 +1563,7 @@ stdout
 category: 'private'
 method: SuperDoitExecution
 ston: anObject on: aStream
-	STON put: anObject onStreamPretty: aStream
+	(SuperDoitExecution globalNamed: #STON) put: anObject onStreamPretty: aStream
 %
 
 category: 'help'

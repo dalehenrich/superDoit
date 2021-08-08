@@ -363,7 +363,7 @@ SuperDoitExecution >> stdout [
 
 { #category : 'private' }
 SuperDoitExecution >> ston: anObject on: aStream [
-	STON put: anObject onStreamPretty: aStream
+	(SuperDoitExecution globalNamed: #STON) put: anObject onStreamPretty: aStream
 ]
 
 { #category : 'help' }
