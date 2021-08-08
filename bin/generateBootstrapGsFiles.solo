@@ -91,6 +91,7 @@ generateBootstrapFiles: supportedGemStoneVersionMap
 		headerStream := WriteStream on: String new.
 		headerStream nextPutAll: '! superDoit fileout'; lf.
 		importSpec := RwSpecification fromUrl: 'file:$GS_HOME/shared/repos/superDoit/rowan/specs/SuperDoit_stone.ston'.
+		importSpec gemstoneSetDefaultSymbolDictNameTo: 'SuperDoit_trasientSymbolDictionary'.	"must match value in SuperDoitCommandParser class >> transientSymbolDictionaryName"
 		importProject := importSpec resolve read: attributes.
 			projectSetDefinition addProject: importProject.
 		projectSetModification := projectSetDefinition

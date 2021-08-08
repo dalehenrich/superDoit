@@ -1,5 +1,5 @@
 ! superDoit fileout
-!	2021-08-07T15:28:09.459467-07:00
+!	2021-08-07T18:42:11.352017-07:00
 
 ! Class Declarations
 ! Generated file, do not Edit
@@ -11,7 +11,7 @@ doit
 	classVars: #( NotSet NoValue )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: SuperDoit_trasientSymbolDictionary
 	options: #()
 )
 		category: 'SuperDoit-Option';
@@ -26,7 +26,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: SuperDoit_trasientSymbolDictionary
 	options: #()
 )
 		category: 'SuperDoit-Option';
@@ -41,7 +41,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: SuperDoit_trasientSymbolDictionary
 	options: #()
 )
 		category: 'SuperDoit-Option';
@@ -56,7 +56,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: SuperDoit_trasientSymbolDictionary
 	options: #()
 )
 		category: 'SuperDoit-Option';
@@ -71,7 +71,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: SuperDoit_trasientSymbolDictionary
 	options: #()
 )
 		category: 'SuperDoit-Option';
@@ -86,7 +86,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: SuperDoit_trasientSymbolDictionary
 	options: #()
 )
 		category: 'SuperDoit-Command';
@@ -101,7 +101,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: SuperDoit_trasientSymbolDictionary
 	options: #()
 )
 		category: 'SuperDoit-Command';
@@ -116,7 +116,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: SuperDoit_trasientSymbolDictionary
 	options: #()
 )
 		category: 'SuperDoit-Command';
@@ -131,7 +131,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: SuperDoit_trasientSymbolDictionary
 	options: #()
 )
 		category: 'SuperDoit-Command';
@@ -146,7 +146,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: SuperDoit_trasientSymbolDictionary
 	options: #()
 )
 		category: 'SuperDoit-Command';
@@ -161,7 +161,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: SuperDoit_trasientSymbolDictionary
 	options: #()
 )
 		category: 'SuperDoit-Command';
@@ -176,7 +176,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: SuperDoit_trasientSymbolDictionary
 	options: #()
 )
 		category: 'SuperDoit-Command';
@@ -191,7 +191,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: SuperDoit_trasientSymbolDictionary
 	options: #()
 )
 		category: 'SuperDoit-Command';
@@ -206,7 +206,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: SuperDoit_trasientSymbolDictionary
 	options: #()
 )
 		category: 'SuperDoit-Command';
@@ -221,7 +221,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: SuperDoit_trasientSymbolDictionary
 	options: #()
 )
 		category: 'SuperDoit-Command';
@@ -236,7 +236,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: SuperDoit_trasientSymbolDictionary
 	options: #()
 )
 		category: 'SuperDoit-Command';
@@ -251,7 +251,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: SuperDoit_trasientSymbolDictionary
 	options: #()
 )
 		category: 'SuperDoit-Command';
@@ -266,7 +266,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: SuperDoit_trasientSymbolDictionary
 	options: #()
 )
 		category: 'SuperDoit-Command';
@@ -281,7 +281,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: SuperDoit_trasientSymbolDictionary
 	options: #()
 )
 		category: 'SuperDoit-Command';
@@ -296,7 +296,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: SuperDoit_trasientSymbolDictionary
 	options: #()
 )
 		category: 'SuperDoit-Core';
@@ -311,7 +311,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: UserGlobals
+	inDictionary: SuperDoit_trasientSymbolDictionary
 	options: #()
 )
 		category: 'SuperDoit-Core';
@@ -910,6 +910,16 @@ preClassCreationExecuteAgainst: aCommandParser
 
 ! Class implementation for 'SuperDoitCommandParser'
 
+!		Class methods for 'SuperDoitCommandParser'
+
+category: 'accessing'
+classmethod: SuperDoitCommandParser
+transientSymbolDictionaryName
+	"must match values using superdoit_solo"
+
+	^ #'SuperDoit_trasientSymbolDictionary'
+%
+
 !		Instance methods for 'SuperDoitCommandParser'
 
 category: 'commands'
@@ -1141,25 +1151,6 @@ superDoitExecutionClass
 				classInstVars: #()
 				poolDictionaries: #()
 				inDictionary: self systemDictionary ]
-%
-
-category: 'accessing'
-method: SuperDoitCommandParser
-systemDictionary
-	"install the script class in a symbol dictionary in the transient symbol list ... 
-		we do not want the class persisted"
-
-	^ systemDictionary
-		ifNil: [ 
-			| sess symbolList name |
-			sess := GsCurrentSession currentSession.
-			sess _transientSymbolList ifNil: [ System refreshTransientSymbolList ].
-			symbolList := sess transientSymbolList.
-			name := #'superDoitSymbolDict'.
-			^ systemDictionary := (symbolList resolveSymbol: name)
-				ifNil: [ 
-					systemDictionary := SymbolDictionary new name: name.
-					symbolList insertObject: systemDictionary at: 1 ] ]
 %
 
 category: 'accessing'
@@ -1686,6 +1677,26 @@ category: '*superdoit-stone-core'
 method: SuperDoitCommandParser
 scriptPath: aFilePath
 	scriptPath := aFilePath
+%
+
+category: '*superdoit-core36x'
+method: SuperDoitCommandParser
+systemDictionary
+	"install the script class in a symbol dictionary in the transient symbol list ... 
+		we do not want the class persisted"
+
+	^ systemDictionary
+		ifNil: [ 
+			| sess symbolList name |
+			sess := GsCurrentSession currentSession.
+			sess _transientSymbolList ifNil: [ System refreshTransientSymbolList ].
+			symbolList := sess transientSymbolList.
+			name := self class transientSymbolDictionaryName.
+			^ systemDictionary := (symbolList resolveSymbol: name)
+				ifNotNil: [ :assoc | assoc value ]
+				ifNil: [ 
+					systemDictionary := SymbolDictionary new name: name.
+					symbolList insertObject: systemDictionary at: 1 ] ]
 %
 
 ! Class extensions for 'SuperDoitExecution'

@@ -1,5 +1,17 @@
 login
 ! install superDoit support code in image
+run
+"create the transient symbol dictionary for superDoit"
+	| sess symbolList name |
+	sess := GsCurrentSession currentSession.
+	symbolList := sess symbolList.	"transient symbol list"
+	name := #'SuperDoit_trasientSymbolDictionary'.	"must match value in SuperDoitCommandParser class >> transientSymbolDictionaryName"
+	(symbolList resolveSymbol: name)
+		ifNil: [
+			| systemDictionary |
+			systemDictionary := SymbolDictionary new name: name.
+			symbolList insertObject: systemDictionary at: 1 ]
+%
 input $bootstrapSuperDoit_file
 run
 	"the first non-topaz argument is the name of the script file

@@ -19,6 +19,13 @@ Class {
 	#category : 'SuperDoit-Core'
 }
 
+{ #category : 'accessing' }
+SuperDoitCommandParser class >> transientSymbolDictionaryName [
+	"must match values using superdoit_solo"
+
+	^ #'SuperDoit_trasientSymbolDictionary'
+]
+
 { #category : 'commands' }
 SuperDoitCommandParser >> classMethod: aString className: className [
 	^ SuperDoitExtensionMethodCommand
@@ -220,24 +227,6 @@ SuperDoitCommandParser >> superDoitExecutionClass [
 				classInstVars: #()
 				poolDictionaries: #()
 				inDictionary: self systemDictionary ]
-]
-
-{ #category : 'accessing' }
-SuperDoitCommandParser >> systemDictionary [
-	"install the script class in a symbol dictionary in the transient symbol list ... 
-		we do not want the class persisted"
-
-	^ systemDictionary
-		ifNil: [ 
-			| sess symbolList name |
-			sess := GsCurrentSession currentSession.
-			sess _transientSymbolList ifNil: [ System refreshTransientSymbolList ].
-			symbolList := sess transientSymbolList.
-			name := #'superDoitSymbolDict'.
-			^ systemDictionary := (symbolList resolveSymbol: name)
-				ifNil: [ 
-					systemDictionary := SymbolDictionary new name: name.
-					symbolList insertObject: systemDictionary at: 1 ] ]
 ]
 
 { #category : 'accessing' }

@@ -6,6 +6,5 @@ RwPlatformNestedProjectLoadComponentV2 {
 	#packageNames : [
 		'SuperDoit-Core36x'
 	],
-	#conditionalPackageMapSpecs : { },
 	#comment : 'Mods used by 3.6.x and beyond'
 }

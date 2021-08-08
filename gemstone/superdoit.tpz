@@ -1,10 +1,26 @@
 login
 run
+"create the transient symbol dictionary for superDoit"
+	| sess symbolList name |
+	sess := GsCurrentSession currentSession.
+	sess _transientSymbolList ifNil: [ System refreshTransientSymbolList ].
+	symbolList := sess transientSymbolList.
+	name := #'SuperDoit_trasientSymbolDictionary'.	"must match value in SuperDoitCommandParser class >> transientSymbolDictionaryName"
+	(symbolList resolveSymbol: name)
+		ifNil: [
+			| systemDictionary |
+			"add to transient symbol dictionary if not present" 
+			systemDictionary := SymbolDictionary new name: name.
+			symbolList insertObject: systemDictionary at: 1 ]
+%
+run
+| resolvedProject |
 "install superDoit support code in image"
-(Rowan  
+resolvedProject := Rowan  
 	projectFromUrl: 'file:$SUPERDOIT_DIR/rowan/specs/SuperDoit_solo.ston'
-	gitUrl: 'file:$SUPERDOIT_DIR')
-		load.
+	gitUrl: 'file:$SUPERDOIT_DIR'.
+resolvedProject _loadSpecification gemstoneSetDefaultSymbolDictNameTo: 'SuperDoit_trasientSymbolDictionary'.	"must match value in SuperDoitCommandParser class >> transientSymbolDictionaryName"
+resolvedProject load.
 %
 run
 	"the first non-topaz argument is the name of the script file
