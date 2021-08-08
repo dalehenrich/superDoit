@@ -1,5 +1,5 @@
 ! superDoit fileout
-!	2021-08-07T18:42:11.352017-07:00
+!	2021-08-08T11:25:48.222330-07:00
 
 ! Class Declarations
 ! Generated file, do not Edit
@@ -649,10 +649,8 @@ executeAgainst: aCommandParser
 	| instance |
 	aCommandParser superDoitExecutionClass
 		compileMethod:
-			'theDoit ^ ' , self chunk printString
-				,
-					' evaluateInContext: self 
-				symbolList: GsCurrentSession currentSession transientSymbolList '.
+			'theDoit ^ ' , self chunk printString , ' evaluateInContext: self symbolList: '
+				, self symbolListExpressionString.
 	instance := aCommandParser superDoitExecutionClass new.
 	instance scriptPath: aCommandParser scriptPath.
 	instance scriptArgs: aCommandParser scriptArgs.
@@ -1619,6 +1617,16 @@ category: '*superdoit-gemstone-kernel36x'
 method: GsFile
 print: anObject
  anObject printOn: self
+%
+
+! Class extensions for 'SuperDoitCommand'
+
+!		Instance methods for 'SuperDoitCommand'
+
+category: '*superdoit-core36x'
+method: SuperDoitCommand
+symbolListExpressionString
+	^ 'GsCurrentSession currentSession transientSymbolList'
 %
 
 ! Class extensions for 'SuperDoitCommandParser'

@@ -9,10 +9,8 @@ SuperDoitDoitCommand >> executeAgainst: aCommandParser [
 	| instance |
 	aCommandParser superDoitExecutionClass
 		compileMethod:
-			'theDoit ^ ' , self chunk printString
-				,
-					' evaluateInContext: self 
-				symbolList: GsCurrentSession currentSession transientSymbolList '.
+			'theDoit ^ ' , self chunk printString , ' evaluateInContext: self symbolList: '
+				, self symbolListExpressionString.
 	instance := aCommandParser superDoitExecutionClass new.
 	instance scriptPath: aCommandParser scriptPath.
 	instance scriptArgs: aCommandParser scriptArgs.

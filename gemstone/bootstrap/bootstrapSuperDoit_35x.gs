@@ -1,5 +1,5 @@
 ! superDoit fileout
-!	2021-08-07T18:42:11.424086-07:00
+!	2021-08-08T11:25:48.286768-07:00
 
 ! Class Declarations
 ! Generated file, do not Edit
@@ -649,10 +649,8 @@ executeAgainst: aCommandParser
 	| instance |
 	aCommandParser superDoitExecutionClass
 		compileMethod:
-			'theDoit ^ ' , self chunk printString
-				,
-					' evaluateInContext: self 
-				symbolList: GsCurrentSession currentSession transientSymbolList '.
+			'theDoit ^ ' , self chunk printString , ' evaluateInContext: self symbolList: '
+				, self symbolListExpressionString.
 	instance := aCommandParser superDoitExecutionClass new.
 	instance scriptPath: aCommandParser scriptPath.
 	instance scriptArgs: aCommandParser scriptArgs.
@@ -1611,6 +1609,16 @@ _specsDict
 	^ specsDict
 %
 
+! Class extensions for 'SuperDoitCommand'
+
+!		Instance methods for 'SuperDoitCommand'
+
+category: '*superdoit-core31-5'
+method: SuperDoitCommand
+symbolListExpressionString
+	^ 'GsCurrentSession currentSession symbolList'
+%
+
 ! Class extensions for 'SuperDoitCommandParser'
 
 !		Class methods for 'SuperDoitCommandParser'
@@ -1710,7 +1718,7 @@ exit: message withStatus: statusInteger
 	"exiting image with an exit status not supported until 3.6.0"
 
 	self logErrorMessage: message.
-	System logout
+	Error signal: 'execution halted with exit status: ', statusInteger printString
 %
 
 category: '*superdoit-core31-5'
@@ -1718,7 +1726,7 @@ method: SuperDoitExecution
 exitWithStatus: statusInteger
 	"exiting image with an exit status not supported until 3.6.0"
 
-	System logout
+	Error signal: 'execution halted with exit status: ', statusInteger printString
 %
 
 category: '*superdoit-stone-core'
