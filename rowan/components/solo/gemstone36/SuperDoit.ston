@@ -1,5 +1,5 @@
 RwPlatformNestedProjectLoadComponentV2 {
-	#name : 'gemstone36/SuperDoit',
+	#name : 'solo/gemstone36/SuperDoit',
 	#condition : [
 		'gs3.6.x'
 	],
@@ -17,5 +17,5 @@ RwPlatformNestedProjectLoadComponentV2 {
 			}
 		}
 	},
-	#comment : 'GsFile>>print: is missing from 3.6; added to 3.7'
+	#comment : 'GsFile>>print: is missing from 3.6; only needed for solo scripts'
 }

@@ -3,6 +3,9 @@ RwPlatformNestedProjectLoadComponentV2 {
 	#condition : [
 		'solo'
 	],
+	#componentNames : [
+		'solo/gemstone36/SuperDoit'
+	],
 	#packageNames : [
 		'SuperDoit-Solo-Core'
 	],

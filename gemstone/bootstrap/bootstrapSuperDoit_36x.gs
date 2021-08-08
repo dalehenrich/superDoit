@@ -1,5 +1,5 @@
 ! superDoit fileout
-!	2021-08-08T16:08:47.336719-07:00
+!	2021-08-08T16:25:13.573122-07:00
 
 ! Class Declarations
 ! Generated file, do not Edit
@@ -1607,16 +1607,6 @@ _specsDict
 			option shortName
 				ifNotNil: [ :shortName | (specsDict at: 'short') at: shortName put: option ] ].
 	^ specsDict
-%
-
-! Class extensions for 'GsFile'
-
-!		Instance methods for 'GsFile'
-
-category: '*superdoit-gemstone-kernel36x'
-method: GsFile
-print: anObject
- anObject printOn: self
 %
 
 ! Class extensions for 'SuperDoitCommand'
