@@ -1,5 +1,5 @@
 ! superDoit fileout
-!	2021-08-08T11:25:48.286768-07:00
+!	2021-08-08T15:21:49.002105-07:00
 
 ! Class Declarations
 ! Generated file, do not Edit
@@ -1718,7 +1718,7 @@ exit: message withStatus: statusInteger
 	"exiting image with an exit status not supported until 3.6.0"
 
 	self logErrorMessage: message.
-	Error signal: 'execution halted with exit status: ', statusInteger printString
+	System logout
 %
 
 category: '*superdoit-core31-5'
@@ -1726,7 +1726,7 @@ method: SuperDoitExecution
 exitWithStatus: statusInteger
 	"exiting image with an exit status not supported until 3.6.0"
 
-	Error signal: 'execution halted with exit status: ', statusInteger printString
+	System logout
 %
 
 category: '*superdoit-stone-core'
