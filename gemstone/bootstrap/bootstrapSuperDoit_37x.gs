@@ -1,5 +1,5 @@
 ! superDoit fileout
-!	2021-08-08T16:25:13.504214-07:00
+!	2021-08-09T09:19:02.496773-07:00
 
 ! Class Declarations
 ! Generated file, do not Edit
@@ -1563,7 +1563,11 @@ stdout
 category: 'private'
 method: SuperDoitExecution
 ston: anObject on: aStream
-	(SuperDoitExecution globalNamed: #STON) put: anObject onStreamPretty: aStream
+	(SuperDoitExecution globalNamed: #'STON')
+		ifNotNil: [ :ston | ston put: anObject onStreamPretty: aStream ]
+		ifNil: [ 
+			"if STON is not present, then our best bet is to print the object"
+			aStream nextPutAll: anObject printString ]
 %
 
 category: 'help'

@@ -1,6 +1,7 @@
 RwSimpleNestedProjectLoadComponentV2 {
 	#name : 'solo/SuperDoit',
 	#condition : 'solo',
+	#projectNames : [ ],
 	#componentNames : [
 		'solo/gemstone36/SuperDoit'
 	],
