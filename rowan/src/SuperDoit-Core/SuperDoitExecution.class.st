@@ -91,21 +91,6 @@ SuperDoitExecution >> displayResult: anObject [
 		ifTrue: [ self ston: anObject on: self stdout ]
 ]
 
-{ #category : 'script execution' }
-SuperDoitExecution >> doit [
-	"standard option handling ... for customization override in script"
-
-	[ 
-	self getAndVerifyOptions == self noResult
-		ifTrue: [ ^ self noResult ].
-	^ self theDoit ]
-		on: Error
-		do: [ :ex | 
-			((self respondsTo: #'debug') and: [ self debug ])
-				ifTrue: [ ex pass ].
-			self exit: ex messageText withStatus: 1	"does not return" ]
-]
-
 { #category : 'script info' }
 SuperDoitExecution >> executionStoneName [
 	^GsNetworkResourceString currentStoneName

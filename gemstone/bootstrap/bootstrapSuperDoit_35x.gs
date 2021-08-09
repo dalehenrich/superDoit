@@ -1,5 +1,5 @@
 ! superDoit fileout
-!	2021-08-09T09:27:52.001248-07:00
+!	2021-08-09T09:46:21.688904-07:00
 
 ! Class Declarations
 ! Generated file, do not Edit
@@ -1268,22 +1268,6 @@ displayResult: anObject
 		ifTrue: [ self ston: anObject on: self stdout ]
 %
 
-category: 'script execution'
-method: SuperDoitExecution
-doit
-	"standard option handling ... for customization override in script"
-
-	[ 
-	self getAndVerifyOptions == self noResult
-		ifTrue: [ ^ self noResult ].
-	^ self theDoit ]
-		on: Error
-		do: [ :ex | 
-			((self respondsTo: #'debug') and: [ self debug ])
-				ifTrue: [ ex pass ].
-			self exit: ex messageText withStatus: 1	"does not return" ]
-%
-
 category: 'script info'
 method: SuperDoitExecution
 executionStoneName
@@ -1716,6 +1700,19 @@ category: '*superdoit-stone-core'
 method: SuperDoitExecution
 dirname
 	self _splitName: self scriptPath to: [ :parentPath :basename | ^ parentPath ]
+%
+
+category: '*superdoit-core31-5'
+method: SuperDoitExecution
+doit
+	"standard option handling ... for customization override in script"
+
+	"no special error handling ... with topaz -S option, exiting topaz with an
+		error message is not feasible, so we'll just stay in permanent debug mode"
+
+	self getAndVerifyOptions == self noResult
+		ifTrue: [ ^ self noResult ].
+	^ self theDoit
 %
 
 category: '*superdoit-core31-5'
