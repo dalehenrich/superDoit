@@ -1,5 +1,5 @@
 ! superDoit fileout
-!	2021-08-09T09:19:02.640739-07:00
+!	2021-08-09T09:27:52.001248-07:00
 
 ! Class Declarations
 ! Generated file, do not Edit
@@ -1567,7 +1567,9 @@ ston: anObject on: aStream
 		ifNotNil: [ :ston | ston put: anObject onStreamPretty: aStream ]
 		ifNil: [ 
 			"if STON is not present, then our best bet is to print the object"
-			aStream nextPutAll: anObject printString ]
+			aStream
+				nextPutAll: anObject printString;
+				lf ]
 %
 
 category: 'help'

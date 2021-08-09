@@ -367,7 +367,9 @@ SuperDoitExecution >> ston: anObject on: aStream [
 		ifNotNil: [ :ston | ston put: anObject onStreamPretty: aStream ]
 		ifNil: [ 
 			"if STON is not present, then our best bet is to print the object"
-			aStream nextPutAll: anObject printString ]
+			aStream
+				nextPutAll: anObject printString;
+				lf ]
 ]
 
 { #category : 'help' }
