@@ -1,8 +1,6 @@
-RwPlatformNestedProjectLoadComponentV2 {
+RwSimpleNestedProjectLoadComponentV2 {
 	#name : 'stone/SuperDoit',
-	#condition : [
-		'stone'
-	],
+	#condition : 'stone',
 	#packageNames : [
 		'SuperDoit-Stone-Core'
 	],
