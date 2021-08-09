@@ -96,7 +96,8 @@ if [ "$useBootstrapSuperDoit_file" = "true" ]; then
 	# Rowan extent NOT NEEDED in stone ... bootstrap superDoit using .gs files
 	vers=`awk 'NR==2{print $1; exit}' $GEMSTONE/version.txt`
 	case $vers in
-		3.1.0.6|3.4.0|3.5.*) export bootstrapSuperDoit_file="$gemstoneDir/bootstrap/bootstrapSuperDoit_35x.gs" ;;
+		3.1.0.6|3.4.0) export bootstrapSuperDoit_file="$gemstoneDir/bootstrap/bootstrapSuperDoit_34x.gs" ;;
+		3.5.*) export bootstrapSuperDoit_file="$gemstoneDir/bootstrap/bootstrapSuperDoit_35x.gs" ;;
 		3.6.*) export bootstrapSuperDoit_file="$gemstoneDir/bootstrap/bootstrapSuperDoit_36x.gs" ;;
 		3.7.*) export bootstrapSuperDoit_file="$gemstoneDir/bootstrap/bootstrapSuperDoit_37x.gs" ;;
 		*) echo "unsupported gemstone version $vers"; exit 1 ;;
@@ -114,9 +115,8 @@ case $vers in
 			-q \
 			-S $superdoit_tpz -- $scriptFile -- $scriptArgs ;;
 	*)
+		export superdoit_tpz
 		$GEMSTONE/bin/topaz $defaultTopazArgs $topazArgs \
-			-I "$SUPERDOIT_STONE_DIR/.topazini" -- $scriptFile -- $scriptArgs << EOF
-			input $superdoit_tpz
-EOF
+			-I "$gemstoneDir/topazini" -- $scriptFile -- $scriptArgs
 		;;
 esac

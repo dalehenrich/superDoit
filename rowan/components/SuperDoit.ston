@@ -3,7 +3,9 @@ RwSimpleProjectLoadComponentV2 {
 	#condition : 'common',
 	#projectNames : [ ],
 	#componentNames : [
+		'gemstone31-4/SuperDoit',
 		'gemstone31-5/SuperDoit',
+		'gemstone35/SuperDoit',
 		'gemstone36-/SuperDoit',
 		'solo/SuperDoit',
 		'stone/SuperDoit',

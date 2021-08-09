@@ -16,13 +16,16 @@ SuperDoitCustomOptionsCommand >> executeAgainst: aCommandParser [
 		do: [ :option | 
 			| longName |
 			longName := option longName.
-			aCommandParser superDoitExecutionClass
+			self
 				compileMethod:
-					longName , '  ^ (self optionsDict at: ' , longName printString , ') value'.
-			aCommandParser superDoitExecutionClass
+					longName , '  ^ (self optionsDict at: ' , longName printString , ') value'
+				for: aCommandParser superDoitExecutionClass.
+
+			self
 				compileMethod:
 					longName , ': optionValue (self optionsDict at:' , longName printString
-						, ') value: optionValue' ]
+						, ') value: optionValue'
+				for: aCommandParser superDoitExecutionClass ]
 ]
 
 { #category : 'accessing' }

@@ -1,5 +1,5 @@
 ! superDoit fileout
-!	2021-08-09T09:46:21.688904-07:00
+!	2021-08-09T12:34:23.208774-07:00
 
 ! Class Declarations
 ! Generated file, do not Edit
@@ -610,13 +610,16 @@ executeAgainst: aCommandParser
 		do: [ :option | 
 			| longName |
 			longName := option longName.
-			aCommandParser superDoitExecutionClass
+			self
 				compileMethod:
-					longName , '  ^ (self optionsDict at: ' , longName printString , ') value'.
-			aCommandParser superDoitExecutionClass
+					longName , '  ^ (self optionsDict at: ' , longName printString , ') value'
+				for: aCommandParser superDoitExecutionClass.
+
+			self
 				compileMethod:
 					longName , ': optionValue (self optionsDict at:' , longName printString
-						, ') value: optionValue' ]
+						, ') value: optionValue'
+				for: aCommandParser superDoitExecutionClass ]
 %
 
 category: 'accessing'
@@ -647,10 +650,11 @@ category: 'execution'
 method: SuperDoitDoitCommand
 executeAgainst: aCommandParser
 	| instance |
-	aCommandParser superDoitExecutionClass
+	self
 		compileMethod:
 			'theDoit ^ ' , self chunk printString , ' evaluateInContext: self symbolList: '
-				, self symbolListExpressionString.
+				, self symbolListExpressionString
+		for: aCommandParser superDoitExecutionClass.
 	instance := aCommandParser superDoitExecutionClass new.
 	instance scriptPath: aCommandParser scriptPath.
 	instance scriptArgs: aCommandParser scriptArgs.
@@ -707,7 +711,7 @@ executeAgainst: aCommandParser
 			beh := self isMeta
 				ifTrue: [ class class ]
 				ifFalse: [ class ].
-			beh compileMethod: self chunk ]
+			self compileMethod: self chunk for: beh ]
 		ifNil: [ self error: 'No class ' , className printString , ' found' ]
 %
 
@@ -779,7 +783,7 @@ preClassCreationExecuteAgainst: aCommandParser
 category: 'execution'
 method: SuperDoitMethodCommand
 executeAgainst: aCommandParser
-	aCommandParser superDoitExecutionClass compileMethod: self chunk
+	self compileMethod: self chunk for: aCommandParser superDoitExecutionClass
 %
 
 ! Class implementation for 'SuperDoitProjectsHomeCommand'
@@ -1602,6 +1606,12 @@ _specsDict
 ! Class extensions for 'SuperDoitCommand'
 
 !		Instance methods for 'SuperDoitCommand'
+
+category: '*superdoit-core35x'
+method: SuperDoitCommand
+compileMethod: methodSource for: aBehavior
+	aBehavior compileMethod: methodSource
+%
 
 category: '*superdoit-core31-5'
 method: SuperDoitCommand

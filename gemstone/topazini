@@ -1,5 +1,4 @@
-set user SystemUser
-set password swordfish
-set solologin on
-
-display classoops
+# used to run the supderDoit scripts in versions that predate the topaz -S option
+#
+input $SUPERDOIT_STONE_DIR/.topazini
+input $superdoit_tpz

@@ -6,5 +6,5 @@ Class {
 
 { #category : 'execution' }
 SuperDoitMethodCommand >> executeAgainst: aCommandParser [
-	aCommandParser superDoitExecutionClass compileMethod: self chunk
+	self compileMethod: self chunk for: aCommandParser superDoitExecutionClass
 ]

@@ -43,7 +43,7 @@ SuperDoitExtensionMethodCommand >> executeAgainst: aCommandParser [
 			beh := self isMeta
 				ifTrue: [ class class ]
 				ifFalse: [ class ].
-			beh compileMethod: self chunk ]
+			self compileMethod: self chunk for: beh ]
 		ifNil: [ self error: 'No class ' , className printString , ' found' ]
 ]
 

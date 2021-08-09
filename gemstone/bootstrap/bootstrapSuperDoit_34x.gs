@@ -1,5 +1,5 @@
 ! superDoit fileout
-!	2021-08-09T12:34:23.344434-07:00
+!	2021-08-09T12:34:23.284653-07:00
 
 ! Class Declarations
 ! Generated file, do not Edit
@@ -1607,16 +1607,20 @@ _specsDict
 
 !		Instance methods for 'SuperDoitCommand'
 
-category: '*superdoit-core36x'
+category: '*superdoit-core31-4'
 method: SuperDoitCommand
 compileMethod: methodSource for: aBehavior
-	aBehavior compileMethod: methodSource
+	aBehavior 
+		compileMethod: methodSource 
+		dictionaries: GsCurrentSession currentSession symbolList 
+		category: 'superdoit' 
+		environmentId: 0
 %
 
-category: '*superdoit-core36x'
+category: '*superdoit-core31-5'
 method: SuperDoitCommand
 symbolListExpressionString
-	^ 'GsCurrentSession currentSession transientSymbolList'
+	^ 'GsCurrentSession currentSession symbolList'
 %
 
 ! Class extensions for 'SuperDoitCommandParser'
@@ -1677,7 +1681,7 @@ scriptPath: aFilePath
 	scriptPath := aFilePath
 %
 
-category: '*superdoit-core36x'
+category: '*superdoit-core31-5'
 method: SuperDoitCommandParser
 systemDictionary
 	"install the script class in a symbol dictionary in the transient symbol list ... 
@@ -1687,8 +1691,7 @@ systemDictionary
 		ifNil: [ 
 			| sess symbolList name |
 			sess := GsCurrentSession currentSession.
-			sess _transientSymbolList ifNil: [ System refreshTransientSymbolList ].
-			symbolList := sess transientSymbolList.
+			symbolList := sess symbolList.	"transient symbol list"
 			name := self class transientSymbolDictionaryName.
 			^ systemDictionary := (symbolList resolveSymbol: name)
 				ifNotNil: [ :assoc | assoc value ]
@@ -1713,37 +1716,34 @@ dirname
 	self _splitName: self scriptPath to: [ :parentPath :basename | ^ parentPath ]
 %
 
-category: '*superdoit-core36x'
+category: '*superdoit-core31-5'
 method: SuperDoitExecution
 doit
 	"standard option handling ... for customization override in script"
 
-	[ 
+	"no special error handling ... with topaz -S option, exiting topaz with an
+		error message is not feasible, so we'll just stay in permanent debug mode"
+
 	self getAndVerifyOptions == self noResult
 		ifTrue: [ ^ self noResult ].
-	^ self theDoit ]
-		on: Error
-		do: [ :ex | 
-			((self respondsTo: #'debug') and: [ self debug ])
-				ifTrue: [ ex pass ].
-			self exit: ex messageText withStatus: 1	"does not return" ]
+	^ self theDoit
 %
 
-category: '*superdoit-core36x'
+category: '*superdoit-core31-5'
 method: SuperDoitExecution
 exit: message withStatus: statusInteger
-	"Does not return and terminates the os process with exit status <statusInteger>"
+	"exiting image with an exit status not supported until 3.6.0"
 
 	self logErrorMessage: message.
-	ExitClientError signal: 'explicit process exit' status: statusInteger
+	System logout
 %
 
-category: '*superdoit-core36x'
+category: '*superdoit-core31-5'
 method: SuperDoitExecution
 exitWithStatus: statusInteger
-	"Does not return and terminates the os process with exit status <statusInteger>"
+	"exiting image with an exit status not supported until 3.6.0"
 
-	ExitClientError signal: 'explicit process exit' status: statusInteger
+	System logout
 %
 
 category: '*superdoit-stone-core'

@@ -49,7 +49,7 @@ if [ "$skip"x = "x" ] ; then
 fi
 
 $GEMSTONE/bin/topaz -l \
-	-I "$gemstoneDir/topazini" \
+	-I "$gemstoneDir/topazini_solo" \
 	-C "GEM_SOLO_EXTENT=$GEM_SOLO_EXTENT" \
 	-q \
 	-S $gemstoneDir/superdoit.tpz -- $scriptFile -- $*

@@ -1,0 +1,10 @@
+RwPlatformNestedProjectLoadComponentV2 {
+	#name : 'gemstone35/SuperDoit',
+	#condition : [
+		'gs3.5x'
+	],
+	#packageNames : [
+		'SuperDoit-Core35x'
+	],
+	#comment : 'Mods used 3.5.x'
+}

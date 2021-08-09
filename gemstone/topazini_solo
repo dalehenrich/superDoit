@@ -1,0 +1,8 @@
+# used to run the supderDoit solo scripts (3.6.0 and beyond)
+#
+set user SystemUser
+set password swordfish
+set solologin on
+
+display classoops
+
