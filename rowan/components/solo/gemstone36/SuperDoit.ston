@@ -17,5 +17,5 @@ RwPlatformNestedProjectLoadComponentV2 {
 			}
 		}
 	},
-	#comment : 'GsFile>>print: is missing from 3.6; only needed for solo scripts'
+	#comment : 'GsFile>>print: is missing from 3.6.x, needed for 3.6.0 and beyond because STON is present in the image'
 }
