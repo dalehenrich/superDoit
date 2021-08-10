@@ -1,5 +1,5 @@
 ! superDoit fileout
-!	2021-08-09T18:09:58.358691-07:00
+!	2021-08-09T18:44:16.890835-07:00
 
 ! Class Declarations
 ! Generated file, do not Edit
@@ -1161,7 +1161,7 @@ usage
 	^ usage
 		ifNil: [ 
 			| stoneArgs stoneName |
-			GsSession isSolo
+			SuperDoitExecution isSolo
 				ifTrue: [ stoneName := stoneArgs := '' ]
 				ifFalse: [ 
 					stoneName := '-- gs_360'.
@@ -1416,7 +1416,7 @@ globalNamed: aString ifAbsent: absentBlock
 category: 'script info'
 method: SuperDoitExecution
 isSolo
-	^ GsSession isSolo
+	^ SuperDoitExecution isSolo
 %
 
 category: 'logging'
@@ -1701,6 +1701,14 @@ systemDictionary
 %
 
 ! Class extensions for 'SuperDoitExecution'
+
+!		Class methods for 'SuperDoitExecution'
+
+category: '*superdoit-core31-4'
+classmethod: SuperDoitExecution
+isSolo
+	^ false
+%
 
 !		Instance methods for 'SuperDoitExecution'
 

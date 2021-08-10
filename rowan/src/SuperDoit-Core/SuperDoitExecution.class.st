@@ -230,7 +230,7 @@ SuperDoitExecution >> globalNamed: aString ifAbsent: absentBlock [
 
 { #category : 'script info' }
 SuperDoitExecution >> isSolo [
-	^ GsSession isSolo
+	^ SuperDoitExecution isSolo
 ]
 
 { #category : 'logging' }

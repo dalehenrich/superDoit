@@ -234,7 +234,7 @@ SuperDoitCommandParser >> usage [
 	^ usage
 		ifNil: [ 
 			| stoneArgs stoneName |
-			GsSession isSolo
+			SuperDoitExecution isSolo
 				ifTrue: [ stoneName := stoneArgs := '' ]
 				ifFalse: [ 
 					stoneName := '-- gs_360'.
