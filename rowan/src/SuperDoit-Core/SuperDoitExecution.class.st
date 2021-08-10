@@ -51,6 +51,19 @@ SuperDoitExecution >> _specsDict [
 	^ specsDict
 ]
 
+{ #category : 'private' }
+SuperDoitExecution >> _string: aString beginsWith: prefix [
+	"in-place implmentation of beginsWith: ... 3.4.5 and older don't implement beginsWith: "
+
+	(prefix isEmpty or: [ aString size < prefix size ])
+		ifTrue: [ ^ false ]
+		ifFalse: [ 
+			1 to: prefix size do: [ :index | 
+				(aString at: index) ~= (prefix at: index)
+					ifTrue: [ ^ false ] ] ].
+	^ true
+]
+
 { #category : 'command line' }
 SuperDoitExecution >> commandLine [
 	^ _commandLine
@@ -130,7 +143,7 @@ SuperDoitExecution >> getOpts [
 				ifNotNil: [ :theOpt | 
 					theOpt argExpected
 						ifTrue: [ 
-							(optOrArg beginsWith: '-')
+							(self _string: optOrArg beginsWith: '-')
 								ifTrue: [ 
 									theOpt argRequired
 										ifTrue: [ 
@@ -140,9 +153,9 @@ SuperDoitExecution >> getOpts [
 										ifFalse: [ theOpt markNoValue	"will pick up default value" ] ]
 								ifFalse: [ theOpt value: optOrArg ] ]
 						ifFalse: [ theOpt value: true	"set value to true, to indicate that the option WAS specified" ] ].
-			(optOrArg beginsWith: '-')
+			(self _string: optOrArg beginsWith: '-')
 				ifTrue: [ 
-					(optOrArg beginsWith: '--')
+					(self _string: optOrArg beginsWith: '--')
 						ifTrue: [ 
 							| optKey |
 							optKey := optOrArg copyFrom: 3 to: optOrArg size.
@@ -177,7 +190,7 @@ SuperDoitExecution >> getOpts [
 							opt := nil ]
 						ifFalse: [ 
 							| theOpts numOpts |
-							"optOrArg beginsWith: '-'"
+							"self _string: optOrArg beginsWith: '-'"
 							theOpts := optOrArg copyFrom: 2 to: optOrArg size.
 							numOpts := theOpts size.
 							1 to: numOpts do: [ :index | 

@@ -1,5 +1,5 @@
 ! superDoit fileout
-!	2021-08-09T18:44:16.961227-07:00
+!	2021-08-09T19:23:24.475336-07:00
 
 ! Class Declarations
 ! Generated file, do not Edit
@@ -1314,7 +1314,7 @@ getOpts
 				ifNotNil: [ :theOpt | 
 					theOpt argExpected
 						ifTrue: [ 
-							(optOrArg beginsWith: '-')
+							(self _string: optOrArg beginsWith: '-')
 								ifTrue: [ 
 									theOpt argRequired
 										ifTrue: [ 
@@ -1324,9 +1324,9 @@ getOpts
 										ifFalse: [ theOpt markNoValue	"will pick up default value" ] ]
 								ifFalse: [ theOpt value: optOrArg ] ]
 						ifFalse: [ theOpt value: true	"set value to true, to indicate that the option WAS specified" ] ].
-			(optOrArg beginsWith: '-')
+			(self _string: optOrArg beginsWith: '-')
 				ifTrue: [ 
-					(optOrArg beginsWith: '--')
+					(self _string: optOrArg beginsWith: '--')
 						ifTrue: [ 
 							| optKey |
 							optKey := optOrArg copyFrom: 3 to: optOrArg size.
@@ -1361,7 +1361,7 @@ getOpts
 							opt := nil ]
 						ifFalse: [ 
 							| theOpts numOpts |
-							"optOrArg beginsWith: '-'"
+							"self _string: optOrArg beginsWith: '-'"
 							theOpts := optOrArg copyFrom: 2 to: optOrArg size.
 							numOpts := theOpts size.
 							1 to: numOpts do: [ :index | 
@@ -1601,6 +1601,20 @@ _specsDict
 			option shortName
 				ifNotNil: [ :shortName | (specsDict at: 'short') at: shortName put: option ] ].
 	^ specsDict
+%
+
+category: 'private'
+method: SuperDoitExecution
+_string: aString beginsWith: prefix
+	"in-place implmentation of beginsWith: ... 3.4.5 and older don't implement beginsWith: "
+
+	(prefix isEmpty or: [ aString size < prefix size ])
+		ifTrue: [ ^ false ]
+		ifFalse: [ 
+			1 to: prefix size do: [ :index | 
+				(aString at: index) ~= (prefix at: index)
+					ifTrue: [ ^ false ] ] ].
+	^ true
 %
 
 ! Class extensions for 'SuperDoitCommand'
