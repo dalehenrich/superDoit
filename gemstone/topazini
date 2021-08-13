@@ -1,4 +1,6 @@
 # used to run the supderDoit scripts in versions that predate the topaz -S option
 #
+output push /dev/null only
 input $SUPERDOIT_STONE_DIR/.topazini
 input $superdoit_tpz
+output pop

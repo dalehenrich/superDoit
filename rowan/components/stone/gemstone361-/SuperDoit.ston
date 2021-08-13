@@ -1,5 +1,5 @@
 RwPlatformNestedProjectLoadComponentV2 {
-	#name : 'stone/gemstone36-/SuperDoit',
+	#name : 'stone/gemstone361-/SuperDoit',
 	#condition : [
 		'gs3.6.[1-]'
 	],

@@ -1,5 +1,5 @@
 ! superDoit fileout
-!	2021-08-09T19:23:24.339201-07:00
+!	2021-08-12T17:42:37.212863-07:00
 
 ! Class Declarations
 ! Generated file, do not Edit
@@ -1734,7 +1734,7 @@ dirname
 	self _splitName: self scriptPath to: [ :parentPath :basename | ^ parentPath ]
 %
 
-category: '*superdoit-core31-5'
+category: '*superdoit-core35x'
 method: SuperDoitExecution
 doit
 	"standard option handling ... for customization override in script"

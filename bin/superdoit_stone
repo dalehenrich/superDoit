@@ -118,6 +118,6 @@ case $vers in
 	*)
 		export superdoit_tpz
 		$GEMSTONE/bin/topaz $defaultTopazArgs $topazArgs \
-			-I "$gemstoneDir/topazini" -- $scriptFile -- $scriptArgs
+			-q -I "$gemstoneDir/topazini" -- $scriptFile -- $scriptArgs
 		;;
 esac
