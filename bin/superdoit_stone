@@ -117,7 +117,12 @@ case $vers in
 			-S $superdoit_tpz -- $scriptFile -- $scriptArgs ;;
 	*)
 		export superdoit_tpz
+		if [[ $scriptArgs == *"-D"* ]]; then
+			ini="$gemstoneDir/topazini_debug"
+		else
+			ini="$gemstoneDir/topazini"
+		fi
 		$GEMSTONE/bin/topaz $defaultTopazArgs $topazArgs \
-			-q -I "$gemstoneDir/topazini" -- $scriptFile -- $scriptArgs
+			-q -I "$ini" -- $scriptFile -- $scriptArgs
 		;;
 esac

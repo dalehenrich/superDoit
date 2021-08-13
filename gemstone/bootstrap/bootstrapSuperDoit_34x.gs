@@ -1,5 +1,5 @@
 ! superDoit fileout
-!	2021-08-12T17:42:37.280099-07:00
+!	2021-08-13T09:59:17.618403-07:00
 
 ! Class Declarations
 ! Generated file, do not Edit
@@ -1750,21 +1750,9 @@ doit
 		prompt the user to exit or do `output pop` to debug
 	"
 
-	[ 
 	self getAndVerifyOptions == self noResult
 		ifTrue: [ ^ self noResult ].
-	^ self theDoit ]
-		on: Error
-		do: [ :ex | 
-			((self respondsTo: #'debug') and: [ self debug ])
-				ifTrue: [ 
-					self stdout 
-						nextPutAll: 'Error occurred while executing script. To debug, use the following topaz commands:'; lf;
-						tab; nextPutAll: 'output pop'; lf;
-						tab; nextPutAll: 'where'; lf;
-						yourself.
-					ex pass ].
-			self exit: ex messageText withStatus: 1	"does not return" ]
+	[ ^ self theDoit ] on: Error do: [:ex | ^ ex description ]
 %
 
 category: '*superdoit-core31-5'

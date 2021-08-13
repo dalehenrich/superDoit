@@ -1,0 +1,6 @@
+# used when debugging the supderDoit scripts (-D or --debug option) in versions
+# that predate the topaz -S option
+#
+output push /dev/null only
+input $SUPERDOIT_STONE_DIR/.topazini
+input $superdoit_tpz

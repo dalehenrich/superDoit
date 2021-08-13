@@ -3,4 +3,4 @@
 output push /dev/null only
 input $SUPERDOIT_STONE_DIR/.topazini
 input $superdoit_tpz
-output pop
+exit
