@@ -1,5 +1,5 @@
 ! superDoit fileout
-!	2021-08-13T09:59:17.618403-07:00
+!	2021-08-13T11:06:28.744330-07:00
 
 ! Class Declarations
 ! Generated file, do not Edit
@@ -1752,7 +1752,7 @@ doit
 
 	self getAndVerifyOptions == self noResult
 		ifTrue: [ ^ self noResult ].
-	[ ^ self theDoit ] on: Error do: [:ex | ^ ex description ]
+	^ self theDoit
 %
 
 category: '*superdoit-core31-5'

@@ -103,12 +103,13 @@ if [ "$useBootstrapSuperDoit_file" = "true" ]; then
 		3.7.*) export bootstrapSuperDoit_file="$gemstoneDir/bootstrap/bootstrapSuperDoit_37x.gs" ;;
 		*) echo "unsupported gemstone version $vers"; exit 1 ;;
 	esac
-	superdoit_tpz=$gemstoneDir/superdoit_boot.tpz
+	superdoit_tpz=$gemstoneDir/superdoit_boot_1.tpz
 else
 	# Rowan extent NEEDED in stone
 	superdoit_tpz=$gemstoneDir/superdoit.tpz
 fi
 
+export gemstoneDir
 case $vers in
 	3.5.*|3.6.*|3.7.*)
 		$GEMSTONE/bin/topaz $defaultTopazArgs $topazArgs \
@@ -116,12 +117,15 @@ case $vers in
 			-q \
 			-S $superdoit_tpz -- $scriptFile -- $scriptArgs ;;
 	*)
-		export superdoit_tpz
 		if [[ $scriptArgs == *"-D"* ]]; then
-			ini="$gemstoneDir/topazini_debug"
+			ini="$gemstoneDir/topazini_debug_1"
+			superdoit_tpz=$gemstoneDir/superdoit_boot_debug_1.tpz
 		else
 			ini="$gemstoneDir/topazini"
+			superdoit_tpz=$gemstoneDir/superdoit_boot_2.tpz
 		fi
+		export superdoit_tpz
+		echo "superdoit_tpz: $superdoit_tpz ini: $ini"
 		$GEMSTONE/bin/topaz $defaultTopazArgs $topazArgs \
 			-q -I "$ini" -- $scriptFile -- $scriptArgs
 		;;

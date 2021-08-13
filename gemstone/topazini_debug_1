@@ -1,6 +1,12 @@
 # used when debugging the supderDoit scripts (-D or --debug option) in versions
 # that predate the topaz -S option
 #
+#
+# To DEBUG enter the following topaz command at the topaz prompt:
+#
+#	input $gemstoneDir/superdoit_boot_debug_2.tpz 
+#
 output push /dev/null only
 input $SUPERDOIT_STONE_DIR/.topazini
 input $superdoit_tpz
+output pop

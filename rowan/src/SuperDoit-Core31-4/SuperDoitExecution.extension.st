@@ -13,7 +13,7 @@ SuperDoitExecution >> doit [
 
 	self getAndVerifyOptions == self noResult
 		ifTrue: [ ^ self noResult ].
-	[ ^ self theDoit ] on: Error do: [:ex | ^ ex description ]
+	^ self theDoit
 ]
 
 { #category : '*superdoit-core31-4' }
