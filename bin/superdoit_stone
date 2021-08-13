@@ -23,7 +23,6 @@ fi
 scriptFile=$1
 shift
 
-defaultTopazArgs="-L"	# if no topaz args specified, then default to -L 
 for arg in "$@"; do
 		if [[ "$endOfScriptArgs"x = "x" ]] && [[ "$arg" = "--" ]] ; then
 			endOfScriptArgs="true"
@@ -35,7 +34,7 @@ for arg in "$@"; do
 					stoneName=$arg
 				else
 					topazArgs="$topazArgs $arg"
-					defaultTopazArgs=""
+					defaultTopazArgs=" "	# explicit empty defaultTopazArgs
 				fi
 			fi
 		fi
@@ -95,8 +94,18 @@ useBootstrapSuperDoit_file="true"
 if [ "$useBootstrapSuperDoit_file" = "true" ]; then
 	# Rowan extent NOT NEEDED in stone ... bootstrap superDoit using .gs files
 	vers=`awk 'NR==2{print $1; exit}' $GEMSTONE/version.txt`
+	if [ "$defaultTopazArgs"x = "x" ] ; then
+		case $vers in
+			3.4*|3.5.*|3.6.*|3.7.*) 
+				defaultTopazArgs="-L";;		# if no topaz args specified, then default to -L
+			*)
+				defaultTopazArgs="-l";;		# -L not supported, so use -l
+		esac
+	fi
 	case $vers in
-		3.1.0.6|3.4.*) export bootstrapSuperDoit_file="$gemstoneDir/bootstrap/bootstrapSuperDoit_34x.gs" ;;
+		# in gemstone versions prior to 3.4.0 topaz does not support the -- command
+		#		line option, so it is not possible to add custom command line options
+		3.4.*) export bootstrapSuperDoit_file="$gemstoneDir/bootstrap/bootstrapSuperDoit_34x.gs" ;;
 		3.5.*) export bootstrapSuperDoit_file="$gemstoneDir/bootstrap/bootstrapSuperDoit_35x.gs" ;;
 		3.6.0) export bootstrapSuperDoit_file="$gemstoneDir/bootstrap/bootstrapSuperDoit_360.gs" ;;
 		3.6.1) export bootstrapSuperDoit_file="$gemstoneDir/bootstrap/bootstrapSuperDoit_361x.gs" ;;
