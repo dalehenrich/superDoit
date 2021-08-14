@@ -1,0 +1,10 @@
+RwLoadSpecificationV2 {
+	#specName : 'filetree',
+	#projectName : 't2f2tMeta',
+	#diskUrl : 'file:///home/dhenrich/rogue/_homes/rogue/_issue_260/shared/repos/superDoit',
+	#projectSpecFile : 'packages/t2f2t/filetree.ston',
+	#componentNames : [
+		'SuperDoit'
+	],
+	#comment : ''
+}

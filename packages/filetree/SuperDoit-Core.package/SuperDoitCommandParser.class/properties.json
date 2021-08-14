@@ -1,0 +1,26 @@
+{
+	"category" : "SuperDoit-Core",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "",
+	"instvars" : [
+		"stream",
+		"done",
+		"doitResult",
+		"usage",
+		"specs",
+		"superDoitExecutionClass",
+		"instVarNames",
+		"scriptArgs",
+		"scriptPath",
+		"systemDictionary",
+		"optionsDict",
+		"projectsHome",
+		"commandDefinition" ],
+	"name" : "SuperDoitCommandParser",
+	"pools" : [
+		 ],
+	"super" : "Object",
+	"type" : "normal" }
