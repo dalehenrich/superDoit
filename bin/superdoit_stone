@@ -9,6 +9,7 @@
 
 set -e
 
+export SUPERDOIT_CURRENT_DIR="`pwd`"
 export SUPERDOIT_DIR="`dirname $0`/.."
 gemstoneDir="$SUPERDOIT_DIR/gemstone"
 
