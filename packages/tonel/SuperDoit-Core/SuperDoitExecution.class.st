@@ -361,9 +361,11 @@ SuperDoitExecution >> stdout [
 
 { #category : 'private' }
 SuperDoitExecution >> ston: anObject on: aStream [
-	(SuperDoitExecution globalNamed: #'STON')
-		ifNotNil: [ :ston | ston put: anObject onStreamPretty: aStream ]
-		ifNil: [ 
+	| stonClass |
+	((GsFile respondsTo: #'print:')
+		and: [ stonClass := SuperDoitExecution globalNamed: #'STON' ])
+		ifTrue: [ stonClass put: anObject onStreamPretty: aStream ]
+		ifFalse: [ 
 			"if STON is not present, then our best bet is to print the object"
 			aStream
 				nextPutAll: anObject printString;
