@@ -4,4 +4,3 @@ Extension { #name : 'SuperDoitCommand' }
 SuperDoitCommand >> compileMethod: methodSource for: aBehavior [
 	aBehavior compileMethod: methodSource
 ]
-

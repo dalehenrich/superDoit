@@ -1,6 +1,11 @@
 Extension { #name : 'SuperDoitExecution' }
 
 { #category : '*superdoit-core31-4' }
+SuperDoitExecution class >> isSolo [
+	^ false
+]
+
+{ #category : '*superdoit-core31-4' }
 SuperDoitExecution >> doit [
 	"standard option handling ... for customization override in script"
 
@@ -14,9 +19,4 @@ SuperDoitExecution >> doit [
 	self getAndVerifyOptions == self noResult
 		ifTrue: [ ^ self noResult ].
 	^ self theDoit
-]
-
-{ #category : '*superdoit-core31-4' }
-SuperDoitExecution class >> isSolo [
-	^ false
 ]
