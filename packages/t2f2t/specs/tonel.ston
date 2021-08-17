@@ -1,7 +1,7 @@
 RwLoadSpecificationV2 {
 	#specName : 'tonel',
 	#projectName : 't2f2tMeta',
-	#diskUrl : 'file:///home/dhenrich/rogue/_homes/rogue/_issue_260/shared/repos/superDoit',
+	#diskUrl : 'file:$GS_HOME/shared/gemstone/repos/superDoit',
 	#projectSpecFile : 'packages/t2f2t/tonel.ston',
 	#componentNames : [
 		'SuperDoit'
