@@ -5,7 +5,7 @@ baseline: spec
     for: #'common'
     do: [ 
       spec
-        package: 'SuperDoit-Core'.
+        package: 'SuperDoit-Core';
         package: 'SuperDoit-Stone-Core'.
       spec
         group: 'default' with: #('SuperDoit-Core' 'SuperDoit-Stone-Core') ].
