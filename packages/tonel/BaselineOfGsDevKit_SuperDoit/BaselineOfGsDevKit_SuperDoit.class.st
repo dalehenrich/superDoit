@@ -1,11 +1,11 @@
 Class {
-	#name : 'BaselineOfSuperDoit_GsDevKit',
+	#name : 'BaselineOfGsDevKit_SuperDoit',
 	#superclass : 'BaselineOf',
-	#category : 'BaselineOfSuperDoit_GsDevKit'
+	#category : 'BaselineOfGsDevKit_SuperDoit'
 }
 
 { #category : 'baseline' }
-BaselineOfSuperDoit_GsDevKit >> baseline: spec [
+BaselineOfGsDevKit_SuperDoit >> baseline: spec [
   <baseline>
   spec
     for: #'common'
@@ -32,7 +32,7 @@ BaselineOfSuperDoit_GsDevKit >> baseline: spec [
 ]
 
 { #category : 'accessing' }
-BaselineOfSuperDoit_GsDevKit >> project [
+BaselineOfGsDevKit_SuperDoit >> project [
 	^ super project
 		loadType: #'atomic';
 		yourself
