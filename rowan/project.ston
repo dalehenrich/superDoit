@@ -2,10 +2,10 @@ RwProjectSpecificationV2 {
 	#specName : 'project',
 	#projectSpecPath : 'rowan',
 	#componentsPath : 'rowan/components',
-	#packagesPath : 'packages/tonel',
+	#packagesPath : 'src',
 	#projectsPath : 'rowan/projects',
 	#specsPath : 'rowan/specs',
-	#packageFormat : 'tonel',
+	#packageFormat : 'filetree',
 	#packageConvention : 'Monticello',
 	#comment : ''
 }
