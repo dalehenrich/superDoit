@@ -106,7 +106,7 @@ filetreePackagePath
 	^ self positionalArgs at: 6
 %
 method
-convertTo: targetFormat packagesUsing: t2f2tPath stdout: stdout
+convertTo: targetFormat packagesUsing: t2f2tPath stdout: ignored
 	"Derived from T2F2TConversion>>convertTo:packagesUsing:stdout: (ca853a2). A superDoit
 		project is used in two very different places in GsDevKit_home and the T2F2T-Conversion
 		project was written to use absolute pathc in the t2f2t meta data ... the modifications done
@@ -119,8 +119,7 @@ convertTo: targetFormat packagesUsing: t2f2tPath stdout: stdout
 		ifFalse: [ 
 			^ self
 				error:
-					'The t2f2t metadata directory ' , t2f2tRoot printString , ' does not exist.'
-				to: stdout ].
+					'The t2f2t metadata directory ' , t2f2tRoot printString , ' does not exist.' ].
 
 	tonelLoadSpec := (RwSpecification fromFile: (t2f2tRoot / 'specs' / 'filetree.ston'))
 		diskUrl: 'file://', t2f2tRoot parent parent pathString;
@@ -150,8 +149,7 @@ convertTo: targetFormat packagesUsing: t2f2tPath stdout: stdout
 				ifFalse: [ 
 					self
 						error:
-							'unknown format ' , targetFormat printString , '. Should be [ tonel | filetree]'
-						to: stdout ] ].
+							'unknown format ' , targetFormat printString , '. Should be [ tonel | filetree]' ] ].
 	converter _copyPackagesFrom: sourceProject to: targetProject
 %
 doit
