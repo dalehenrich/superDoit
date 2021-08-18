@@ -13,14 +13,12 @@ BaselineOfSuperDoit >> baseline: spec [
       spec
         package: 'SuperDoit-Core';
         package: 'SuperDoit-Stone-Core'.
-      spec
-        group: 'default' with: #('SuperDoit-Core' 'SuperDoit-Stone-Core') ].
+      spec group: 'default' with: #('SuperDoit-Core' 'SuperDoit-Stone-Core') ].
   spec
     for: #'gs3.6.x'
     do: [ 
       spec package: 'SuperDoit-GemStone-Kernel36x'.
-      spec group: 'default' with: #( 'SuperDoit-GemStone-Kernel36x' ) ]
-
+      spec group: 'default' with: #('SuperDoit-GemStone-Kernel36x') ]
 ]
 
 { #category : 'accessing' }
@@ -28,4 +26,10 @@ BaselineOfSuperDoit >> project [
 	^ super project
 		loadType: #'atomic';
 		yourself
+]
+
+{ #category : 'accessing' }
+BaselineOfSuperDoit >> projectClass [
+  Smalltalk at: #'MetacelloCypressBaselineProject' ifPresent: [ :cl | ^ cl ].
+  ^ super projectClass
 ]
