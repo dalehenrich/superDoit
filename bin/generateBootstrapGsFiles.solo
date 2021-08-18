@@ -3,7 +3,7 @@ options
 {
 	SuperDoitOptionalOptionWithNoArg long: 'generate'.
 	SuperDoitOptionalOptionWithNoArg long: 'versionMap'.
-	SuperDoitOptionalOptionWithRequiredArg long: 'superDoitRoot' default: '$GS_HOME/superdoit_devkit'
+	SuperDoitOptionalOptionWithRequiredArg long: 'superDoitRoot' default: '$GS_HOME/shared/repos/superDoit'
 }
 %
 usage
@@ -27,7 +27,7 @@ OPTIONS
       --versionMap           generate the GemStone version map .ston file.
       --superDoitRoot=<superDoit-root>
                              specify the root directory of the target superDoit repository
-                             (default is $GS_HOME/superdoit_devkit).
+                             (default is $GS_HOME/shared/repos/superDoit).
   -h, --help                 display usage message.
   -D, --debug                bring up topaz debugger in the event of a script error.
 
@@ -37,9 +37,9 @@ EXAMPLES
   $basename --debug
   $basename -D
   $basename --versionMap
-  $basename --versionMap --superDoitRoot=$GS_HOME/shared/repos/superDoit
+  $basename --versionMap --superDoitRoot=$GS_HOME/shared/gemstone/repos/superDoit
   $basename --generate
-  $basename --generate --superDoitRoot=$GS_HOME/shared/repos/superDoit
+  $basename --generate --superDoitRoot=$GS_HOME/shared/gemstone/repos/superDoit
 -----
 %
 method
@@ -80,26 +80,31 @@ generateVersionMap
 method
 generateBootstrapFiles: supportedGemStoneVersionMap
 	"took inspiration from superdoit_devkit/utils/createFileSystemGsTopaz.solo"
-	| fileToVersionsMap gsDir |
+	| fileToVersionsMap gsDir rootDir |
 
 	fileToVersionsMap := Dictionary new.
 	supportedGemStoneVersionMap keysAndValuesDo: [ :version :filename |
 		(fileToVersionsMap at: filename ifAbsentPut: [ Array new ]) 
 			add: version ].
 
-	gsDir :=  self superDoitRoot asFileReference / 'gemstone/bootstrap'.
+	rootDir := self superDoitRoot asFileReference.
+	gsDir := rootDir / 'gemstone/bootstrap'.
 	gsDir asFileReference ensureCreateDirectory.
 
 	fileToVersionsMap keysAndValuesDo: [:filename :versions |
-		| attributes projectSetDefinition projectSetModification visitor headerStream importSpec importProject |
+		| attributes projectSetDefinition projectSetModification visitor headerStream importSpec importProject specUrl |
 		attributes :=  { 'stone' . 'common' . Rowan platform basePlatformConditionalAttribute }, (versions collect: [:version | version asRwGemStoneVersionNumber]).
 		projectSetDefinition := RwProjectSetDefinition new. 
 		headerStream := WriteStream on: String new.
 		headerStream nextPutAll: '! superDoit fileout'; lf.
-		importSpec := RwSpecification fromUrl: 'file:$GS_HOME/shared/repos/superDoit/rowan/specs/SuperDoit_stone.ston'.
-		importSpec gemstoneSetDefaultSymbolDictNameTo: 'SuperDoit_trasientSymbolDictionary'.	"must match value in SuperDoitCommandParser class >> transientSymbolDictionaryName"
+		specUrl := 'file://', rootDir pathString, '/rowan/specs/SuperDoit_stone.ston'.
+		importSpec := RwSpecification fromUrl: specUrl.
+		importSpec
+			projectsHome: rootDir parent;
+			gemstoneSetDefaultSymbolDictNameTo: 'SuperDoit_trasientSymbolDictionary'; 	"must match value in SuperDoitCommandParser class >> transientSymbolDictionaryName"
+			yourself.
 		importProject := importSpec resolve read: attributes.
-			projectSetDefinition addProject: importProject.
+		projectSetDefinition addProject: importProject.
 		projectSetModification := projectSetDefinition
 			compareAgainstBase: RwProjectSetDefinition new.
 		headerStream 
