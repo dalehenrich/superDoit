@@ -1,3 +1,5 @@
 {
-	"packageExtension" : ".package",
-	"Metadata" : "false" }
+	"MetaData" : false,
+	"noMethodMetaData" : true,
+	"separateMethodMetaAndSource" : false,
+	"useCypressPropertiesFile" : true }
