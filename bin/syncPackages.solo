@@ -1,6 +1,7 @@
 #!/usr/bin/env superdoit_solo
 instvars
 operation
+converter
 %
 usage
 -----
@@ -104,8 +105,56 @@ method
 filetreePackagePath
 	^ self positionalArgs at: 6
 %
+method
+convertTo: targetFormat packagesUsing: t2f2tPath stdout: stdout
+	"Derived from T2F2TConversion>>convertTo:packagesUsing:stdout: (ca853a2). A superDoit
+		project is used in two very different places in GsDevKit_home and the T2F2T-Conversion
+		project was written to use absolute pathc in the t2f2t meta data ... the modifications done
+		here are using the fact that the t2f2tPath is an absolute path to a known location in
+		this project, so the tonel and filetree load specs can use disk urls derived from 
+		t2f2tPath ..."
+	| resolvedProject t2f2tRoot tonelLoadSpec tonelProject filetreeLoadSpec filetreeProject targetProject sourceProject |
+	t2f2tRoot := t2f2tPath asFileReference.
+	t2f2tRoot exists
+		ifFalse: [ 
+			^ self
+				error:
+					'The t2f2t metadata directory ' , t2f2tRoot printString , ' does not exist.'
+				to: stdout ].
+
+	tonelLoadSpec := (RwSpecification fromFile: (t2f2tRoot / 'specs' / 'filetree.ston'))
+		diskUrl: 'file://', t2f2tRoot parent parent pathString;
+		yourself.
+	resolvedProject := tonelLoadSpec resolve.
+	tonelProject := (RwResolvedProject newNamed: resolvedProject name)
+		_resolvedProject: resolvedProject resolve;
+		yourself.
+
+	filetreeLoadSpec := (RwSpecification fromFile: (t2f2tRoot / 'specs' / 'tonel.ston'))
+		diskUrl: 'file://', t2f2tRoot parent parent pathString;
+		yourself.
+	resolvedProject := filetreeLoadSpec resolve.
+	filetreeProject := (RwResolvedProject newNamed: resolvedProject name)
+		_resolvedProject: resolvedProject resolve;
+		yourself.
+
+	targetFormat = 'tonel'
+		ifTrue: [ 
+			targetProject := tonelProject.
+			sourceProject := filetreeProject ]
+		ifFalse: [ 
+			targetFormat = 'filetree'
+				ifTrue: [ 
+					targetProject := filetreeProject.
+					sourceProject := tonelProject ]
+				ifFalse: [ 
+					self
+						error:
+							'unknown format ' , targetFormat printString , '. Should be [ tonel | filetree]'
+						to: stdout ] ].
+	converter _copyPackagesFrom: sourceProject to: targetProject
+%
 doit
-	| converter |
 	self preDoitSpecLoad.	"load the T2F2T-Conversion project from spec"
 	converter := (self 
 		globalNamed: 'T2F2TConversion' 
@@ -122,7 +171,7 @@ doit
 				packageConvention: 'Monticello' 
 				stdout: self stdout.
 			^ true ].
-	converter 
+	self 
 		convertTo: self operation 
 		packagesUsing: self t2f2tPath 
 		stdout: self stdout.
