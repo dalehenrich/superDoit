@@ -1,5 +1,5 @@
 ! superDoit fileout
-!	2021-08-18T13:00:56.828632-07:00
+!	2021-08-18T14:32:00.895758-07:00
 
 ! Class Declarations
 ! Generated file, do not Edit
@@ -1405,6 +1405,14 @@ getOpts
 			opt argExpected
 				ifTrue: [ opt markNoValue ]
 				ifFalse: [ opt value: true ] ]
+%
+
+category: 'accessing'
+method: SuperDoitExecution
+globalNamed: aString
+	^ self class
+		globalNamed: aString
+		ifAbsent: [ self error: 'The global named ' , aString printString , ' was not found.' ]
 %
 
 category: 'accessing'
