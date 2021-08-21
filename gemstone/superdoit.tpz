@@ -23,6 +23,17 @@ resolvedProject _loadSpecification gemstoneSetDefaultSymbolDictNameTo: 'SuperDoi
 resolvedProject load.
 %
 run
+false ifTrue: [
+	"Set breakpoints in Superdoit methods" 
+	(GsCurrentSession currentSession symbolList objectNamed: #SuperDoitExecution)
+		_setMethodBreak: #exit:withStatus: stepPoint: 2 env: 0;
+		_setMethodBreak: #exitWithStatus: stepPoint: 2 env: 0;
+		_setMethodBreak: #doit stepPoint: 18 env: 0;
+		_setMethodBreak: #doit stepPoint: 20 env: 0;
+		yourself.
+]
+%
+run
 	"the first non-topaz argument is the name of the script file
 		extract the file name and parse the script to extract information
 		needed to create class for running the script.
