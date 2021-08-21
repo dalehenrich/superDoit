@@ -24,10 +24,28 @@ resolvedProject load.
 %
 run
 false ifTrue: [
-	"Set breakpoints in Superdoit methods" 
-	(GsCurrentSession currentSession symbolList objectNamed: #SuperDoitExecution)
+	"Set breakpoints in SuperDoitCommandParser methods. #processInputFile is a 
+		good place to break to step through the whole cycle: parse and execute script
+		file ... after the SuperDoitExecutionClass has been created and populated, 
+		you can set breakpoints in your script methods ... if needed (self halt may 
+		be better option)" 
+	(GsCurrentSession currentSession symbolList objectNamed: #SuperDoitCommandParser) class
+		_setMethodBreak: #processInputFile stepPoint: 30 env: 0;
+		yourself.
+].
+false ifTrue: [
+	"Set breakpoints in SuperDoitDoitCommand methods, ths is the method that ends up lauching the doit" 
+	(GsCurrentSession currentSession symbolList objectNamed: #SuperDoitDoitCommand)
+		_setMethodBreak: #executeAgainst: stepPoint: 24 env: 0;
+		yourself.
+].
+false ifTrue: [
+	"Set breakpoints in SuperDoitExecution methods ... better option that adding
+		halts to superDoit source, unless -D is failiing you." 
+		(GsCurrentSession currentSession symbolList objectNamed: #SuperDoitExecution)
 		_setMethodBreak: #exit:withStatus: stepPoint: 2 env: 0;
 		_setMethodBreak: #exitWithStatus: stepPoint: 2 env: 0;
+		_setMethodBreak: #doit stepPoint: 1 env: 0;
 		_setMethodBreak: #doit stepPoint: 18 env: 0;
 		_setMethodBreak: #doit stepPoint: 20 env: 0;
 		yourself.
