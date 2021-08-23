@@ -23,7 +23,7 @@ DESCRIPTION
   gemstone versions associated with the file as the platform conditions.
 
 OPTIONS
-      --generate             generate the superdoit bootstrap files.
+      --generate             generate the superdoit bootstrap files. Default: $GS_HOME/shared/repos/superDoit.
       --versionMap           generate the GemStone version map .ston file.
       --superDoitRoot=<superDoit-root>
                              specify the root directory of the target superDoit repository
