@@ -4,11 +4,13 @@ run
 "create the transient symbol dictionary for superDoit"
 	| sess symbolList name |
 	sess := GsCurrentSession currentSession.
-	symbolList := sess symbolList.	"transient symbol list"
+	sess _transientSymbolList ifNil: [ System refreshTransientSymbolList ].
+	symbolList := sess transientSymbolList.
 	name := #'SuperDoit_trasientSymbolDictionary'.	"must match value in SuperDoitCommandParser class >> transientSymbolDictionaryName"
 	(symbolList resolveSymbol: name)
 		ifNil: [
 			| systemDictionary |
+			"add to transient symbol dictionary if not present" 
 			systemDictionary := SymbolDictionary new name: name.
 			symbolList insertObject: systemDictionary at: 1 ]
 %
