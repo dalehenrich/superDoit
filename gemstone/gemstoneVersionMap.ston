@@ -14,5 +14,6 @@
 	'3.5.6' : 'bootstrapSuperDoit_35x',
 	'3.6.0' : 'bootstrapSuperDoit_360',
 	'3.6.1' : 'bootstrapSuperDoit_361x',
+	'3.6.2' : 'bootstrapSuperDoit_361x',
 	'3.7.0' : 'bootstrapSuperDoit_37x'
 }

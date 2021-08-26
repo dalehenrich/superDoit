@@ -65,7 +65,7 @@ generateVersionMap
 		do: [:gsVersion | dict at: gsVersion put: 'bootstrapSuperDoit_35x' ].
 	#('3.6.0') 
 		do: [:gsVersion | dict at: gsVersion put: 'bootstrapSuperDoit_360' ].
-	#('3.6.1') 
+	#('3.6.1' '3.6.2') 
 		do: [:gsVersion | dict at: gsVersion put: 'bootstrapSuperDoit_361x' ].
 	#('3.7.0') 
 		do: [:gsVersion | dict at: gsVersion put: 'bootstrapSuperDoit_37x' ].
