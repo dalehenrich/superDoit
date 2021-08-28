@@ -1,7 +1,0 @@
-{
-	'options' : {
-		'must' : '123',
-		'another' : 'required'
-	},
-	'args' : [ ]
-}
