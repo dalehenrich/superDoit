@@ -8,23 +8,23 @@ test_argsDict_solo() {
 	resultFile=`mktemp`
 
 	argsDict.solo --must=must > $resultFile
-	diff $resultFile ${GITHUB_WORKSPACE}/tests/expected/argsDict_1.ston
+	diff $resultFile ${GITHUB_WORKSPACE}/tests/expected/${GS_VERS}/argsDict_1.ston
 
 	argsDict.solo --must=123 --required=required > $resultFile
-	diff $resultFile ${GITHUB_WORKSPACE}/tests/expected/argsDict_2.ston
+	diff $resultFile ${GITHUB_WORKSPACE}/tests/expected/${GS_VERS}/argsDict_2.ston
 
 	argsDict.solo --must=123 -a required > $resultFile
-	diff $resultFile ${GITHUB_WORKSPACE}/tests/expected/argsDict_3.ston
+	diff $resultFile ${GITHUB_WORKSPACE}/tests/expected/${GS_VERS}/argsDict_3.ston
 
 	argsDict.solo 456 --must=123 780 > $resultFile
-	diff $resultFile ${GITHUB_WORKSPACE}/tests/expected/argsDict_4.ston
+	diff $resultFile ${GITHUB_WORKSPACE}/tests/expected/${GS_VERS}/argsDict_4.ston
 }
 
 test_testInput_solo() {
 	resultFile=`mktemp`
 
 	testInput.solo > $resultFile
-	diff $resultFile ${GITHUB_WORKSPACE}/tests/expected/testInput_1.ston
+	diff $resultFile ${GITHUB_WORKSPACE}/tests/expected/${GS_VERS}/testInput_1.ston
 
 }
 
