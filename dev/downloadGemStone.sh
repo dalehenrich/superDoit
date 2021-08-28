@@ -1,5 +1,7 @@
 #! /usr/bin/env bash
 
+vers="$1"
+echo "installing GemStone version $vers as .solo product tree"
 set -x
 if [ "$PLATFORM" = "macos-10.15" ] ; then
 	name=GemStone64Bit${vers}-i386.Darwin
