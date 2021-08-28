@@ -35,7 +35,7 @@ jobs:
             chmod -w extent0.solo.dbf
           popd
           ls -l ${GITHUB_WORKSPACE}/gemstone/gs
-          . ${GITHUB_WORKSPACE}/bin/defPath.env
+          . ${GITHUB_WORKSPACE}/dev/defPath.env
           simple.solo
       - name: test
         run: |
