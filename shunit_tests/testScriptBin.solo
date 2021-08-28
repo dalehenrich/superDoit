@@ -15,7 +15,7 @@ testError_solo() {
 }
 
 testVersionReport_solo() {
-	"run without error"
+	#run without error
 	versionReport.solo
 }
 
