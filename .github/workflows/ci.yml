@@ -30,7 +30,7 @@ jobs:
           ls -l ${GITHUB_WORKSPACE}/gemstone/gs
           pushd ${GITHUB_WORKSPACE}/gemstone/gs
             ${GITHUB_WORKSPACE}/dev/downloadGemStone.sh ${GS_VERS}
-            curl  -L -O -s -S "https://github.com/dalehenrich/superDoit/releases/download/v0.1.0/${vers}_extent0.solo.dbf.gz"
+            curl  -L -O -s -S "https://github.com/dalehenrich/superDoit/releases/download/v0.1.0/${GS_VERS}_extent0.solo.dbf.gz"
             gunzip --stdout ${GS_VERS}_extent0.solo.dbf.gz > extent0.solo.dbf
             chmod -w extent0.solo.dbf
           popd
