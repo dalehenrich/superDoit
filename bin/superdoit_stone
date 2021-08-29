@@ -5,7 +5,7 @@
 #
 #	Not worried about duplicate topaz options at this point ... let the cards fall where they may
 #
-# set -x 
+set -x 
 
 set -e
 
@@ -13,16 +13,25 @@ export SUPERDOIT_CURRENT_DIR="`pwd`"
 export SUPERDOIT_DIR="`dirname $0`/.."
 gemstoneDir="$SUPERDOIT_DIR/gemstone"
 
-if [ "$GS_HOME"x = "x" ] ; then
-	>&2 echo "The env var \$GS_HOME is expected to be defined when running GsDevKit_home scripts"
-	exit 1
-fi
-
 # process command line args
 #		collect scriptFile, then scan for scriptArgs, if -- encountered, 
 
 scriptFile=$1
 shift
+
+usingARCHBASE="false"
+usingGS_HOME="false"
+usingGEMSTONE="false"
+if [ "$ARCHBASE"x != "x" ] ; then
+	usingARCHBASE="true"
+elif [ "$GS_HOME"x != "x" ] ; then
+	usingGS_HOME="true"
+elif [ "$GEMSTONE"x != "x" ] ; then
+	usingGEMSTONE="true"
+else
+	echo "One environment variable of ARCHBASE, GS_HOME, or GEMSTONE must be defined"
+	exit 1
+fi
 
 for arg in "$@"; do
 		if [[ "$endOfScriptArgs"x = "x" ]] && [[ "$arg" = "--" ]] ; then
@@ -31,8 +40,13 @@ for arg in "$@"; do
 			if [ "$endOfScriptArgs"x = "x" ] ; then
 				scriptArgs="$scriptArgs $arg"
 			else
-				if [ "$stoneName"x = "x" ] ; then
-					stoneName=$arg
+				if [ "$usingGS_HOME" = "true" ] ; then
+					if [ "$stoneName"x = "x" ] ; then
+						stoneName=$arg
+					else
+						topazArgs="$topazArgs $arg"
+						defaultTopazArgs=" "	# explicit empty defaultTopazArgs
+					fi
 				else
 					topazArgs="$topazArgs $arg"
 					defaultTopazArgs=" "	# explicit empty defaultTopazArgs
@@ -42,32 +56,46 @@ for arg in "$@"; do
 		shift
 done
 
-if [ "$stoneName"x = "x" ] ; then
-	# expect current directory to be a stone directory
-	currentDir=`pwd`
-	stoneName="`basename $currentDir`"
-	export SUPERDOIT_STONE_DIR=$GS_HOME/server/stones/$stoneName
-	if [ ! -d "$SUPERDOIT_STONE_DIR" ] ; then
-		>&2 echo "No stone name specified on the command line AND the current directory"
-		>&2 echo "$SUPERDOIT_STONE_DIR is NOT a \$GS_HOME stone directory."
-		>&2 echo "---"
-		>&2 echo "run the script in a proper \$GS_HOME stone directory or specify the stone-name:"
-		>&2 echo "  Usage: script [ <script-args> ] [ -- [ <stone-name> [ <topaz-command-line-args> ] ] ]"
-		exit 1
+if [ "$usingGS_HOME" = "true" ] ; then
+	if [ "$stoneName"x = "x" ] ; then
+		# expect current directory to be a stone directory
+		currentDir=`pwd`
+		stoneName="`basename $currentDir`"
+		export SUPERDOIT_STONE_DIR=$GS_HOME/server/stones/$stoneName
+		if [ ! -d "$SUPERDOIT_STONE_DIR" ] ; then
+			>&2 echo "No stone name specified on the command line AND the current directory"
+			>&2 echo "$SUPERDOIT_STONE_DIR is NOT a \$GS_HOME stone directory."
+			>&2 echo "---"
+			>&2 echo "run the script in a proper \$GS_HOME stone directory or specify the stone-name:"
+			>&2 echo "  Usage: script [ <script-args> ] [ -- [ <stone-name> [ <topaz-command-line-args> ] ] ]"
+			exit 1
+		fi
+	else
+		export SUPERDOIT_STONE_DIR=$GS_HOME/server/stones/$stoneName
+		if [ ! -d "$SUPERDOIT_STONE_DIR" ] ; then
+			>&2 echo "The stone name $stoneName is not the name of an existing stone:"
+			>&2 echo "	$SUPERDOIT_STONE_DIR is NOT a valid \$GS_HOME/server/stones stone directory."
+			>&2 echo "---"
+			>&2 echo "run the script in a proper \$GS_HOME stone directory or specify the stone-name:"
+			>&2 echo "  Usage: script [ <script-args> ] [ -- [ <stone-name> [ <topaz-command-line-args> ] ] ]"
+			exit 1
+		fi
 	fi
-else
-	export SUPERDOIT_STONE_DIR=$GS_HOME/server/stones/$stoneName
-	if [ ! -d "$SUPERDOIT_STONE_DIR" ] ; then
-		>&2 echo "The stone name $stoneName is not the name of an existing stone:"
-		>&2 echo "	$SUPERDOIT_STONE_DIR is NOT a valid \$GS_HOME/server/stones stone directory."
-		>&2 echo "---"
-		>&2 echo "run the script in a proper \$GS_HOME stone directory or specify the stone-name:"
-		>&2 echo "  Usage: script [ <script-args> ] [ -- [ <stone-name> [ <topaz-command-line-args> ] ] ]"
-		exit 1
+	# set up GsDevKit_home stone environment
+	pushd "$SUPERDOIT_STONE_DIR" >& /dev/null
+ 	 source "$SUPERDOIT_STONE_DIR/stone.env"
+	popd >& /dev/null
+
+	if [ "$GEMSTONE"x = "x" ] ; then
+		export GEMSTONE="$SUPERDOIT_STONE_DIR/product"
+	fi
+
+	if [ "$ROWAN_PROJECTS_HOME"x = "x" ] ; then
+		export ROWAN_PROJECTS_HOME="$GS_HOME/shared/repos"
 	fi
 fi
 
-skip="skip"
+skip=""
 if [ "$skip"x = "x" ] ; then
 	echo "======================"
 	echo "script file: $scriptFile"
@@ -78,29 +106,24 @@ if [ "$skip"x = "x" ] ; then
 	# exit 0
 fi
 
-# set up GsDevKit_home stone environment
-pushd "$SUPERDOIT_STONE_DIR" >& /dev/null
-  source "$SUPERDOIT_STONE_DIR/stone.env"
-popd >& /dev/null
-
-if [ "$GEMSTONE"x = "x" ] ; then
-	export GEMSTONE="$SUPERDOIT_STONE_DIR/product"
-fi
-
-if [ "$ROWAN_PROJECTS_HOME"x = "x" ] ; then
-	export ROWAN_PROJECTS_HOME="$GS_HOME/shared/repos"
-fi
-
-useBootstrapSuperDoit_file="true"
+useBootstrapSuperDoit_file="true" # ... at the moment, this is the only valid value
 if [ "$useBootstrapSuperDoit_file" = "true" ]; then
 	# Rowan extent NOT NEEDED in stone ... bootstrap superDoit using .gs files
 	vers=`awk 'NR==2{print $1; exit}' $GEMSTONE/version.txt`
 	if [ "$defaultTopazArgs"x = "x" ] ; then
+		defaultTopazArgs="-L"		# if no topaz args specified, then default to -L
+	fi
+	if [ "$usingGS_HOME" = "true" ] ; then
+		topaziniArg="-I $SUPERDOIT_STONE_DIR/.topazini"
+	else
+		topaziniArg=""	# -I should be defined by user on command line
 		case $vers in
-			3.4*|3.5.*|3.6.*|3.7.*) 
-				defaultTopazArgs="-L";;		# if no topaz args specified, then default to -L
+			3.5.*|3.6.*|3.7.*) 
+				# supported versions
+				;;
 			*)
-				defaultTopazArgs="-l";;		# -L not supported, so use -l
+				echo "using ARCHBASE and GEMSTONE env vars not supported for version ${vers}, must use 3.5.x or greater"
+				exit 1
 		esac
 	fi
 	case $vers in
@@ -115,7 +138,7 @@ if [ "$useBootstrapSuperDoit_file" = "true" ]; then
 	esac
 	superdoit_tpz=$gemstoneDir/superdoit_boot_1.tpz
 else
-	# Rowan extent NEEDED in stone
+	# Rowan extent NEEDED in stone ... at the moment, it isn't clear how to tell when Rowan is present without starting stone
 	superdoit_tpz=$gemstoneDir/superdoit.tpz
 fi
 
@@ -123,7 +146,7 @@ export gemstoneDir
 case $vers in
 	3.5.*|3.6.*|3.7.*)
 		$GEMSTONE/bin/topaz $defaultTopazArgs $topazArgs \
-			-I "$SUPERDOIT_STONE_DIR/.topazini" \
+			$topaziniArg \
 			-q \
 			-S $superdoit_tpz -- $scriptFile -- $scriptArgs ;;
 	*)
