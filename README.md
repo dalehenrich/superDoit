@@ -2,8 +2,8 @@
 
 BRANCH | STATUS
 ------------- | -------------
-**master** | [![**master** build status](https://github.com/dalehenrich/superDoit/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/dalehenrich/superDoit/actions)
-**dkh** | [![**dkh** build status](https://github.com/dalehenrich/superDoit/actions/workflows/ci.yml/badge.svg?branch=dkh)](https://github.com/dalehenrich/superDoit/actions)
+**masterV1.0** | [![**masterV1.0** build status](https://github.com/dalehenrich/superDoit/actions/workflows/ci.yml/badge.svg?branch=masterV1.0)](https://github.com/dalehenrich/superDoit/actions)
+**candidateV1.0** | [![**candidateV1.0** build status](https://github.com/dalehenrich/superDoit/actions/workflows/ci.yml/badge.svg?branch=candidateV1.0)](https://github.com/dalehenrich/superDoit/actions)
 
 ## Overview
 TBD
