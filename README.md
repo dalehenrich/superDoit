@@ -5,28 +5,39 @@ BRANCH | STATUS
 **master** | [![**master** build status](https://github.com/dalehenrich/superDoit/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/dalehenrich/superDoit/actions)
 **dkh** | [![**dkh** build status](https://github.com/dalehenrich/superDoit/actions/workflows/ci.yml/badge.svg?branch=dkh)](https://github.com/dalehenrich/superDoit/actions)
 
-### install
-**TBD - requires GemStone 3.7.0, which has not been released**
+## Overview
+TBD
 
-### usage
-Add `superDoit/bin` to you path and you're good to go ...
-
-### simple executable doit 
+## Installation
+Download the GemStone product tree and Rowan extents needed for .solo scripts:
+```bash
+cd $GS_HOME/shared/repos
+git clone git@github.com:dalehenrich/superDoit.git
+cd superDoit/gemstone/gs
+curl  -L -O -s -S "https://github.com/dalehenrich/superDoit/releases/download/v0.1.0/3.6.1_extent0.solo.dbf.gz"
+gunzip --stdout 3.6.1_extent0.solo.dbf.gz > extent0.solo.dbf
+chmod -w extent0.solo.dbf
+# If you are not using GsDevKit_home, then create a symolic link to your 3.6.1 product truee
+$GS_HOME/bin/downloadGemStone 3.6.1
+ln -s $GS_HOME/shared/downloads/products/GemStone64Bit3.6.1-* product
 ```
-#!/usr/bin/env superdoit
+Add `superDoit/bin` to your PATH:
+```bash
+export PATH="$GS_HOME/shared/repos/superDoit/bin":$PATH
+````
+If you aren't using [GsDevKit_home](https://github.com/GsDevKit/GsDevKit_home), replace `$GS_HOME/shared/repos/superDoit` with the path to your superDoit clone.
+
+## Examples
+### simplest executable .solo doit 
+```
+#!/usr/bin/env superdoit_solo
 doit
 3+4
 %
 ```
-### simple executable doit with help and debugging options
+### simple executable .solo doit with default help and debugging options
 ```
 #!/usr/bin/env superdoit_solo
-options
-{
-  SuperDoitCommandLineOption long: 'help' short: 'h'.
-  SuperDoitCommandLineOption long: 'debug' short: 'D'.
-}
-%
 usage
 USAGE $basename [--help | -h] [--debug | -D]
 
@@ -49,18 +60,12 @@ EXAMPLES
   $basename
 %
 doit
-	[
-		self getOpts: self optionSpecs.
-	] on: Error do: [:ex | 
-		self debug ifFalse: [ ^ ex description ].
-		ex pass ].
-	self help ifTrue: [ ^ self usage ].
 	3+4
 %
 ```
-### executable doit with methods and specs
+### executable .solo doit with methods and Rowan specs
 ```
-#!/usr/bin/env superdoit
+#!/usr/bin/env superdoit_solo
 specUrls
 https://raw.github.com/dalehenrich/RowanSample9/spec_0002/rowan/specs/spec_0002.ston
 %
@@ -72,15 +77,9 @@ RwLoadSpecificationV2 {
 	...
 }
 %
-options
-{ SuperDoitCommandLineOption long: 'option' short: 'o' }
-%
 usage
-USAGE $basename [--debug | -D]
+USAGE $basename [--help | -h] [--debug | -D]
 ... and more
-%
-
-instvars
 %
 method
 x
@@ -91,7 +90,6 @@ y
 ^ 3+4
 %
 doit
-self getOpts: self optionSpecs.
 ^ self x
 %
 ```
