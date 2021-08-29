@@ -1,5 +1,5 @@
 ! superDoit fileout
-!	2021-08-26T15:16:57.602049-07:00
+!	2021-08-28T17:25:19.776331-07:00
 
 ! Class Declarations
 ! Generated file, do not Edit
@@ -1269,7 +1269,17 @@ category: 'logging'
 method: SuperDoitExecution
 displayResult: anObject
 	anObject ~~ self noResult
-		ifTrue: [ self ston: anObject on: self stdout ]
+		ifTrue: [ 
+			| stdout |
+			stdout := self stdout.
+			(stdout respondsTo: #'print:')
+				ifTrue: [ self ston: anObject on: stdout ]
+				ifFalse: [ 
+					| strm |
+					"workaround for https://github.com/dalehenrich/superDoit/issues/18"
+					strm := WriteStream on: String new.
+					self ston: anObject on: strm.
+					self stdout nextPutAll: strm contents ] ]
 %
 
 category: 'script info'
@@ -1561,7 +1571,7 @@ method: SuperDoitExecution
 ston: anObject on: aStream
 	| ston |
 	ston := SuperDoitExecution globalNamed: #'STON'.
-	(ston notNil and: [ GsFile respondsTo: #'print:' ])
+	(ston notNil and: [ aStream respondsTo: #'print:' ])
 		ifTrue: [ ston put: anObject onStreamPretty: aStream ]
 		ifFalse: [ 
 			"if STON is not present or GsFile>>print: not implemented, then our best bet is to print the object"
