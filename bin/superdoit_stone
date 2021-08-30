@@ -22,10 +22,10 @@ shift
 usingARCHBASE="false"
 usingGS_HOME="false"
 usingGEMSTONE="false"
-if [ "$ARCHBASE"x != "x" ] ; then
-	usingARCHBASE="true"
-elif [ "$GS_HOME"x != "x" ] ; then
+if [ "$GS_HOME"x != "x" ] ; then
 	usingGS_HOME="true"
+elif [ "$ARCHBASE"x != "x" ] ; then
+	usingARCHBASE="true"
 elif [ "$GEMSTONE"x != "x" ] ; then
 	usingGEMSTONE="true"
 else
