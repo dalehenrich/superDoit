@@ -5,7 +5,7 @@
 #
 #	Not worried about duplicate topaz options at this point ... let the cards fall where they may
 #
-set -x 
+# set -x 
 
 set -e
 
