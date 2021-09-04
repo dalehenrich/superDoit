@@ -1,0 +1,16 @@
+#!/usr/bin/env superdoit_solo
+#
+# simply execute a topaz script: 
+#		- using current $GEMSTONE and .topazini supplied on command line
+#				simple.topaz -- -I ./.topazini -L
+#		- using current $GS_HOME, stone name and .topazini supplied on command line
+#				simple.topaz gs_361 -- -I ./.topazini
+
+set u DataCurator p swordfish
+login
+
+run
+GsFile stdout nextPutAll: (3 + 4) printString; lf
+%
+
+exit 0

@@ -129,28 +129,14 @@ if [ "$useBootstrapSuperDoit_file" = "true" ]; then
 	case $vers in
 		# in gemstone versions prior to 3.4.0 topaz does not support the -- command
 		#		line option, so it is not possible to add custom command line options
-		3.4.*) 
-			export bootstrapSuperDoit_file="$gemstoneDir/bootstrap/bootstrapSuperDoit_34x.gs"
-			superdoit_tpz=$gemstoneDir/superdoit_boot_1_34x.tpz
-			;;
-		3.5.*) 
-			export bootstrapSuperDoit_file="$gemstoneDir/bootstrap/bootstrapSuperDoit_35x.gs"
-			superdoit_tpz=$gemstoneDir/superdoit_boot_1_34x.tpz
-			;;
-		3.6.0) 
-			export bootstrapSuperDoit_file="$gemstoneDir/bootstrap/bootstrapSuperDoit_360.gs"
-			superdoit_tpz=$gemstoneDir/superdoit_boot_1_36x.tpz
-			;;
-		3.6.1|3.6.2) 
-			export bootstrapSuperDoit_file="$gemstoneDir/bootstrap/bootstrapSuperDoit_361x.gs"
-			superdoit_tpz=$gemstoneDir/superdoit_boot_1_36x.tpz
-			;;
-		3.7.*) 
-			export bootstrapSuperDoit_file="$gemstoneDir/bootstrap/bootstrapSuperDoit_37x.gs"
-			superdoit_tpz=$gemstoneDir/superdoit_boot_1_36x.tpz
-			;;
+		3.4.*) export bootstrapSuperDoit_file="$gemstoneDir/bootstrap/bootstrapSuperDoit_34x.gs" ;;
+		3.5.*) export bootstrapSuperDoit_file="$gemstoneDir/bootstrap/bootstrapSuperDoit_35x.gs" ;;
+		3.6.0) export bootstrapSuperDoit_file="$gemstoneDir/bootstrap/bootstrapSuperDoit_360.gs" ;;
+		3.6.1|3.6.2) export bootstrapSuperDoit_file="$gemstoneDir/bootstrap/bootstrapSuperDoit_361x.gs" ;;
+		3.7.*) export bootstrapSuperDoit_file="$gemstoneDir/bootstrap/bootstrapSuperDoit_37x.gs" ;;
 		*) echo "unsupported gemstone version $vers"; exit 1 ;;
 	esac
+	superdoit_tpz=$gemstoneDir/superdoit_boot_1.tpz
 else
 	# Rowan extent NEEDED in stone ... at the moment, it isn't clear how to tell when Rowan is present without starting stone
 	superdoit_tpz=$gemstoneDir/superdoit.tpz
@@ -162,8 +148,7 @@ case $vers in
 		$GEMSTONE/bin/topaz $defaultTopazArgs $topazArgs \
 			$topaziniArg \
 			-q \
-			-S $superdoit_tpz -- $scriptFile -- $scriptArgs
-		;;
+			-S $superdoit_tpz -- $scriptFile -- $scriptArgs ;;
 	*)
 		if [[ $scriptArgs == *"-D"*  ||  $scriptArgs == *"--debug"* ]]; then
 			ini="$gemstoneDir/topazini_debug"
