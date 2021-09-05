@@ -5,7 +5,6 @@
 #
 #	Not worried about duplicate topaz options at this point ... let the cards fall where they may
 #
-set -x 
 
 set -e
 
@@ -173,9 +172,6 @@ case $vers in
 			# superdoit_tpz=$gemstoneDir/superdoit_boot_2.tpz
 		fi
 		export superdoit_tpz
-		echo "\$bootstrapSuperDoit_file=$bootstrapSuperDoit_file"
-		echo "\$superdoit_tpz=$superdoit_tpz"
-		echo "$GEMSTONE/bin/topaz $defaultTopazArgs $topazArgs -q -I "$ini" -- $scriptFile -- $scriptArgs"
 		$GEMSTONE/bin/topaz $defaultTopazArgs $topazArgs \
 			-q -I "$ini" -- $scriptFile -- $scriptArgs
 		;;

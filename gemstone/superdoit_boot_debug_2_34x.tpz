@@ -1,0 +1,12 @@
+run
+	"the first non-topaz argument is the name of the script file
+		extract the file name and parse the script to extract information
+		needed to create class for running the script.
+		The printString of the doit result is printed to stdout.
+	"
+	[ SuperDoitCommandParser processInputFile ]
+		on: Error
+		do: [:ex | 
+			"errors masked because of output push ... we'll see if stderr works"
+			GsFile stderr nextPutAll: ex description; lf ]
+%
