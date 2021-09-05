@@ -1,5 +1,5 @@
 ! superDoit fileout
-!	2021-08-28T17:25:20.043644-07:00
+!	2021-09-05T15:09:53.700965-07:00
 
 ! Class Declarations
 ! Generated file, do not Edit
@@ -1762,9 +1762,15 @@ doit
 	"no special error handling ... with topaz -S option, exiting topaz with an
 		error message is not feasible, so we'll just stay in permanent debug mode"
 
-	self getAndVerifyOptions == self noResult
+	[ self getAndVerifyOptions == self noResult
 		ifTrue: [ ^ self noResult ].
-	^ self theDoit
+	^ self theDoit ]
+		on: Error
+		do: [ :ex | 
+			((self respondsTo: #'debug') and: [ self debug ])
+				ifTrue: [ ex pass ].
+			GsFile stderr nextPutAll: ex description; lf.
+			^ self noResult ]
 %
 
 category: '*superdoit-core31-5'
