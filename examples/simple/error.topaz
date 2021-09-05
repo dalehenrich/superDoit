@@ -11,5 +11,5 @@ set u DataCurator p swordfish
 login
 
 run
-3 + 4
+3 foo
 %

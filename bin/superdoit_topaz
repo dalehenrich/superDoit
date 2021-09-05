@@ -1,17 +1,18 @@
 #! /usr/bin/env bash
 #
 #	Expected script command line:
-#		script [ <script-args> ] [ -- [ <stone-name> [ <topaz-command-line-args> ] ] ]
+#		using $GS_HOME
+#			script  <stone-name> [ <topaz-command-line-args> ]
+#		using $ARCHBASE or $GEMSTONE
+#			script -I <topazini-path> ( -L | -l | -r ) [ <topaz-command-line-args> ]
 #
 #	Not worried about duplicate topaz options at this point ... let the cards fall where they may
 #
-# set -x 
 
 set -e
 
 export SUPERDOIT_CURRENT_DIR="`pwd`"
 export SUPERDOIT_DIR="`dirname $0`/.."
-gemstoneDir="$SUPERDOIT_DIR/gemstone"
 
 # process command line args
 #		collect scriptFile, then scan for scriptArgs, if -- encountered, 
@@ -34,24 +35,14 @@ else
 fi
 
 for arg in "$@"; do
-		if [[ "$endOfScriptArgs"x = "x" ]] && [[ "$arg" = "--" ]] ; then
-			endOfScriptArgs="true"
-		else
-			if [ "$endOfScriptArgs"x = "x" ] ; then
-				scriptArgs="$scriptArgs $arg"
+		if [ "$usingGS_HOME" = "true" ] ; then
+			if [ "$stoneName"x = "x" ] ; then
+				stoneName=$arg
 			else
-				if [ "$usingGS_HOME" = "true" ] ; then
-					if [ "$stoneName"x = "x" ] ; then
-						stoneName=$arg
-					else
-						topazArgs="$topazArgs $arg"
-						defaultTopazArgs=" "	# explicit empty defaultTopazArgs
-					fi
-				else
-					topazArgs="$topazArgs $arg"
-					defaultTopazArgs=" "	# explicit empty defaultTopazArgs
-				fi
+				topazArgs="$topazArgs $arg"
 			fi
+		else
+			topazArgs="$topazArgs $arg"
 		fi
 		shift
 done
@@ -93,9 +84,10 @@ if [ "$usingGS_HOME" = "true" ] ; then
 	if [ "$ROWAN_PROJECTS_HOME"x = "x" ] ; then
 		export ROWAN_PROJECTS_HOME="$GS_HOME/shared/repos"
 	fi
+	topaziniArgs="-I $SUPERDOIT_STONE_DIR/.topazini"
 fi
 
-skip=""
+skip="skip"
 if [ "$skip"x = "x" ] ; then
 	echo "======================"
 	echo "script file: $scriptFile"
@@ -106,75 +98,15 @@ if [ "$skip"x = "x" ] ; then
 	# exit 0
 fi
 
-useBootstrapSuperDoit_file="true" # ... at the moment, this is the only valid value
-if [ "$useBootstrapSuperDoit_file" = "true" ]; then
-	# Rowan extent NOT NEEDED in stone ... bootstrap superDoit using .gs files
-	vers=`awk 'NR==2{print $1; exit}' $GEMSTONE/version.txt`
-	if [ "$defaultTopazArgs"x = "x" ] ; then
-		defaultTopazArgs="-L"		# if no topaz args specified, then default to -L
-	fi
-	if [ "$usingGS_HOME" = "true" ] ; then
-		topaziniArg="-I $SUPERDOIT_STONE_DIR/.topazini"
-	else
-		topaziniArg=""	# -I should be defined by user on command line
-		case $vers in
-			3.5.*|3.6.*|3.7.*) 
-				# supported versions
-				;;
-			*)
-				echo "using ARCHBASE and GEMSTONE env vars not supported for version ${vers}, must use 3.5.x or greater"
-				exit 1
-		esac
-	fi
-	case $vers in
-		# in gemstone versions prior to 3.4.0 topaz does not support the -- command
-		#		line option, so it is not possible to add custom command line options
-		3.4.*) 
-			export bootstrapSuperDoit_file="$gemstoneDir/bootstrap/bootstrapSuperDoit_34x.gs"
-			superdoit_tpz=$gemstoneDir/superdoit_boot_1_34x.tpz
-			;;
-		3.5.*) 
-			export bootstrapSuperDoit_file="$gemstoneDir/bootstrap/bootstrapSuperDoit_35x.gs"
-			superdoit_tpz=$gemstoneDir/superdoit_boot_1_34x.tpz
-			;;
-		3.6.0) 
-			export bootstrapSuperDoit_file="$gemstoneDir/bootstrap/bootstrapSuperDoit_360.gs"
-			superdoit_tpz=$gemstoneDir/superdoit_boot_1_36x.tpz
-			;;
-		3.6.1|3.6.2) 
-			export bootstrapSuperDoit_file="$gemstoneDir/bootstrap/bootstrapSuperDoit_361x.gs"
-			superdoit_tpz=$gemstoneDir/superdoit_boot_1_36x.tpz
-			;;
-		3.7.*) 
-			export bootstrapSuperDoit_file="$gemstoneDir/bootstrap/bootstrapSuperDoit_37x.gs"
-			superdoit_tpz=$gemstoneDir/superdoit_boot_1_36x.tpz
-			;;
-		*) echo "unsupported gemstone version $vers"; exit 1 ;;
-	esac
-else
-	# Rowan extent NEEDED in stone ... at the moment, it isn't clear how to tell when Rowan is present without starting stone
-	superdoit_tpz=$gemstoneDir/superdoit.tpz
-fi
-
-export gemstoneDir
+vers=`awk 'NR==2{print $1; exit}' $GEMSTONE/version.txt`
 case $vers in
-	3.5.*|3.6.*|3.7.*)
-		$GEMSTONE/bin/topaz $defaultTopazArgs $topazArgs \
-			$topaziniArg \
-			-q \
-			-S $superdoit_tpz -- $scriptFile -- $scriptArgs
+	3.6.*|3.7.*)
+		$GEMSTONE/bin/topaz $defaultTopazArgs $topazArgs $topaziniArgs \
+			-S $scriptFile
 		;;
 	*)
-		if [[ $scriptArgs == *"-D"*  ||  $scriptArgs == *"--debug"* ]]; then
-			ini="$gemstoneDir/topazini_debug"
-			superdoit_tpz=$gemstoneDir/superdoit_boot_debug_1.tpz
-		else
-			ini="$gemstoneDir/topazini"
-			superdoit_tpz=$gemstoneDir/superdoit_boot_2.tpz
-		fi
-		export superdoit_tpz
-		echo "superdoit_tpz: $superdoit_tpz ini: $ini"
-		$GEMSTONE/bin/topaz $defaultTopazArgs $topazArgs \
-			-q -I "$ini" -- $scriptFile -- $scriptArgs
+		$GEMSTONE/bin/topaz -q $defaultTopazArgs $topazArgs $topaziniArgs << EOF
+			input $scriptFile
+EOF
 		;;
 esac
