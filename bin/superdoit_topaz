@@ -2,7 +2,7 @@
 #
 #	Expected script command line:
 #		using $GS_HOME
-#			script  <stone-name> [ <topaz-command-line-args> ]
+#			script  <stone-name> ( -L | -l | -r ) [ <topaz-command-line-args> ]
 #		using $ARCHBASE or $GEMSTONE
 #			script -I <topazini-path> ( -L | -l | -r ) [ <topaz-command-line-args> ]
 #
