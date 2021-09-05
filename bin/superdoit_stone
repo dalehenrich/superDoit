@@ -167,10 +167,10 @@ case $vers in
 	*)
 		if [[ $scriptArgs == *"-D"*  ||  $scriptArgs == *"--debug"* ]]; then
 			ini="$gemstoneDir/topazini_debug"
-			superdoit_tpz=$gemstoneDir/superdoit_boot_debug_1.tpz
+			superdoit_tpz=$gemstoneDir/superdoit_boot_debug_1_34x.tpz
 		else
 			ini="$gemstoneDir/topazini"
-			superdoit_tpz=$gemstoneDir/superdoit_boot_2.tpz
+			# superdoit_tpz=$gemstoneDir/superdoit_boot_2.tpz
 		fi
 		export superdoit_tpz
 		echo "\$bootstrapSuperDoit_file=$bootstrapSuperDoit_file"
