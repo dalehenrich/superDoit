@@ -1,0 +1,33 @@
+#! /usr/bin/env bash
+
+echo "GEMSTONE=$GEMSTONE"
+
+if [ "$GITHUB_WORKSPACE" != "" ] ; then
+	# running github ci test PLATFORM and GS_VERS are preset
+	if [ "$PLATFORM" = "macos-10.15" ] ; then
+		export GEMSTONE="${GITHUB_WORKSPACE}/tests/products/GemStone64Bit${GS_VERS}-i386.Darwin"
+	else
+		export GEMSTONE="${GITHUB_WORKSPACE}/tests/products/GemStone64Bit${GS_VERS}-x86_64.Linux"
+	fi
+	. ${GITHUB_WORKSPACE}/dev/defPath.env
+	PATH=${GITHUB_WORKSPACE}/examples/simple:$PATH
+
+	cat - > $GEMSTONE/data/.topazini << EOF
+SET GEMSTONE superDoit_$GS_VERS
+set user SystemUser
+set password swordfish
+EOF
+fi
+
+test_simplest_topaz() {
+	# run without error and get right answer
+	seven=`simplest.topaz	-lq -I $GEMSTONE/data/.topazini`
+	assertEquals "wrong answer" '7' "${seven}"
+	# run without error, but topaz output not suppressed
+	simplest.topaz -l -I $GEMSTONE/data/.topazini
+}
+
+. shunit_tests/shunit2-2.1.8/shunit2_test_helpers
+. shunit_tests/shunit2-2.1.8/shunit2
+
+

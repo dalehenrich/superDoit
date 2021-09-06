@@ -22,13 +22,13 @@ fi
 stone_require_args="-- -l -I $GEMSTONE/data/.topazini"
 
 
-test_errorWithHelp_solo() {
+test_errorWithHelp_stone() {
 	# run without error
 	errorWithHelp.stone -h			$stone_require_args
 	errorWithHelp.stone --help		$stone_require_args
 }
 
-test_simplest_solo() {
+test_simplest_stone() {
 	# run without error
 	seven=`simplest.stone	$stone_require_args`
 	assertEquals "wrong answer" '7' "${seven}"

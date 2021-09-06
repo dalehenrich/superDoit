@@ -1,4 +1,5 @@
-name: stone_361 CI
+# test .stone and .topaz scripts using $GEMSTONE and command line args to run scripts
+name: gemstone_361 CI
 
 on: 
   push:
@@ -49,6 +50,7 @@ jobs:
       - name: test
         run: |
           shunit_tests/testExamples.stone
+          shunit_tests/testExamples.topaz
   slack-workflow-status:
     if: always()
     name: Post Workflow Status To Slack
