@@ -1,4 +1,4 @@
-name: CI
+name: stone_361 CI
 
 on: 
   push:
