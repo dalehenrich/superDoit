@@ -37,6 +37,8 @@ jobs:
           fi
           cp $GEMSTONE/bin/extent0.dbf $GEMSTONE/data
           chmod +w $GEMSTONE/data/extent0.dbf
+          sudo mkdir /opt/gemstone
+          sudo chmod oug+w /opt/gemstone
           $GEMSTONE/bin/startstone superDoit_$GS_VERS
           . ${GITHUB_WORKSPACE}/dev/defPath.env
       - name: test
