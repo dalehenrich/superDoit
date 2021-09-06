@@ -31,9 +31,9 @@ jobs:
             ${GITHUB_WORKSPACE}/dev/downloadGemStone.sh ${GS_VERS}
           popd
           if [ "$PLATFORM" = "macos-10.15" ] ; then
-            GEMSTONE="${GITHUB_WORKSPACE}/tests/products/GemStone64Bit${GS_VERS}-i386.Darwin"
+            export GEMSTONE="${GITHUB_WORKSPACE}/tests/products/GemStone64Bit${GS_VERS}-i386.Darwin"
           else
-            GEMSTONE="${GITHUB_WORKSPACE}/tests/products/GemStone64Bit${GS_VERS}-x86_64.Linux"
+            export GEMSTONE="${GITHUB_WORKSPACE}/tests/products/GemStone64Bit${GS_VERS}-x86_64.Linux"
           fi
           cp $GEMSTONE/bin/extent0.dbf $GEMSTONE/data
           chmod +w $GEMSTONE/data/extent0.dbf
