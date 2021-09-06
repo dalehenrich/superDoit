@@ -38,8 +38,10 @@ jobs:
           cp $GEMSTONE/bin/extent0.dbf $GEMSTONE/data
           chmod +w $GEMSTONE/data/extent0.dbf
           sudo mkdir /opt/gemstone
+          sudo chmod oug+rwx /opt/gemstone
           ls -l /opt
           sudo mkdir /opt/gemstone/locks
+          sudo chmod oug+rwx /opt/gemstone/locks
           ls -l /opt
           ls -l /opt/gemstone /opt/gemstone/locks
           $GEMSTONE/bin/startstone superDoit_$GS_VERS
