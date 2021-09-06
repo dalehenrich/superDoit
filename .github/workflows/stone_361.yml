@@ -31,10 +31,10 @@ jobs:
             ${GITHUB_WORKSPACE}/dev/downloadGemStone.sh ${GS_VERS}
           popd
           if [ "$PLATFORM" = "macos-10.15" ] ; then
-		        GEMSTONE="${GITHUB_WORKSPACE}/tests/products/GemStone64Bit${GS_VERS}-i386.Darwin"
-	        else
-		        GEMSTONE="${GITHUB_WORKSPACE}/tests/products/GemStone64Bit${GS_VERS}-x86_64.Linux"
-	        fi
+            GEMSTONE="${GITHUB_WORKSPACE}/tests/products/GemStone64Bit${GS_VERS}-i386.Darwin"
+          else
+            GEMSTONE="${GITHUB_WORKSPACE}/tests/products/GemStone64Bit${GS_VERS}-x86_64.Linux"
+          fi
           echo "`$GEMSTONE/bin/startstone -h`"
           . ${GITHUB_WORKSPACE}/dev/defPath.env
       - name: test
