@@ -1,5 +1,7 @@
 #! /usr/bin/env bash
 
+echo "GEMSTONE=$GEMSTONE"
+
 if [ "$GITHUB_WORKSPACE" != "" ] ; then
 	# running github ci test PLATFORM and GS_VERS are preset
 	if [ "$PLATFORM" = "macos-10.15" ] ; then
