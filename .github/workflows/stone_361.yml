@@ -30,9 +30,9 @@ jobs:
           cd ${GITHUB_WORKSPACE}/tests/products
           ${GITHUB_WORKSPACE}/dev/downloadGemStone.sh ${GS_VERS}
           if [ "$PLATFORM" = "macos-10.15" ] ; then
-	          export GEMSTONE="`pwd`/GemStone64Bit${GS_VERS}-i386.Darwin
+	        export GEMSTONE="`pwd`/GemStone64Bit${GS_VERS}-i386.Darwin
           else
-	          export GEMSTONE="`pwd`/GemStone64Bit${GS_VERS}-x86_64.Linux
+	        export GEMSTONE="`pwd`/GemStone64Bit${GS_VERS}-x86_64.Linux
           fi
           cd ..
           . ${GITHUB_WORKSPACE}/dev/defPath.env
