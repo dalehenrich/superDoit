@@ -7,7 +7,7 @@ if [ "$GITHUB_WORKSPACE" != "" ] ; then
 	else
 		export GEMSTONE="${GITHUB_WORKSPACE}/tests/products/GemStone64Bit${GS_VERS}-x86_64.Linux"
 	fi
-	. ${GITHUB_WORKSPACE}/dev defPath.env
+	. ${GITHUB_WORKSPACE}/dev/defPath.env
 	PATH=${GITHUB_WORKSPACE}/examples/simple:$PATH
 fi
 
