@@ -39,9 +39,9 @@ jobs:
           chmod +w $GEMSTONE/data/extent0.dbf
           sudo mkdir /opt/gemstone
           ls -l /opt
-          sudo chmod oug+wx /opt/gemstone
+          sudo mkdir /opt/gemstone/locks
           ls -l /opt
-          ls -l /opt/gemstone
+          ls -l /opt/gemstone /opt/gemstone/locks
           $GEMSTONE/bin/startstone superDoit_$GS_VERS
           . ${GITHUB_WORKSPACE}/dev/defPath.env
       - name: test
