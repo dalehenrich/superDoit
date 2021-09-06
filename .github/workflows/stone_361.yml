@@ -1,0 +1,50 @@
+name: CI
+
+on: 
+  push:
+  pull_request:
+  schedule:
+    - cron: "15 2 21 * *" #run job on the 21st day of every month on the 15th minute of the 2nd hour
+
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-18.04, macos-10.15 ]
+        gsvers: [ 3.6.1 ]
+    runs-on: ${{ matrix.os }}
+    env:
+      GS_VERS: ${{ matrix.gsvers }}
+      PLATFORM: ${{ matrix.os }}
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # download the $GS_VERS product tree
+      - name: setup
+        run: |
+          # set -x
+          curl -L "https://github.com/kward/shunit2/archive/refs/tags/v2.1.8.tar.gz" | tar zx -C ${GITHUB_WORKSPACE}/shunit_tests
+          pushd ${GITHUB_WORKSPACE}/tests/products
+            ${GITHUB_WORKSPACE}/dev/downloadGemStone.sh ${GS_VERS}
+            echo "GEMSTONE=$GEMSTONE"
+          popd
+          . ${GITHUB_WORKSPACE}/dev/defPath.env
+      - name: test
+        run: |
+          shunit_tests/testExamples.stone
+  slack-workflow-status:
+    if: always()
+    name: Post Workflow Status To Slack
+    needs:
+      - build
+    runs-on: ubuntu-18.04
+    steps:
+       - name: Slack Workflow Notification
+         uses: Gamesight/slack-workflow-status@master
+         with:
+          repo_token: ${{secrets.GITHUB_TOKEN}}
+          slack_webhook_url: ${{secrets.SLACK_DALEHENRICH}}
+          name: 'action run' 
