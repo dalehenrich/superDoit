@@ -1,5 +1,6 @@
 #! /usr/bin/env bash
 vers="$1"
+set -x
 ${GITHUB_WORKSPACE}/dev/downloadGemStone.sh $vers
 if [ "$PLATFORM" = "macos-10.15" ] ; then
 	ln -s GemStone64Bit${vers}-i386.Darwin product
