@@ -11,6 +11,12 @@ if [ "$GITHUB_WORKSPACE" != "" ] ; then
 	fi
 	. ${GITHUB_WORKSPACE}/dev/defPath.env
 	PATH=${GITHUB_WORKSPACE}/examples/simple:$PATH
+
+	cat - > $GEMSTONE/data/.topazini << EOF
+SET GEMSTONE superDoit_$GS_VERS
+set user SystemUser
+set password swordfish
+EOF
 fi
 
 
@@ -18,29 +24,29 @@ fi
 
 test_errorWithHelp_solo() {
 	# run without error
-	errorWithHelp.stone -h
-	errorWithHelp.stone --help
+	errorWithHelp.stone -h			-- -l -I $GEMSTONE/data/.topazini
+	errorWithHelp.stone --help		-- -l -I $GEMSTONE/data/.topazini
 }
 
 test_simplest_solo() {
 	# run without error
-	seven=`simplest.stone`
+	seven=`simplest.stone	-- -l -I $GEMSTONE/data/.topazini`
 	assertEquals "wrong answer" '7' "${seven}"
-	simplest.stone -h
-	simplest.stone --help
-	simplest.stone -D
-	simplest.stone --debug
+	simplest.stone -h	-- -l -I $GEMSTONE/data/.topazini
+	simplest.stone --help	-- -l -I $GEMSTONE/data/.topazini
+	simplest.stone -D	-- -l -I $GEMSTONE/data/.topazini
+	simplest.stone --debug	-- -l -I $GEMSTONE/data/.topazini
 }
 
 test_simpleArgs_1_stone() {
 	# run without error
-	seven=`simpleArgs.stone --addend=4`
+	seven=`simpleArgs.stone --addend=4	-- -l -I $GEMSTONE/data/.topazini`
 	assertEquals "wrong answer" '7' "${seven}"
 }
 
 test_simpleArgs_2_stone() {
 	# run without error
-	seven=`simpleArgs.stone -a 4`
+	seven=`simpleArgs.stone -a 4	-- -l -I $GEMSTONE/data/.topazini`
 	assertEquals "wrong answer" '7' "${seven}"
 }
 
