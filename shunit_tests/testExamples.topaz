@@ -24,9 +24,16 @@ if [[ "$GS_VERS" = "3.6."* ]] ; then
 	# run without error and get right answer
 	seven=`simple.topaz	-lq -I $GEMSTONE/data/.topazini`
 	assertEquals "wrong answer" '7' "${seven}"
-fi
+elseif [[ "$GS_VERS" = "3.5."* ]] ; then
 	# run without error, but topaz output not suppressed
 	simple.topaz -l -I $GEMSTONE/data/.topazini
+else
+	# topaz output not suppressed and exit status is expected to be 1
+	ans=`simple.topaz -l -I $GEMSTONE/data/.topazini`
+	exitStatus=$?
+	assertEquals "wrong answer" 'topaz' "${ans}"
+	assertEquals "expected exit status to be <1> not <${exitStatus}>" ${exitStatus} 1
+fi
 }
 
 . shunit_tests/shunit2-2.1.8/shunit2_test_helpers
