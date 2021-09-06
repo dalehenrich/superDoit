@@ -1,5 +1,5 @@
 # test .stone and .topaz scripts using $GEMSTONE and command line args to run scripts
-name: stone CI
+name: gemstone_stone CI
 
 on: 
   push:
