@@ -19,12 +19,12 @@ set password swordfish
 EOF
 fi
 
-test_simplest_topaz() {
+test_simple_topaz() {
 	# run without error and get right answer
-	seven=`simplest.topaz	-lq -I $GEMSTONE/data/.topazini`
+	seven=`simple.topaz	-lq -I $GEMSTONE/data/.topazini`
 	assertEquals "wrong answer" '7' "${seven}"
 	# run without error, but topaz output not suppressed
-	simplest.topaz -l -I $GEMSTONE/data/.topazini
+	simple.topaz -l -I $GEMSTONE/data/.topazini
 }
 
 . shunit_tests/shunit2-2.1.8/shunit2_test_helpers
