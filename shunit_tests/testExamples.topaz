@@ -57,6 +57,7 @@ topaz 1>
 Logging out session 1.>'
 	ans=`simple.topaz -l -I $GEMSTONE/data/.topazini`
 	exitStatus=$?	# ignored 
+	assertEquals "expected exit status to be <1> not <${exitStatus}>" ${exitStatus} 1
 	assertEquals "wrong answer" "$expected" "${ans}"
 fi
 }
