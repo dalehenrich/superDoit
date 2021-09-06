@@ -29,10 +29,35 @@ elif [[ "$GS_VERS" = "3.5."* ]] ; then
 	simple.topaz -l -I $GEMSTONE/data/.topazini
 else
 	# topaz output not suppressed and exit status is expected to be 1
+	expected='<topaz> 			input /home/runner/work/superDoit/superDoit/examples/simple/simple.topaz
+topaz> #!/usr/bin/env superdoit_topaz
+topaz> #
+topaz> # simply execute a topaz script: 
+topaz> #		- using current $GEMSTONE and .topazini supplied on command line
+topaz> #				simple.topaz -I ./.topazini -L
+topaz> #		- using current $GS_HOME, stone name and topaz args supplied on command line
+topaz> #				simple.topaz gs_361 -L
+topaz> 
+topaz> set u DataCurator p swordfish
+Warning: clearing the previous GemStone password.
+topaz> 
+topaz> login
+successful login
+topaz 1> 
+topaz 1> run
+"in order to be able to see just the result of the script
+	the topaz -q option should be used (if available) when 
+	running the script and then write to `stdout/stderr` the things
+	you want visible to user"
+GsFile stdout nextPutAll: (3 + 4) printString; lf
+%
+7
+true
+topaz 1> 
+Logging out session 1.>'
 	ans=`simple.topaz -l -I $GEMSTONE/data/.topazini`
-	exitStatus=$?
-	assertEquals "wrong answer" 'topaz' "${ans}"
-	assertEquals "expected exit status to be <1> not <${exitStatus}>" ${exitStatus} 1
+	exitStatus=$?	# ignored 
+	assertEquals "wrong answer" "$expected" "${ans}"
 fi
 }
 
