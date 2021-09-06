@@ -17,3 +17,4 @@ run
 	you want visible to user"
 GsFile stdout nextPutAll: (3 + 4) printString; lf
 %
+

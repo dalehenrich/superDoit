@@ -100,7 +100,7 @@ fi
 
 vers=`awk 'NR==2{print $1; exit}' $GEMSTONE/version.txt`
 case $vers in
-	3.6.*|3.7.*)
+	3.5.*|3.6.*|3.7.*)
 		$GEMSTONE/bin/topaz $defaultTopazArgs $topazArgs $topaziniArgs \
 			-S $scriptFile
 		;;
