@@ -11,5 +11,9 @@ set u DataCurator p swordfish
 login
 
 run
-3 + 4
+"in order to be able to see just the result of the script
+	the topaz -q option should be used (if available) when 
+	running the script and then write to `stdout/stderr` the things
+	you want visible to user"
+GsFile stderr nextPutAll: (3 + 4) printString; lf
 %

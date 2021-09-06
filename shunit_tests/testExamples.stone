@@ -19,34 +19,34 @@ set password swordfish
 EOF
 fi
 
-
+stone_require_args="-- -l -I $GEMSTONE/data/.topazini"
 
 
 test_errorWithHelp_solo() {
 	# run without error
-	errorWithHelp.stone -h			-- -l -I $GEMSTONE/data/.topazini
-	errorWithHelp.stone --help		-- -l -I $GEMSTONE/data/.topazini
+	errorWithHelp.stone -h			$stone_require_args
+	errorWithHelp.stone --help		$stone_require_args
 }
 
 test_simplest_solo() {
 	# run without error
-	seven=`simplest.stone	-- -l -I $GEMSTONE/data/.topazini`
+	seven=`simplest.stone	$stone_require_args`
 	assertEquals "wrong answer" '7' "${seven}"
-	simplest.stone -h	-- -l -I $GEMSTONE/data/.topazini
-	simplest.stone --help	-- -l -I $GEMSTONE/data/.topazini
-	simplest.stone -D	-- -l -I $GEMSTONE/data/.topazini
-	simplest.stone --debug	-- -l -I $GEMSTONE/data/.topazini
+	simplest.stone -h	$stone_require_args
+	simplest.stone --help	$stone_require_args
+	simplest.stone -D	$stone_require_args
+	simplest.stone --debug	$stone_require_args
 }
 
 test_simpleArgs_1_stone() {
 	# run without error
-	seven=`simpleArgs.stone --addend=4	-- -l -I $GEMSTONE/data/.topazini`
+	seven=`simpleArgs.stone --addend=4	$stone_require_args`
 	assertEquals "wrong answer" '7' "${seven}"
 }
 
 test_simpleArgs_2_stone() {
 	# run without error
-	seven=`simpleArgs.stone -a 4	-- -l -I $GEMSTONE/data/.topazini`
+	seven=`simpleArgs.stone -a 4	$stone_require_args`
 	assertEquals "wrong answer" '7' "${seven}"
 }
 
