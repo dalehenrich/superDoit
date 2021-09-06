@@ -24,7 +24,7 @@ if [[ "$GS_VERS" = "3.6."* ]] ; then
 	# run without error and get right answer
 	seven=`simple.topaz	-lq -I $GEMSTONE/data/.topazini`
 	assertEquals "wrong answer" '7' "${seven}"
-elseif [[ "$GS_VERS" = "3.5."* ]] ; then
+elif [[ "$GS_VERS" = "3.5."* ]] ; then
 	# run without error, but topaz output not suppressed
 	simple.topaz -l -I $GEMSTONE/data/.topazini
 else
