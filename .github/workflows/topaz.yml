@@ -1,5 +1,5 @@
 # test .stone and .topaz scripts using $GEMSTONE and command line args to run scripts
-name: gemstone_361 CI
+name: topaz CI
 
 on: 
   push:
@@ -49,7 +49,6 @@ jobs:
           . ${GITHUB_WORKSPACE}/dev/defPath.env
       - name: test
         run: |
-          shunit_tests/testExamples.stone
           shunit_tests/testExamples.topaz
   slack-workflow-status:
     if: always()
