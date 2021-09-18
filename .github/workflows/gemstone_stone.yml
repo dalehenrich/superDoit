@@ -5,7 +5,7 @@ on:
   push:
   pull_request:
     branches:
-      - master
+      - masterV1.0
   schedule:
     - cron: "15 2 21 * *" #run job on the 21st day of every month on the 15th minute of the 2nd hour
 
