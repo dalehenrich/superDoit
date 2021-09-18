@@ -3,6 +3,8 @@ name: solo CI
 on: 
   push:
   pull_request:
+    branches:
+      masterV1.0
   schedule:
     - cron: "15 2 20 * *" #run job on the 20th day of every month on the 15th minute of the 2nd hour
 
