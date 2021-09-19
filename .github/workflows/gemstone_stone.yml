@@ -7,7 +7,7 @@ on:
     branches:
       - masterV1.0
   schedule:
-    - cron: "15 2 21 * *" #run job on the 21st day of every month on the 15th minute of the 2nd hour
+    - cron: "15 2 22 * *" #run job on the 22nd day of every month on the 15th minute of the 2nd hour
 
 
 jobs:

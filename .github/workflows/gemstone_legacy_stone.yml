@@ -1,5 +1,5 @@
 # test .stone and .topaz scripts using $GEMSTONE and command line args to run scripts
-name: gemstone_stone CI
+name: gemstone_legacy_stone CI
 
 on: 
   push:
@@ -7,7 +7,7 @@ on:
     branches:
       - masterV1.0
   schedule:
-    - cron: "15 2 21 * *" #run job on the 21st day of every month on the 15th minute of the 2nd hour
+    - cron: "15 2 23 * *" #run job on the 23rd day of every month on the 15th minute of the 2nd hour
 
 
 jobs:
@@ -51,8 +51,7 @@ jobs:
           . ${GITHUB_WORKSPACE}/dev/defPath.env
       - name: test
         run: |
-          tests/legacyStreams.topaz superDoit_$GS_VERS -l
-          shunit_tests/testExamples.stone
+          shunit_tests/testExamples_legacy_streams.stone
   slack-workflow-status:
     if: always()
     name: Post Workflow Status To Slack
