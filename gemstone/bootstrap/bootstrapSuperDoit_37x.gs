@@ -1,5 +1,5 @@
 ! superDoit fileout
-!	2021-09-05T15:09:53.971551-07:00
+!	2021-09-18T18:26:54.010535-07:00
 
 ! Class Declarations
 ! Generated file, do not Edit
@@ -1687,8 +1687,16 @@ processInputFile
 
 category: '*superdoit-stone-core'
 method: SuperDoitCommandParser
+fileStreamFor: aFilePath
+	^ (System myUserProfile objectNamed: 'FileStream')
+		ifNotNil: [ :fileStreamClass | fileStreamClass fileNamed: aFilePath ]
+		ifNil: [ GsFile openReadOnServer: aFilePath ]
+%
+
+category: '*superdoit-stone-core'
+method: SuperDoitCommandParser
 parseAndExecuteScriptFile: scriptFilePath
-	stream := FileStream fileNamed: scriptFilePath.
+	stream := self fileStreamFor: scriptFilePath.
 	[ 
 	[ self done ]
 		whileFalse: [ 

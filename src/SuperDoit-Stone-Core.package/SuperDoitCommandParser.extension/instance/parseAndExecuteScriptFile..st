@@ -1,6 +1,6 @@
 *superdoit-stone-core
 parseAndExecuteScriptFile: scriptFilePath
-	stream := FileStream fileNamed: scriptFilePath.
+	stream := self fileStreamFor: scriptFilePath.
 	[ 
 	[ self done ]
 		whileFalse: [ 
