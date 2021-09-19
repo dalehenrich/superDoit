@@ -1,0 +1,19 @@
+#!/usr/bin/env superdoit_topaz
+#
+# install portable stream implementation and commit: 
+#		- using current $GEMSTONE and .topazini supplied on command line
+#				portableStreams.topaz -I ./.topazini -L
+#		- using current $GS_HOME, stone name and topaz args supplied on command line
+#				portableStreams.topaz gs_361 -L
+
+set u SystemUser p swordfish
+login
+
+run
+Stream installPortableStreamImplementation
+%
+
+commit
+
+logout
+
