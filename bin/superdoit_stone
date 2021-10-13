@@ -170,7 +170,6 @@ if [ "$skip"x = "x" ] ; then
 	# exit 0
 fi
 
-set -x
 export gemstoneDir
 case $vers in
 	3.5.*|3.6.*|3.7.*)
