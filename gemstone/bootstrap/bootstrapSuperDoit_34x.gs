@@ -1,5 +1,5 @@
 ! superDoit fileout
-!	2021-10-02T18:23:02.646420-07:00
+!	2021-10-17T12:05:49.951861-07:00
 
 ! Class Declarations
 ! Generated file, do not Edit
@@ -1286,15 +1286,6 @@ category: 'script info'
 method: SuperDoitExecution
 executionStoneName
 	^GsNetworkResourceString currentStoneName
-%
-
-category: 'export'
-method: SuperDoitExecution
-exportClass: filePath
-	"write the script class to disk as a .gs file"
-
-	filePath asFileReference
-		writeStreamDo: [ :fileStream | fileStream nextPutAll: self class fileOutClass ]
 %
 
 category: 'script execution'
