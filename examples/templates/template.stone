@@ -26,7 +26,11 @@
 #
 usage
 -----
-USAGE $basename [--help | -h] [--debug | -D] [-- [<stone-name> [<topaz-command-line-args>] ] ]
+USAGE 
+  # with GS_HOME set (<stone-name> optional if run in $GS_HOME/servers/stones/<stone-name> directory)
+  $basename [--help | -h] [--debug | -D] [-- [<stone-name> [<topaz-command-line-args>] ] ]
+  # with GEMSTONE set
+  $basename [--help | -h] [--debug | -D] -- ([-r] | -l | -L) -I <path-to-.topazini> [<topaz-command-line-args>]
 
 DESCRIPTION
   <put your description here>
@@ -41,13 +45,12 @@ OPTIONS
   -D, --debug                bring up topaz debugger in the event of a script error
 
 EXAMPLES
-  $basename --help
-  $basename -h
-  $basename --debug
-  $basename -D
-  $basename  
-  $basename -- gs_360
-  $basename -- gs_360 -T 100000
+  $basename --help                           -- gs_351             # with GS_HOME set
+  $basename -h                               -- -l -I ./.topazini  # with GEMSTONE set
+  $basename --help                           <topaz-arguments>
+  $basename -D <script-arguments>            <topaz-arguments>
+  $basename --debug <script-arguments>       <topaz-arguments>
+  $basename <script-arguments>               <topaz-arguments>
 -----
 %
 doit

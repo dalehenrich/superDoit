@@ -4,8 +4,8 @@
 #
 options
 {
-	SuperDoitOptionalOptionWithNoArg long: 'noarg'.
-	SuperDoitOptionalOptionWithNoArg long: 'noarg' short: 'n'.
+	SuperDoitOptionalOptionWithNoArg long: 'noArg'.
+	SuperDoitOptionalOptionWithNoArg long: 'noArg' short: 'n'.
 
 	SuperDoitOptionalOptionWithRequiredArg long: 'optional'.
 	SuperDoitOptionalOptionWithRequiredArg long: 'optional' default: 'default'.
@@ -18,10 +18,19 @@ options
 %
 usage
 -----
-USAGE $basename [--help | -h] [--debug | -D] [-- [<stone-name> [<topaz-command-line-args>] ] ]
+USAGE 
+  # with GS_HOME set (<stone-name> optional if run in $GS_HOME/servers/stones/<stone-name> directory)
+  $basename [--help | -h] [--debug | -D] [-- [<stone-name> [<topaz-command-line-args>] ] ]
+  # with GEMSTONE set
+  $basename [--help | -h] [--debug | -D] -- ([-r] | -l | -L) -I <path-to-.topazini> [<topaz-command-line-args>]
 
 DESCRIPTION
-  <put your description here>
+  Example script demonstrating the most common commands:
+    options
+    usage
+    instvars
+    method
+    doit
 
 OPTIONS
   <stone-name>               Name of the GsDevKit_home stone. <stone-name> argument
@@ -31,32 +40,36 @@ OPTIONS
                              running the script
   -h, --help                 display usage message
   -D, --debug                bring up topaz debugger in the event of a script error
+  --noArg | -n               option with no argument
+  --optional | -o            optional option with required argument
 
 EXAMPLES
-  $basename --help
-  $basename -h
-  $basename --debug
-  $basename -D
-  $basename  
-  $basename -- gs_360
-  $basename -- gs_360 -T 100000
+  $basename --help                                   -- gs_351             # with GS_HOME set
+  $basename -h                                       -- -l -I ./.topazini  # with GEMSTONE set
+  $basename --help                                   <topaz-arguments>
+  $basename -D --required=arg                        <topaz-arguments>
+  $basename --required=arg                           <topaz-arguments>
+  $basename --required=arg --noArg                   <topaz-arguments>
+  $basename --required=arg --optional="non default"  <topaz-arguments>
+  $basename --required=arg -o non-default            <topaz-arguments>
+  $basename --required=arg -n -o non-default         <topaz-arguments>
 -----
 %
 INSTVARS
 instvar
 %
 METHOD
+foo
+	^ instvar
 %
 doit
-true ifTrue: [ 
-UserGlobals at: self class name put: self class.
-UserGlobals at: (self class name, '_instance') asSymbol put: self.
-System commit.
-^ 'saved ', self class name 
-].
-	"write your code here"
-	"return value will be written in STON format to stdout.
-		Return `self noResult` to suppress writing STON 
-		to stdout"
-	^ self noResult
+	self stdout nextPutAll: '--required present with value ', self required printString; lf.
+	self noArg
+		ifTrue: [
+			self stdout nextPutAll: '--noArg present'; lf ].
+	self optional 
+		ifNotNil: [:optionalValue |
+			self stdout nextPutAll: '--optional present with value ', optionalValue printString; lf ].
+	instvar := self required.
+	^ self foo
 %
