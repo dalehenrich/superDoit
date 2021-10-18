@@ -15,4 +15,5 @@ superDoitExecutionClass
 				compileMethod:
 						'commandParserInstance: anObject CommandParserInstance := anObject';
 				compileMethod: 'commandParserInstance ^ CommandParserInstance';
-				yourself ]
+				yourself.
+			superDoitExecutionClass ]

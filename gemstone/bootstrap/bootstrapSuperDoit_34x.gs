@@ -1,5 +1,5 @@
 ! superDoit fileout
-!	2021-10-17T17:03:35.336828-07:00
+!	2021-10-17T17:27:11.081395-07:00
 
 ! Class Declarations
 ! Generated file, do not Edit
@@ -1176,7 +1176,8 @@ superDoitExecutionClass
 				compileMethod:
 						'commandParserInstance: anObject CommandParserInstance := anObject';
 				compileMethod: 'commandParserInstance ^ CommandParserInstance';
-				yourself ]
+				yourself.
+			superDoitExecutionClass ]
 %
 
 category: 'accessing'
