@@ -63,12 +63,14 @@ foo
 	^ instvar
 %
 doit
-false ifTrue: [ 
-	| transientSymbolDictionaryAssoc |
-	transientSymbolDictionaryAssoc := GsCurrentSession currentSession symbolList resolveSymbol: (self class commandParserInstance class transientSymbolDictionaryName).
-	System myUserProfile symbolList add: transientSymbolDictionaryAssoc value before: UserGlobals.
-	self stdout nextPutAll: 'saved ', transientSymbolDictionaryAssoc key printString; lf.
-	^ System commit
+| doPersist doExport |
+doPersist := doExport := false.
+doPersist ifTrue: [ 
+	self persist
+].
+doExport ifTrue: [ 
+	self class export.
+	^ self noResult
 ].
 	self stdout nextPutAll: '--required present with value ', self required printString; lf.
 	self noArg

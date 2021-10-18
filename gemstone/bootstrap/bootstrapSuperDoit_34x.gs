@@ -1,5 +1,5 @@
 ! superDoit fileout
-!	2021-10-17T18:19:54.228374-07:00
+!	2021-10-18T13:34:12.686270-07:00
 
 ! Class Declarations
 ! Generated file, do not Edit
@@ -1251,6 +1251,28 @@ usageCommand: string
 
 !		Class methods for 'SuperDoitExecution'
 
+category: 'export'
+classmethod: SuperDoitExecution
+export
+	"export the 'persist'ed class to disk, writing in canonical format. New instance 
+		variables will be added to instvar command and all instance-side methods in 
+		reciever will be written out to the superdoit script file along with the original 
+		non-method commands"
+
+	| commandParser executionInstance scriptFileRef |
+	self name == #'SuperDoitExecutionClass'
+		ifFalse: [ 
+			self
+				error:
+					'export should only be performed on the SuperDoitExecutionClass class' ].
+	commandParser := self commandParserInstance.
+	executionInstance := self executionInstance.
+	scriptFileRef := executionInstance scriptPath asFileReference.
+	scriptFileRef exists
+		ifFalse: [ self halt ].
+	self selectors asArray sort do: [ :sel | self halt ]
+%
+
 category: 'utiities'
 classmethod: SuperDoitExecution
 globalNamed: aString
@@ -1519,6 +1541,27 @@ category: 'accessing'
 method: SuperDoitExecution
 optionsDict: object
 	_optionsDict := object
+%
+
+category: 'persist'
+method: SuperDoitExecution
+persist
+	"Arrange to add the transient symbol dictionary to the peristent symbol list, so that 
+		the script can be edited in a class browser."
+
+	"Use export to rewrite the script file after editing"
+
+	| transientSymbolDictionaryAssoc |
+	transientSymbolDictionaryAssoc := GsCurrentSession currentSession symbolList
+		resolveSymbol:
+			self class commandParserInstance class transientSymbolDictionaryName.
+	System myUserProfile symbolList
+		add: transientSymbolDictionaryAssoc value
+		before: UserGlobals.
+	self stdout
+		nextPutAll: 'saved ' , transientSymbolDictionaryAssoc key printString;
+		lf.
+	^ System commit
 %
 
 category: 'accessing'
