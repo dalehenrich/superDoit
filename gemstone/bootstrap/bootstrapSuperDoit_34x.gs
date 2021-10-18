@@ -1,5 +1,5 @@
 ! superDoit fileout
-!	2021-10-17T17:27:11.081395-07:00
+!	2021-10-17T18:19:54.228374-07:00
 
 ! Class Declarations
 ! Generated file, do not Edit
@@ -305,7 +305,7 @@ true.
 doit
 (Object
 	subclass: 'SuperDoitCommandParser'
-	instVarNames: #( stream done doitResult usage specs superDoitExecutionClass instVarNames scriptArgs scriptPath systemDictionary optionsDict projectsHome commandDefinition )
+	instVarNames: #( stream done doitResult usage specs superDoitExecutionClass superDoitExecutionMetadataClass instVarNames scriptArgs scriptPath systemDictionary optionsDict projectsHome commandDefinition )
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
@@ -626,13 +626,13 @@ executeAgainst: aCommandParser
 			self
 				compileMethod:
 					longName , '  ^ (self optionsDict at: ' , longName printString , ') value'
-				for: aCommandParser superDoitExecutionClass.
+				for: aCommandParser superDoitExecutionMetadataClass.
 
 			self
 				compileMethod:
 					longName , ': optionValue (self optionsDict at:' , longName printString
 						, ') value: optionValue'
-				for: aCommandParser superDoitExecutionClass ]
+				for: aCommandParser superDoitExecutionMetadataClass ]
 %
 
 category: 'accessing'
@@ -667,7 +667,7 @@ executeAgainst: aCommandParser
 		compileMethod:
 			'theDoit ^ ' , self chunk printString , ' evaluateInContext: self symbolList: '
 				, self symbolListExpressionString
-		for: aCommandParser superDoitExecutionClass.
+		for: aCommandParser superDoitExecutionMetadataClass.
 
 	instance := aCommandParser superDoitExecutionClass new.
 	instance class
@@ -1163,21 +1163,35 @@ method: SuperDoitCommandParser
 superDoitExecutionClass
 	^ superDoitExecutionClass
 		ifNil: [ 
-			superDoitExecutionClass := SuperDoitExecution
+			superDoitExecutionClass := self superDoitExecutionMetadataClass
 				subclass: 'SuperDoitExecutionClass'
 				instVarNames: self instVarNames
+				classVars: #()
+				classInstVars: #()
+				poolDictionaries: #()
+				inDictionary: self systemDictionary ]
+%
+
+category: 'accessing'
+method: SuperDoitCommandParser
+superDoitExecutionMetadataClass
+	^ superDoitExecutionMetadataClass
+		ifNil: [ 
+			superDoitExecutionMetadataClass := SuperDoitExecution
+				subclass: 'SuperDoitExecutionMetadataClass'
+				instVarNames: #()
 				classVars: #('ExecutionInstance' 'CommandParserInstance')
 				classInstVars: #()
 				poolDictionaries: #()
 				inDictionary: self systemDictionary.
-			superDoitExecutionClass class
+			superDoitExecutionMetadataClass class
 				compileMethod: 'executionInstance: anObject ExecutionInstance := anObject';
 				compileMethod: 'executionInstance ^ ExecutionInstance';
 				compileMethod:
 						'commandParserInstance: anObject CommandParserInstance := anObject';
 				compileMethod: 'commandParserInstance ^ CommandParserInstance';
 				yourself.
-			superDoitExecutionClass ]
+			superDoitExecutionMetadataClass ]
 %
 
 category: 'accessing'

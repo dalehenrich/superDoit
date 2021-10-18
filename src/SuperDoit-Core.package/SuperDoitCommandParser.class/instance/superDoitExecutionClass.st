@@ -2,18 +2,10 @@ accessing
 superDoitExecutionClass
 	^ superDoitExecutionClass
 		ifNil: [ 
-			superDoitExecutionClass := SuperDoitExecution
+			superDoitExecutionClass := self superDoitExecutionMetadataClass
 				subclass: 'SuperDoitExecutionClass'
 				instVarNames: self instVarNames
-				classVars: #('ExecutionInstance' 'CommandParserInstance')
+				classVars: #()
 				classInstVars: #()
 				poolDictionaries: #()
-				inDictionary: self systemDictionary.
-			superDoitExecutionClass class
-				compileMethod: 'executionInstance: anObject ExecutionInstance := anObject';
-				compileMethod: 'executionInstance ^ ExecutionInstance';
-				compileMethod:
-						'commandParserInstance: anObject CommandParserInstance := anObject';
-				compileMethod: 'commandParserInstance ^ CommandParserInstance';
-				yourself.
-			superDoitExecutionClass ]
+				inDictionary: self systemDictionary ]

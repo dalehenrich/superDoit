@@ -12,6 +12,7 @@
 		"usage",
 		"specs",
 		"superDoitExecutionClass",
+		"superDoitExecutionMetadataClass",
 		"instVarNames",
 		"scriptArgs",
 		"scriptPath",

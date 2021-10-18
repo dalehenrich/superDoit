@@ -5,7 +5,7 @@ executeAgainst: aCommandParser
 		compileMethod:
 			'theDoit ^ ' , self chunk printString , ' evaluateInContext: self symbolList: '
 				, self symbolListExpressionString
-		for: aCommandParser superDoitExecutionClass.
+		for: aCommandParser superDoitExecutionMetadataClass.
 
 	instance := aCommandParser superDoitExecutionClass new.
 	instance class

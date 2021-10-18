@@ -13,10 +13,10 @@ executeAgainst: aCommandParser
 			self
 				compileMethod:
 					longName , '  ^ (self optionsDict at: ' , longName printString , ') value'
-				for: aCommandParser superDoitExecutionClass.
+				for: aCommandParser superDoitExecutionMetadataClass.
 
 			self
 				compileMethod:
 					longName , ': optionValue (self optionsDict at:' , longName printString
 						, ') value: optionValue'
-				for: aCommandParser superDoitExecutionClass ]
+				for: aCommandParser superDoitExecutionMetadataClass ]
