@@ -5,7 +5,14 @@ superDoitExecutionClass
 			superDoitExecutionClass := SuperDoitExecution
 				subclass: 'SuperDoitExecutionClass'
 				instVarNames: self instVarNames
-				classVars: #()
+				classVars: #('ExecutionInstance' 'CommandParserInstance')
 				classInstVars: #()
 				poolDictionaries: #()
-				inDictionary: self systemDictionary ]
+				inDictionary: self systemDictionary.
+			superDoitExecutionClass class
+				compileMethod: 'executionInstance: anObject ExecutionInstance := anObject';
+				compileMethod: 'executionInstance ^ ExecutionInstance';
+				compileMethod:
+						'commandParserInstance: anObject CommandParserInstance := anObject';
+				compileMethod: 'commandParserInstance ^ CommandParserInstance';
+				yourself ]

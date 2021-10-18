@@ -1,5 +1,5 @@
 ! superDoit fileout
-!	2021-10-17T12:05:49.557351-07:00
+!	2021-10-17T17:03:34.948726-07:00
 
 ! Class Declarations
 ! Generated file, do not Edit
@@ -105,6 +105,7 @@ doit
 	options: #()
 )
 		category: 'SuperDoit-Command';
+		comment: 'CUSTOMOPTIONS';
 		immediateInvariant.
 true.
 %
@@ -120,6 +121,7 @@ doit
 	options: #()
 )
 		category: 'SuperDoit-Command';
+		comment: 'OPTIONS';
 		immediateInvariant.
 true.
 %
@@ -135,6 +137,7 @@ doit
 	options: #()
 )
 		category: 'SuperDoit-Command';
+		comment: 'DOIT';
 		immediateInvariant.
 true.
 %
@@ -150,6 +153,8 @@ doit
 	options: #()
 )
 		category: 'SuperDoit-Command';
+		comment: 'METHOD: <class-name>
+CLASSMETHOD: <class-name>';
 		immediateInvariant.
 true.
 %
@@ -165,6 +170,7 @@ doit
 	options: #()
 )
 		category: 'SuperDoit-Command';
+		comment: 'INPUT';
 		immediateInvariant.
 true.
 %
@@ -180,6 +186,7 @@ doit
 	options: #()
 )
 		category: 'SuperDoit-Command';
+		comment: 'INSTVARS';
 		immediateInvariant.
 true.
 %
@@ -195,6 +202,7 @@ doit
 	options: #()
 )
 		category: 'SuperDoit-Command';
+		comment: 'METHOD';
 		immediateInvariant.
 true.
 %
@@ -210,6 +218,7 @@ doit
 	options: #()
 )
 		category: 'SuperDoit-Command';
+		comment: 'PROJECTSHOME';
 		immediateInvariant.
 true.
 %
@@ -225,6 +234,7 @@ doit
 	options: #()
 )
 		category: 'SuperDoit-Command';
+		comment: '#';
 		immediateInvariant.
 true.
 %
@@ -240,6 +250,7 @@ doit
 	options: #()
 )
 		category: 'SuperDoit-Command';
+		comment: 'SPECS';
 		immediateInvariant.
 true.
 %
@@ -255,6 +266,7 @@ doit
 	options: #()
 )
 		category: 'SuperDoit-Command';
+		comment: 'SPECURLS';
 		immediateInvariant.
 true.
 %
@@ -270,6 +282,7 @@ doit
 	options: #()
 )
 		category: 'SuperDoit-Command';
+		comment: 'USAGE';
 		immediateInvariant.
 true.
 %
@@ -655,7 +668,11 @@ executeAgainst: aCommandParser
 			'theDoit ^ ' , self chunk printString , ' evaluateInContext: self symbolList: '
 				, self symbolListExpressionString
 		for: aCommandParser superDoitExecutionClass.
+
 	instance := aCommandParser superDoitExecutionClass new.
+	instance class
+		executionInstance: instance;
+		commandParserInstance: aCommandParser.
 	instance scriptPath: aCommandParser scriptPath.
 	instance scriptArgs: aCommandParser scriptArgs.
 	instance usage: aCommandParser usage.
@@ -1149,10 +1166,17 @@ superDoitExecutionClass
 			superDoitExecutionClass := SuperDoitExecution
 				subclass: 'SuperDoitExecutionClass'
 				instVarNames: self instVarNames
-				classVars: #()
+				classVars: #('ExecutionInstance' 'CommandParserInstance')
 				classInstVars: #()
 				poolDictionaries: #()
-				inDictionary: self systemDictionary ]
+				inDictionary: self systemDictionary.
+			superDoitExecutionClass class
+				compileMethod: 'executionInstance: anObject ExecutionInstance := anObject';
+				compileMethod: 'executionInstance ^ ExecutionInstance';
+				compileMethod:
+						'commandParserInstance: anObject CommandParserInstance := anObject';
+				compileMethod: 'commandParserInstance ^ CommandParserInstance';
+				yourself ]
 %
 
 category: 'accessing'
