@@ -9,7 +9,7 @@
 #%
 # Example options section
 #
-#otions
+#options
 #{
 #	SuperDoitOptionalOptionWithNoArg long: 'noarg'.
 #	SuperDoitOptionalOptionWithNoArg long: 'noarg' short: 'n'.
