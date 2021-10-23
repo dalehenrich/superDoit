@@ -1,5 +1,5 @@
 ! superDoit fileout
-!	2021-10-18T13:34:10.345236-07:00
+!	2021-10-23T13:28:39.955698-07:00
 
 ! Class Declarations
 ! Generated file, do not Edit
@@ -592,10 +592,27 @@ chunk: object
 	chunk := object
 %
 
+category: 'accessing'
+method: SuperDoitCommand
+commandString
+	self subclassResponsibility: #'commandString'
+%
+
 category: 'execution'
 method: SuperDoitCommand
 executeAgainst: aCommandParser
 	self subclassResponsibility: #'executeAgainst:'
+%
+
+category: 'exporting'
+method: SuperDoitCommand
+exportTo: writeStream commandParser: commandParser
+	writeStream
+		nextPutAll: self commandString;
+		lf;
+		nextPutAll: self chunk; "chunk has a trailing lf"
+		nextPutAll: '%';
+		lf
 %
 
 category: 'execution'
@@ -609,6 +626,12 @@ preClassCreationExecuteAgainst: aCommandParser
 ! Class implementation for 'SuperDoitCustomOptionsCommand'
 
 !		Instance methods for 'SuperDoitCustomOptionsCommand'
+
+category: 'accessing'
+method: SuperDoitCustomOptionsCommand
+commandString
+	^'customoptions'
+%
 
 category: 'execution'
 method: SuperDoitCustomOptionsCommand
@@ -651,6 +674,21 @@ optionSpecs: aCommandParser
 
 category: 'accessing'
 method: SuperDoitOptionsCommand
+commandString
+	^'options'
+%
+
+category: 'exporting'
+method: SuperDoitOptionsCommand
+exportTo: writeStream commandParser: commandParser
+	"The first command in the list is always an option command ... normally empty, unless it is a custom options command"
+
+	(super optionSpecs: commandParser) isEmpty
+		ifFalse: [ super exportTo: writeStream commandParser: commandParser ]
+%
+
+category: 'accessing'
+method: SuperDoitOptionsCommand
 optionSpecs: aCommandParser
 	^ aCommandParser standardOptionSpecs , (super optionSpecs: aCommandParser)
 %
@@ -658,6 +696,12 @@ optionSpecs: aCommandParser
 ! Class implementation for 'SuperDoitDoitCommand'
 
 !		Instance methods for 'SuperDoitDoitCommand'
+
+category: 'accessing'
+method: SuperDoitDoitCommand
+commandString
+	^'doit'
+%
 
 category: 'execution'
 method: SuperDoitDoitCommand
@@ -719,6 +763,14 @@ className: object
 	className := object
 %
 
+category: 'accessing'
+method: SuperDoitExtensionMethodCommand
+commandString
+	^ self isMeta
+		ifTrue: [ 'classmethod: ' , self className ]
+		ifFalse: [ 'method: ' , self className ]
+%
+
 category: 'execution'
 method: SuperDoitExtensionMethodCommand
 executeAgainst: aCommandParser
@@ -748,6 +800,12 @@ isMeta: object
 
 !		Instance methods for 'SuperDoitInputCommand'
 
+category: 'accessing'
+method: SuperDoitInputCommand
+commandString
+	^'input'
+%
+
 category: 'execution'
 method: SuperDoitInputCommand
 executeAgainst: aCommandParser
@@ -763,6 +821,12 @@ executeAgainst: aCommandParser
 ! Class implementation for 'SuperDoitInstVarNamesCommand'
 
 !		Instance methods for 'SuperDoitInstVarNamesCommand'
+
+category: 'accessing'
+method: SuperDoitInstVarNamesCommand
+commandString
+	^'instvars'
+%
 
 category: 'execution'
 method: SuperDoitInstVarNamesCommand
@@ -797,6 +861,12 @@ preClassCreationExecuteAgainst: aCommandParser
 
 !		Instance methods for 'SuperDoitMethodCommand'
 
+category: 'accessing'
+method: SuperDoitMethodCommand
+commandString
+	^'method'
+%
+
 category: 'execution'
 method: SuperDoitMethodCommand
 executeAgainst: aCommandParser
@@ -806,6 +876,12 @@ executeAgainst: aCommandParser
 ! Class implementation for 'SuperDoitProjectsHomeCommand'
 
 !		Instance methods for 'SuperDoitProjectsHomeCommand'
+
+category: 'accessing'
+method: SuperDoitProjectsHomeCommand
+commandString
+	^'projectshome'
+%
 
 category: 'execution'
 method: SuperDoitProjectsHomeCommand
@@ -822,15 +898,35 @@ executeAgainst: aCommandParser
 
 !		Instance methods for 'SuperDoitScriptCommentCommand'
 
+category: 'accessing'
+method: SuperDoitScriptCommentCommand
+commandString
+	self shouldNotImplement: #commandString
+%
+
 category: 'execution'
 method: SuperDoitScriptCommentCommand
 executeAgainst: aCommandParser
 	"noop"
 %
 
+category: 'exporting'
+method: SuperDoitScriptCommentCommand
+exportTo: writeStream commandParser: commandParser
+	writeStream
+		nextPutAll: self chunk;
+		lf
+%
+
 ! Class implementation for 'SuperDoitSpecsCommand'
 
 !		Instance methods for 'SuperDoitSpecsCommand'
+
+category: 'accessing'
+method: SuperDoitSpecsCommand
+commandString
+	^'specs'
+%
 
 category: 'execution'
 method: SuperDoitSpecsCommand
@@ -865,6 +961,12 @@ executeAgainst: aCommandParser
 
 !		Instance methods for 'SuperDoitSpecUrlsCommand'
 
+category: 'accessing'
+method: SuperDoitSpecUrlsCommand
+commandString
+	^'specurls'
+%
+
 category: 'execution'
 method: SuperDoitSpecUrlsCommand
 executeAgainst: aCommandParser
@@ -889,6 +991,12 @@ executeAgainst: aCommandParser
 ! Class implementation for 'SuperDoitUsageCommand'
 
 !		Instance methods for 'SuperDoitUsageCommand'
+
+category: 'accessing'
+method: SuperDoitUsageCommand
+commandString
+	^'usage'
+%
 
 category: 'execution'
 method: SuperDoitUsageCommand
@@ -916,6 +1024,15 @@ category: 'execution'
 method: SuperDoitCommandDefinition
 executeAgainst: aCommandParser
 	self commands do: [ :command | command executeAgainst: aCommandParser ]
+%
+
+category: 'export'
+method: SuperDoitCommandDefinition
+exportCommandsTo: scriptFileRef commandParser: commandParser
+	scriptFileRef
+		writeStreamDo: [ :writeStream | 
+			self commands
+				do: [ :command | command exportTo: writeStream commandParser: commandParser ] ]
 %
 
 category: 'execution'
@@ -1267,9 +1384,10 @@ export
 					'export should only be performed on the SuperDoitExecutionClass class' ].
 	commandParser := self commandParserInstance.
 	executionInstance := self executionInstance.
-	scriptFileRef := executionInstance scriptPath asFileReference.
+	scriptFileRef := (GsFile serverRealPath: executionInstance scriptPath) asFileReference.
 	scriptFileRef exists
-		ifFalse: [ self halt ].
+		ifFalse: [ self error: 'cannot find the script file ', scriptFileRef pathString printString ].
+	commandParser commandDefinition exportCommandsTo: scriptFileRef commandParser: commandParser.
 	self selectors asArray sort do: [ :sel | self halt ]
 %
 

@@ -13,7 +13,8 @@ export
 					'export should only be performed on the SuperDoitExecutionClass class' ].
 	commandParser := self commandParserInstance.
 	executionInstance := self executionInstance.
-	scriptFileRef := executionInstance scriptPath asFileReference.
+	scriptFileRef := (GsFile serverRealPath: executionInstance scriptPath) asFileReference.
 	scriptFileRef exists
-		ifFalse: [ self halt ].
+		ifFalse: [ self error: 'cannot find the script file ', scriptFileRef pathString printString ].
+	commandParser commandDefinition exportCommandsTo: scriptFileRef commandParser: commandParser.
 	self selectors asArray sort do: [ :sel | self halt ]

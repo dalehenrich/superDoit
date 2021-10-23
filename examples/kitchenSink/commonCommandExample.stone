@@ -18,7 +18,7 @@ options
 %
 usage
 -----
-USAGE 
+USAGE
   # with GS_HOME set (<stone-name> optional if run in $GS_HOME/servers/stones/<stone-name> directory)
   $basename [--help | -h] [--debug | -D] [-- [<stone-name> [<topaz-command-line-args>] ] ]
   # with GEMSTONE set
@@ -55,28 +55,30 @@ EXAMPLES
   $basename --required=arg -n -o non-default         <topaz-arguments>
 -----
 %
-INSTVARS
+instvars
 instvar
 %
-METHOD
+method
 foo
 	^ instvar
 %
-doit
-| doPersist doExport |
-doPersist := doExport := false.
-doPersist ifTrue: [ 
-	self persist
-].
-doExport ifTrue: [ 
-	self class export.
+method
+testDoPerist: doPersist doExport: doExport
+	doPersist ifTrue: [
+		self persist
+	].
+	doExport ifTrue: [
+		self class export
+	].
 	^ self noResult
-].
+%
+doit
+	self testDoPerist: true doExport: true.
 	self stdout nextPutAll: '--required present with value ', self required printString; lf.
 	self noArg
 		ifTrue: [
 			self stdout nextPutAll: '--noArg present'; lf ].
-	self optional 
+	self optional
 		ifNotNil: [:optionalValue |
 			self stdout nextPutAll: '--optional present with value ', optionalValue printString; lf ].
 	instvar := self required.
