@@ -16,5 +16,4 @@ export
 	scriptFileRef := (GsFile serverRealPath: executionInstance scriptPath) asFileReference.
 	scriptFileRef exists
 		ifFalse: [ self error: 'cannot find the script file ', scriptFileRef pathString printString ].
-	commandParser commandDefinition exportCommandsTo: scriptFileRef commandParser: commandParser.
-	self selectors asArray sort do: [ :sel | self halt ]
+	commandParser commandDefinition exportCommandsTo: scriptFileRef commandParser: commandParser executionClass: executionInstance class.

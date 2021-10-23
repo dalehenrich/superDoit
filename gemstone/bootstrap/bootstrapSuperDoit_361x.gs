@@ -1,5 +1,5 @@
 ! superDoit fileout
-!	2021-10-23T13:28:39.955698-07:00
+!	2021-10-23T13:48:38.317808-07:00
 
 ! Class Declarations
 ! Generated file, do not Edit
@@ -606,11 +606,11 @@ executeAgainst: aCommandParser
 
 category: 'exporting'
 method: SuperDoitCommand
-exportTo: writeStream commandParser: commandParser
+exportTo: writeStream commandParser: commandParser executionClass: executionClass
 	writeStream
 		nextPutAll: self commandString;
 		lf;
-		nextPutAll: self chunk; "chunk has a trailing lf"
+		nextPutAll: self chunk;	"chunk has a trailing lf"
 		nextPutAll: '%';
 		lf
 %
@@ -680,11 +680,15 @@ commandString
 
 category: 'exporting'
 method: SuperDoitOptionsCommand
-exportTo: writeStream commandParser: commandParser
+exportTo: writeStream commandParser: commandParser executionClass: executionClass
 	"The first command in the list is always an option command ... normally empty, unless it is a custom options command"
 
 	(super optionSpecs: commandParser) isEmpty
-		ifFalse: [ super exportTo: writeStream commandParser: commandParser ]
+		ifFalse: [ 
+			super
+				exportTo: writeStream
+				commandParser: commandParser
+				executionClass: executionClass ]
 %
 
 category: 'accessing'
@@ -873,6 +877,17 @@ executeAgainst: aCommandParser
 	self compileMethod: self chunk for: aCommandParser superDoitExecutionClass
 %
 
+category: 'exporting'
+method: SuperDoitMethodCommand
+exportTo: writeStream commandParser: commandParser executionClass: executionClass
+	writeStream
+		nextPutAll: self commandString;
+		lf;
+		nextPutAll: self chunk;	"chunk has a trailing lf"
+		nextPutAll: '%';
+		lf
+%
+
 ! Class implementation for 'SuperDoitProjectsHomeCommand'
 
 !		Instance methods for 'SuperDoitProjectsHomeCommand'
@@ -912,7 +927,7 @@ executeAgainst: aCommandParser
 
 category: 'exporting'
 method: SuperDoitScriptCommentCommand
-exportTo: writeStream commandParser: commandParser
+exportTo: writeStream commandParser: commandParser executionClass: executionClass
 	writeStream
 		nextPutAll: self chunk;
 		lf
@@ -1028,11 +1043,15 @@ executeAgainst: aCommandParser
 
 category: 'export'
 method: SuperDoitCommandDefinition
-exportCommandsTo: scriptFileRef commandParser: commandParser
+exportCommandsTo: scriptFileRef commandParser: commandParser executionClass: executionClass
 	scriptFileRef
 		writeStreamDo: [ :writeStream | 
 			self commands
-				do: [ :command | command exportTo: writeStream commandParser: commandParser ] ]
+				do: [ :command | 
+					command
+						exportTo: writeStream
+						commandParser: commandParser
+						executionClass: executionClass ] ]
 %
 
 category: 'execution'
@@ -1387,8 +1406,7 @@ export
 	scriptFileRef := (GsFile serverRealPath: executionInstance scriptPath) asFileReference.
 	scriptFileRef exists
 		ifFalse: [ self error: 'cannot find the script file ', scriptFileRef pathString printString ].
-	commandParser commandDefinition exportCommandsTo: scriptFileRef commandParser: commandParser.
-	self selectors asArray sort do: [ :sel | self halt ]
+	commandParser commandDefinition exportCommandsTo: scriptFileRef commandParser: commandParser executionClass: executionInstance class.
 %
 
 category: 'utiities'
