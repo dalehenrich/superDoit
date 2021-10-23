@@ -15,4 +15,5 @@ persist
 	self stdout
 		nextPutAll: 'saved ' , transientSymbolDictionaryAssoc key printString;
 		lf.
+	self class commandParserInstance _resetStream.
 	^ System commit

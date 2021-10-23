@@ -1,5 +1,5 @@
 ! superDoit fileout
-!	2021-10-23T13:48:38.468703-07:00
+!	2021-10-23T14:59:20.817939-07:00
 
 ! Class Declarations
 ! Generated file, do not Edit
@@ -730,6 +730,30 @@ executeAgainst: aCommandParser
 	instance displayResult: instance doit
 %
 
+category: 'exporting'
+method: SuperDoitDoitCommand
+exportTo: writeStream commandParser: commandParser executionClass: executionClass
+	"METHOD commands have been ignored on export. The instance side methods for executionClass will be exported in canonical order before the DOIT command"
+
+	executionClass selectors sort
+		do: [ :sel | 
+			| methodSource |
+			methodSource := (executionClass compiledMethodAt: sel) sourceString.
+			writeStream
+				nextPutAll: 'method';
+				lf;
+				nextPutAll: methodSource.
+			methodSource last == Character lf
+				ifFalse: [ writeStream lf ].
+			writeStream
+				nextPutAll: '%';
+				lf ].
+	super
+		exportTo: writeStream
+		commandParser: commandParser
+		executionClass: executionClass
+%
+
 ! Class implementation for 'SuperDoitExtensionMethodCommand'
 
 !		Class methods for 'SuperDoitExtensionMethodCommand'
@@ -880,12 +904,7 @@ executeAgainst: aCommandParser
 category: 'exporting'
 method: SuperDoitMethodCommand
 exportTo: writeStream commandParser: commandParser executionClass: executionClass
-	writeStream
-		nextPutAll: self commandString;
-		lf;
-		nextPutAll: self chunk;	"chunk has a trailing lf"
-		nextPutAll: '%';
-		lf
+	"METHOD commands are ignored on export. The instance side methods for executionClass will be exported in canonical order before the DOIT command"
 %
 
 ! Class implementation for 'SuperDoitProjectsHomeCommand'
@@ -1383,6 +1402,14 @@ usageCommand: string
 	^ SuperDoitUsageCommand chunk: string
 %
 
+category: 'accessing'
+method: SuperDoitCommandParser
+_resetStream
+	"if we are persisting the receiver, we need to nuke the stream iv"
+
+	stream := nil
+%
+
 ! Class implementation for 'SuperDoitExecution'
 
 !		Class methods for 'SuperDoitExecution'
@@ -1403,10 +1430,10 @@ export
 					'export should only be performed on the SuperDoitExecutionClass class' ].
 	commandParser := self commandParserInstance.
 	executionInstance := self executionInstance.
-	scriptFileRef := (GsFile serverRealPath: executionInstance scriptPath) asFileReference.
+	scriptFileRef := executionInstance scriptPath asFileReference.
 	scriptFileRef exists
 		ifFalse: [ self error: 'cannot find the script file ', scriptFileRef pathString printString ].
-	commandParser commandDefinition exportCommandsTo: scriptFileRef commandParser: commandParser executionClass: executionInstance class.
+	commandParser commandDefinition exportCommandsTo: scriptFileRef commandParser: commandParser executionClass: self.
 %
 
 category: 'utiities'
@@ -1697,6 +1724,7 @@ persist
 	self stdout
 		nextPutAll: 'saved ' , transientSymbolDictionaryAssoc key printString;
 		lf.
+	self class commandParserInstance _resetStream.
 	^ System commit
 %
 
@@ -1888,7 +1916,7 @@ processInputFile
 	argIndex := scriptArgStart + 1.	"arg after initial --"
 	(scriptArgStart <= 0 or: [ argIndex > args size ])
 		ifTrue: [ self error: 'input file is expected to be specified on the command line' ].
-	scriptFile := args at: argIndex.
+	scriptFile := GsFile serverRealPath: (args at: argIndex).
 	scriptArgIndex := args indexOf: '--' startingAt: argIndex + 1.
 	scriptArgs := scriptArgIndex = 0
 		ifTrue: [ #() ]
@@ -1914,7 +1942,10 @@ fileStreamFor: aFilePath
 category: '*superdoit-stone-core'
 method: SuperDoitCommandParser
 parseAndExecuteScriptFile: scriptFilePath
-	stream := self fileStreamFor: scriptFilePath.
+	"keep a transient reference to the stream in case the receiver is persisted"
+
+	| theStream |
+	theStream := stream := self fileStreamFor: scriptFilePath.
 	[ 
 	[ self done ]
 		whileFalse: [ 
@@ -1928,7 +1959,7 @@ parseAndExecuteScriptFile: scriptFilePath
 	self commandDefinition preClassCreationExecuteAgainst: self.	"make a pass to ensure that all commands that need to be processed BEFORE class creation get a chance to run (i'm looking at you SuperDoitInstVarNamesCommand"
 	self commandDefinition executeAgainst: self.
 	^ doitResult ]
-		ensure: [ stream close ]
+		ensure: [ theStream close ]
 %
 
 category: '*superdoit-stone-core'

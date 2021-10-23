@@ -10,7 +10,7 @@ processInputFile
 	argIndex := scriptArgStart + 1.	"arg after initial --"
 	(scriptArgStart <= 0 or: [ argIndex > args size ])
 		ifTrue: [ self error: 'input file is expected to be specified on the command line' ].
-	scriptFile := args at: argIndex.
+	scriptFile := GsFile serverRealPath: (args at: argIndex).
 	scriptArgIndex := args indexOf: '--' startingAt: argIndex + 1.
 	scriptArgs := scriptArgIndex = 0
 		ifTrue: [ #() ]

@@ -1,8 +1,3 @@
 exporting
 exportTo: writeStream commandParser: commandParser executionClass: executionClass
-	writeStream
-		nextPutAll: self commandString;
-		lf;
-		nextPutAll: self chunk;	"chunk has a trailing lf"
-		nextPutAll: '%';
-		lf
+	"METHOD commands are ignored on export. The instance side methods for executionClass will be exported in canonical order before the DOIT command"
