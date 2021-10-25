@@ -10,4 +10,4 @@ doit
 		do: [ :ex | 
 			((self respondsTo: #'debug') and: [ self debug ])
 				ifTrue: [ ex pass ].
-			self exit: ex messageText withStatus: 1	"does not return" ]
+			self exit: ex description withStatus: 1	"does not return" ]
