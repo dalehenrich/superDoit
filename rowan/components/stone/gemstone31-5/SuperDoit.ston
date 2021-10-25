@@ -1,0 +1,12 @@
+RwPlatformNestedProjectLoadComponentV2 {
+	#name : 'stone/gemstone31-5/SuperDoit',
+	#condition : [
+		'gs3.[1-5]'
+	],
+	#projectNames : [ ],
+	#componentNames : [ ],
+	#packageNames : [
+		'SuperDoit-Stone31-5-Core'
+	],
+	#comment : '.stone mods used by 3.1.x through 3.5.x'
+}

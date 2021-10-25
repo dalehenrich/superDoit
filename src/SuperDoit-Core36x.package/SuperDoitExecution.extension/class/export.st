@@ -1,4 +1,4 @@
-export
+*superdoit-core36x
 export
 	"export the 'persist'ed class to disk, writing in canonical format. New instance 
 		variables will be added to instvar command and all instance-side methods in 

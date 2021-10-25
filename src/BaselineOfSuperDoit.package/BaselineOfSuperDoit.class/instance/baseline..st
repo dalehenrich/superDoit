@@ -11,5 +11,6 @@ baseline: spec
   spec
     for: #'gs3.6.x'
     do: [ 
+      spec package: 'SuperDoit-Stone-Core36x'.
       spec package: 'SuperDoit-GemStone-Kernel36x'.
-      spec group: 'default' with: #('SuperDoit-GemStone-Kernel36x') ]
+      spec group: 'default' with: #('SuperDoit-GemStone-Kernel36x' 'SuperDoit-Stone-Core36x') ]

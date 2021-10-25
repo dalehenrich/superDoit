@@ -2,7 +2,10 @@ RwSimpleNestedProjectLoadComponentV2 {
 	#name : 'stone/SuperDoit',
 	#condition : 'stone',
 	#projectNames : [ ],
-	#componentNames : [ ],
+	#componentNames : [
+		'stone/gemstone31-5/SuperDoit',
+		'stone/gemstone36-/SuperDoit'
+ ],
 	#packageNames : [
 		'SuperDoit-Stone-Core'
 	],

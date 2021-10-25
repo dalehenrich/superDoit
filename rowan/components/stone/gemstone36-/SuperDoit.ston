@@ -1,0 +1,12 @@
+RwPlatformNestedProjectLoadComponentV2 {
+	#name : 'stone/gemstone36-/SuperDoit',
+	#condition : [
+		'gs3.[6-]'
+	],
+	#projectNames : [ ],
+	#componentNames : [ ],
+	#packageNames : [
+		'SuperDoit-Stone-Core36x'
+	],
+	#comment : '.stone mods used by 3.6.x and greater'
+}

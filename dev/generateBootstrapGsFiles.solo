@@ -96,7 +96,7 @@ generateBootstrapFiles: supportedGemStoneVersionMap
 		attributes :=  { 'stone' . 'common' . Rowan platform basePlatformConditionalAttribute }, (versions collect: [:version | version asRwGemStoneVersionNumber]).
 		projectSetDefinition := RwProjectSetDefinition new. 
 		headerStream := WriteStream on: String new.
-		headerStream nextPutAll: '! superDoit fileout'; lf.
+		headerStream nextPutAll: '! superDoit fileout'; lf; lf.
 		specUrl := 'file://', rootDir pathString, '/rowan/specs/SuperDoit_stone.ston'.
 		importSpec := RwSpecification fromUrl: specUrl.
 		importSpec
@@ -107,10 +107,6 @@ generateBootstrapFiles: supportedGemStoneVersionMap
 		projectSetDefinition addProject: importProject.
 		projectSetModification := projectSetDefinition
 			compareAgainstBase: RwProjectSetDefinition new.
-		headerStream 
-			nextPutAll: '!	', DateAndTime now printString;
-			lf;
-			lf.
 		visitor := GsModificationTopazWriterVisitor new
 			repositoryRootPath: gsDir;
 			topazFileHeader: headerStream contents;

@@ -1,5 +1,4 @@
 ! superDoit fileout
-!	2021-10-23T14:59:21.102186-07:00
 
 ! Class Declarations
 ! Generated file, do not Edit
@@ -1414,28 +1413,6 @@ _resetStream
 
 !		Class methods for 'SuperDoitExecution'
 
-category: 'export'
-classmethod: SuperDoitExecution
-export
-	"export the 'persist'ed class to disk, writing in canonical format. New instance 
-		variables will be added to instvar command and all instance-side methods in 
-		reciever will be written out to the superdoit script file along with the original 
-		non-method commands"
-
-	| commandParser executionInstance scriptFileRef |
-	self name == #'SuperDoitExecutionClass'
-		ifFalse: [ 
-			self
-				error:
-					'export should only be performed on the SuperDoitExecutionClass class' ].
-	commandParser := self commandParserInstance.
-	executionInstance := self executionInstance.
-	scriptFileRef := executionInstance scriptPath asFileReference.
-	scriptFileRef exists
-		ifFalse: [ self error: 'cannot find the script file ', scriptFileRef pathString printString ].
-	commandParser commandDefinition exportCommandsTo: scriptFileRef commandParser: commandParser executionClass: self.
-%
-
 category: 'utiities'
 classmethod: SuperDoitExecution
 globalNamed: aString
@@ -1905,34 +1882,6 @@ symbolListExpressionString
 
 ! Class extensions for 'SuperDoitCommandParser'
 
-!		Class methods for 'SuperDoitCommandParser'
-
-category: '*superdoit-stone-core'
-classmethod: SuperDoitCommandParser
-processInputFile
-	"command line looks like the following:
-		<path-to-topaz>/topaz <topaz arguments> -- <script-file-path> -- <script-args>
-	"
-
-	| args scriptArgStart argIndex scriptFile scriptArgs scriptArgIndex |
-	args := System commandLineArguments.
-	scriptArgStart := args indexOf: '--'.
-	argIndex := scriptArgStart + 1.	"arg after initial --"
-	(scriptArgStart <= 0 or: [ argIndex > args size ])
-		ifTrue: [ self error: 'input file is expected to be specified on the command line' ].
-	scriptFile := GsFile serverRealPath: (args at: argIndex).
-	scriptArgIndex := args indexOf: '--' startingAt: argIndex + 1.
-	scriptArgs := scriptArgIndex = 0
-		ifTrue: [ #() ]
-		ifFalse: [ args copyFrom: scriptArgIndex + 1 to: args size ].
-
-	^ self new
-		scriptPath: scriptFile;
-		scriptArgs: scriptArgs;
-		parseAndExecuteScriptFile: scriptFile;
-		yourself
-%
-
 !		Instance methods for 'SuperDoitCommandParser'
 
 category: '*superdoit-stone-core'
@@ -1994,6 +1943,27 @@ systemDictionary
 ! Class extensions for 'SuperDoitExecution'
 
 !		Class methods for 'SuperDoitExecution'
+
+category: '*superdoit-core31-5'
+classmethod: SuperDoitExecution
+exportTo: scriptPath
+	"export the 'persist'ed class to disk, writing in canonical format. New instance 
+		variables will be added to instvar command and all instance-side methods in 
+		reciever will be written out to the superdoit script file along with the original 
+		non-method commands"
+
+	| commandParser scriptFileRef |
+	self name == #'SuperDoitExecutionClass'
+		ifFalse: [ 
+			self
+				error:
+					'export should only be performed on the SuperDoitExecutionClass class' ].
+	commandParser := self commandParserInstance.
+	scriptFileRef := scriptPath asFileReference.
+	scriptFileRef exists
+		ifFalse: [ self error: 'cannot find the script file ', scriptFileRef pathString printString ].
+	commandParser commandDefinition exportCommandsTo: scriptFileRef commandParser: commandParser executionClass: self.
+%
 
 category: '*superdoit-core31-4'
 classmethod: SuperDoitExecution

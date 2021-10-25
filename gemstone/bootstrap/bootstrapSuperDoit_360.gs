@@ -1,5 +1,4 @@
 ! superDoit fileout
-!	2021-10-23T14:59:20.817939-07:00
 
 ! Class Declarations
 ! Generated file, do not Edit
@@ -1414,28 +1413,6 @@ _resetStream
 
 !		Class methods for 'SuperDoitExecution'
 
-category: 'export'
-classmethod: SuperDoitExecution
-export
-	"export the 'persist'ed class to disk, writing in canonical format. New instance 
-		variables will be added to instvar command and all instance-side methods in 
-		reciever will be written out to the superdoit script file along with the original 
-		non-method commands"
-
-	| commandParser executionInstance scriptFileRef |
-	self name == #'SuperDoitExecutionClass'
-		ifFalse: [ 
-			self
-				error:
-					'export should only be performed on the SuperDoitExecutionClass class' ].
-	commandParser := self commandParserInstance.
-	executionInstance := self executionInstance.
-	scriptFileRef := executionInstance scriptPath asFileReference.
-	scriptFileRef exists
-		ifFalse: [ self error: 'cannot find the script file ', scriptFileRef pathString printString ].
-	commandParser commandDefinition exportCommandsTo: scriptFileRef commandParser: commandParser executionClass: self.
-%
-
 category: 'utiities'
 classmethod: SuperDoitExecution
 globalNamed: aString
@@ -1903,7 +1880,7 @@ symbolListExpressionString
 
 !		Class methods for 'SuperDoitCommandParser'
 
-category: '*superdoit-stone-core'
+category: '*superdoit-stone-core36x'
 classmethod: SuperDoitCommandParser
 processInputFile
 	"command line looks like the following:
@@ -1991,6 +1968,28 @@ systemDictionary
 ! Class extensions for 'SuperDoitExecution'
 
 !		Class methods for 'SuperDoitExecution'
+
+category: '*superdoit-core36x'
+classmethod: SuperDoitExecution
+export
+	"export the 'persist'ed class to disk, writing in canonical format. New instance 
+		variables will be added to instvar command and all instance-side methods in 
+		reciever will be written out to the superdoit script file along with the original 
+		non-method commands"
+
+	| commandParser executionInstance scriptFileRef |
+	self name == #'SuperDoitExecutionClass'
+		ifFalse: [ 
+			self
+				error:
+					'export should only be performed on the SuperDoitExecutionClass class' ].
+	commandParser := self commandParserInstance.
+	executionInstance := self executionInstance.
+	scriptFileRef := executionInstance scriptPath asFileReference.
+	scriptFileRef exists
+		ifFalse: [ self error: 'cannot find the script file ', scriptFileRef pathString printString ].
+	commandParser commandDefinition exportCommandsTo: scriptFileRef commandParser: commandParser executionClass: self.
+%
 
 category: '*superdoit-core35-'
 classmethod: SuperDoitExecution
