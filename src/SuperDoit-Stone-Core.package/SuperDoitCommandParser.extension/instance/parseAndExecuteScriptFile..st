@@ -2,8 +2,7 @@
 parseAndExecuteScriptFile: scriptFilePath
 	"keep a transient reference to the stream in case the receiver is persisted"
 
-	| theStream |
-	theStream := stream := self fileStreamFor: scriptFilePath.
+	self stream: (self fileStreamFor: scriptFilePath).
 	[ 
 	[ self done ]
 		whileFalse: [ 
@@ -17,4 +16,4 @@ parseAndExecuteScriptFile: scriptFilePath
 	self commandDefinition preClassCreationExecuteAgainst: self.	"make a pass to ensure that all commands that need to be processed BEFORE class creation get a chance to run (i'm looking at you SuperDoitInstVarNamesCommand"
 	self commandDefinition executeAgainst: self.
 	^ doitResult ]
-		ensure: [ theStream close ]
+		ensure: [ self stream close ]

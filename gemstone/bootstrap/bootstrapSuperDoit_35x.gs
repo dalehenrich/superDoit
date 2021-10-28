@@ -304,7 +304,7 @@ true.
 doit
 (Object
 	subclass: 'SuperDoitCommandParser'
-	instVarNames: #( stream done doitResult usage specs superDoitExecutionClass superDoitExecutionMetadataClass instVarNames scriptArgs scriptPath systemDictionary optionsDict projectsHome commandDefinition )
+	instVarNames: #( done doitResult usage specs superDoitExecutionClass superDoitExecutionMetadataClass instVarNames scriptArgs scriptPath systemDictionary optionsDict projectsHome commandDefinition )
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
@@ -1168,11 +1168,12 @@ method: aString className: className
 category: 'parsing'
 method: SuperDoitCommandParser
 nextChunk
-	| str line |
+	| str line strm |
 	str := String new.
-	[ stream atEnd not ]
+	strm := self stream.
+	[ strm atEnd not ]
 		whileTrue: [ 
-			line := stream nextLine trimTrailingSeparators.
+			line := strm nextLine trimTrailingSeparators.
 			(line notEmpty and: [ line first = $% ])
 				ifTrue: [ ^ str ].
 			str
@@ -1199,15 +1200,16 @@ optionsDict: object
 	optionsDict := object
 %
 
-category: 'parsing'
+category: 'other'
 method: SuperDoitCommandParser
 processNextCommand
-	| line words command commandSelector |
-	stream atEnd
+	| line words command commandSelector strm |
+	strm := self stream.
+	strm atEnd
 		ifTrue: [ 
 			done := true.
 			^ nil ].
-	line := stream nextLine trimSeparators.
+	line := strm nextLine trimSeparators.
 	words := line subStrings.
 	words isEmpty
 		ifTrue: [ ^ nil ].
@@ -1314,6 +1316,18 @@ standardOptionSpecs
 
 category: 'accessing'
 method: SuperDoitCommandParser
+stream
+	^ SessionTemps current at: #'_SuperDoit_command_parser_input_stream' otherwise: nil
+%
+
+category: 'accessing'
+method: SuperDoitCommandParser
+stream: aFileStream
+	SessionTemps current at: #'_SuperDoit_command_parser_input_stream' put: aFileStream
+%
+
+category: 'accessing'
+method: SuperDoitCommandParser
 superDoitExecutionClass
 	^ superDoitExecutionClass
 		ifNil: [ 
@@ -1399,14 +1413,6 @@ category: 'commands'
 method: SuperDoitCommandParser
 usageCommand: string
 	^ SuperDoitUsageCommand chunk: string
-%
-
-category: 'accessing'
-method: SuperDoitCommandParser
-_resetStream
-	"if we are persisting the receiver, we need to nuke the stream iv"
-
-	stream := nil
 %
 
 ! Class implementation for 'SuperDoitExecution'
@@ -1701,7 +1707,6 @@ persist
 	self stdout
 		nextPutAll: 'saved ' , transientSymbolDictionaryAssoc key printString;
 		lf.
-	self class commandParserInstance _resetStream.
 	^ System commit
 %
 
@@ -1921,8 +1926,7 @@ method: SuperDoitCommandParser
 parseAndExecuteScriptFile: scriptFilePath
 	"keep a transient reference to the stream in case the receiver is persisted"
 
-	| theStream |
-	theStream := stream := self fileStreamFor: scriptFilePath.
+	self stream: (self fileStreamFor: scriptFilePath).
 	[ 
 	[ self done ]
 		whileFalse: [ 
@@ -1936,7 +1940,7 @@ parseAndExecuteScriptFile: scriptFilePath
 	self commandDefinition preClassCreationExecuteAgainst: self.	"make a pass to ensure that all commands that need to be processed BEFORE class creation get a chance to run (i'm looking at you SuperDoitInstVarNamesCommand"
 	self commandDefinition executeAgainst: self.
 	^ doitResult ]
-		ensure: [ theStream close ]
+		ensure: [ self stream close ]
 %
 
 category: '*superdoit-stone-core'

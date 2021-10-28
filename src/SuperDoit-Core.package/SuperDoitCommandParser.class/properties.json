@@ -6,7 +6,6 @@
 		 ],
 	"commentStamp" : "",
 	"instvars" : [
-		"stream",
 		"done",
 		"doitResult",
 		"usage",

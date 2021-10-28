@@ -1,10 +1,11 @@
 parsing
 nextChunk
-	| str line |
+	| str line strm |
 	str := String new.
-	[ stream atEnd not ]
+	strm := self stream.
+	[ strm atEnd not ]
 		whileTrue: [ 
-			line := stream nextLine trimTrailingSeparators.
+			line := strm nextLine trimTrailingSeparators.
 			(line notEmpty and: [ line first = $% ])
 				ifTrue: [ ^ str ].
 			str

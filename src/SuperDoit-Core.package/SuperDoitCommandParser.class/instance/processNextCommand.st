@@ -1,11 +1,12 @@
-parsing
+other
 processNextCommand
-	| line words command commandSelector |
-	stream atEnd
+	| line words command commandSelector strm |
+	strm := self stream.
+	strm atEnd
 		ifTrue: [ 
 			done := true.
 			^ nil ].
-	line := stream nextLine trimSeparators.
+	line := strm nextLine trimSeparators.
 	words := line subStrings.
 	words isEmpty
 		ifTrue: [ ^ nil ].
