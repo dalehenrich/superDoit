@@ -1739,7 +1739,7 @@ preDoitSpecLoad: specBlock
 
 	"return list of RwProjects loaded"
 
-	| projectSet rowanProjectSetDefinitionClass rowanVersion |
+	| projectSet rowanProjectSetDefinitionClass rowanVersion rowanClass rowanSemanticVersionNumberClass |
 	self _loadSpecs isEmpty
 		ifTrue: [ ^ self ].
 	rowanProjectSetDefinitionClass := SuperDoitExecution
@@ -1748,10 +1748,12 @@ preDoitSpecLoad: specBlock
 			self
 				error:
 					'Rowan must be present in the image in order to use the specurls command' ].
-	rowanVersion := (Rowan respondsTo: #'version')
-		ifTrue: [ Rowan version ]
-		ifFalse: [ rowanVersion := RwSemanticVersionNumber fromString: '1.2.0' ].
-	rowanVersion <= (RwSemanticVersionNumber fromString: '2.2.0')
+	rowanClass := SuperDoitExecution globalNamed: 'Rowan'.
+	rowanSemanticVersionNumberClass := SuperDoitExecution globalNamed: 'RwSemanticVersionNumber'.
+	rowanVersion := (rowanClass respondsTo: #'version')
+		ifTrue: [ rowanClass version ]
+		ifFalse: [ rowanVersion := rowanSemanticVersionNumberClass fromString: '1.2.0' ].
+	rowanVersion <= (rowanSemanticVersionNumberClass fromString: '2.2.0')
 		ifTrue: [ 
 			projectSet := rowanProjectSetDefinitionClass new.
 			self _loadSpecs
@@ -1760,7 +1762,7 @@ preDoitSpecLoad: specBlock
 					spec resolve readProjectSet
 						do: [ :project | projectSet addProject: project ] ].
 			^ projectSet load ].
-	rowanVersion >= (RwSemanticVersionNumber fromString: '3.0.0')
+	rowanVersion >= (rowanSemanticVersionNumberClass fromString: '3.0.0')
 		ifTrue: [ 
 			projectSet := rowanProjectSetDefinitionClass new.
 			self _loadSpecs
