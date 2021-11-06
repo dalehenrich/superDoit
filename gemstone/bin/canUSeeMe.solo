@@ -26,5 +26,6 @@ EXAMPLES
 -----
 %
 doit
-	^ 3 + 4
+	self stdout nextPutAll: 'I can see you, can you see me?'; lf.
+	^ self noResult
 %
