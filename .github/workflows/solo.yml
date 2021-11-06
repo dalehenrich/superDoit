@@ -23,7 +23,15 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-
+      - uses: dalehenrich/setup-superDoit@v1
+        with:
+          gemstone-version: ${{ matrix.gsvers }}
+          superDoit-source: ./
+      # expect gemstone/gs to be populated
+      - name: validate_using_local_checkout_for_setup
+        run: |
+          ls -l ${GITHUB_WORKSPACE}/gemstone/gs
+          canUSeeMe.solo -h
       # download the 3.6.1 product truee; download and unzip the 3.6.1 extent
       - name: setup
         run: |
