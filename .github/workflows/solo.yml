@@ -36,8 +36,10 @@ jobs:
       - name: setup
         run: |
           # set -x
+          echo "download shunit_tests"
           curl -L "https://github.com/kward/shunit2/archive/refs/tags/v2.1.8.tar.gz" | tar zx -C ${GITHUB_WORKSPACE}/shunit_tests
           . ${GITHUB_WORKSPACE}/dev/defPath.env
+          simple.solo -h
           simple.solo
       - name: test
         run: |
