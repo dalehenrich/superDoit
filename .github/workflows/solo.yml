@@ -23,13 +23,14 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      - uses: dalehenrich/setup-superDoit@superDoit_issue_24
+        #      - uses: dalehenrich/setup-superDoit@superDoit_issue_24
         with:
           gemstone-version: ${{ matrix.gsvers }}
           superDoit-source: ${{ github.workspace }}
       # expect gemstone/gs to be populated
       - name: validate_using_local_checkout_for_setup
         run: |
+          echo "${GITHUB_WORKSPACE}"
           ls -l ${GITHUB_WORKSPACE}/gemstone/gs
           canUSeeMe.solo -h
           canUSeeMe.solo
