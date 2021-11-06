@@ -14,8 +14,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ ubuntu-18.04, macos-10.15 ]
-        gsvers: [ 3.6.0, 3.6.1 ]
+        os: [ ubuntu-18.04 ]
+        gsvers: [ 3.6.1 ]
     runs-on: ${{ matrix.os }}
     env:
       GS_VERS: ${{ matrix.gsvers }}
@@ -23,7 +23,7 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      - uses: dalehenrich/setup-superDoit@v1
+      - uses: dalehenrich/setup-superDoit@superDoit_issue_24
         with:
           gemstone-version: ${{ matrix.gsvers }}
           superDoit-source: ./
