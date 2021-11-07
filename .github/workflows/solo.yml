@@ -56,9 +56,12 @@ jobs:
           ls -l 
           ls -l ..
           ls -l ../solo
+          echo ${{steps.setup-superDoit.outputs.gemstone-product-directory}}/${{ steps.setup-superDoit.outputs.gemstone-product-name }}
+          echo ${{steps.setup-superDoit.outputs.gemstone-product-directory}}
+          echo ${{ steps.setup-superDoit.outputs.gemstone-product-name }}
           ln -s ${{steps.setup-superDoit.outputs.gemstone-product-directory}}/${{ steps.setup-superDoit.outputs.gemstone-product-name }} ../solo/product
           ls -l ${{steps.setup-superDoit.outputs.gemstone-product-directory}}/${{ steps.setup-superDoit.outputs.gemstone-product-name }}
-          ls -l /../solo/product
+          ls -l ../solo/product
       # expect gemstone/solo to be populated
       - name: validate_using_local_checkout_for_setup
         run: |
