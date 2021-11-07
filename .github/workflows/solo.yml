@@ -34,22 +34,22 @@ jobs:
         run: |
           echo `pwd`
           echo ${{ matrix.gsvers }}
-          echo ${{ steps.downloadSuperDoit.outputs.gemstone-product-directory }}
-          cd ${{ steps.downloadSuperDoit.outputs.gemstone-product-directory }}
+          echo ${{ steps.setup-superDoit.outputs.gemstone-product-directory }}
+          cd ${{ steps.setup-superDoit.outputs.gemstone-product-directory }}
           downloadGemStone.sh 3.6.1
-          ln -s "${GITHUB_WORKSPACE}/tests/products/${{ steps.downloadSuperDoit.outputs.gemstone-product-name }}" ../solo/product
+          ln -s "${GITHUB_WORKSPACE}/tests/products/${{ steps.setup-superDoit.outputs.gemstone-product-name }}" ../solo/product
       # download product tree for mac
       - name: download_gemstone_for_mac
         if: ${{ matrix.os }} == 'macos-10.15')
         run: |
-          cd ${{ steps.downloadSuperDoit.outputs.gemstone-product-directory }}
+          cd ${{ steps.setup-superDoit.outputs.gemstone-product-directory }}
           downloadGemStone.sh ${{ matrix.gsvers }}
      # create symbolic link for solo scripts to product tree for 3.6.0 and 3.6.1
       - name: create_solo_symbolic_link_for_mac
         if: (${{ matrix.os }} == 'macos-10.15') && ( (${{ matrix.gsvers }} !='3.6.0') && (${{ matrix.gsvers }} != '3.6.1') )
         run: |
-          cd ${{ steps.downloadSuperDoit.outputs.gemstone-product-directory }}
-          ln -s "${GITHUB_WORKSPACE}/tests/products/${{ steps.downloadSuperDoit.outputs.gemstone-product-name }}" ../solo/product
+          cd ${{ steps.setup-superDoit.outputs.gemstone-product-directory }}
+          ln -s "${GITHUB_WORKSPACE}/tests/products/${{ steps.setup-superDoit.outputs.gemstone-product-name }}" ../solo/product
       # expect gemstone/solo to be populated
       - name: validate_using_local_checkout_for_setup
         run: |
