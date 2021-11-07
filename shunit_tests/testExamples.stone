@@ -5,9 +5,9 @@ echo "GEMSTONE=$GEMSTONE"
 if [ "$GITHUB_WORKSPACE" != "" ] ; then
 	# running github ci test PLATFORM and GS_VERS are preset
 	if [ "$PLATFORM" = "macos-10.15" ] ; then
-		export GEMSTONE="${GITHUB_WORKSPACE}/tests/products/GemStone64Bit${GS_VERS}-i386.Darwin"
+		export GEMSTONE="${GITHUB_WORKSPACE}/gemstone/products/GemStone64Bit${GS_VERS}-i386.Darwin"
 	else
-		export GEMSTONE="${GITHUB_WORKSPACE}/tests/products/GemStone64Bit${GS_VERS}-x86_64.Linux"
+		export GEMSTONE="${GITHUB_WORKSPACE}/gemstone/products/GemStone64Bit${GS_VERS}-x86_64.Linux"
 	fi
 	. ${GITHUB_WORKSPACE}/dev/defPath.env
 	PATH=${GITHUB_WORKSPACE}/examples/simple:$PATH
