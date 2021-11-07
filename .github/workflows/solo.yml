@@ -54,7 +54,7 @@ jobs:
         run: |
           canUSeeMe.solo -h
           canUSeeMe.solo
-      # download the 3.6.1 product truee; download and unzip the 3.6.1 extent
+      # download download shuunit_tests and run tests
       - name: setup
         run: |
           # set -x
