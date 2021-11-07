@@ -32,6 +32,8 @@ jobs:
       - name: download_gemstone_for_solo
         if: ( (${{ matrix.gsvers }} != 3.6.0) && (${{ matrix.gsvers }} != 3.6.1) )
         run: |
+          echo ${{ matrix.gsvers }}
+          echo ${{ steps.downloadSuperDoit.outputs.gemstone-product-directory }}
           cd ${{ steps.downloadSuperDoit.outputs.gemstone-product-directory }}
           downloadGemStone.sh 3.6.1
           ln -s "${GITHUB_WORKSPACE}/tests/products/${{ steps.downloadSuperDoit.outputs.gemstone-product-name }}" ../solo/product
