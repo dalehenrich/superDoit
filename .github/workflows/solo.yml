@@ -30,7 +30,7 @@ jobs:
           superDoit-source: ${{ github.workspace }}
       # download product 3.6.1 product tree for solo scripts if gemstone version is not 3.6.- or 3.6.1
       - name: download_gemstone_for_solo
-        if: ! ( (${{ matrix.gsvers }} =='3.6.0') || (${{ matrix.gsvers }} =='3.6.1') )
+        if: ( (${{ matrix.gsvers }} != "3.6.0") && (${{ matrix.gsvers }} != "3.6.1") )
         run: |
           cd ${{ steps.downloadSuperDoit.outputs.gemstone-product-directory }}
           downloadGemStone.sh 3.6.1
