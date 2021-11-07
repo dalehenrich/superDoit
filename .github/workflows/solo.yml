@@ -21,10 +21,9 @@ jobs:
       GS_VERS: ${{ matrix.gsvers }}
       PLATFORM: ${{ matrix.os }}
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       - id: setup-superDoit
-        uses: dalehenrich/setup-superDoit@issue_6
+        uses: dalehenrich/setup-superDoit@v2
         with:
           gemstone-version: ${{ matrix.gsvers }}
           superDoit-source: ${{ github.workspace }}
