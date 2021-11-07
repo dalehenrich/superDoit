@@ -14,7 +14,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ ubuntu-18.04 ]
+        os: [ ubuntu-18.04, macos-10.15 ]
         gsvers: [ 3.6.1 ]
     runs-on: ${{ matrix.os }}
     env:
@@ -23,11 +23,31 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      - uses: dalehenrich/setup-superDoit@issue_6
+      - id: setup-superDoit
+        uses: dalehenrich/setup-superDoit@issue_6
         with:
           gemstone-version: ${{ matrix.gsvers }}
           superDoit-source: ${{ github.workspace }}
-      # expect gemstone/gs to be populated
+      # download product 3.6.1 product tree for solo scripts if gemstone version is not 3.6.- or 3.6.1
+      - name: download_gemstone_for_solo
+        if: ( (${{ matrix.gsvers }} !='3.6.0') && (${{ matrix.gsvers }} !='3.6.1'))
+        run: |
+          cd ${{ steps.downloadSuperDoit.outputs.gemstone-product-directory }}
+          downloadGemStone.sh 3.6.1
+          ln -s "${GITHUB_WORKSPACE}/tests/products/${{ steps.downloadSuperDoit.outputs.gemstone-product-name }}" ../solo/product
+      # download product tree for mac
+      - name: download_gemstone_for_mac
+        if: ${{ matrix.os }} == 'macos-10.15')
+        run: |
+          cd ${{ steps.downloadSuperDoit.outputs.gemstone-product-directory }}
+          downloadGemStone.sh ${{ matrix.gsvers }}
+     # create symbolic link for solo scripts to product tree for 3.6.0 and 3.6.1
+      - name: create_solo_symbolic_link_for_mac
+        if: (${{ matrix.os }} == 'macos-10.15') && ( (${{ matrix.gsvers }} =='3.6.0') || (${{ matrix.gsvers }} =='3.6.1'))
+        run: |
+          cd ${{ steps.downloadSuperDoit.outputs.gemstone-product-directory }}
+          ln -s "${GITHUB_WORKSPACE}/tests/products/GemStone64Bit${GS_VERS}-i386.Darwin" ../solo/product
+      # expect gemstone/solo to be populated
       - name: validate_using_local_checkout_for_setup
         run: |
           canUSeeMe.solo -h
