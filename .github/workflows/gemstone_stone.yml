@@ -46,7 +46,13 @@ jobs:
           echo "download gemstone for solo"
           echo `pwd`
           downloadGemStone.sh 3.6.1
-          ln -s ${{steps.setup-superDoit.outputs.gemstone-product-directory}}/${{ steps.setup-superDoit.outputs.gemstone-product-name }} ../solo/product
+          if [ "$PLATFORM" = "macos-10.15" ] ; then
+            platformSuffix=i386.Darwin
+          else
+            platformSuffix=x86_64.Linux
+          fi
+          productName=GemStone64Bit361-${platformSuffix}
+          ln -s ${{steps.setup-superDoit.outputs.gemstone-product-directory}}/${productName} ../solo/product
           echo "ls gemstone/products"
           ls -l ${{ steps.setup-superDoit.outputs.gemstone-product-directory }}
           echo "ls gemstone/solo"
