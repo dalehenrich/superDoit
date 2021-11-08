@@ -76,7 +76,7 @@ doit
 			fileStream 
 				nextPutAll: 'set GEMSTONE ', self stoneName; lf;
 				nextPutAll: 'set user SystemUser'; lf;
-				nextPutAll: 'set passwrod swordfish'; lf;
+				nextPutAll: 'set password swordfish'; lf;
 			yourself ].
 	extent := self 
 		copyFile: self gemstone / 'bin' / 'extent0.dbf' 

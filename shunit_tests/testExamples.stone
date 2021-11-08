@@ -15,13 +15,8 @@ if [ "$GITHUB_WORKSPACE" != "" ] ; then
 
 fi
 
-set -x
 echo "GEMSTONE=$GEMSTONE"
 echo "GEMSTONE_TOPAZINI_PATH=$GEMSTONE_TOPAZINI_PATH"
-
-echo "-----------------------------"
-cat $GEMSTONE_TOPAZINI_PATH
-echo "-----------------------------"
 
 stone_require_args="-- -l -I $GEMSTONE_TOPAZINI_PATH"
 
