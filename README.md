@@ -3,7 +3,7 @@
 BRANCH | STATUS
 ------------- | -------------
 **v2** | [![**v2** build status](https://github.com/dalehenrich/superDoit/actions/workflows/ci.yml/badge.svg?branch=v2)](https://github.com/dalehenrich/superDoit/actions)
-**v2.0** | [![**v2.0** build status](https://github.com/dalehenrich/superDoit/actions/workflows/ci.yml/badge.svg?branch=v2.0)](https://github.com/dalehenrich/superDoit/actions)
+**v2.0** | [![**v2.0** build status](https://github.com/dalehenrich/superDoit/actions/workflows/gemstone_legacy_stone.yml/badge.svg?branch=v2.0)](https://github.com/dalehenrich/superDoit/actions) [![**v2.0** build status](https://github.com/dalehenrich/superDoit/actions/workflows/gemstone_stone.yml/badge.svg?branch=v2.0)](https://github.com/dalehenrich/superDoit/actions)  [![**v2.0** build status](https://github.com/dalehenrich/superDoit/actions/workflows/solo.yml/badge.svg?branch=v2.0)](https://github.com/dalehenrich/superDoit/actions) [![**v2.0** build status](https://github.com/dalehenrich/superDoit/actions/workflows/topaz.yml/badge.svg?branch=v2.0)](https://github.com/dalehenrich/superDoit/actions)
 
 superDoit is a Smalltalk-based scripting language that runs on top of [GemStone/S 64](https://gemtalksystems.com/products/gs64/) using a free for commercial use [Community and Web Edition License](https://gemtalksystems.com/licensing/).
 ## Overview
