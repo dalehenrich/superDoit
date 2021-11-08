@@ -22,7 +22,6 @@ jobs:
       GS_VERS: ${{ matrix.gsvers }}
       PLATFORM: ${{ matrix.os }}
       GEMSTONE_STONE_DIR: ${{GITHUB_WORKSPACE}}/gemstone/stones/gs_${{ matrix.gsvers }}
-      GEMSTONE_TOPAZINI_PATH: ${{GITHUB_WORKSPACE}}/gemstone/stones/gs_${{ matrix.gsvers }}/.topazini
     steps:
       - uses: actions/checkout@v2
       - id: setup-superDoit
