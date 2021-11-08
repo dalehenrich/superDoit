@@ -2,8 +2,8 @@
 
 BRANCH | STATUS
 ------------- | -------------
-**masterV1.0** | [![**masterV1.0** build status](https://github.com/dalehenrich/superDoit/actions/workflows/ci.yml/badge.svg?branch=masterV1.0)](https://github.com/dalehenrich/superDoit/actions)
-**candidateV1.0** | [![**candidateV1.0** build status](https://github.com/dalehenrich/superDoit/actions/workflows/ci.yml/badge.svg?branch=candidateV1.0)](https://github.com/dalehenrich/superDoit/actions)
+**v2** | [![**v2** build status](https://github.com/dalehenrich/superDoit/actions/workflows/ci.yml/badge.svg?branch=v2)](https://github.com/dalehenrich/superDoit/actions)
+**v1** | [![**v1** build status](https://github.com/dalehenrich/superDoit/actions/workflows/ci.yml/badge.svg?branch=v1)](https://github.com/dalehenrich/superDoit/actions)
 
 superDoit is a Smalltalk-based scripting language that runs on top of [GemStone/S 64](https://gemtalksystems.com/products/gs64/) using a free for commercial use [Community and Web Edition License](https://gemtalksystems.com/licensing/).
 ## Overview
