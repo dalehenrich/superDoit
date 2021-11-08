@@ -12,14 +12,9 @@ if [ "$GITHUB_WORKSPACE" != "" ] ; then
 	. ${GITHUB_WORKSPACE}/dev/defPath.env
 	PATH=${GITHUB_WORKSPACE}/examples/simple:$PATH
 
-	cat - > $GEMSTONE/data/.topazini << EOF
-SET GEMSTONE superDoit_$GS_VERS
-set user SystemUser
-set password swordfish
-EOF
 fi
 
-stone_require_args="-- -l -I $GEMSTONE/data/.topazini"
+stone_require_args="-- -l -I $GEMSTONE_TOPAZINI_PATH"
 
 
 test_errorWithHelp_stone() {
