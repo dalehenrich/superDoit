@@ -34,6 +34,8 @@ jobs:
         if: ${{ ( ( matrix.gsvers != '3.6.0') && (matrix.gsvers != '3.6.1') ) }}
         run: |
           echo `pwd`
+          echo "ls gemstone/solo"
+          ls gemstone/solo
           echo ${{ matrix.gsvers }}
           echo ${{ steps.setup-superDoit.outputs.gemstone-product-directory }}
           cd ${{ steps.setup-superDoit.outputs.gemstone-product-directory }}
