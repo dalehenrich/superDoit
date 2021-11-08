@@ -21,7 +21,6 @@ jobs:
     env:
       GS_VERS: ${{ matrix.gsvers }}
       PLATFORM: ${{ matrix.os }}
-      GEMSTONE_STONE_DIR: ${{GITHUB_WORKSPACE}}/gemstone/stones/gs_${{ matrix.gsvers }}
     steps:
       - uses: actions/checkout@v2
       - id: setup-superDoit
@@ -72,7 +71,6 @@ jobs:
           unset GS_HOME # $GEMSTONE must be set
 
           export GEMSTONE_STONE_DIR=${GITHUB_WORKSPACE}/gemstone/stones/gs_$GS_VERS
-          export GEMSTONE_TOPAZINI_PATH=$GEMSTONE_STONE_DIR/.topazini
           createSuperDoitStone.solo -D --stoneDirectory=$GEMSTONE_STONE_DIR --stoneName=gs_$GS_VERS
           sudo mkdir /opt/gemstone
           sudo chmod oug+rwx /opt/gemstone

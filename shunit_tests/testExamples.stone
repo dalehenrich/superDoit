@@ -9,6 +9,7 @@ if [ "$GITHUB_WORKSPACE" != "" ] ; then
 	else
 		export GEMSTONE="${GITHUB_WORKSPACE}/gemstone/products/GemStone64Bit${GS_VERS}-x86_64.Linux"
 	fi
+	export GEMSTONE_TOPAZINI_PATH=${GITHUB_WORKSPACE}/gemstone/stones/gs_${GS_VERS}/.topazini
 	. ${GITHUB_WORKSPACE}/dev/defPath.env
 	PATH=${GITHUB_WORKSPACE}/examples/simple:$PATH
 
