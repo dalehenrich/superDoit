@@ -101,9 +101,14 @@ jobs:
           sudo chmod oug+rwx /opt/gemstone/locks
           ls -l /opt
           ls -l /opt/gemstone /opt/gemstone/locks
-          $GEMSTONE/bin/startstone -z $GEMSTONE_STONE_DIR/system.conf gs_$GS_VERS
-          ls -l $GEMSTONE_STONE_DIR/
+          $GEMSTONE/bin/startstone -l $GEMSTONE_STONE_DIR/logs -z $GEMSTONE_STONE_DIR/system.conf gs_$GS_VERS
           . ${GITHUB_WORKSPACE}/dev/defPath.env
+      - name: validate_stone_startup
+        run: |
+          echo "GEMSTONE=$GEMSTONE"
+          canUSeeMe.stone -- -l -I $GEMSTONE_TOPAZINI_PATH
+          ls -l $GEMSTONE_STONE_DIR/logs
+          cat $GEMSTONE_STONE_DIR/logs/gs_${GS_VERS}.log
       - name: test
         run: |
           shunit_tests/testExamples.stone

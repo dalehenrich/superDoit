@@ -61,8 +61,9 @@ doit
 	| extent systemConf |
 	(System gemEnvironmentVariable: 'GEMSTONE')
 		ifNil: [ self error: 'environment variable GEMSTONE must be set' ].
-	self stoneDir exists
-		ifFalse: [ self stoneDir ensureCreateDirectory ].
+	self stoneDir  ensureCreateDirectory.
+	logDir := self stoneDir / 'logs'.
+	logDir ensureCreateDirectory 
 	systemConf := (self gemstone / 'data' / 'system.conf') contents.
 	(self stoneDir / 'system.conf')
 		writeStreamDo: [:fileStream |
