@@ -2,8 +2,7 @@
 
 BRANCH | STATUS
 ------------- | -------------
-**master** | [![**master** build status](https://github.com/dalehenrich/superDoit/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/dalehenrich/superDoit/actions)
-**dkh** | [![**dkh** build status](https://github.com/dalehenrich/superDoit/actions/workflows/ci.yml/badge.svg?branch=dkh)](https://github.com/dalehenrich/superDoit/actions)
+**v1** | [![**v1** build status](https://github.com/dalehenrich/superDoit/actions/workflows/ci.yml/badge.svg?branch=v1)](https://github.com/dalehenrich/superDoit/actions)
 
 ### install
 **TBD - requires GemStone 3.7.0, which has not been released**
@@ -95,3 +94,31 @@ self getOpts: self optionSpecs.
 ^ self x
 %
 ```
+
+## Branch conventions
+1. vX
+2. vX.Y
+3. vX.Y.Z or vX.Y.Z-id
+
+### vX
+Production branch.
+
+X is incremented whenever there is a breaking change.
+vX.Y and vX.Y.Z branches are merged into the VX branch, when development is complete on the feature or patch.
+
+### vX.Y
+Feature/Bug candidate branch.
+ 
+Y is incremented whenever work on a new feature or bugfix is started.
+vX.Y branches are merged into the VX branch when development is complete.
+
+Primary work takes place on a vX.Y.Z branch and the VX.Y.Z branch is merged into the VX.Y branch at stable points, so if you want to have early access to a feature or bugfix, it is relatively safe to use this branch in production.
+
+### vX.Y.Z
+Development branch.
+
+Z is incremented whenever work on a new feature or bugfix is started.
+A pre-release may be used to further identify the purpose of the work.
+
+Primary work takes place on this branch and cannot be depended upon to be usable
+
