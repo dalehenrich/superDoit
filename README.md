@@ -120,4 +120,4 @@ Development branch.
 Z is incremented whenever work on a new feature or bugfix is started.
 A pre-release may be used to further identify the purpose of the work.
 
-Primary work takes place on this branch and cannot be depended upon to be usable
+Primary work takes place on this branch and cannot be depended upon to be stable.
