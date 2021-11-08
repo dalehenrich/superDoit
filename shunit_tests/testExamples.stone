@@ -1,5 +1,6 @@
 #! /usr/bin/env bash
 
+set -x
 echo "GEMSTONE=$GEMSTONE"
 
 if [ "$GITHUB_WORKSPACE" != "" ] ; then
