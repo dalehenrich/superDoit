@@ -36,6 +36,8 @@ jobs:
         if: ${{ ( ( matrix.gsvers != '3.6.0') && (matrix.gsvers != '3.6.1') ) }}
         run: |
           echo `pwd`
+          echo "ls gemstone/products"
+          ls gemstone/products
           echo "ls gemstone/solo"
           ls gemstone/solo
           echo ${{ matrix.gsvers }}
