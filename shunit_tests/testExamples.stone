@@ -1,7 +1,6 @@
 #! /usr/bin/env bash
 
-set -x
-echo "GEMSTONE=$GEMSTONE"
+echo "GITHUB_WORKSPACE=$GITHUB_WORKSPACE"
 
 if [ "$GITHUB_WORKSPACE" != "" ] ; then
 	# running github ci test PLATFORM and GS_VERS are preset
@@ -14,6 +13,8 @@ if [ "$GITHUB_WORKSPACE" != "" ] ; then
 	PATH=${GITHUB_WORKSPACE}/examples/simple:$PATH
 
 fi
+echo "GEMSTONE=$GEMSTONE"
+echo "GEMSTONE_TOPAZINI_PATH=$GEMSTONE_TOPAZINI_PATH"
 
 stone_require_args="-- -l -I $GEMSTONE_TOPAZINI_PATH"
 
