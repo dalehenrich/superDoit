@@ -58,12 +58,12 @@ copyFile: sourceFileRef toDir: destDirRef
 	^ destFileRef
 %
 doit
-	| extent systemConf |
+	| extent systemConf logDir |
 	(System gemEnvironmentVariable: 'GEMSTONE')
 		ifNil: [ self error: 'environment variable GEMSTONE must be set' ].
 	self stoneDir  ensureCreateDirectory.
 	logDir := self stoneDir / 'logs'.
-	logDir ensureCreateDirectory 
+	logDir ensureCreateDirectory. 
 	systemConf := (self gemstone / 'data' / 'system.conf') contents.
 	(self stoneDir / 'system.conf')
 		writeStreamDo: [:fileStream |
