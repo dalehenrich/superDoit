@@ -73,7 +73,7 @@ jobs:
       - name: validate_using_local_checkout_for_setup
         run: |
           ls -l gemstone/solo
-          ls -l gemstone/solo/product/GemStone64Bit*
+          ls -l gemstone/solo/product
           ls -l gemstone/products
           canUSeeMe.solo -h
           canUSeeMe.solo
