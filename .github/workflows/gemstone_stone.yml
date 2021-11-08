@@ -51,7 +51,7 @@ jobs:
           else
             platformSuffix=x86_64.Linux
           fi
-          productName=GemStone64Bit361-${platformSuffix}
+          productName=GemStone64Bit3.6.1-${platformSuffix}
           ln -s ${{steps.setup-superDoit.outputs.gemstone-product-directory}}/${productName} ../solo/product
           echo "ls gemstone/products"
           ls -l ${{ steps.setup-superDoit.outputs.gemstone-product-directory }}
