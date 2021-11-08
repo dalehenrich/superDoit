@@ -102,6 +102,7 @@ jobs:
           ls -l /opt
           ls -l /opt/gemstone /opt/gemstone/locks
           $GEMSTONE/bin/startstone -z $GEMSTONE_STONE_DIR/system.conf gs_$GS_VERS
+          ls -l $GEMSTONE_STONE_DIR/
           . ${GITHUB_WORKSPACE}/dev/defPath.env
       - name: test
         run: |
