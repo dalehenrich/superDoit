@@ -80,7 +80,7 @@ jobs:
           sudo chmod oug+rwx /opt/gemstone/locks
           ls -l /opt
           ls -l /opt/gemstone /opt/gemstone/locks
-          $GEMSTONE/bin/startstone gs_$GS_VERS
+          $GEMSTONE/bin/startstone -z $GEMSTONE_STONE_DIR/system.conf gs_$GS_VERS
           . ${GITHUB_WORKSPACE}/dev/defPath.env
       - name: test
         run: |
