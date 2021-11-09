@@ -1,6 +1,7 @@
 #!/usr/bin/env superdoit_solo
 options
 {
+SuperDoitRequiredOptionWithRequiredArg long: 'GEMSTONE'.
 SuperDoitOptionalOptionWithRequiredArg long: 'stoneDirectory' default: '$GEMSTONE/data'.
 SuperDoitOptionalOptionWithRequiredArg long: 'stoneName' default: 'exampleStone'.
 }
@@ -25,8 +26,8 @@ OPTIONS
 EXAMPLES
   $basename --help
   $basename -h
-  $basename -D <options>
-  $basename <options>
+  $basename -D --GEMSTONE=<gemstone-product-tree-root> <options>
+  $basename --GEMSTONE=<gemstone-product-tree-root> <options>
 -----
 %
 instvars
@@ -37,7 +38,7 @@ stoneDir
 method
 gemstone
 
-	^ gemstone ifNil: [ gemstone := '$GEMSTONE' asFileReference ]
+	^ gemstone ifNil: [ gemstone := self GEMSTONE asFileReference ]
 %
 method
 stoneDir
@@ -59,11 +60,10 @@ copyFile: sourceFileRef toDir: destDirRef
 %
 doit
 	| extent systemConf logDir x |
-	(x := System gemEnvironmentVariable: 'GEMSTONE')
-		ifNil: [ self error: 'environment variable GEMSTONE must be set' ].
 self stdout
 	nextPutAll: '===================================='; lf;
-	nextPutAll: 'GEMSTONE=', x;
+	nextPutAll: 'my GEMSTONE=', (System gemEnvironmentVariable: 'GEMSTONE');
+	nextPutAll: 'GEMSTONE=', self GEMSTONE;
 	nextPutAll: '===================================='; lf;
 	yourself.
 	self stoneDir  ensureCreateDirectory.
