@@ -2,7 +2,7 @@
 
 vers="$1"
 echo "installing GemStone version $vers in `pwd`"
-set -x
+# set -x
 if [ "$PLATFORM" = "macos-10.15" ] ; then
 	name=GemStone64Bit${vers}-i386.Darwin
   dmgfile=${name}.dmg
