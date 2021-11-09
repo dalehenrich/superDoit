@@ -101,13 +101,14 @@ jobs:
           sudo chmod oug+rwx /opt/gemstone/locks
           ls -l /opt
           ls -l /opt/gemstone /opt/gemstone/locks
-          $GEMSTONE/bin/startstone -l $GEMSTONE_STONE_DIR/logs/gs_${Gs_VERS}.log -z $GEMSTONE_STONE_DIR/system.conf gs_$GS_VERS
+          export GEMSTONE_STONE_NAME=gs_$GS_VERS
+          $GEMSTONE/bin/startstone -l $GEMSTONE_STONE_DIR/logs/${GEMSTONE_STONE_NAME}.log -z $GEMSTONE_STONE_DIR/system.conf $GEMSTONE_STONE_NAME
           
-          cat $GEMSTONE_STONE_DIR/logs/gs_${GS_VERS}.log
+          cat $GEMSTONE_STONE_DIR/logs/${GEMSTONE_STONE_NAME}.log
 
           export GEMSTONE_TOPAZINI_PATH=$GEMSTONE_STONE_DIR/.topazini
           export GITHUB_WORKSPACE=${GITHUB_WORKSPACE}
-          echo "GEMSTONE_STONE_NAME=gs_$GS_VERS" >> $GITHUB_ENV
+          echo "GEMSTONE_STONE_NAME=$GEMSTONE_STONE_NAME" >> $GITHUB_ENV
           echo "GITHUB_WORKSPACE=$GITHUB_WORKSPACE" >> $GITHUB_ENV
           echo "GEMSTONE=$GEMSTONE" >> $GITHUB_ENV
           echo "GEMSTONE_STONE_DIR=$GEMSTONE_STONE_DIR"  >> $GITHUB_ENV
