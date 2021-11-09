@@ -2,7 +2,7 @@
 
 vers="$1"
 echo "installing GemStone version $vers in `pwd`"
-set -x
+# set -x
 if [ "$PLATFORM" = "macos-10.15" ] ; then
   dl_format=zip
   name=GemStone64Bit${vers}-i386.Darwin
