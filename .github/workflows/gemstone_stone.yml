@@ -94,7 +94,7 @@ jobs:
 
           echo $GEMSTONE
           export GEMSTONE_STONE_DIR=${GITHUB_WORKSPACE}/gemstone/stones/gs_$GS_VERS
-          createSuperDoitStone.solo -D --stoneDirectory=$GEMSTONE_STONE_DIR --stoneName=gs_$GS_VERS
+          createSuperDoitStone.solo -D --GEMSTONE=$GEMSTONE --stoneDirectory=$GEMSTONE_STONE_DIR --stoneName=gs_$GS_VERS
           sudo mkdir /opt/gemstone
           sudo chmod oug+rwx /opt/gemstone
           sudo mkdir /opt/gemstone/locks
