@@ -63,7 +63,7 @@ doit
 		ifNil: [ self error: 'environment variable GEMSTONE must be set' ].
 self stdout
 	nextPutAll: '===================================='; lf;
-	nextPutAll: 'GEMSTONE=' x;
+	nextPutAll: 'GEMSTONE=', x;
 	nextPutAll: '===================================='; lf;
 	yourself.
 	self stoneDir  ensureCreateDirectory.
