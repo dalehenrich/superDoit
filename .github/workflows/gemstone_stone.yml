@@ -104,11 +104,11 @@ jobs:
           export GEMSTONE_STONE_NAME=gs_$GS_VERS
           $GEMSTONE/bin/startstone -l $GEMSTONE_STONE_DIR/logs/${GEMSTONE_STONE_NAME}.log -z $GEMSTONE_STONE_DIR/system.conf $GEMSTONE_STONE_NAME
           
-          cat $GEMSTONE_STONE_DIR/logs/${GEMSTONE_STONE_NAME}.log
-
           export GEMSTONE_TOPAZINI_PATH=$GEMSTONE_STONE_DIR/.topazini
           export GITHUB_WORKSPACE=${GITHUB_WORKSPACE}
 
+          cat $GEMSTONE_TOPAZINI_PATH
+          canUSeeMe.stone -- -h -l -I $GEMSTONE_TOPAZINI_PATH
           canUSeeMe.stone -- -l -I $GEMSTONE_TOPAZINI_PATH
 
           echo "GEMSTONE_STONE_NAME=$GEMSTONE_STONE_NAME" >> $GITHUB_ENV
@@ -123,15 +123,8 @@ jobs:
           export GEMSTONE=${{env.GEMSTONE}}
           export GEMSTONE_STONE_DIR=${{env.GEMSTONE_STONE_DIR}}
           export GEMSTONE_TOPAZINI_PATH=${{env.GEMSTONE_TOPAZINI_PATH}}
-          echo "GEMSTONE_STONE_NAME=$GITHUB_WORKSPACE"
-          echo "GITHUB_WORKSPACE=$GITHUB_WORKSPACE"
-          echo "GEMSTONE=$GEMSTONE"
-          echo "GEMSTONE_STONE_DIR=$GEMSTONE_STONE_DIR"
-          echo "GEMSTONE_TOPAZINI_PATH=$GEMSTONE_TOPAZINI_PATH"
           . ${GITHUB_WORKSPACE}/dev/defPath.env
           canUSeeMe.stone -- -l -I $GEMSTONE_TOPAZINI_PATH
-          ls -l $GEMSTONE_STONE_DIR/logs
-          cat $GEMSTONE_STONE_DIR/logs/gs_${GS_VERS}.log
       - name: test
         run: |
           export GITHUB_WORKSPACE=${{env.GITHUB_WORKSPACE}}
