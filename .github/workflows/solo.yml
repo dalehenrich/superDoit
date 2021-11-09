@@ -45,7 +45,7 @@ jobs:
           simple.solo
       - name: test
         run: |
-          export GEMSTONE=${{ steps.setup-superDoit.outputs.gemstone-product-directory }}
+          export GEMSTONE=${{steps.setup-superDoit.outputs.gemstone-product-path}}
           echo GEMSTONE=$GEMSTONE
           shunit_tests/testExamples.solo
           shunit_tests/testScriptBin.solo
