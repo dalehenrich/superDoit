@@ -92,15 +92,13 @@ jobs:
           #
           unset GS_HOME # $GEMSTONE must be set
 
+          echo $GEMSTONE
           export GEMSTONE_STONE_DIR=${GITHUB_WORKSPACE}/gemstone/stones/gs_$GS_VERS
           createSuperDoitStone.solo -D --stoneDirectory=$GEMSTONE_STONE_DIR --stoneName=gs_$GS_VERS
           sudo mkdir /opt/gemstone
           sudo chmod oug+rwx /opt/gemstone
-          ls -l /opt
           sudo mkdir /opt/gemstone/locks
           sudo chmod oug+rwx /opt/gemstone/locks
-          ls -l /opt
-          ls -l /opt/gemstone /opt/gemstone/locks
           export GEMSTONE_STONE_NAME=gs_$GS_VERS
           $GEMSTONE/bin/startstone -l $GEMSTONE_STONE_DIR/logs/${GEMSTONE_STONE_NAME}.log -z $GEMSTONE_STONE_DIR/system.conf $GEMSTONE_STONE_NAME
           
