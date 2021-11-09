@@ -4,12 +4,9 @@ vers="$1"
 echo "installing GemStone version $vers in `pwd`"
 set -x
 if [ "$PLATFORM" = "macos-10.15" ] ; then
-	pwd
-	sw_vers -productVersion
 	name=GemStone64Bit${vers}-i386.Darwin
   dmgfile=${name}.dmg
   curl -O -s -S https://downloads.gemtalksystems.com/pub/GemStone64/${vers}/$dmgfile
-	ls -altr
   attach_result=`hdiutil attach -plist $dmgfile`
   attach_device=`echo $attach_result | xpath "//dict/array/dict[true]/key[.='dev-entry']/following-sibling::string[1]/text()" 2>/dev/null`
   attach_path=`echo $attach_result | xpath "//dict/array/dict[true]/key[.='mount-point']/following-sibling::string[1]/text()" 2>/dev/null`
