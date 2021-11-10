@@ -71,8 +71,7 @@ jobs:
           export GEMSTONE_TOPAZINI_PATH=${{env.GEMSTONE_TOPAZINI_PATH}}
           canUSeeMe.stone -- -h -l -I $GEMSTONE_TOPAZINI_PATH
           canUSeeMe.stone -- -l -I $GEMSTONE_TOPAZINI_PATH
-
-     - name: test
+      - name: test
         run: |
           curl -L "https://github.com/kward/shunit2/archive/refs/tags/v2.1.8.tar.gz" | tar zx -C ${GITHUB_WORKSPACE}/shunit_tests
 
