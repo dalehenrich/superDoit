@@ -17,7 +17,7 @@ jobs:
       matrix:
         # os: [ ubuntu-18.04, macos-10.15 ]
         # gsvers: [ 3.6.0, 3.6.1 ]
-        os: [ ubuntu-18.04 ]
+        os: [ macos-10.15 ]
         gsvers: [ 3.6.1 ]
     runs-on: ${{ matrix.os }}
     env:
@@ -34,6 +34,10 @@ jobs:
         run: |
           export GEMSTONE=${{steps.setup-superDoit.outputs.gemstone-product-path}}
           echo GEMSTONE=$GEMSTONE
+
+          ls -l ${GITHUB_WORKSPACE}/gemstone/solo
+          ls -l ${GITHUB_WORKSPACE}/gemstone/products
+          
           canUSeeMe.solo -h
           canUSeeMe.solo
       # download download shuunit_tests and run tests
