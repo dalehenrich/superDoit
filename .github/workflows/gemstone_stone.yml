@@ -37,6 +37,7 @@ jobs:
           ls -l ${GITHUB_WORKSPACE}/gemstone/solo
           ls -l ${GITHUB_WORKSPACE}/gemstone/products
           
+          . ${GITHUB_WORKSPACE}/dev/defPath.env
           canUSeeMe.solo -h
           canUSeeMe.solo
       # download the shunit-tests and create stones
@@ -76,6 +77,7 @@ jobs:
 
           gslist -lc
 
+          . ${GITHUB_WORKSPACE}/dev/defPath.env
           canUSeeMe.stone -- -h -l -I $GEMSTONE_TOPAZINI_PATH
           canUSeeMe.stone -- -l -I $GEMSTONE_TOPAZINI_PATH
       - name: test
