@@ -9,7 +9,6 @@ PATH=${GITHUB_WORKSPACE}/examples/simple:$PATH
 
 stone_require_args="-- -l -I $GEMSTONE_TOPAZINI_PATH"
 
-
 test_errorWithHelp_stone() {
 	# run without error
 	errorWithHelp.stone -h			$stone_require_args
