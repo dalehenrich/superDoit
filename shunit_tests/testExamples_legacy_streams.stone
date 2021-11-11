@@ -1,23 +1,11 @@
 #! /usr/bin/env bash
 
+echo "GITHUB_WORKSPACE=$GITHUB_WORKSPACE"
 echo "GEMSTONE=$GEMSTONE"
-
-if [ "$GITHUB_WORKSPACE" != "" ] ; then
-	# running github ci test PLATFORM and GS_VERS are preset
-	if [ "$PLATFORM" = "macos-10.15" ] ; then
-		export GEMSTONE="${GITHUB_WORKSPACE}/tests/products/GemStone64Bit${GS_VERS}-i386.Darwin"
-	else
-		export GEMSTONE="${GITHUB_WORKSPACE}/tests/products/GemStone64Bit${GS_VERS}-x86_64.Linux"
-	fi
-	. ${GITHUB_WORKSPACE}/dev/defPath.env
-	PATH=${GITHUB_WORKSPACE}/examples/simple:$PATH
-
-	cat - > $GEMSTONE/data/.topazini << EOF
-SET GEMSTONE superDoit_$GS_VERS
-set user SystemUser
-set password swordfish
-EOF
-fi
+echo "GEMSTONE_STONE_DIR=$GEMSTONE_STONE_DIR"
+echo "GEMSTONE_TOPAZINI_PATH=$GEMSTONE_TOPAZINI_PATH"
+. ${GITHUB_WORKSPACE}/dev/defPath.env
+PATH=${GITHUB_WORKSPACE}/examples/simple:$PATH
 
 stone_require_args="-- -l -I $GEMSTONE/data/.topazini"
 
