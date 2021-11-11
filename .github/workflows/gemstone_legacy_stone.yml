@@ -33,7 +33,6 @@ jobs:
           gemstone-version: ${{ matrix.gsvers }}
           superDoit-source: ${{ github.workspace }}
       - name: validate_using_local_checkout_for_setup
-      - name: validate_using_local_checkout_for_setup
         run: |
           export GEMSTONE=${{steps.setup-superDoit.outputs.gemstone-product-path}}
           echo GEMSTONE=$GEMSTONE
