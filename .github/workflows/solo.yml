@@ -36,7 +36,8 @@ jobs:
           ls -l ${GITHUB_WORKSPACE}/gemstone/solo
           ls -l ${GITHUB_WORKSPACE}/gemstone/products
           
-          . ${{ steps.setup-superDoit.outputs.superDoit-root }}/dev/defPath.env
+          # . ${GITHUB_WORKSPACE}/dev/defPath.env
+          echo "$PATH"
           canUSeeMe.solo -h
           canUSeeMe.solo
       # download download shuunit_tests and run tests
