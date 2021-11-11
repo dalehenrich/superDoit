@@ -33,7 +33,7 @@ jobs:
           export GEMSTONE=${{steps.setup-superDoit.outputs.gemstone-product-path}}
           echo "GEMSTONE=$GEMSTONE"
           echo "GITHUB_WORKSPACE= ${GITHUB_WORKSPACE}"
-          echo "superDoit-root=${{steps.setup-superDoit.outputs.superDoit-root}}
+          echo "superDoit-root=${{steps.setup-superDoit.outputs.superDoit-root}}"
 
           ls -l ${GITHUB_WORKSPACE}/gemstone/solo
           ls -l ${GITHUB_WORKSPACE}/gemstone/products
