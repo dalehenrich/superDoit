@@ -7,9 +7,9 @@ echo "GEMSTONE_TOPAZINI_PATH=$GEMSTONE_TOPAZINI_PATH"
 . ${GITHUB_WORKSPACE}/dev/defPath.env
 PATH=${GITHUB_WORKSPACE}/examples/simple:$PATH
 
-stone_require_args="-- -l -I $GEMSTONE/data/.topazini"
+stone_require_args="-- -l -I $GEMSTONE_TOPAZINI_PATH"
 
-${GITHUB_WORKSPACE}/examples/utility/legacyStreams.topaz -l -I $GEMSTONE/data/.topazini
+${GITHUB_WORKSPACE}/examples/utility/legacyStreams.topaz $stone_require_args
 
 test_errorWithHelp_stone() {
 	# run without error
