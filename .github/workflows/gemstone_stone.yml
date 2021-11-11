@@ -55,6 +55,7 @@ jobs:
           echo $GEMSTONE
 
           export GEMSTONE_STONE_DIR=${GITHUB_WORKSPACE}/gemstone/stones/gs_$GS_VERS
+          . ${GITHUB_WORKSPACE}/dev/defPath.env
           createSuperDoitStone.solo -D --GEMSTONE=$GEMSTONE --stoneDirectory=$GEMSTONE_STONE_DIR --stoneName=gs_$GS_VERS
 
           $GEMSTONE/bin/startstone -l $GEMSTONE_STONE_DIR/logs/${GEMSTONE_STONE_NAME}.log -z $GEMSTONE_STONE_DIR/system.conf $GEMSTONE_STONE_NAME
