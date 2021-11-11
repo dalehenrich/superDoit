@@ -25,5 +25,3 @@ fi
 
 . shunit_tests/shunit2-2.1.8/shunit2_test_helpers
 . shunit_tests/shunit2-2.1.8/shunit2
-
-
