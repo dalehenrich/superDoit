@@ -1,35 +1,20 @@
 #! /usr/bin/env bash
 
-echo "GEMSTONE=$GEMSTONE"
-
-if [ "$GITHUB_WORKSPACE" != "" ] ; then
-	# running github ci test PLATFORM and GS_VERS are preset
-	if [ "$PLATFORM" = "macos-10.15" ] ; then
-		export GEMSTONE="${GITHUB_WORKSPACE}/tests/products/GemStone64Bit${GS_VERS}-i386.Darwin"
-	else
-		export GEMSTONE="${GITHUB_WORKSPACE}/tests/products/GemStone64Bit${GS_VERS}-x86_64.Linux"
-	fi
-	. ${GITHUB_WORKSPACE}/dev/defPath.env
-	PATH=${GITHUB_WORKSPACE}/examples/simple:$PATH
-
-	cat - > $GEMSTONE/data/.topazini << EOF
-SET GEMSTONE superDoit_$GS_VERS
-set user SystemUser
-set password swordfish
-EOF
-fi
+echo ==================
+echo testExamples.topaz
+echo ==================
 
 test_simple_topaz() {
 if [[ "$GS_VERS" = "3.6."* ]] ; then
 	# run without error and get right answer
-	seven=`simple.topaz	-lq -I $GEMSTONE/data/.topazini`
+	seven=`simple.topaz	-lq -I $GEMSTONE_TOPAZINI_PATH`
 	assertEquals "wrong answer" '7' "${seven}"
 elif [[ "$GS_VERS" = "3.5."* ]] ; then
 	# run without error, but topaz output not suppressed
-	simple.topaz -l -I $GEMSTONE/data/.topazini
+	simple.topaz -l -I $GEMSTONE_TOPAZINI_PATH
 else
 	# topaz output not suppressed and exit status is expected to be 1
-	simple.topaz -l -I $GEMSTONE/data/.topazini
+	simple.topaz -l -I $GEMSTONE_TOPAZINI_PATH
 	exitStatus=$?
 	assertEquals "expected exit status to be <1> not <${exitStatus}>" ${exitStatus} 1
 fi
@@ -38,4 +23,6 @@ fi
 . shunit_tests/shunit2-2.1.8/shunit2_test_helpers
 . shunit_tests/shunit2-2.1.8/shunit2
 
-
+echo ==================
+echo DONE testExamples.topaz
+echo ==================

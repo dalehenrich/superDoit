@@ -1,0 +1,73 @@
+# test .solo, .stone and .topaz scripts
+name: CI
+
+on: 
+  push:
+  pull_request:
+    branches:
+      - v2
+      - v1
+  schedule:
+    - cron: "15 2 22 * *" #run job on the 22nd day of every month on the 15th minute of the 2nd hour
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        # os: [ ubuntu-18.04, macos-10.15 ]
+        # gsvers: [ 3.6.1, 3.6.0, 3.5.7, 3.5.0 ]
+        os: [ ubuntu-18.04, macos-10.15 ]
+        gsvers: [ 3.6.1, 3.6.0, 3.5.7, 3.5.0 ]
+    runs-on: ${{ matrix.os }}
+    env:
+      GS_VERS: ${{ matrix.gsvers }}
+      PLATFORM: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+      - id: setup-superDoit
+        uses: dalehenrich/setup-superDoit@v2.0
+        with:
+          gemstone-version: ${{ matrix.gsvers }}
+          superDoit-source: ${{ github.workspace }}
+      # download the shunit-tests and create stones
+      - name: test
+        run: |
+          curl -L "https://github.com/kward/shunit2/archive/refs/tags/v2.1.8.tar.gz" | tar zx -C ${GITHUB_WORKSPACE}/shunit_tests
+
+          export GEMSTONE=${{ steps.setup-superDoit.outputs.gemstone-product-path }}
+          export GEMSTONE_STONE_DIR=${{steps.setup-superDoit.outputs.stone-directory}}
+          export GEMSTONE_TOPAZINI_PATH=${{steps.setup-superDoit.outputs.topazini-path}}
+          export SOLO_GEMSTONE_VERSION=${{ steps.setup-superDoit.outputs.solo-version }}
+          . ${GITHUB_WORKSPACE}/dev/defPath.env
+          PATH=$GEMSTONE/bin::$PATH
+          PATH=${GITHUB_WORKSPACE}/examples/simple:$PATH
+
+          # list running stones
+          gslist -lc
+          
+          # .solo tests
+          shunit_tests/testExamples.solo
+          shunit_tests/testScriptBin.solo
+          shunit_tests/testSuite.solo
+          # .stone tests
+          shunit_tests/testExamples.stone
+          # .topaz tests
+          shunit_tests/testExamples.topaz
+          # legacy stream implementation .stone tests
+          # run last, since the base image is changed by legacyStreams.topaz
+          ${GITHUB_WORKSPACE}/examples/utility/legacyStreams.topaz -l -I $GEMSTONE_TOPAZINI_PATH
+          shunit_tests/testExamples.stone
+
+#  slack-workflow-status:
+#    if: always()
+#    name: Post Workflow Status To Slack
+#    needs:
+#      - build
+#    runs-on: ubuntu-18.04
+#    steps:
+#       - name: Slack Workflow Notification
+#         uses: Gamesight/slack-workflow-status@master
+#         with:
+#          repo_token: ${{secrets.GITHUB_TOKEN}}
+#          slack_webhook_url: ${{secrets.SLACK_DALEHENRICH}}
+#          name: 'action run' 

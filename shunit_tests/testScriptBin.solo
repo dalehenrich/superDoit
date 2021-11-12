@@ -1,6 +1,8 @@
 #! /usr/bin/env bash
 
-. ${GITHUB_WORKSPACE}/dev/defPath.env
+echo ==================
+echo testScriptBin.solo
+echo ==================
 
 testSimple_solo() {
   seven=`simple.solo`
@@ -22,4 +24,7 @@ testVersionReport_solo() {
 . shunit_tests/shunit2-2.1.8/shunit2_test_helpers
 . shunit_tests/shunit2-2.1.8/shunit2
 
+echo ==================
+echo DONE testScriptBin.solo
+echo ==================
 
