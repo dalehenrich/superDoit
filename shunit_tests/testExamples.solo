@@ -36,5 +36,5 @@ test_simpleArgs_2_solo() {
 . shunit_tests/shunit2-2.1.8/shunit2
 
 echo ==================
-echo DONE
+echo DONE testExamples.solo
 echo ==================

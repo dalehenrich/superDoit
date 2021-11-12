@@ -38,5 +38,5 @@ test_simpleArgs_2_stone() {
 . shunit_tests/shunit2-2.1.8/shunit2
 
 echo ==================
-echo DONE
+echo DONE testExamples.stone
 echo ==================

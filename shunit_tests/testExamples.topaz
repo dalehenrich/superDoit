@@ -24,5 +24,5 @@ fi
 . shunit_tests/shunit2-2.1.8/shunit2
 
 echo ==================
-echo DONE
+echo DONE testExamples.topaz
 echo ==================
