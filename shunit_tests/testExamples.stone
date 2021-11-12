@@ -1,11 +1,8 @@
 #! /usr/bin/env bash
 
-echo "GITHUB_WORKSPACE=$GITHUB_WORKSPACE"
-echo "GEMSTONE=$GEMSTONE"
-echo "GEMSTONE_STONE_DIR=$GEMSTONE_STONE_DIR"
-echo "GEMSTONE_TOPAZINI_PATH=$GEMSTONE_TOPAZINI_PATH"
-. ${GITHUB_WORKSPACE}/dev/defPath.env
-PATH=${GITHUB_WORKSPACE}/examples/simple:$PATH
+echo ==================
+echo testExamples.stone
+echo ==================
 
 stone_require_args="-- -l -I $GEMSTONE_TOPAZINI_PATH"
 
@@ -40,4 +37,6 @@ test_simpleArgs_2_stone() {
 . shunit_tests/shunit2-2.1.8/shunit2_test_helpers
 . shunit_tests/shunit2-2.1.8/shunit2
 
-
+echo ==================
+echo DONE
+echo ==================

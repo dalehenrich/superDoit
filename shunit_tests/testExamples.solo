@@ -1,8 +1,8 @@
 #! /usr/bin/env bash
 
-. ${GITHUB_WORKSPACE}/dev/defPath.env
-
-PATH=${GITHUB_WORKSPACE}/examples/simple:$PATH
+echo ==================
+echo testExamples.solo
+echo ==================
 
 test_errorWithHelp_solo() {
 	# run without error
@@ -35,4 +35,6 @@ test_simpleArgs_2_solo() {
 . shunit_tests/shunit2-2.1.8/shunit2_test_helpers
 . shunit_tests/shunit2-2.1.8/shunit2
 
-
+echo ==================
+echo DONE
+echo ==================

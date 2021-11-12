@@ -39,6 +39,7 @@ jobs:
           export GEMSTONE_TOPAZINI_PATH=${{steps.setup-superDoit.outputs.topazini-path}}
           . ${GITHUB_WORKSPACE}/dev/defPath.env
           PATH=$GEMSTONE/bin::$PATH
+          PATH=${GITHUB_WORKSPACE}/examples/simple:$PATH
 
           # list running stones
           gslist -lc
