@@ -54,7 +54,7 @@ jobs:
           shunit_tests/testExamples.topaz
           # legacy stream implementation .stone tests
           # run last, since the base image is changed by legacyStreams.topaz
-          ${GITHUB_WORKSPACE}/examples/utility/legacyStreams.topaz -- -l -I $GEMSTONE_TOPAZINI_PATH
+          ${GITHUB_WORKSPACE}/examples/utility/legacyStreams.topaz -l -I $GEMSTONE_TOPAZINI_PATH
           shunit_tests/testExamples.stone
 
 #  slack-workflow-status:
