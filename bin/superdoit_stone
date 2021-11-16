@@ -145,7 +145,7 @@ if [ "$useBootstrapSuperDoit_file" = "true" ]; then
 			export bootstrapSuperDoit_file="$gemstoneDir/bootstrap/bootstrapSuperDoit_360.gs"
 			superdoit_tpz=$gemstoneDir/superdoit_boot_1_36x.tpz
 			;;
-		3.6.1|3.6.2) 
+		3.6.1|3.6.2|3.6.3) 
 			export bootstrapSuperDoit_file="$gemstoneDir/bootstrap/bootstrapSuperDoit_361x.gs"
 			superdoit_tpz=$gemstoneDir/superdoit_boot_1_36x.tpz
 			;;
