@@ -9,25 +9,25 @@ superDoit is a Smalltalk-based scripting language that runs on top of [GemStone/
 ## Overview
 TBD
 
-## Installation
-Download the GemStone product tree and Rowan extents needed for .solo scripts:
-```bash
-cd $GS_HOME/shared/repos
-git clone git@github.com:dalehenrich/superDoit.git
-cd superDoit/gemstone/gs
-curl  -L -O -s -S "https://github.com/dalehenrich/superDoit/releases/download/v0.1.0/3.6.1_extent0.solo.dbf.gz"
-gunzip --stdout 3.6.1_extent0.solo.dbf.gz > extent0.solo.dbf
-chmod -w extent0.solo.dbf
-# If you are not using GsDevKit_home, then create a symolic link to your 3.6.1 product truee
-$GS_HOME/bin/downloadGemStone 3.6.1
-ln -s $GS_HOME/shared/downloads/products/GemStone64Bit3.6.1-* product
-```
-Add `superDoit/bin` to your PATH:
-```bash
-export PATH="$GS_HOME/shared/repos/superDoit/bin":$PATH
-````
-If you aren't using [GsDevKit_home](https://github.com/GsDevKit/GsDevKit_home), replace `$GS_HOME/shared/repos/superDoit` with the path to your superDoit clone.
-
+## updated Installation for .solo scripts
+1. download 3.6.1 product tree
+   ```bash
+   cd gemstone/products
+   ../../dev/downloadGemStone.sh 3.6.1
+   ```
+2. download 3.6.1 solo extent
+   ```bash
+   cd ../solo
+   curl  -L -O -s -S "https://github.com/dalehenrich/superDoit/releases/download/v0.1.0/3.6.1_extent0.solo.dbf.gz"
+   gunzip --stdout 3.6.1_extent0.solo.dbf.gz > extent0.solo.dbf
+   chmod -w extent0.solo.dbf
+   ln -s ../products/GemStone64Bit3.6.1-x86_64.Linux product
+   ```
+3. Add `superDoit/bin` to your PATH:
+   ```bash
+   export PATH="$GS_HOME/shared/repos/superDoit/bin":$PATH
+   ```
+   It is recommended that you add this expression to your .bashrc so that .solo scripts can be run without any special setup.
 ## Examples
 ### simplest executable .solo doit 
 ```
