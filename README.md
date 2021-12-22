@@ -86,21 +86,28 @@ doit
 The -h, --help, -D, and --debug options are pre-defined and require no declarations to be included.
 If you want to change the options used for help and debugging, then you can use the [*customptions* section](examples/kitchenSink/uncommonCommandExample.stone#L6-L19)
 ### *method* section
-For those of you familiar with working with Smalltalk workspaces, you will acknowledge that it doesn't take too long before the size of the script of becomes unwieldly ... {TO BE CONTINUED}
-Declaration of script methods. *method* section defines a Smalltalk method, terminated by *%*, that can be called from within the script:
+I'm sure that all of us have written workspaces that could have benefited from a local method or two and shell scripts are not different, so superDoit makes it possible to define methods in the script. 
+The *method* section defines a Smalltalk method, terminated by *%*, that can be called from within the script:
 ```
 #!/usr/bin/env superdoit_solo
-options
-{
-  SuperDoitRequiredOptionWithRequiredArg long: 'addend' short: 'a'.
-}
+usage
+-----
+USAGE $basename [--help | -h] [--debug | -D]
+
+DESCRIPTION
+  Simple script that demonstrates the definition and use of a script method.
+
+EXAMPLES
+  $basename --help
+  $basename -D
+-----
 %
 method
-constant
+three
   ^ 3
 %
 doit
-  ^ self constant + (self addend) asNumber
+  ^ self three + 4
 %
 ```
 ### **others**
