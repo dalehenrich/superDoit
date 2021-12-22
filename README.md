@@ -11,15 +11,19 @@ superDoit is a Smalltalk-based scripting framework  for writing shell scripts in
 The script file is composed of a set of structured sections: [*doit*](#doit-section), [*options*](#options-section), [*usage*](#usage-section), [*method*](#method-section), and [*others*](#others).
  
 ### *doit* section
-Smalltalk doit section, *doit* section contains Smalltalk expressions to be executed, terminated by *%*:
+A typical Smalltalk IDE will provide a facility for writing Smalltalk code in a workspace or playground, where you can quickly put together a collection of Smalltalk expressions for evaluation without having to resort to creating a class.
+It is natural that the simplicity of the workspace be preserved in the superDoit *doit* section.
+The *doit* section contains the Smalltalk expressions to be executed and is terminated by *%*:
 ```
 #!/usr/bin/env superdoit_solo
 doit
 ^ 3 + 4
 %
 ```
+The script invokes the `superdoit_solo` program that arranges for [topaz solo](https://downloads.gemtalksystems.com/docs/GemStone64/3.5.x/GS64-Topaz-3.5/1-Tutorial.htm#pgfId-1125047) to be used to execute the *doit*.
 ### *options* section
-Command line option declaration and support. *options* section is a Smalltalk Array of option definitions, terminate by *%*. The value of the option can be retrieved by sending a message using the long name of the option:
+As with any other scripting language it is an absolute requirement to allow for the declaration of command line arguments.
+In **superDoit**, the *options* section is used to declare a set of command line options for the script:
 ```
 #!/usr/bin/env superdoit_solo
 options
@@ -31,42 +35,58 @@ doit
   ^ 3 + (self addend) asNumber
 %
 ```
-### *usage* section
-Help text support. *usage* sections contains structured help text that documents the script usage, terminated by *%*:
+and the framework automatically arranges for a method to be created using the `long` name of the option.
+The value of the option from the command line is returned as a String by the method.
+Here is the full list on command line options that are currently supported:
 ```
-#!/usr/bin/env superdoit_solo
 options
 {
-  SuperDoitRequiredOptionWithRequiredArg long: 'addend' short: 'a'.
+	SuperDoitOptionalOptionWithNoArg long: 'noarg'.
+	SuperDoitOptionalOptionWithNoArg long: 'noarg' short: 'n'.
+
+	SuperDoitOptionalOptionWithRequiredArg long: 'optional'.
+	SuperDoitOptionalOptionWithRequiredArg long: 'optional' default: 'default'.
+	SuperDoitOptionalOptionWithRequiredArg long: 'optional' short: 'o'.
+	SuperDoitOptionalOptionWithRequiredArg long: 'optional' short: 'o' default: 'default'.
+
+	SuperDoitRequiredOptionWithRequiredArg long: 'required'.
+	SuperDoitRequiredOptionWithRequiredArg long: 'required' short: 'r'.
 }
 %
+```
+The SuperDoitOptionalOptionWithNoArg returns `true` if the option is present on the command line and `false` if it is not present on the command line.
+The SuperDoitOptionalOptionWithRequiredArg returns `nil` or the default value if not specified on the command line or the value of the option as a String if specified on the command line.
+The SuperDoitRequiredOptionWithRequiredArg signals an error if the option is not present on the command and the value of the option as a String if specified on the command line.
+
+### *usage* section
+It is also an absolute requirement that a scripting language provide usage information for the script.
+The *usage* section contains structured help text that documents the script usage, terminated by *%*:
+```
+#!/usr/bin/env superdoit_solo
 usage
 -----
-USAGE $basename [--help | -h] [--debug | -D] --addend=<number> | -a <number>
+USAGE $basename [--help | -h] [--debug | -D]
 
 DESCRIPTION
-  Evaluate the Smalltalk expression: 3+addend and return the result on stdout.
+  Simple script that returns the result of evaluating `3+4`.
 
 OPTIONS
-  -a <num>, --addend=<num>   number to be added to 3
   -h, --help                 display usage message
   -D, --debug                bring up topaz debugger in the event of a script error
 
 EXAMPLES
   $basename --help
   $basename -D
-  $basename --addend=5
-  $basename -a 100
 -----
 %
 doit
-  (self addend) asNumber + 3
+  3 + 4
 %
 ```
-The -h, --help, -D, and --debug options are pre-defined.
-The -h and --help options displays the usage section on stdout and exits the script.
-The -D and --debug cause the topaz debugger to be invoked in the case of an error.
+The -h, --help, -D, and --debug options are pre-defined and require no declarations to be included.
+If you want to change the options used for help and debugging, then you can use the [*customptions* section](examples/kitchenSink/uncommonCommandExample.stone#L6-L19)
 ### *method* section
+For those of you familiar with working with Smalltalk workspaces, you will acknowledge that it doesn't take too long before the size of the script of becomes unwieldly ... {TO BE CONTINUED}
 Declaration of script methods. *method* section defines a Smalltalk method, terminated by *%*, that can be called from within the script:
 ```
 #!/usr/bin/env superdoit_solo
