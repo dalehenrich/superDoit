@@ -7,8 +7,109 @@ BRANCH | STATUS
 **v2.1** | [![**v2.1** build status](https://github.com/dalehenrich/superDoit/actions/workflows/ci.yml/badge.svg?branch=v2.1)](https://github.com/dalehenrich/superDoit/actions)
 
 superDoit is a Smalltalk-based scripting language that runs on top of [GemStone/S 64](https://gemtalksystems.com/products/gs64/) using a free for commercial use [Community and Web Edition License](https://gemtalksystems.com/licensing/).
-## Overview
-TBD
+## What is superDoit?
+Framework for writing shell scripts in GemStone Smalltalk. 
+The script file is a set of structured sections: *doit*, *options*, *usage*, *method*, and others:
+### *doit* section
+Smalltalk doit section, *doit* section contains Smalltalk expressions to be executed, terminated by *%*:
+```
+#!/usr/bin/env superdoit_solo
+doit
+^ 3 + 4
+%
+```
+### *options* section
+Command line option declaration and support. *options* section is a Smalltalk Array of option definitions, terminate by *%*. The value of the option can be retrieved by sending a message using the long name of the option:
+```
+#!/usr/bin/env superdoit_solo
+options
+{
+  SuperDoitRequiredOptionWithRequiredArg long: 'addend' short: 'a'.
+}
+%
+doit
+  ^ 3 + (self addend) asNumber
+%
+```
+### *usage* section
+Help text support. *usage* sections contains structured help text that documents the script usage, terminated by *%*:
+```
+#!/usr/bin/env superdoit_solo
+options
+{
+  SuperDoitRequiredOptionWithRequiredArg long: 'addend' short: 'a'.
+}
+%
+usage
+-----
+USAGE $basename [--help | -h] [--debug | -D] --addend=<number> | -a <number>
+
+DESCRIPTION
+  Evaluate the Smalltalk expression: 3+addend and return the result on stdout.
+
+OPTIONS
+  -a <num>, --addend=<num>   number to be added to 3
+  -h, --help                 display usage message
+  -D, --debug                bring up topaz debugger in the event of a script error
+
+EXAMPLES
+  $basename --help
+  $basename -D
+  $basename --addend=5
+  $basename -a 100
+-----
+%
+doit
+  (self addend) asNumber + 3
+%
+```
+The -h, --help, -D, and --debug options are pre-defined.
+The -h and --help options displays the usage section on stdout and exits the script.
+The -D and --debug cause the topaz debugger to be invoked in the case of an error.
+### *method* section
+Declaration of script methods. *method* section defines a Smalltalk method, terminated by *%*, that can be called from within the script:
+```
+#!/usr/bin/env superdoit_solo
+options
+{
+  SuperDoitRequiredOptionWithRequiredArg long: 'addend' short: 'a'.
+}
+%
+method
+constant
+  ^ 3
+%
+doit
+  ^ self constant + (self addend) asNumber
+%
+```
+### **others**
+*instars* section defines script instance variables.
+
+*input* section can be used to load GemStone .gs files into the image.
+
+*projectshome* section is used to declare the value of the ROWAN_PROJECTS_HOME environment variable during the execution of the script.
+
+*specs* section contains an array of Rowan load specification STON objects used to load external projects into the image.
+
+*specurls* section contains a list of spec urls that reference the location of a Rowan load specification STON object.
+
+*method:* section is used to define a method for a class that is already present in the image.
+
+*classmethod:* section is used to define a class method for a class that is already present in the image.
+
+*customptions* section is used to override the default command line arguments: -h, --help, -D, and --debug.
+
+superDoit scripts come in three flavors
+1. **.solo scripts** - standalone GemStone Smalltalk scripts that can be run without a stone
+2. **.stone scripts** - GemStone Smalltalk scripts that are run against a particular stone
+3. **.topaz scripts** - GemStone topaz sripts that are run against a particular stone
+
+
+### superdoit_solo scripts
+### superdoit_stone scripts
+### superdoit_topaz scritps
+
 
 ## updated Installation for .solo scripts
 1. download 3.6.1 product tree
@@ -122,3 +223,5 @@ Z is incremented whenever work on a new feature or bugfix is started.
 A pre-release may be used to further identify the purpose of the work.
 
 Primary work takes place on this branch and cannot be depended upon to be stable.
+
+
