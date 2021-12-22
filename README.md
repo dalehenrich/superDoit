@@ -9,7 +9,7 @@ BRANCH | STATUS
 superDoit is a Smalltalk-based scripting language that runs on top of [GemStone/S 64](https://gemtalksystems.com/products/gs64/) using a free for commercial use [Community and Web Edition License](https://gemtalksystems.com/licensing/).
 ## What is superDoit?
 Framework for writing shell scripts in GemStone Smalltalk. 
-The script file is a set of structured sections: *doit*, *options*, *usage*, *method*, and others:
+The script file is a set of structured sections: [*doit*](#doit-section), [*options*](#options-section), [*usage*](#usage-section), [*method*](#method-section), and [*others*](#others):
 ### *doit* section
 Smalltalk doit section, *doit* section contains Smalltalk expressions to be executed, terminated by *%*:
 ```
