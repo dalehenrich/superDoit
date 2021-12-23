@@ -117,19 +117,19 @@ doit
 [*instvars* section](examples/kitchenSink/commonCommandExample.stone#L58-L60) defines script instance variables.
 
 ### *input* section
-[*input* section](examples/kitchenSink/uncommonCommandExample.stone#L61-L62) can be used to load GemStone .gs files into the image.
+[*input* section](examples/kitchenSink/uncommonCommandExample.stone#L61-L63) can be used to load GemStone .gs files into the image.
 
-[*method:* section](examples/kitchenSink/uncommonCommandExample.stone#L69-L72) is used to define an instance method for a class that is already present in the image.
+[*method:* section](examples/kitchenSink/uncommonCommandExample.stone#L94-L97) is used to define an instance method for a class that is already present in the image.
 
-[*classmethod:* section](examples/kitchenSink/uncommonCommandExample.stone#L73-L76) is used to define a class method for a class that is already present in the image.
+[*classmethod:* section](examples/kitchenSink/uncommonCommandExample.stone#L98-L101) is used to define a class method for a class that is already present in the image.
 
 [*customptions* section](examples/kitchenSink/uncommonCommandExample.stone#L6-L19) is used to override the default command line arguments: -h, --help, -D, and --debug.
 
-[*projectshome* section](examples/kitchenSink/uncommonCommandExample.stone#L63-L64) is used to declare the value of the ROWAN_PROJECTS_HOME environment variable during the execution of the script.
+[*projectshome* section](examples/kitchenSink/uncommonCommandExample.stone#L64-L66) is used to declare the value of the ROWAN_PROJECTS_HOME environment variable during the execution of the script.
 
-[*specs* section](examples/kitchenSink/uncommonCommandExample.stone#L63-L64) contains an array of Rowan load specification STON objects used to load external projects into the image.
+[*specs* section](examples/kitchenSink/uncommonCommandExample.stone#L67-L90) contains an array of Rowan load specification STON objects used to load external projects into the image.
 
-[*specurls* section](examples/kitchenSink/uncommonCommandExample.stone#L67-L68) contains a list of spec urls that reference the location of a Rowan load specification STON object.
+[*specurls* section](examples/kitchenSink/uncommonCommandExample.stone#L91-L93) contains a list of spec urls that reference the location of a Rowan load specification STON object.
 
 superDoit scripts come in three flavors
 1. **.solo scripts** - standalone GemStone Smalltalk scripts that can be run without a stone
