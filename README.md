@@ -11,7 +11,7 @@ BRANCH | STATUS
 2. How does superDoit work?
 ## What is superDoit?
 superDoit is a Smalltalk-based scripting framework  for writing shell scripts in [GemStone Smalltalk](https://gemtalksystems.com/products/gs64/) using a free for commercial use [Community and Web Edition License](https://gemtalksystems.com/licensing/).
-The script file is composed of a set of structured sections: [*doit*](#doit-section), [*options*](#options-section), [*usage*](#usage-section), [*method*](#method-section), [*instvars*](#instvars-section), [*input*](#input-section),.
+The script file is composed of a set of structured sections: [*doit*](#doit-section), [*options*](#options-section), [*usage*](#usage-section), [*method*](#method-section), [*instvars*](#instvars-section), [*input*](#input-section), [*method:*](#method--section), [*classmethod:*](#classmethod--section), [*customoptions*](#customoptions-section), [projectshome*](#projectshome-section), [*specs*](#specs-section), [*specurls*](#specurls-section).
  
 ### *doit* section
 A typical Smalltalk IDE will provide a facility for writing Smalltalk code in a workspace or playground, where you can quickly put together a collection of Smalltalk expressions for evaluation without having to resort to creating a class.
@@ -119,16 +119,22 @@ doit
 ### *input* section
 [*input* section](examples/kitchenSink/uncommonCommandExample.stone#L61-L63) can be used to load GemStone .gs files into the image.
 
+### *method:* section
 [*method:* section](examples/kitchenSink/uncommonCommandExample.stone#L94-L97) is used to define an instance method for a class that is already present in the image.
 
+### *classmethod:* section
 [*classmethod:* section](examples/kitchenSink/uncommonCommandExample.stone#L98-L101) is used to define a class method for a class that is already present in the image.
 
+### *customoptions* section
 [*customptions* section](examples/kitchenSink/uncommonCommandExample.stone#L6-L19) is used to override the default command line arguments: -h, --help, -D, and --debug.
 
+### *projectshome* section
 [*projectshome* section](examples/kitchenSink/uncommonCommandExample.stone#L64-L66) is used to declare the value of the ROWAN_PROJECTS_HOME environment variable during the execution of the script.
 
+### *specs* section
 [*specs* section](examples/kitchenSink/uncommonCommandExample.stone#L67-L90) contains an array of Rowan load specification STON objects used to load external projects into the image.
 
+### *specurls* section
 [*specurls* section](examples/kitchenSink/uncommonCommandExample.stone#L91-L93) contains a list of spec urls that reference the location of a Rowan load specification STON object.
 
 superDoit scripts come in three flavors
