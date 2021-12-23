@@ -15,9 +15,9 @@ superDoit is a Smalltalk-based scripting framework  for writing shell scripts in
 The script file is composed of a set of structured sections: [*doit*](#doit-section), [*options*](#options-section), [*usage*](#usage-section), [*method*](#method-section), [*instvars*](#instvars-section), [*input*](#input-section), [*method:*](#method-section-1), [*classmethod:*](#classmethod-section), [*customoptions*](#customoptions-section), [projectshome](#projectshome-section), [*specs*](#specs-section), [*specurls*](#specurls-section).
 
 superDoit scripts come in three flavors:
-[.solo scripts, standalone GemStone Smalltalk scripts that can be run without a stone](#superdoit_solo_scripts).
-[.stone scripts, GemStone Smalltalk scripts that are run against a particular stone](#superdoit_stone_scripts).
-[.topaz scripts, GemStone topaz sripts that are run against a particular stone](#superdoit_topaz_scripts) 
+[.solo scripts, standalone GemStone Smalltalk scripts that can be run without a stone](#superdoit_solo-scripts).
+[.stone scripts, GemStone Smalltalk scripts that are run against a particular stone](#superdoit_stone-scripts).
+[.topaz scripts, GemStone topaz sripts that are run against a particular stone](#superdoit_topaz-scripts) 
 
 ### *doit* section
 A typical Smalltalk IDE will provide a facility for writing Smalltalk code in a workspace or playground, where you can quickly put together a collection of Smalltalk expressions for evaluation without having to resort to creating a class.
