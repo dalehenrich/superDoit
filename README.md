@@ -6,9 +6,12 @@ BRANCH | STATUS
 **v2.0** | [![**v2.0** build status](https://github.com/dalehenrich/superDoit/actions/workflows/ci.yml/badge.svg?branch=v2.0)](https://github.com/dalehenrich/superDoit/actions)
 **v2.1** | [![**v2.1** build status](https://github.com/dalehenrich/superDoit/actions/workflows/ci.yml/badge.svg?branch=v2.1)](https://github.com/dalehenrich/superDoit/actions)
 
+## Table of Contents
+1. [What is superDoit?](#what_is_superdoit)
+2. How does superDoit work?
 ## What is superDoit?
 superDoit is a Smalltalk-based scripting framework  for writing shell scripts in [GemStone Smalltalk](https://gemtalksystems.com/products/gs64/) using a free for commercial use [Community and Web Edition License](https://gemtalksystems.com/licensing/).
-The script file is composed of a set of structured sections: [*doit*](#doit-section), [*options*](#options-section), [*usage*](#usage-section), [*method*](#method-section), and [*others*](#others).
+The script file is composed of a set of structured sections: [*doit*](#doit-section), [*options*](#options-section), [*usage*](#usage-section), [*method*](#method-section), [*instvars*](#instvars-section), , [*input*](#input-section),.
  
 ### *doit* section
 A typical Smalltalk IDE will provide a facility for writing Smalltalk code in a workspace or playground, where you can quickly put together a collection of Smalltalk expressions for evaluation without having to resort to creating a class.
@@ -86,7 +89,7 @@ doit
 The -h, --help, -D, and --debug options are pre-defined and require no declarations to be included.
 If you want to change the options used for help and debugging, then you can use the [*customptions* section](examples/kitchenSink/uncommonCommandExample.stone#L6-L19)
 ### *method* section
-I'm sure that all of us have written workspaces that could have benefited from a local method or two and shell scripts are not different, so superDoit makes it possible to define methods in the script. 
+I'm sure that all of us have written workspaces that could have benefited from a local method or two and shell scripts are no different, superDoit makes it possible to add local methods in the script. 
 The *method* section defines a Smalltalk method, terminated by *%*, that can be called from within the script:
 ```
 #!/usr/bin/env superdoit_solo
@@ -110,20 +113,23 @@ doit
   ^ self three + 4
 %
 ```
-### **others**
-[*instars* section](examples/kitchenSink/commonCommandExample.stone#L58-L60) defines script instance variables.
+### *instvars* section
+[*instvars* section](examples/kitchenSink/commonCommandExample.stone#L58-L60) defines script instance variables.
 
+### *input* section
 [*input* section](examples/kitchenSink/uncommonCommandExample.stone#L61-L62) can be used to load GemStone .gs files into the image.
+
+[*method:* section](examples/kitchenSink/uncommonCommandExample.stone#L69-L72) is used to define an instance method for a class that is already present in the image.
+
+[*classmethod:* section](examples/kitchenSink/uncommonCommandExample.stone#L73-L76) is used to define a class method for a class that is already present in the image.
+
+[*customptions* section](examples/kitchenSink/uncommonCommandExample.stone#L6-L19) is used to override the default command line arguments: -h, --help, -D, and --debug.
 
 [*projectshome* section](examples/kitchenSink/uncommonCommandExample.stone#L63-L64) is used to declare the value of the ROWAN_PROJECTS_HOME environment variable during the execution of the script.
 
 [*specs* section](examples/kitchenSink/uncommonCommandExample.stone#L63-L64) contains an array of Rowan load specification STON objects used to load external projects into the image.
 
 [*specurls* section](examples/kitchenSink/uncommonCommandExample.stone#L67-L68) contains a list of spec urls that reference the location of a Rowan load specification STON object.
-
-[*classmethod:* section](examples/kitchenSink/uncommonCommandExample.stone#L73-L76) is used to define a class method for a class that is already present in the image.
-
-[*customptions* section](examples/kitchenSink/uncommonCommandExample.stone#L6-L19) is used to override the default command line arguments: -h, --help, -D, and --debug.
 
 superDoit scripts come in three flavors
 1. **.solo scripts** - standalone GemStone Smalltalk scripts that can be run without a stone
