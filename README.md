@@ -9,15 +9,16 @@ BRANCH | STATUS
 ## Table of Contents
 1. [What is superDoit?](#what_is_superdoit)
 2. How does superDoit work?
+3. [Installation](#superDoit-installation)
 3. [Branch naming conventions](#branch_naming_conventions)
 ## What is superDoit?
 superDoit is a Smalltalk-based scripting framework  for writing shell scripts in [GemStone Smalltalk](https://gemtalksystems.com/products/gs64/) using a free for commercial use [Community and Web Edition License](https://gemtalksystems.com/licensing/).
 The script file is composed of a set of structured sections: [*doit*](#doit-section), [*options*](#options-section), [*usage*](#usage-section), [*method*](#method-section), [*instvars*](#instvars-section), [*input*](#input-section), [*method:*](#method-section-1), [*classmethod:*](#classmethod-section), [*customoptions*](#customoptions-section), [projectshome](#projectshome-section), [*specs*](#specs-section), [*specurls*](#specurls-section).
 
 superDoit scripts come in three flavors:
-[.solo scripts, standalone GemStone Smalltalk scripts that can be run without a stone](#superdoit_solo-scripts).
-[.stone scripts, GemStone Smalltalk scripts that are run against a particular stone](#superdoit_stone-scripts).
-[.topaz scripts, GemStone topaz sripts that are run against a particular stone](#superdoit_topaz-scripts) 
+1. [.solo scripts, standalone GemStone Smalltalk scripts that can be run without a stone](#superdoit_solo-scripts).
+2. [.stone scripts, GemStone Smalltalk scripts that are run against a particular stone](#superdoit_stone-scripts).
+3. [.topaz scripts, GemStone topaz sripts that are run against a particular stone](#superdoit_topaz-scripts). 
 
 ### *doit* section
 A typical Smalltalk IDE will provide a facility for writing Smalltalk code in a workspace or playground, where you can quickly put together a collection of Smalltalk expressions for evaluation without having to resort to creating a class.
@@ -146,10 +147,10 @@ The [*specurls* section](examples/kitchenSink/uncommonCommandExample.stone#L91-L
 
 ### superdoit_solo scripts
 ### superdoit_stone scripts
-### superdoit_topaz scritps
+### superdoit_topaz scripts
 
-
-## updated Installation for .solo scripts
+## superDoit installation
+## .solo script installation
 1. download 3.6.1 product tree
    ```bash
    cd gemstone/products
