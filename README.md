@@ -99,10 +99,6 @@ Executing `./reporttranlogspace.solo -t $GS_HOME/server/stones/gs_361/tranlogs` 
 ```
 /home/dhenrich/rogue/_homes/rogue/_home/server/stones/gs_361/tranlogs: tranlogs consume total 39617 KB
 ```
-Executing `./reporttranlogspace.solo` produces:
-```
-UserDefinedError: The required option 'tranlogDir' was not set.
-```
 Executing `./reporttranlogspace.solo -h ` produces:
 ```
 -----
@@ -123,6 +119,10 @@ EXAMPLES
   reporttranlogspace.solo -t <tranlog-directory-path>
   reporttranlogspace.solo --tranlogDir=<tranlog-directory-path>
 -----
+```
+Executing `./reporttranlogspace.solo` produces:
+```
+UserDefinedError: The required option 'tranlogDir' was not set.
 ```
 Executing `./reporttranlogspace.solo -D` and entering `where` at topaz promppt produces:
 ```
