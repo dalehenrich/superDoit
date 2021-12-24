@@ -1,0 +1,38 @@
+#!/usr/bin/env superdoit_solo
+options
+{
+  SuperDoitRequiredOptionWithRequiredArg long: 'tranlogDir' short: 't'.
+}
+%
+usage
+-----
+USAGE $basename [--help | -h] [--debug | -D] --tranlogDir=<tranlog-directory-path>
+
+DESCRIPTION
+  Calculate and report the sum of the tranlog sizes in the given <tranlog-directory-path>
+
+OPTIONS
+  -t, --tranlogDir=<tranlog-directory-path>
+                             path to tranlog directory
+  -h, --help                 display usage message
+  -D, --debug                bring up topaz debugger in the event of a script error
+
+EXAMPLES
+  $basename --help
+  $basename -D -t <tranlog-directory-path>
+  $basename -t <tranlog-directory-path>
+  $basename --tranlogDir=<tranlog-directory-path>
+-----
+%
+doit
+  | sz |
+  sz := 0.
+  self tranlogDir asFileReference files
+    do: [:tranlogFile |
+      sz := sz + tranlogFile size ].
+  self stdout
+    nextPutAll: self tranlogDir;
+    nextPutAll: ': tranlogs consume total ';
+    nextPutAll: (sz / 1024) asInteger asString, ' KB'.
+	self noResult
+%

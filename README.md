@@ -16,6 +16,7 @@ BRANCH | STATUS
 ## What is superDoit?
 `superDoit` is a scripting framework for writing shell scripts in [GemStone Smalltalk](https://gemtalksystems.com/products/gs64/) using [GemStone Topaz][topaz manual].
 
+### Without superDoit
 Current best practices for writing a [topaz solo bash scripts to report the sum total size of tranlog files in the given directory][topaz solo bash scripts] involves creating 3 separate files:
 1. a bash script driver script named [gettranlogspace][gettranlogspace]:
    ```
@@ -24,7 +25,7 @@ Current best practices for writing a [topaz solo bash scripts to report the sum 
    $GEMSTONE/bin/topaz -lq -I $GEMSTONE/scripts/myini -S
    $GEMSTONE/scripts/reporttranlogspace.tpz -- $1
    ```
-2. a solo .topazini file named [myini][myini] (note the embedded `set solologin on` that denotes that the `gs64stone` stone does not need to be running to execute the script:
+2. a solo .topazini file named [myini][myini]:
    ```
    set user DataCurator pass swordfish
    set gemstone gs64stone
@@ -52,17 +53,56 @@ The bash driver script would then be executed:
 unix> ./gettranlogspace /lark1/users/gsadmin/tranlogs
 /lark1/users/gsadmin/tranlogs: tranlogs consume total 98477 KB
 ```
-
-
-
+### with superDoit
+`superDoit` not only eliminates the need to create separate files to run a solo script, but provides support for declaring command line options, help, debugging and more:
 ```
-#! /usr/bin/env superdoit_solo
-doit
-	^ 3+4
+#!/usr/bin/env superdoit_solo
+options
+{
+  SuperDoitRequiredOptionWithRequiredArg long: 'tranlogDir' short: 't'.
+}
 %
-```
+usage
+-----
+USAGE $basename [--help | -h] [--debug | -D] --tranlogDir=<tranlog-directory-path>
 
- 
+DESCRIPTION
+  Calculate and report the sum of the tranlog sizes in the given <tranlog-directory-path>
+
+OPTIONS
+  -t, --tranlogDir=<tranlog-directory-path>
+                             path to tranlog directory
+  -h, --help                 display usage message
+  -D, --debug                bring up topaz debugger in the event of a script error
+
+EXAMPLES
+  $basename --help
+  $basename -D -t <tranlog-directory-path>
+  $basename -t <tranlog-directory-path>
+  $basename --tranlogDir=<tranlog-directory-path>
+-----
+%
+doit
+  | sz |
+  sz := 0.
+  self tranlogDir asFileReference files
+    do: [:tranlogFile |
+      sz := sz + tranlogFile size ].
+  self stdout
+    nextPutAll: self tranlogDir;
+    nextPutAll: ': tranlogs consume total ';
+    nextPutAll: (sz / 1024) asInteger asString, ' KB'.
+	self noResult
+%
+```  
+
+
+
+
+
+
+
+
 
 ### superDoit script file
 The script file is composed of a set of structured sections: [*doit*](#doit-section), [*options*](#options-section), [*usage*](#usage-section), [*method*](#method-section), [*instvars*](#instvars-section), [*input*](#input-section), [*method:*](#method-section-1), [*classmethod:*](#classmethod-section), [*customoptions*](#customoptions-section), [*projectshome*](#projectshome-section), [*specs*](#specs-section), [*specurls*](#specurls-section).
@@ -324,3 +364,5 @@ Primary work takes place on this branch and cannot be depended upon to be stable
 [gettranlogspace]: https://downloads.gemtalksystems.com/docs/GemStone64/3.6.x/GS64-Topaz-3.6/1-Tutorial.htm#pgfId-1126891
 [myini]: https://downloads.gemtalksystems.com/docs/GemStone64/3.6.x/GS64-Topaz-3.6/1-Tutorial.htm#pgfId-1127344
 [reporttranlogspace.tpz]: https://downloads.gemtalksystems.com/docs/GemStone64/3.6.x/GS64-Topaz-3.6/1-Tutorial.htm#pgfId-1127310
+
+[reporttranlogspace.solo]: examples/utility/reporttranlogspace.solo
