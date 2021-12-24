@@ -11,6 +11,8 @@ BRANCH | STATUS
 2. How does superDoit work?
 3. [Installation](#superdoit-installation)
 4. [Examples](#examples)
+   - [simplest executable .solo doit](simplest-executable-.solo-doit)
+   - [executable .solo doit with methods and Rowan specs](executable-.solo-doit-with-methods-and-rowan-specs)
 3. [Branch naming conventions](#branch-naming-conventions)
 ## What is superDoit?
 superDoit is a Smalltalk-based scripting framework  for writing shell scripts in [GemStone Smalltalk](https://gemtalksystems.com/products/gs64/) using a free for commercial use [Community and Web Edition License](https://gemtalksystems.com/licensing/).
@@ -233,6 +235,7 @@ y
 ^ 3+4
 %
 doit
+	self preDoitSpecLoad.	"load specs"
 ^ self x
 %
 ```
@@ -243,13 +246,13 @@ doit
 3. vX.Y.Z or vX.Y.Z-id
 
 ### vX
-Production branch.
+Stable production branch.
 
 X is incremented whenever there is a breaking change.
 vX.Y and vX.Y.Z branches are merged into the VX branch, when development is complete on the feature or patch.
 
 ### vX.Y
-Feature/Bug candidate branch.
+Stable feature/bugfix candidate branch.
  
 Y is incremented whenever work on a new feature or bugfix is started.
 vX.Y branches are merged into the VX branch when development is complete.
@@ -257,7 +260,7 @@ vX.Y branches are merged into the VX branch when development is complete.
 Primary work takes place on a vX.Y.Z branch and the VX.Y.Z branch is merged into the VX.Y branch at stable points, so if you want to have early access to a feature or bugfix, it is relatively safe to use this branch in production.
 
 ### vX.Y.Z
-Development branch.
+Unstable development branch.
 
 Z is incremented whenever work on a new feature or bugfix is started.
 A pre-release may be used to further identify the purpose of the work.
