@@ -96,6 +96,7 @@ doit
   ^ self noResult
 %
 ```
+#### superDoit execution
 **Executing** `./reporttranlogspace.solo -t $GS_HOME/server/stones/gs_361/tranlogs` produces:
 ```
 /home/dhenrich/rogue/_homes/rogue/_home/server/stones/gs_361/tranlogs: tranlogs consume total 39617 KB
@@ -121,6 +122,7 @@ EXAMPLES
   reporttranlogspace.solo --tranlogDir=<tranlog-directory-path>
 -----
 ```
+#### superDoit error handling
 **Executing** `./reporttranlogspace.solo` produces:
 ```
 UserDefinedError: The required option 'tranlogDir' was not set.
@@ -161,6 +163,18 @@ topaz 1> where
 24 GsNMethod class >> _gsReturnToC               @1 line 11   [methId 5673729]
   [GsProcess 102639105]
 topaz 1> 
+```
+**Executing** `./reporttranlogspace.solo --tranlogDir`produces:
+```
+UserDefinedError: Missing required argument for option 'tranlogDir' [b]
+```
+**Executing** `./reporttranlogspace.solo -t`produces:
+```
+UserDefinedError: Missing required argument for option 'tranlogDir' [d]
+```
+**Executing** `./reporttranlogspace.solo -t /tmp/oops`produces:
+```
+DirectoryDoesNotExist: Path / 'tmp' / 'oops'
 ```
 ---
 start here
