@@ -7,10 +7,11 @@ BRANCH | STATUS
 **v2.1** | [![**v2.1** build status](https://github.com/dalehenrich/superDoit/actions/workflows/ci.yml/badge.svg?branch=v2.1)](https://github.com/dalehenrich/superDoit/actions)
 
 ## Table of Contents
-1. [What is superDoit?](#what_is_superdoit)
+1. [What is superDoit?](#what-is-superdoit)
 2. How does superDoit work?
-3. [Installation](#superDoit-installation)
-3. [Branch naming conventions](#branch_naming_conventions)
+3. [Installation](#superdoit-installation)
+4. [Examples](#examples)
+3. [Branch naming conventions](#branch-naming-conventions)
 ## What is superDoit?
 superDoit is a Smalltalk-based scripting framework  for writing shell scripts in [GemStone Smalltalk](https://gemtalksystems.com/products/gs64/) using a free for commercial use [Community and Web Edition License](https://gemtalksystems.com/licensing/).
 The script file is composed of a set of structured sections: [*doit*](#doit-section), [*options*](#options-section), [*usage*](#usage-section), [*method*](#method-section), [*instvars*](#instvars-section), [*input*](#input-section), [*method:*](#method-section-1), [*classmethod:*](#classmethod-section), [*customoptions*](#customoptions-section), [projectshome](#projectshome-section), [*specs*](#specs-section), [*specurls*](#specurls-section).
@@ -150,7 +151,7 @@ The [*specurls* section](examples/kitchenSink/uncommonCommandExample.stone#L91-L
 ### superdoit_topaz scripts
 
 ## superDoit installation
-## .solo script installation
+### .solo script installation
 1. download 3.6.1 product tree
    ```bash
    cd gemstone/products
