@@ -178,7 +178,7 @@ DirectoryDoesNotExist: Path / 'tmp' / 'oops'
 ```
 Of course adding `-D` or `--debug` to any of the the above, will bring up the debugger and allow you to debug the error yourself.
 ### superDoit script file
-In the previous section you saw that the [example superDoit script](#with-superdoit) consisted of an [*options*](#options-section), a [*usage*](#usage-section), and a [*doit*](#doit-section).
+In the previous section you saw that the [example superDoit script](#with-superdoit) consisted of an [*options* section](#options-section), a [*usage* section](#usage-section), and a [*doit* section](#doit-section).
 
 ---
 **start here**
