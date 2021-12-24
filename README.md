@@ -8,15 +8,64 @@ BRANCH | STATUS
 
 ## Table of Contents
 1. [What is superDoit?](#what-is-superdoit)
-2. How does superDoit work?
 3. [Installation](#superdoit-installation)
 4. [Examples](#examples)
-   - [simplest executable .solo doit](#simplest-executable-solo-doit)
    - [executable .solo doit with methods and Rowan specs](#executable-solo-doit-with-methods-and-rowan-specs)
+2. [How does superDoit work?](#how-does-superdoit-work)
 3. [Branch naming conventions](#branch-naming-conventions)
 ## What is superDoit?
-superDoit is a Smalltalk-based scripting framework  for writing shell scripts in [GemStone Smalltalk](https://gemtalksystems.com/products/gs64/) using a free for commercial use [Community and Web Edition License](https://gemtalksystems.com/licensing/).
-The script file is composed of a set of structured sections: [*doit*](#doit-section), [*options*](#options-section), [*usage*](#usage-section), [*method*](#method-section), [*instvars*](#instvars-section), [*input*](#input-section), [*method:*](#method-section-1), [*classmethod:*](#classmethod-section), [*customoptions*](#customoptions-section), [projectshome](#projectshome-section), [*specs*](#specs-section), [*specurls*](#specurls-section).
+`superDoit` is a scripting framework for writing shell scripts in [GemStone Smalltalk](https://gemtalksystems.com/products/gs64/) using [GemStone Topaz][topaz manual].
+
+Current best practices for writing a [topaz solo bash scripts to report the sum total size of tranlog files in the given directory][topaz solo bash scripts] involves creating 3 separate files:
+1. a bash script driver script named [gettranlogspace][gettranlogspace]:
+   ```
+   #!/bin/bash
+   export GEMSTONE=/lark1/users/gsadmin/3.6
+   $GEMSTONE/bin/topaz -lq -I $GEMSTONE/scripts/myini -S
+   $GEMSTONE/scripts/reporttranlogspace.tpz -- $1
+   ```
+2. a solo .topazini file named [myini][myini] (note the embedded `set solologin on` that denotes that the `gs64stone` stone does not need to be running to execute the script:
+   ```
+   set user DataCurator pass swordfish
+   set gemstone gs64stone
+   set solologin on
+   ```
+3. a [topaz command file][topaz manual] named [reporttranlogspace.tpz][reporttranlogspace.tpz], that contains the Smalltalk code to calculate and report the sum of the tranlog sizes in the directory:
+   ```
+   login
+   run
+     | dir files sz |
+     dir := System commandLineArguments last.
+     files := GsFile 
+        contentsOfDirectory: dir
+        onClient: false.
+     sz := 0.
+     files do: [:ea | sz := sz + (GsFile sizeOfOnServer: ea)].
+     GsFile gciLogClient: dir, ': tranlogs consume total ', 
+        (sz / 1024) asInteger asString, ' KB'.
+   %
+   logout
+   exit
+   ```
+The bash driver script would then be executed:
+```
+unix> ./gettranlogspace /lark1/users/gsadmin/tranlogs
+/lark1/users/gsadmin/tranlogs: tranlogs consume total 98477 KB
+```
+
+
+
+```
+#! /usr/bin/env superdoit_solo
+doit
+	^ 3+4
+%
+```
+
+ 
+
+### superDoit script file
+The script file is composed of a set of structured sections: [*doit*](#doit-section), [*options*](#options-section), [*usage*](#usage-section), [*method*](#method-section), [*instvars*](#instvars-section), [*input*](#input-section), [*method:*](#method-section-1), [*classmethod:*](#classmethod-section), [*customoptions*](#customoptions-section), [*projectshome*](#projectshome-section), [*specs*](#specs-section), [*specurls*](#specurls-section).
 
 superDoit scripts come in three flavors:
 1. [.solo scripts, standalone GemStone Smalltalk scripts that can be run without a stone](#superdoit_solo-scripts).
@@ -240,6 +289,8 @@ doit
 %
 ```
 
+## How does superDoit work?
+
 ## Branch naming conventions
 1. vX
 2. vX.Y
@@ -267,4 +318,9 @@ A pre-release may be used to further identify the purpose of the work.
 
 Primary work takes place on this branch and cannot be depended upon to be stable.
 
-
+[topaz manual]: https://downloads.gemtalksystems.com/docs/GemStone64/3.6.x/GS64-Topaz-3.6/GS64-Topaz-3.6.htm
+[topaz shell scripts]: https://downloads.gemtalksystems.com/docs/GemStone64/3.6.x/GS64-Topaz-3.6/1-Tutorial.htm#pgfId-1131576
+[topaz solo bash scripts]: https://downloads.gemtalksystems.com/docs/GemStone64/3.6.x/GS64-Topaz-3.6/1-Tutorial.htm#pgfId-1126780
+[gettranlogspace]: https://downloads.gemtalksystems.com/docs/GemStone64/3.6.x/GS64-Topaz-3.6/1-Tutorial.htm#pgfId-1126891
+[myini]: https://downloads.gemtalksystems.com/docs/GemStone64/3.6.x/GS64-Topaz-3.6/1-Tutorial.htm#pgfId-1127344
+[reporttranlogspace.tpz]: https://downloads.gemtalksystems.com/docs/GemStone64/3.6.x/GS64-Topaz-3.6/1-Tutorial.htm#pgfId-1127310
