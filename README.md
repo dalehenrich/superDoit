@@ -177,12 +177,14 @@ UserDefinedError: Missing required argument for option 'tranlogDir' [d]
 DirectoryDoesNotExist: Path / 'tmp' / 'oops'
 ```
 Of course adding `-D` or `--debug` to any of the the above, will bring up the debugger and allow you to debug the error yourself.
+### superDoit script file
+In the previous section you saw that the [example superDoit script](#with-superdoit) consisted of an [*options*](#options-section), a [*usage*](#usage-section), and a [*doit*](#doit-section).
 
 ---
-start here
+**start here**
 ---
-### superDoit script file
-The script file is composed of a set of structured sections: [*doit*](#doit-section), [*options*](#options-section), [*usage*](#usage-section), [*method*](#method-section), [*instvars*](#instvars-section), [*input*](#input-section), [*method:*](#method-section-1), [*classmethod:*](#classmethod-section), [*customoptions*](#customoptions-section), [*projectshome*](#projectshome-section), [*specs*](#specs-section), [*specurls*](#specurls-section).
+
+The script file is composed of a set of structured sections: [*method*](#method-section), [*instvars*](#instvars-section), [*input*](#input-section), [*method:*](#method-section-1), [*classmethod:*](#classmethod-section), [*customoptions*](#customoptions-section), [*projectshome*](#projectshome-section), [*specs*](#specs-section), [*specurls*](#specurls-section).
 
 superDoit scripts come in three flavors:
 1. [.solo scripts, standalone GemStone Smalltalk scripts that can be run without a stone](#superdoit_solo-scripts).
