@@ -96,11 +96,11 @@ doit
   ^ self noResult
 %
 ```
-Executing `./reporttranlogspace.solo -t $GS_HOME/server/stones/gs_361/tranlogs` produces:
+**Executing** `./reporttranlogspace.solo -t $GS_HOME/server/stones/gs_361/tranlogs` produces:
 ```
 /home/dhenrich/rogue/_homes/rogue/_home/server/stones/gs_361/tranlogs: tranlogs consume total 39617 KB
 ```
-Executing `./reporttranlogspace.solo -h ` produces:
+**Executing** `./reporttranlogspace.solo -h ` produces:
 ```
 -----
 USAGE reporttranlogspace.solo [--help | -h] [--debug | -D] --tranlogDir=<tranlog-directory-path>
@@ -121,11 +121,11 @@ EXAMPLES
   reporttranlogspace.solo --tranlogDir=<tranlog-directory-path>
 -----
 ```
-Executing `./reporttranlogspace.solo` produces:
+**Executing** `./reporttranlogspace.solo` produces:
 ```
 UserDefinedError: The required option 'tranlogDir' was not set.
 ```
-Executing `./reporttranlogspace.solo -D` and entering `where` at topaz promppt produces:
+**Executing** `./reporttranlogspace.solo -D` and entering `where` at topaz prompt produces:
 ```
 -----------------------------------------------------
  Near line 62 of file /home/dhenrich/rogue/_homes/rogue/_home/shared/repos/superDoit/gemstone/superdoit.tpz
