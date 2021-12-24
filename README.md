@@ -11,8 +11,8 @@ BRANCH | STATUS
 2. How does superDoit work?
 3. [Installation](#superdoit-installation)
 4. [Examples](#examples)
-   - [simplest executable .solo doit](simplest-executable-solo-doit)
-   - [executable .solo doit with methods and Rowan specs](executable-solo-doit-with-methods-and-rowan-specs)
+   - [simplest executable .solo doit](#simplest-executable-solo-doit)
+   - [executable .solo doit with methods and Rowan specs](#executable-solo-doit-with-methods-and-rowan-specs)
 3. [Branch naming conventions](#branch-naming-conventions)
 ## What is superDoit?
 superDoit is a Smalltalk-based scripting framework  for writing shell scripts in [GemStone Smalltalk](https://gemtalksystems.com/products/gs64/) using a free for commercial use [Community and Web Edition License](https://gemtalksystems.com/licensing/).
