@@ -176,6 +176,8 @@ UserDefinedError: Missing required argument for option 'tranlogDir' [d]
 ```
 DirectoryDoesNotExist: Path / 'tmp' / 'oops'
 ```
+Of course adding `-D` or `--debug` to any of the the above, will bring up the debugger and allow you to debug the error yourself.
+
 ---
 start here
 ---
