@@ -16,7 +16,7 @@ BRANCH | STATUS
 ## What is superDoit?
 `superDoit` is a scripting framework for writing shell scripts in [GemStone Smalltalk](https://gemtalksystems.com/products/gs64/) using [GemStone Topaz][topaz manual].
 
-### Without superDoit
+#### Without superDoit
 Current best practices for writing a [topaz solo bash scripts to report the sum total size of tranlog files in the given directory][topaz solo bash scripts] involves creating 3 separate files:
 1. a bash script driver script named [gettranlogspace][gettranlogspace]:
    ```
@@ -53,7 +53,7 @@ The bash driver script would then be executed:
 unix> ./gettranlogspace /lark1/users/gsadmin/tranlogs
 /lark1/users/gsadmin/tranlogs: tranlogs consume total 98477 KB
 ```
-### with superDoit
+#### With superDoit
 `superDoit` not only eliminates the need to create separate files to run a solo script, but provides support for declaring command line options, help, debugging and more.
 Here is the `superDoit` version of [reporttranlogspace.solo][reporttranlogspace.solo]:
 ```
@@ -96,7 +96,7 @@ doit
   ^ self noResult
 %
 ```
-#### superDoit execution
+##### superDoit execution
 **Executing** `./reporttranlogspace.solo -t $GS_HOME/server/stones/gs_361/tranlogs` produces:
 ```
 /home/dhenrich/rogue/_homes/rogue/_home/server/stones/gs_361/tranlogs: tranlogs consume total 39617 KB
@@ -122,7 +122,7 @@ EXAMPLES
   reporttranlogspace.solo --tranlogDir=<tranlog-directory-path>
 -----
 ```
-#### superDoit error handling
+##### superDoit error handling
 **Executing** `./reporttranlogspace.solo` produces:
 ```
 UserDefinedError: The required option 'tranlogDir' was not set.
