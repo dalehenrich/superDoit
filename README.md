@@ -54,7 +54,8 @@ unix> ./gettranlogspace /lark1/users/gsadmin/tranlogs
 /lark1/users/gsadmin/tranlogs: tranlogs consume total 98477 KB
 ```
 ### with superDoit
-`superDoit` not only eliminates the need to create separate files to run a solo script, but provides support for declaring command line options, help, debugging and more:
+`superDoit` not only eliminates the need to create separate files to run a solo script, but provides support for declaring command line options, help, debugging and more.
+Here is the `superDoit` version of [reporttranlogspace.solo][reporttranlogspace.solo]:
 ```
 #!/usr/bin/env superdoit_solo
 options
@@ -161,16 +162,9 @@ topaz 1> where
   [GsProcess 102639105]
 topaz 1> 
 ```
-
-
-
-
-
-
-
-
-
-
+---
+start here
+---
 ### superDoit script file
 The script file is composed of a set of structured sections: [*doit*](#doit-section), [*options*](#options-section), [*usage*](#usage-section), [*method*](#method-section), [*instvars*](#instvars-section), [*input*](#input-section), [*method:*](#method-section-1), [*classmethod:*](#classmethod-section), [*customoptions*](#customoptions-section), [*projectshome*](#projectshome-section), [*specs*](#specs-section), [*specurls*](#specurls-section).
 
