@@ -92,9 +92,76 @@ doit
     nextPutAll: self tranlogDir;
     nextPutAll: ': tranlogs consume total ';
     nextPutAll: (sz / 1024) asInteger asString, ' KB'.
-	self noResult
+  ^ self noResult
 %
-```  
+```
+Executing `./reporttranlogspace.solo -t $GS_HOME/server/stones/gs_361/tranlogs` produces:
+```
+/home/dhenrich/rogue/_homes/rogue/_home/server/stones/gs_361/tranlogs: tranlogs consume total 39617 KB
+```
+Executing `./reporttranlogspace.solo` produces:
+```
+UserDefinedError: The required option 'tranlogDir' was not set.
+```
+Executing `./reporttranlogspace.solo -h ` produces:
+```
+-----
+USAGE reporttranlogspace.solo [--help | -h] [--debug | -D] --tranlogDir=<tranlog-directory-path>
+
+DESCRIPTION
+  Calculate and report the sum of the tranlog sizes in the given <tranlog-directory-path>
+
+OPTIONS
+  -t, --tranlogDir=<tranlog-directory-path>
+                             path to tranlog directory
+  -h, --help                 display usage message
+  -D, --debug                bring up topaz debugger in the event of a script error
+
+EXAMPLES
+  reporttranlogspace.solo --help
+  reporttranlogspace.solo -D -t <tranlog-directory-path>
+  reporttranlogspace.solo -t <tranlog-directory-path>
+  reporttranlogspace.solo --tranlogDir=<tranlog-directory-path>
+-----
+```
+Executing `./reporttranlogspace.solo -D` and entering `where` at topaz promppt produces:
+```
+-----------------------------------------------------
+ Near line 62 of file /home/dhenrich/rogue/_homes/rogue/_home/shared/repos/superDoit/gemstone/superdoit.tpz
+GemStone: Error         Nonfatal
+a UserDefinedError occurred (error 2318), reason:halt, The required option 'tranlogDir' was not set.
+Error Category: 231169 [GemStone] Number: 2318  Arg Count: 1 Context : 20 exception : 102530817
+Arg 1: [20 size:0 primitiveSize:0 cls: 76289 UndefinedObject] nil
+Stopping at line 62 of /home/dhenrich/rogue/_homes/rogue/_home/shared/repos/superDoit/gemstone/superdoit.tpz
+topaz 1> where
+==> 1 UserDefinedError (AbstractException) >> _signalToDebugger @10 line 8   [methId 101346817]
+2 UserDefinedError (AbstractException) >> defaultAction @2 line 18   [methId 101347073]
+3 UserDefinedError (AbstractException) >> _defaultAction @4 line 4   [methId 101346305]
+4 UserDefinedError (AbstractException) >> _signal @2 line 20   [methId 3833089]
+5 UserDefinedError (AbstractException) >> signal @2 line 47   [methId 3848449]
+6 SuperDoitExecutionClass (Object) >> error:    @6 line 7   [methId 6400001]
+7 [] in SuperDoitExecution >> getAndVerifyOptions @21 line 12   [methId 102538497]
+8 Dictionary >> keysAndValuesDo:                @9 line 11   [methId 12241665]
+9 SuperDoitExecutionClass (SuperDoitExecution) >> getAndVerifyOptions @10 line 8   [methId 102499841]
+10 [] in SuperDoitExecution >> doit              @6 line 5   [methId 102543617]
+11 ExecBlock0 (ExecBlock) >> on:do:              @3 line 44   [methId 5850369]
+12 SuperDoitExecutionClass (SuperDoitExecution) >> doit @2 line 8   [methId 102546689]
+13 SuperDoitDoitCommand >> executeAgainst:       @27 line 19   [methId 102584833]
+14 [] in SuperDoitCommandDefinition >> executeAgainst: @7 line 2   [methId 102500609]
+15 OrderedCollection (Collection) >> do:         @5 line 10   [methId 3419649]
+16 SuperDoitCommandDefinition >> executeAgainst: @3 line 2   [methId 102502913]
+17 [] in SuperDoitCommandParser >> parseAndExecuteScriptFile: @22 line 15   [methId 102511105]
+18 [] in AbstractFileReference >> readStreamDo:  @8 line 4   [methId 48130817]
+19 ExecBlock0 (ExecBlock) >> ensure:             @2 line 12   [methId 5852161]
+20 FileReference (AbstractFileReference) >> readStreamDo: @4 line 5   [methId 42354689]
+21 SuperDoitCommandParser >> parseAndExecuteScriptFile: @2 line 3   [methId 102520577]
+22 SuperDoitCommandParser class >> processInputFile @31 line 22   [methId 102519297]
+23 Executed Code                                 @2 line 6   [methId 102553601]
+24 GsNMethod class >> _gsReturnToC               @1 line 11   [methId 5673729]
+  [GsProcess 102639105]
+topaz 1> 
+```
+
 
 
 

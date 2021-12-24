@@ -34,5 +34,5 @@ doit
     nextPutAll: self tranlogDir;
     nextPutAll: ': tranlogs consume total ';
     nextPutAll: (sz / 1024) asInteger asString, ' KB'.
-	self noResult
+	^ self noResult
 %
