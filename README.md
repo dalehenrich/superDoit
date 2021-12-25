@@ -95,7 +95,6 @@ doit
   ^ self noResult
 %
 ```
-### superDoit execution
 **Executing** `./reporttranlogspace.solo -t $GS_HOME/server/stones/gs_361/tranlogs` produces:
 ```
 /home/dhenrich/rogue/_homes/rogue/_home/server/stones/gs_361/tranlogs: tranlogs consume total 39617 KB
@@ -121,7 +120,6 @@ EXAMPLES
   reporttranlogspace.solo --tranlogDir=<tranlog-directory-path>
 -----
 ```
-### superDoit error handling
 **Executing** `./reporttranlogspace.solo` produces:
 ```
 UserDefinedError: The required option 'tranlogDir' was not set.
