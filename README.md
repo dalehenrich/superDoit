@@ -8,16 +8,15 @@ BRANCH | STATUS
 
 ## Table of Contents
 1. [What is superDoit?](#what-is-superdoit)
-2. [superDoit script file sections](#superdoit-script-file-sections)
+2. [superDoit Sections](#superdoit-sections)
 3. [Installation](#superdoit-installation)
 4. [Examples](#examples)
    - [executable .solo doit with methods and Rowan specs](#executable-solo-doit-with-methods-and-rowan-specs)
 2. [How does superDoit work?](#how-does-superdoit-work)
 3. [Branch naming conventions](#branch-naming-conventions)
 ## What is superDoit?
-`superDoit` is a scripting framework for writing shell scripts in [GemStone Smalltalk](https://gemtalksystems.com/products/gs64/) using [GemStone Topaz][topaz manual].
+`superDoit` is a scripting framework for writing shell scripts in [GemStone Smalltalk](https://gemtalksystems.com/products/gs64/) using [GemStone Topaz][topaz manual]
 
-### Without superDoit
 Current best practices for writing a [topaz solo bash scripts to report the sum total size of tranlog files in the given directory][topaz solo bash scripts] involves creating 3 separate files:
 1. a bash script driver script named [gettranlogspace][gettranlogspace]:
    ```
@@ -54,8 +53,7 @@ The bash driver script would then be executed:
 unix> ./gettranlogspace /lark1/users/gsadmin/tranlogs
 /lark1/users/gsadmin/tranlogs: tranlogs consume total 98477 KB
 ```
-### With superDoit
-`superDoit` not only eliminates the need to create separate files to run a solo script, but provides support for declaring command line options, help, debugging and more.
+`superDoit` not only eliminates the need to create separate files to run a solo script, but provides support for declaring command line options, help, debugging and [more](#superdoit-sections).
 Here is the `superDoit` version of [reporttranlogspace.solo][reporttranlogspace.solo]:
 ```
 #!/usr/bin/env superdoit_solo
@@ -179,48 +177,14 @@ DirectoryDoesNotExist: Path / 'tmp' / 'oops'
 ```
 Of course adding `-D` or `--debug` to any of the the above, will bring up the debugger and allow you to debug the error yourself.
 
-## superDoit script file sections
-In the previous section you saw that the [example superDoit script](#with-superdoit) consisted of an [*options* section](#options-section), a [*usage* section](#usage-section), and a [*doit* section](#doit-section):
-```
-#!/usr/bin/env superdoit_solo
-options
-{
-  SuperDoitRequiredOptionWithRequiredArg long: 'tranlogDir' short: 't'.
-}
-%
-usage
------
-USAGE $basename [--help | -h] [--debug | -D] --tranlogDir=<tranlog-directory-path>
+For the complete list of `superDoit` file sections see [superDoit Sections](#superdoit-sections)
 
-DESCRIPTION
-  Calculate and report the sum of the tranlog sizes in the given <tranlog-directory-path>
+superDoit scripts come in three flavors:
+1. [.solo scripts, standalone GemStone Smalltalk scripts that can be run without a stone](#superdoit_solo-scripts).
+2. [.stone scripts, GemStone Smalltalk scripts that are run against a particular stone](#superdoit_stone-scripts).
+3. [.topaz scripts, GemStone topaz sripts that are run against a particular stone](#superdoit_topaz-scripts). 
 
-OPTIONS
-  -t, --tranlogDir=<tranlog-directory-path>
-                             path to tranlog directory
-  -h, --help                 display usage message
-  -D, --debug                bring up topaz debugger in the event of a script error
-
-EXAMPLES
-  $basename --help
-  $basename -D -t <tranlog-directory-path>
-  $basename -t <tranlog-directory-path>
-  $basename --tranlogDir=<tranlog-directory-path>
------
-%
-doit
-  | sz |
-  sz := 0.
-  self tranlogDir asFileReference files
-    do: [:tranlogFile |
-      sz := sz + tranlogFile size ].
-  self stdout
-    nextPutAll: self tranlogDir;
-    nextPutAll: ': tranlogs consume total ';
-    nextPutAll: (sz / 1024) asInteger asString, ' KB'.
-  ^ self noResult
-%
-```
+## superDoit Sections
 Here is a complete list of the sections that may be used in a `superDoit` script:
 1. [*doit*](#-section)
 2. [*options*](#options-section)
@@ -234,12 +198,6 @@ Here is a complete list of the sections that may be used in a `superDoit` script
 7. [*projectshome*](#projectshome-section)
 8. [*specs*](#specs-section)
 9. [*specurls*](#specurls-section).
-
-superDoit scripts come in three flavors:
-1. [.solo scripts, standalone GemStone Smalltalk scripts that can be run without a stone](#superdoit_solo-scripts).
-2. [.stone scripts, GemStone Smalltalk scripts that are run against a particular stone](#superdoit_stone-scripts).
-3. [.topaz scripts, GemStone topaz sripts that are run against a particular stone](#superdoit_topaz-scripts). 
-
 
 ### *doit* section
 A typical Smalltalk IDE will provide a facility for writing Smalltalk code in a workspace or playground, where you can quickly put together a collection of Smalltalk expressions for evaluation without having to resort to creating a class.
