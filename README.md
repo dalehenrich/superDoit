@@ -58,7 +58,7 @@ unix> ./gettranlogspace /lark1/users/gsadmin/tranlogs
 ```
 
 ### superDoit solution
-`superDoit` not only eliminates the need to create separate files to run a solo script, but provides support for declaring command line options, help, debugging and [more](#superdoit-sections).
+`superDoit` not only eliminates the need to create three separate files to run a solo script, but provides support for declaring command line options, help, debugging and [more](#superdoit-sections).
 
 Here is the `superDoit` version of [reporttranlogspace.solo][reporttranlogspace.solo]:
 ```
