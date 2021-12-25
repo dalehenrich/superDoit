@@ -460,13 +460,14 @@ doit
 
 ## Rowan and superDoit
 *Note:* As of December, 2021, [Rowan v2.2][Rowan] and [Jadeite][Jadeite] should be treated as beta/alpha releases:
-1. GemStone upgrades of Rowan extents is not supported.
-2. the Rowan API is not complete.
+1. GemStone upgrade of a Rowan extent is not supported.
+2. The Rowan API is not complete.
 3. [Jadeite][Jadeite] the Rowan IDE is not fully functional.
 
 However, with that said:
 1. Rowan v2.2. sports a GemStone port of [FileSystem][FileSystem] which greatly improves the File manipulation API for GemStone, a critical capability for scripting
 2. Rowan v2.2 can be used for loading external projects into a topaz solo stone.
+For example, a [NeoJSON .solo script][.smalltalk.ston] is being used to run [Github CI for an in-progress port of NeoJSON to the GemStone kernel using Rowan][NeoJSON github action] and a [OrderedDictionary .superDoitCI.ston][OrderedDictionary .superDoitCI.ston] used to run [Github CI for a port of OrderedDictionary to the GemStone kernel using Rowan][OrderedDictionary github action]
 
 ## Branch naming conventions
 1. vX
@@ -507,3 +508,7 @@ Primary work takes place on this branch and cannot be depended upon to be stable
 [Rowan]: https://github.com/GemTalk/Rowan
 [Jadeite]: https://github.com/GemTalk/Jadeite
 [FileSystem]: https://github.com/pharo-project/pharo/tree/Pharo9.0/src/FileSystem-Core
+[NeoJSON .superDoitCI.ston]: https://github.com/GsDevKit/NeoJSON/blob/rowan_master/.superDoitCI.solo
+[NeoJSON github action]: https://github.com/GsDevKit/NeoJSON/runs/4415197771?check_suite_focus=true#step:5:29
+[OrderedDictionary .superDoitCI.ston]: https://github.com/GsDevKit/OrderedDictionary/blob/rowanize/.superDoitCI.solo
+[OrderedDictionary github action]: https://github.com/GsDevKit/OrderedDictionary/runs/4415167050?check_suite_focus=true#step:5:27
