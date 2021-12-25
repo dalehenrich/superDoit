@@ -25,7 +25,7 @@ BRANCH | STATUS
 `superDoit` is a scripting framework for writing shell scripts in [GemStone Smalltalk](https://gemtalksystems.com/products/gs64/) using [GemStone Topaz][topaz manual]
 
 ### Current best practices
-Current best practices for writing a [topaz solo bash scripts to report the sum total size of tranlog files in the given directory][topaz solo bash scripts] involves creating 3 separate files:
+Current best practices for writing a [topaz solo bash scripts to report the sum total size of tranlog files in the given directory][topaz solo bash scripts] involves creating 3 separate files (see [Scripting with topaz solo using sh-bang][topaz scripting with sh-bang] for resons why 3 files are needed to handl comman line arguments):
 1. a bash script driver script named [gettranlogspace][gettranlogspace]:
    ```
    #!/bin/bash
@@ -192,13 +192,16 @@ For the complete list of `superDoit` file sections see [superDoit Sections](#sup
 `superDoit` scripts come in three flavors: [solo](#solo-script), [stone](#stone-script), [topaz](#topaz-script). By convention each type of script is identified by a .solo, .stone, .topaz file extenstion, so that users will know how to run and what to expect from the script.
 
 ### .solo script
-The *doit* section contains the Smalltalk expressions to be executed and is terminated by *%*:
+.solo scripts:
 ```
 #!/usr/bin/env superdoit_solo
 doit
 ^ 3 + 4
 %
 ```
+start with a `#!/usr/bin/env superdoit_solo` shebang and `$ROWAN_PROJECTS_HOME/superDoit/bin/superdoit_solo` needs to be in your path.
+
+See [.solo script installation](#solo-script-installation) for additional information about installing a topaz solo extent and product tree.
 
 ### .stone script
 The *doit* section contains the Smalltalk expressions to be executed and is terminated by *%*:
@@ -209,11 +212,11 @@ doit
 %
 ```
 
-### .toapz script
+### .topaz script
 The *doit* section contains the Smalltalk expressions to be executed and is terminated by *%*:
 ```
 #!/usr/bin/env superdoit_topaz
-set u SystemUse p swordfish
+set u SystemUser p swordfish
 set gemstone gs64stone
 login
 
@@ -481,6 +484,7 @@ Primary work takes place on this branch and cannot be depended upon to be stable
 
 [topaz manual]: https://downloads.gemtalksystems.com/docs/GemStone64/3.6.x/GS64-Topaz-3.6/GS64-Topaz-3.6.htm
 [topaz shell scripts]: https://downloads.gemtalksystems.com/docs/GemStone64/3.6.x/GS64-Topaz-3.6/1-Tutorial.htm#pgfId-1131576
+[topaz scripting with sh-bang]: https://downloads.gemtalksystems.com/docs/GemStone64/3.6.x/GS64-Topaz-3.6/1-Tutorial.htm#pgfId-1131973
 [topaz solo bash scripts]: https://downloads.gemtalksystems.com/docs/GemStone64/3.6.x/GS64-Topaz-3.6/1-Tutorial.htm#pgfId-1126780
 [gettranlogspace]: https://downloads.gemtalksystems.com/docs/GemStone64/3.6.x/GS64-Topaz-3.6/1-Tutorial.htm#pgfId-1126891
 [myini]: https://downloads.gemtalksystems.com/docs/GemStone64/3.6.x/GS64-Topaz-3.6/1-Tutorial.htm#pgfId-1127344
