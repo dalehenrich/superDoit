@@ -10,13 +10,17 @@ BRANCH | STATUS
 1. [What is superDoit?](#what-is-superdoit)
    - [Current best practices](#current-best-practices)
    - [superDoit solution](#superDoit-solution)
-2. [.solo, .stone, and .topaz scripts](#solo-stone-and-topaz-scripts)
+2. [solo, stone, and topaz scripts](#solo-stone-and-topaz-scripts)
+   - [.solo script](#solo-script)
+   - [.stone script](#stone-script)
+   - [.topaz script](#topaz script)
 2. [superDoit sections](#superdoit-sections)
 3. [Installation](#superdoit-installation)
 4. [Examples](#examples)
    - [executable .solo doit with methods and Rowan specs](#executable-solo-doit-with-methods-and-rowan-specs)
 2. [How does superDoit work?](#how-does-superdoit-work)
 3. [Branch naming conventions](#branch-naming-conventions)
+
 ## What is superDoit?
 `superDoit` is a scripting framework for writing shell scripts in [GemStone Smalltalk](https://gemtalksystems.com/products/gs64/) using [GemStone Topaz][topaz manual]
 
@@ -184,11 +188,39 @@ Of course adding `-D` or `--debug` to any of the the above, will bring up the de
 
 For the complete list of `superDoit` file sections see [superDoit Sections](#superdoit-sections)
 
-## .solo, .stone, and .topaz scripts
+## solo, stone, and topaz scripts
+`superDoit` scripts come in three flavors: [solo](#solo-script), [stone](#stone-script), [topaz](#topaz-script). By convention each type of script is identified by a .solo, .stone, .topaz file extenstion, so that users will know how to run and what to expect from the script.
 
-1. [.solo scripts](#solo-scripts)
-2. [.stone scripts](#stone-scripts)
-3. [.topaz scripts](#topaz-scripts)
+### .solo script
+The *doit* section contains the Smalltalk expressions to be executed and is terminated by *%*:
+```
+#!/usr/bin/env superdoit_solo
+doit
+^ 3 + 4
+%
+```
+
+### .stone script
+The *doit* section contains the Smalltalk expressions to be executed and is terminated by *%*:
+```
+#!/usr/bin/env superdoit_stone
+doit
+^ 3 + 4
+%
+```
+
+### .toapz script
+The *doit* section contains the Smalltalk expressions to be executed and is terminated by *%*:
+```
+#!/usr/bin/env superdoit_topaz
+set u SystemUse p swordfish
+set gemstone gs64stone
+login
+
+run
+GsFile stdout nextPutAll: (3 + 4) printString; lf
+%
+```
 
 ## superDoit sections
 Here is a complete list of the sections that may be used in a `superDoit` script:
