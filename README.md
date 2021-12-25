@@ -19,6 +19,7 @@ BRANCH | STATUS
 4. [Examples](#examples)
    - [executable .solo doit with methods and Rowan specs](#executable-solo-doit-with-methods-and-rowan-specs)
 2. [How does superDoit work?](#how-does-superdoit-work)
+3. [Rowan and superDoit](#rowan-and-superdoit)
 3. [Branch naming conventions](#branch-naming-conventions)
 
 ## What is superDoit?
@@ -192,18 +193,16 @@ For the complete list of `superDoit` file sections see [superDoit Sections](#sup
 `superDoit` scripts come in three flavors: [solo](#solo-script), [stone](#stone-script), [topaz](#topaz-script). By convention each type of script is identified by a .solo, .stone, .topaz file extenstion, so that users will know how to run and what to expect from the script.
 
 ### solo script
-solo scripts use a `solo login`, [a special kind of login, which does not require a running Stone. This allows a Gem session to start up and execute GemStone Smalltalk code (based on reading from a GemStone extent file), without any connection to a Stone. Without a Stone, a solo session is single-user, and changes to persistent objects cannot be committed. Solo sessions cannot, for example, run markForCollection in their own environments, nor execute methods that make or restore backups.][Topaz Solo for Scripting]
+solo scripts use a `solo login`, [a special kind of login, which does not require a running Stone. This allows a Gem session to start up and execute GemStone Smalltalk code (based on reading from a GemStone extent file), without any connection to a Stone. Without a Stone, a solo session is single-user, and changes to persistent objects cannot be committed. Solo sessions cannot, for example, run markForCollection in their own environments, nor execute methods that make or restore backups.][Topaz Solo for Scripting].
 
-:
+solo scripts start with a `#!/usr/bin/env superdoit_solo` shebang and `<path-to-superDot-git-clone>/bin/superdoit_solo` needs to be in your path:
 ```
 #!/usr/bin/env superdoit_solo
 doit
 ^ 3 + 4
 %
 ```
-start with a `#!/usr/bin/env superdoit_solo` shebang and `<path-to-superDot-git-clone/bin/superdoit_solo` needs to be in your path.
-
-
+solo scripts are run against an extent with [Rowan v2.2 installed](#rowan-and-superdoit). 
 
 See [.solo script installation](#solo-script-installation) for additional information about installing a topaz solo extent and product tree.
 
@@ -459,6 +458,16 @@ doit
 
 ## How does superDoit work?
 
+## Rowan and superDoit
+*Note:* As of December, 2021, [Rowan v2.2][Rowan] and [Jadeite][Jadeite] should be treated as beta/alpha releases:
+1. GemStone upgrades of Rowan extents is not supported.
+2. the Rowan API is not complete.
+3. [Jadeite][Jadeite] the Rowan IDE is not fully functional.
+
+However, with that said:
+1. Rowan v2.2. sports a GemStone port of [FileSystem][FileSystem] which greatly improves the File manipulation API for GemStone, a critical capability for scripting
+2. Rowan v2.2 can be used for loading external projects into a topaz solo stone.
+
 ## Branch naming conventions
 1. vX
 2. vX.Y
@@ -495,3 +504,6 @@ Primary work takes place on this branch and cannot be depended upon to be stable
 [reporttranlogspace.tpz]: https://downloads.gemtalksystems.com/docs/GemStone64/3.6.x/GS64-Topaz-3.6/1-Tutorial.htm#pgfId-1127310
 
 [reporttranlogspace.solo]: examples/utility/reporttranlogspace.solo
+[Rowan]: https://github.com/GemTalk/Rowan
+[Jadeite]: https://github.com/GemTalk/Jadeite
+[FileSystem]: https://github.com/pharo-project/pharo/tree/Pharo9.0/src/FileSystem-Core
