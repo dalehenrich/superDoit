@@ -19,7 +19,7 @@ BRANCH | STATUS
 ## What is superDoit?
 `superDoit` is a scripting framework for writing shell scripts in [GemStone Smalltalk](https://gemtalksystems.com/products/gs64/) using [GemStone Topaz][topaz manual]
 
-###Current best practices
+### Current best practices
 Current best practices for writing a [topaz solo bash scripts to report the sum total size of tranlog files in the given directory][topaz solo bash scripts] involves creating 3 separate files:
 1. a bash script driver script named [gettranlogspace][gettranlogspace]:
    ```
