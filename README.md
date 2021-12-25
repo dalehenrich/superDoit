@@ -8,9 +8,10 @@ BRANCH | STATUS
 
 ## Table of Contents
 1. [What is superDoit?](#what-is-superdoit)
-2. [superDoit sections](#superdoit-sections)
    - [Current best practices](#current-best-practices)
    - [superDoit solution](#superDoit-solution)
+2. [.solo, .stone, and .topaz scripts](#solo-stone-and-topaz-scripts)
+2. [superDoit sections](#superdoit-sections)
 3. [Installation](#superdoit-installation)
 4. [Examples](#examples)
    - [executable .solo doit with methods and Rowan specs](#executable-solo-doit-with-methods-and-rowan-specs)
@@ -183,10 +184,11 @@ Of course adding `-D` or `--debug` to any of the the above, will bring up the de
 
 For the complete list of `superDoit` file sections see [superDoit Sections](#superdoit-sections)
 
-superDoit scripts come in three flavors:
-1. [.solo scripts, standalone GemStone Smalltalk scripts that can be run without a stone](#superdoit_solo-scripts).
-2. [.stone scripts, GemStone Smalltalk scripts that are run against a particular stone](#superdoit_stone-scripts).
-3. [.topaz scripts, GemStone topaz sripts that are run against a particular stone](#superdoit_topaz-scripts). 
+## .solo, .stone, and .topaz scripts
+
+1. [.solo scripts](#solo-scripts)
+2. [.stone scripts](#stone-scripts)
+3. [.topaz scripts](#topaz-scripts)
 
 ## superDoit sections
 Here is a complete list of the sections that may be used in a `superDoit` script:
@@ -327,10 +329,6 @@ The [*specs* section](examples/kitchenSink/uncommonCommandExample.stone#L67-L90)
 
 ### *specurls* section
 The [*specurls* section](examples/kitchenSink/uncommonCommandExample.stone#L91-L93), terminated by *%* contains a list of spec urls that reference the location of a Rowan load specification STON object.
-
-### superdoit_solo scripts
-### superdoit_stone scripts
-### superdoit_topaz scripts
 
 ## superDoit installation
 ### .solo script installation
