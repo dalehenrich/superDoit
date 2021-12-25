@@ -466,8 +466,8 @@ doit
 
 However, with that said:
 1. Rowan v2.2. sports a GemStone port of [FileSystem][FileSystem] which greatly improves the File manipulation API for GemStone, a critical capability for scripting
-2. Rowan v2.2 can be used for loading external projects into a topaz solo stone.
-For example, a [OrderedDictionary .superDoitCI.solo][OrderedDictionary .superDoitCI.solo] used to run [Github CI for a port of OrderedDictionary to the GemStone kernel using Rowan][OrderedDictionary github action]
+2. Rowan v2.2 can be used for loading external projects into a topaz solo stone. 
+For example, an [OrderedDictionary .superDoitCI.solo][OrderedDictionary .superDoitCI.solo] script is used to run [Github CI for a port of OrderedDictionary to the GemStone kernel using Rowan][OrderedDictionary github action]
 
 ## Branch naming conventions
 1. vX
