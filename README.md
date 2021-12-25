@@ -8,7 +8,9 @@ BRANCH | STATUS
 
 ## Table of Contents
 1. [What is superDoit?](#what-is-superdoit)
-2. [superDoit Sections](#superdoit-sections)
+2. [superDoit sections](#superdoit-sections)
+   - [Current best practices](#current-best-practices)
+   - [superDoit solution](#superDoit-solution)
 3. [Installation](#superdoit-installation)
 4. [Examples](#examples)
    - [executable .solo doit with methods and Rowan specs](#executable-solo-doit-with-methods-and-rowan-specs)
@@ -17,6 +19,7 @@ BRANCH | STATUS
 ## What is superDoit?
 `superDoit` is a scripting framework for writing shell scripts in [GemStone Smalltalk](https://gemtalksystems.com/products/gs64/) using [GemStone Topaz][topaz manual]
 
+###Current best practices
 Current best practices for writing a [topaz solo bash scripts to report the sum total size of tranlog files in the given directory][topaz solo bash scripts] involves creating 3 separate files:
 1. a bash script driver script named [gettranlogspace][gettranlogspace]:
    ```
@@ -53,7 +56,10 @@ The bash driver script would then be executed:
 unix> ./gettranlogspace /lark1/users/gsadmin/tranlogs
 /lark1/users/gsadmin/tranlogs: tranlogs consume total 98477 KB
 ```
+
+### superDoit solution
 `superDoit` not only eliminates the need to create separate files to run a solo script, but provides support for declaring command line options, help, debugging and [more](#superdoit-sections).
+
 Here is the `superDoit` version of [reporttranlogspace.solo][reporttranlogspace.solo]:
 ```
 #!/usr/bin/env superdoit_solo
@@ -182,7 +188,7 @@ superDoit scripts come in three flavors:
 2. [.stone scripts, GemStone Smalltalk scripts that are run against a particular stone](#superdoit_stone-scripts).
 3. [.topaz scripts, GemStone topaz sripts that are run against a particular stone](#superdoit_topaz-scripts). 
 
-## superDoit Sections
+## superDoit sections
 Here is a complete list of the sections that may be used in a `superDoit` script:
 1. [*doit*](#-section)
 2. [*options*](#options-section)
