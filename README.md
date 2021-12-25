@@ -13,7 +13,7 @@ BRANCH | STATUS
 2. [solo, stone, and topaz scripts](#solo-stone-and-topaz-scripts)
    - [.solo script](#solo-script)
    - [.stone script](#stone-script)
-   - [.topaz script](#topaz script)
+   - [.topaz script](#topaz-script)
 2. [superDoit sections](#superdoit-sections)
 3. [Installation](#superdoit-installation)
 4. [Examples](#examples)
