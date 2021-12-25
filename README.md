@@ -25,7 +25,7 @@ BRANCH | STATUS
 `superDoit` is a scripting framework for writing shell scripts in [GemStone Smalltalk](https://gemtalksystems.com/products/gs64/) using [GemStone Topaz][topaz manual]
 
 ### Current best practices
-Current best practices for writing a [topaz solo bash scripts to report the sum total size of tranlog files in the given directory][topaz solo bash scripts] involves creating 3 separate files (see [Scripting with topaz solo using sh-bang][topaz scripting with sh-bang] for resons why 3 files are needed to handl comman line arguments):
+Current best practices for writing a [topaz solo bash scripts to report the sum total size of tranlog files in the given directory][Topaz Solo Scripting using bash to pass arguments] involves creating 3 separate files (see [Scripting with topaz solo using sh-bang][Scripting with topaz solo using she-bang] for resons why 3 files are needed to handle command line arguments):
 1. a bash script driver script named [gettranlogspace][gettranlogspace]:
    ```
    #!/bin/bash
@@ -199,7 +199,7 @@ doit
 ^ 3 + 4
 %
 ```
-start with a `#!/usr/bin/env superdoit_solo` shebang and `$ROWAN_PROJECTS_HOME/superDoit/bin/superdoit_solo` needs to be in your path.
+start with a `#!/usr/bin/env superdoit_solo` shebang and `<path-to-superDot-git-clone/bin/superdoit_solo` needs to be in your path.
 
 See [.solo script installation](#solo-script-installation) for additional information about installing a topaz solo extent and product tree.
 
@@ -483,9 +483,8 @@ A pre-release may be used to further identify the purpose of the work.
 Primary work takes place on this branch and cannot be depended upon to be stable.
 
 [topaz manual]: https://downloads.gemtalksystems.com/docs/GemStone64/3.6.x/GS64-Topaz-3.6/GS64-Topaz-3.6.htm
-[topaz shell scripts]: https://downloads.gemtalksystems.com/docs/GemStone64/3.6.x/GS64-Topaz-3.6/1-Tutorial.htm#pgfId-1131576
-[topaz scripting with sh-bang]: https://downloads.gemtalksystems.com/docs/GemStone64/3.6.x/GS64-Topaz-3.6/1-Tutorial.htm#pgfId-1131973
-[topaz solo bash scripts]: https://downloads.gemtalksystems.com/docs/GemStone64/3.6.x/GS64-Topaz-3.6/1-Tutorial.htm#pgfId-1126780
+[Scripting with topaz solo using she-bang]: https://downloads.gemtalksystems.com/docs/GemStone64/3.6.x/GS64-Topaz-3.6/1-Tutorial.htm#pgfId-1131973
+[Topaz Solo Scripting using bash to pass arguments]: https://downloads.gemtalksystems.com/docs/GemStone64/3.6.x/GS64-Topaz-3.6/1-Tutorial.htm#pgfId-1126780
 [gettranlogspace]: https://downloads.gemtalksystems.com/docs/GemStone64/3.6.x/GS64-Topaz-3.6/1-Tutorial.htm#pgfId-1126891
 [myini]: https://downloads.gemtalksystems.com/docs/GemStone64/3.6.x/GS64-Topaz-3.6/1-Tutorial.htm#pgfId-1127344
 [reporttranlogspace.tpz]: https://downloads.gemtalksystems.com/docs/GemStone64/3.6.x/GS64-Topaz-3.6/1-Tutorial.htm#pgfId-1127310
