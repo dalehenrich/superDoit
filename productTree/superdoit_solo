@@ -13,16 +13,13 @@ set -e
 
 scriptFile=$1
 shift
-if [ "$GEMSTONE"x = "x' ] ; then
+if [ "$GEMSTONE"x = "x" ] ; then
 	echo "Environment variable GEMSTONE must be defined"
 	exit 1
 fi
 GEM_SOLO_EXTENT="$GEMSTONE/bin/extent0.rowan.dbf"
-if [ "$ROWAN_PROJECTS_HOME"x = "x" ] ; then
-	export ROWAN_PROJECTS_HOME="$GEMSTONE/upgrade/projects"
-fi
 
-export SUPERDOIT_DIR="$ROWAN_PROJECTS_HOME/superDoit"
+export SUPERDOIT_DIR="$GEMSTONE/upgrade/projects/superDoit"
 gemstoneDir="$SUPERDOIT_DIR/gemstone"
 
 skip="skip"
