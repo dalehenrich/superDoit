@@ -1,0 +1,28 @@
+#!/usr/bin/env superdoit_solo
+usage
+-----
+USAGE $basename [--help | -h] [--debug | -D] 
+DESCRIPTION
+  Write the Gem Version report for the current solo extent on stdout.
+
+OPTIONS
+  -h, --help                 display usage message
+  -D, --debug                bring up topaz debugger in the event of a script error
+
+EXAMPLES
+  $basename --help
+  $basename -D
+  $basename
+-----
+%
+doit
+	self stdout nextPutAll: '--------------------'; lf.
+	self stdout nextPutAll: 'Gem Version Report for ', self executionStoneName printString; lf.
+	self stdout nextPutAll: '--------------------'; lf.
+	System gemVersionReport keysAndValuesDo: [:key :value |
+		self stdout
+			nextPutAll: key asString ; lf; tab; nextPutAll: ' = ', value asString; lf ].
+	self stdout nextPutAll: '--------------------'; lf.
+
+	^ self noResult
+%

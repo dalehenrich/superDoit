@@ -6,8 +6,6 @@
 #	Expected script command line:
 #		script [ <script-args> ] [ -- <topaz-command-line-args> ]
 #
-#
-# set -x 
 
 set -e
 

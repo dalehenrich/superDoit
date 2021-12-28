@@ -1,0 +1,34 @@
+#!/usr/bin/env superdoit_stone
+usage
+-----
+USAGE $basename [--help | -h] [--debug | -D] [-- ( -r | -l | -L ) -I <path-to-.topazini> \
+                [<topaz-command-line-args>] ] 
+
+DESCRIPTION
+  Write the Stone Version report for the current stone on stdout.
+
+OPTIONS
+  <path-to-.topazini>        path to a .topazini file with a minimum of username, 
+                             password and stone name set
+  <topaz-command-line-args>  topaz options that should be passed to topaz when running
+                             running the script
+  -h, --help                 display usage message
+  -D, --debug                bring up topaz debugger in the event of a script error
+
+EXAMPLES
+  $basename --help -- -L -I ./.topazini
+  $basename -D     -- -L -I ./.topazini
+  $basename        -- -L -I ./.topazini
+-----
+%
+doit
+	self stdout nextPutAll: '--------------------'; lf.
+	self stdout nextPutAll: 'Stone Version Report for ', self executionStoneName printString; lf.
+	self stdout nextPutAll: '--------------------'; lf.
+	System stoneVersionReport keysAndValuesDo: [:key :value |
+		self stdout
+			nextPutAll: key asString ; lf; tab; nextPutAll: ' = ', value asString; lf ].
+	self stdout nextPutAll: '--------------------'; lf.
+
+	^ self noResult
+%

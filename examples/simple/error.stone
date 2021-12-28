@@ -1,11 +1,4 @@
 #!/usr/bin/env superdoit_stone
-#
-# Standard options are always present unless customoptions section is used
-#{
-#  SuperDoitOptionalOptionWithNoArg long: 'help' short: 'h'.
-#  SuperDoitOptionalOptionWithNoArg long: 'debug' short: 'D'.
-#}
-#
 doit
 3 foo
 %

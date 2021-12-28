@@ -1,0 +1,119 @@
+#! /usr/bin/env bash
+#
+#	Version of _stone script designed to be embedded in the GemStone product tree.
+#
+#	Expected script command line:
+#			script [ <script-args> ] -- ([-r] | -l | -L) -I <path-to-.topazini> <topaz-command-line-args>
+#
+
+set -e
+
+export SUPERDOIT_DIR="$GEMSTONE/upgrade/projects/superDoit"
+gemstoneDir="$SUPERDOIT_DIR/gemstone"
+
+# process command line args
+#		collect scriptFile, then scan for scriptArgs, if -- encountered, 
+
+scriptFile=$1
+shift
+if [ "$GEMSTONE"x = "x" ] ; then
+	echo "Environment variable GEMSTONE must be defined"
+	exit 1
+fi
+
+topazArgs=()
+scriptArgs=()
+for arg in "$@"; do
+		if [[ "$endOfScriptArgs"x = "x" ]] && [[ "$arg" = "--" ]] ; then
+			endOfScriptArgs="true"
+		else
+			if [ "$endOfScriptArgs"x = "x" ] ; then
+				scriptArgs+=("$arg")
+			else
+				topazArgs+=("$arg")
+				defaultTopazArgs=()	# explicit empty defaultTopazArgs
+			fi
+		fi
+		shift
+done
+
+skip="skip"
+if [ "$skip"x = "x" ] ; then
+	echo "======================"
+	echo "script file: $scriptFile"
+	echo "stone name: $stoneName"
+	echo "topaz args: ${topazArgs[@]}"
+	echo "script args: ${scriptArgs[@]}"
+	echo "======================"
+	# exit 0
+fi
+
+useBootstrapSuperDoit_file="true" # ... at the moment, this is the only valid value
+if [ "$useBootstrapSuperDoit_file" = "true" ]; then
+	# Rowan extent NOT NEEDED in stone ... bootstrap superDoit using .gs files
+	vers=`awk 'NR==2{print $1; exit}' $GEMSTONE/version.txt`
+	if [ ${#defaultTopazArgs[@]} -eq 0 ] ; then
+		defaultTopazArgs=("-L")		# if no topaz args specified, then default to -L
+	fi
+	topaziniArg=()	# -I should be defined by user on command line
+	case $vers in
+		3.5.*|3.6.*|3.7.*) 
+			# supported versions
+			;;
+			*)
+				echo "using and GEMSTONE env vars not supported for version ${vers}, must use 3.5.x or greater"
+				exit 1
+		esac
+	case $vers in
+		3.5.*) 
+			export bootstrapSuperDoit_file="$gemstoneDir/bootstrap/bootstrapSuperDoit_35x.gs"
+			superdoit_tpz=$gemstoneDir/superdoit_boot_1_35x.tpz
+			;;
+		3.6.0) 
+			export bootstrapSuperDoit_file="$gemstoneDir/bootstrap/bootstrapSuperDoit_360.gs"
+			superdoit_tpz=$gemstoneDir/superdoit_boot_1_36x.tpz
+			;;
+		3.6.[1-9]) 
+			export bootstrapSuperDoit_file="$gemstoneDir/bootstrap/bootstrapSuperDoit_361x.gs"
+			superdoit_tpz=$gemstoneDir/superdoit_boot_1_36x.tpz
+			;;
+		3.7.*) 
+			export bootstrapSuperDoit_file="$gemstoneDir/bootstrap/bootstrapSuperDoit_37x.gs"
+			superdoit_tpz=$gemstoneDir/superdoit_boot_1_36x.tpz
+			;;
+		*) echo "unsupported gemstone version $vers"; exit 1 ;;
+	esac
+else
+	# Rowan extent NEEDED in stone ... at the moment, it isn't clear how to tell when Rowan is present without starting stone
+	superdoit_tpz=$gemstoneDir/superdoit.tpz
+fi
+
+if [ "$skip"x = "x" ] ; then
+	echo "======================"
+	echo "defaultTopazArgs args: ${defaultTopazArgs[@]}"
+	echo "topaziniArg args: ${topaziniArg[@]}"
+	echo "topaz args: ${topazArgs[@]}"
+	echo "script args: ${scriptArgs[@]}"
+	echo "======================"
+	# exit 0
+fi
+
+export gemstoneDir
+case $vers in
+	3.5.*|3.6.*|3.7.*)
+		commandLine=()
+		commandLine+=("${defaultTopazArgs[@]}")
+		if [ "$topazArgs"x != x ] ; then
+			commandLine+=("${topazArgs[@]}")
+		fi
+		commandLine+=("${topaziniArg[@]}")
+	 	commandLine+=("-q" "-S" "$superdoit_tpz" "--" "$scriptFile" "--" )
+		commandLine+=("${scriptArgs[@]}")
+		$GEMSTONE/bin/topaz "${commandLine[@]}"
+#		$GEMSTONE/bin/topaz $defaultTopazArgs $topazArgs \
+#			$topaziniArg \
+#			-q \
+#			-S $superdoit_tpz -- $scriptFile -- $scriptArgs
+		;;
+	*) echo "unsupported gemstone version $vers (only supported in 3.5.x, 3.6.x and 3.7.x)"; exit 1 ;;
+esac
