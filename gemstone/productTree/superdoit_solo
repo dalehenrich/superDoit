@@ -34,4 +34,4 @@ $GEMSTONE/bin/topaz -l \
 	-I "$gemstoneDir/topazini_solo" \
 	-C "GEM_SOLO_EXTENT=$GEM_SOLO_EXTENT" \
 	-q \
-	-S $gemstoneDir/superdoit.tpz -- $scriptFile -- $*
+	-S $gemstoneDir/productTree/superdoit.tpz -- $scriptFile -- $*
