@@ -1,0 +1,62 @@
+display classoops
+login
+run
+"create the transient symbol dictionary for superDoit"
+	| sess symbolList name |
+	sess := GsCurrentSession currentSession.
+	sess _transientSymbolList ifNil: [ System refreshTransientSymbolList ].
+	symbolList := sess transientSymbolList.
+	name := #'SuperDoit_trasientSymbolDictionary'.	"must match value in SuperDoitCommandParser class >> transientSymbolDictionaryName"
+	(symbolList resolveSymbol: name)
+		ifNil: [
+			| systemDictionary |
+			"add to transient symbol dictionary if not present" 
+			systemDictionary := SymbolDictionary new name: name.
+			symbolList insertObject: systemDictionary at: 1 ]
+%
+run
+| resolvedProject |
+"install superDoit support code in image"
+resolvedProject := Rowan  
+	projectFromUrl: 'file:$SUPERDOIT_DIR/rowan/specs/SuperDoit_solo.ston'
+	diskUrl: 'file:$SUPERDOIT_DIR'.
+resolvedProject _loadSpecification gemstoneSetDefaultSymbolDictNameTo: 'SuperDoit_trasientSymbolDictionary'.	"must match value in SuperDoitCommandParser class >> transientSymbolDictionaryName"
+resolvedProject load.
+%
+run
+false ifTrue: [
+	"Set breakpoints in SuperDoitCommandParser methods. #processInputFile is a 
+		good place to break to step through the whole cycle: parse and execute script
+		file ... after the SuperDoitExecutionClass has been created and populated, 
+		you can set breakpoints in your script methods ... if needed (self halt may 
+		be better option)" 
+	(GsCurrentSession currentSession symbolList objectNamed: #SuperDoitCommandParser) class
+		_setMethodBreak: #processInputFile stepPoint: 30 env: 0;
+		yourself.
+].
+false ifTrue: [
+	"Set breakpoints in SuperDoitDoitCommand methods, ths is the method that ends up lauching the doit" 
+	(GsCurrentSession currentSession symbolList objectNamed: #SuperDoitDoitCommand)
+		_setMethodBreak: #executeAgainst: stepPoint: 24 env: 0;
+		yourself.
+].
+false ifTrue: [
+	"Set breakpoints in SuperDoitExecution methods ... better option that adding
+		halts to superDoit source, unless -D is failiing you." 
+		(GsCurrentSession currentSession symbolList objectNamed: #SuperDoitExecution)
+		_setMethodBreak: #exit:withStatus: stepPoint: 2 env: 0;
+		_setMethodBreak: #exitWithStatus: stepPoint: 2 env: 0;
+		_setMethodBreak: #doit stepPoint: 1 env: 0;
+		_setMethodBreak: #doit stepPoint: 18 env: 0;
+		_setMethodBreak: #doit stepPoint: 20 env: 0;
+		yourself.
+]
+%
+run
+	"the first non-topaz argument is the name of the script file
+		extract the file name and parse the script to extract information
+		needed to create class for running the script.
+		The printString of the doit result is printed to stdout.
+	"
+	SuperDoitCommandParser processInputFile
+%
