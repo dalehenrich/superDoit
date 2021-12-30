@@ -8,6 +8,7 @@
 
 set -e
 
+export SUPERDOIT_CURRENT_DIR="`pwd`"
 export SUPERDOIT_DIR="$GEMSTONE/upgrade/projects/superDoit"
 gemstoneDir="$SUPERDOIT_DIR/gemstone"
 
