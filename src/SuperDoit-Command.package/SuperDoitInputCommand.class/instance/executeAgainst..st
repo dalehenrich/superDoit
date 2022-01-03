@@ -1,7 +1,8 @@
 execution
 executeAgainst: aCommandParser
+
 	| inputFileStream |
-	inputFileStream := self chunk readStreamPortable.
+	inputFileStream := ReadStreamPortable on: self chunk.
 	[ inputFileStream atEnd ]
 		whileFalse: [ 
 			| filePath |
