@@ -836,8 +836,9 @@ commandString
 category: 'execution'
 method: SuperDoitInputCommand
 executeAgainst: aCommandParser
+
 	| inputFileStream |
-	inputFileStream := self chunk readStreamPortable.
+	inputFileStream := ReadStreamPortable on: self chunk.
 	[ inputFileStream atEnd ]
 		whileFalse: [ 
 			| filePath |
@@ -920,6 +921,12 @@ category: 'execution'
 method: SuperDoitProjectsHomeCommand
 executeAgainst: aCommandParser
 	| projectsHomeStream |
+	SuperDoitExecution
+		globalNamed: #'Rowan'
+		ifAbsent: [ 
+			self
+				error:
+					'Rowan must be present in the image in order to use the specs command' ].
 	projectsHomeStream := self chunk readStreamPortable.
 	[ projectsHomeStream atEnd ]
 		whileFalse: [ 
