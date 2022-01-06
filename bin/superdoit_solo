@@ -15,6 +15,22 @@ gemstoneDir="$SUPERDOIT_DIR/gemstone"
 
 scriptFile=$1
 shift
+
+topazArgs=()
+scriptArgs=()
+for arg in "$@"; do
+		if [[ "$endOfScriptArgs"x = "x" ]] && [[ "$arg" = "--" ]] ; then
+			endOfScriptArgs="true"
+		else
+			if [ "$endOfScriptArgs"x = "x" ] ; then
+				scriptArgs+=("$arg")
+			else
+				topazArgs+=("$arg")
+			fi
+		fi
+		shift
+done
+
 export TARGET_GEMSTONE=$GEMSTONE
 if [ "$ARCHBASE"x != "x" ] ; then
 	# Internal GemStone private or sanctioned build (3.6.0 and newer)"
@@ -42,8 +58,10 @@ fi
 
 skip="skip"
 if [ "$skip"x = "x" ] ; then
+	echo "======================"
 	echo "script file: $scriptFile"
-	echo "script args: $*"
+	echo "script args: ${scriptArgs[@]}"
+	echo "topaz args: ${topazArgs[@]}"
 	echo "======================"
 	# exit 0
 fi
@@ -52,4 +70,5 @@ $GEMSTONE/bin/topaz -l \
 	-I "$gemstoneDir/topazini_solo" \
 	-C "GEM_SOLO_EXTENT=$GEM_SOLO_EXTENT" \
 	-q \
-	-S $gemstoneDir/superdoit.tpz -- $scriptFile -- $*
+	${topazArgs[@]} \
+	-S $gemstoneDir/superdoit.tpz -- $scriptFile -- ${scriptArgs[@]}
