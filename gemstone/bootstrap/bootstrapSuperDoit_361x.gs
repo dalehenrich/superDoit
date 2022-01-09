@@ -2050,8 +2050,20 @@ doit
 	^ self theDoit ]
 		on: Error
 		do: [ :ex | 
-			((self respondsTo: #'debug') and: [ self debug ])
-				ifTrue: [ ex pass ].
+			self _printStackOnDebugError
+				ifTrue: [ 
+					"when --debug option is set and stdout is not a terminal (i.e., cannot 
+						use topaz as interactive debugger), unconditionally print stack to 
+						stdout and exit"
+					GsFile
+						gciLogServer: '---------------------';
+						gciLogServer: ex description;
+						gciLogServer: '---------------------';
+						gciLogServer: (GsProcess stackReportToLevel: 300);
+						gciLogServer: '---------------------' ]
+				ifFalse: [ 
+					((self respondsTo: #'debug') and: [ self debug ])
+						ifTrue: [ ex pass ] ].
 			self exit: ex description withStatus: 1	"does not return" ]
 %
 
@@ -2076,6 +2088,18 @@ category: '*superdoit-stone-core'
 method: SuperDoitExecution
 scriptPath: aFilePath
 	_scriptPath := aFilePath
+%
+
+category: '*superdoit-core36x'
+method: SuperDoitExecution
+_printStackOnDebugError
+	"when --debug option is set and stdout is not a terminal 
+		(i.e., cannot use topaz as interactive debugger), 
+		unconditionally print stack to stdout and exit"
+
+	"To change default behavior, override in script"
+
+	^ GsFile stdout isTerminal not
 %
 
 category: '*superdoit-stone-core'

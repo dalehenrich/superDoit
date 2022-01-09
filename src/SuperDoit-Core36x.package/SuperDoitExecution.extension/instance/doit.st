@@ -8,6 +8,18 @@ doit
 	^ self theDoit ]
 		on: Error
 		do: [ :ex | 
-			((self respondsTo: #'debug') and: [ self debug ])
-				ifTrue: [ ex pass ].
+			self _printStackOnDebugError
+				ifTrue: [ 
+					"when --debug option is set and stdout is not a terminal (i.e., cannot 
+						use topaz as interactive debugger), unconditionally print stack to 
+						stdout and exit"
+					GsFile
+						gciLogServer: '---------------------';
+						gciLogServer: ex description;
+						gciLogServer: '---------------------';
+						gciLogServer: (GsProcess stackReportToLevel: 300);
+						gciLogServer: '---------------------' ]
+				ifFalse: [ 
+					((self respondsTo: #'debug') and: [ self debug ])
+						ifTrue: [ ex pass ] ].
 			self exit: ex description withStatus: 1	"does not return" ]
