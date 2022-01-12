@@ -23,7 +23,7 @@ EXAMPLES
 -----
 %
 input
-$SUPERDOIT_DIR/tests/gs/filein.gs
+	$SUPERDOIT_DIR/tests/gs/filein.gs	
 %
 classmethod: SuperDoitGsTest
 bar

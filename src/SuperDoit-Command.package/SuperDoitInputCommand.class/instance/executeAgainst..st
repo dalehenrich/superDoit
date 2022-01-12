@@ -6,5 +6,5 @@ executeAgainst: aCommandParser
 	[ inputFileStream atEnd ]
 		whileFalse: [ 
 			| filePath |
-			filePath := inputFileStream nextLine.
+			filePath := inputFileStream nextLine trimSeparators.
 			GsFileIn fromServerPath: filePath ]
