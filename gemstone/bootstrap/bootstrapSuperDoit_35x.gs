@@ -1784,13 +1784,11 @@ preDoitSpecLoad: specBlock
 			projectSet := rowanProjectSetDefinitionClass new.
 			self _loadSpecs
 				do: [ :spec | 
-					spec projectsHome
-						ifNil: [ 
-							self class commandParserInstance projectsHome
-								ifNotNil: [ :projectsHome | 
-									"if projectsHome command is present, then prime the spec with the value"
-									spec projectsHome: projectsHome ].
-							specBlock cull: spec ].
+					self class commandParserInstance projectsHome
+						ifNotNil: [ :projectsHome | 
+							"if projectsHome command is present, then prime the spec with the value"
+							spec projectsHome: projectsHome ].
+					specBlock cull: spec.
 					spec resolve readProjectSet
 						do: [ :project | projectSet addProject: project ] ].
 			^ projectSet load ].
