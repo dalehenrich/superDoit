@@ -6,4 +6,4 @@ _printStackOnDebugError
 
 	"To change default behavior, override in script"
 
-	^ GsFile stdout isTerminal not
+	^ self class _stdoutIsTerminal
