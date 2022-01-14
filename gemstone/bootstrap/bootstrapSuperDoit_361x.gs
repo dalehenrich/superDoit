@@ -2097,6 +2097,8 @@ doit
 						stdout and exit"
 					GsFile
 						gciLogServer: '---------------------';
+						gciLogServer: 'Unhandled Error in script: ', self scriptPath;
+						gciLogServer: '---------------------';
 						gciLogServer: ex description;
 						gciLogServer: '---------------------';
 						gciLogServer: (GsProcess stackReportToLevel: 300);
