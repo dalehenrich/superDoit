@@ -10,9 +10,6 @@ executeAgainst: aCommandParser
 	urlStream := self chunk readStreamPortable.
 	[ urlStream atEnd ]
 		whileFalse: [ 
-			| url spec |
+			| url |
 			url := urlStream nextLine.
-			spec := (rowanSpecificationClass fromUrl: url)
-				projectsHome: aCommandParser projectsHome;
-				yourself.
-			aCommandParser specs add: spec ]
+			aCommandParser specs add: (rowanSpecificationClass fromUrl: url) ]

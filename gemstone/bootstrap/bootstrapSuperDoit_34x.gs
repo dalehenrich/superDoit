@@ -406,8 +406,15 @@ longName
 
 category: 'accessing'
 method: SuperDoitAbstractOption
-longName: object
-	longName := object
+longName: aString
+	aString isValidIdentifier
+		ifFalse: [ 
+			self
+				error:
+					aString printString
+						,
+							' is an invalid long option name. Long option names are constrained to be a valid selector.' ].
+	longName := aString
 %
 
 category: 'accessing'
@@ -603,6 +610,14 @@ executeAgainst: aCommandParser
 	self subclassResponsibility: #'executeAgainst:'
 %
 
+category: 'execution'
+method: SuperDoitCommand
+executeAgainst: aCommandParser onErrorDo: errorBlock
+	[ self executeAgainst: aCommandParser ]
+		on: Error
+		do: errorBlock
+%
+
 category: 'exporting'
 method: SuperDoitCommand
 exportTo: writeStream commandParser: commandParser executionClass: executionClass
@@ -729,6 +744,14 @@ executeAgainst: aCommandParser
 	instance displayResult: instance doit
 %
 
+category: 'execution'
+method: SuperDoitDoitCommand
+executeAgainst: aCommandParser onErrorDo: errorBlock
+	"errors during execution of doit are under script control"
+
+	self executeAgainst: aCommandParser
+%
+
 category: 'exporting'
 method: SuperDoitDoitCommand
 exportTo: writeStream commandParser: commandParser executionClass: executionClass
@@ -842,7 +865,7 @@ executeAgainst: aCommandParser
 	[ inputFileStream atEnd ]
 		whileFalse: [ 
 			| filePath |
-			filePath := inputFileStream nextLine.
+			filePath := inputFileStream nextLine trimSeparators.
 			GsFileIn fromServerPath: filePath ]
 %
 
@@ -982,19 +1005,10 @@ executeAgainst: aCommandParser
 	[ stonStream atEnd ]
 		whileFalse: [ 
 			| obj |
-			obj := (SuperDoitExecution globalNamed: #STON) fromStream: stonStream.
+			obj := (SuperDoitExecution globalNamed: #'STON') fromStream: stonStream.
 			obj _isArray
-				ifTrue: [ 
-					aCommandParser specs
-						addAll:
-							(obj
-								collect: [ :each | 
-									each
-										projectsHome: aCommandParser projectsHome;
-										yourself ]) ]
-				ifFalse: [ 
-					obj projectsHome: aCommandParser projectsHome.
-					aCommandParser specs add: obj ] ]
+				ifTrue: [ aCommandParser specs addAll: obj ]
+				ifFalse: [ aCommandParser specs add: obj ] ]
 %
 
 ! Class implementation for 'SuperDoitSpecUrlsCommand'
@@ -1020,12 +1034,9 @@ executeAgainst: aCommandParser
 	urlStream := self chunk readStreamPortable.
 	[ urlStream atEnd ]
 		whileFalse: [ 
-			| url spec |
+			| url |
 			url := urlStream nextLine.
-			spec := (rowanSpecificationClass fromUrl: url)
-				projectsHome: aCommandParser projectsHome;
-				yourself.
-			aCommandParser specs add: spec ]
+			aCommandParser specs add: (rowanSpecificationClass fromUrl: url) ]
 %
 
 ! Class implementation for 'SuperDoitUsageCommand'
@@ -1062,8 +1073,9 @@ commands
 
 category: 'execution'
 method: SuperDoitCommandDefinition
-executeAgainst: aCommandParser
-	self commands do: [ :command | command executeAgainst: aCommandParser ]
+executeAgainst: aCommandParser onErrorDo: errorBlock
+	self commands
+		do: [ :command | command executeAgainst: aCommandParser onErrorDo: errorBlock ]
 %
 
 category: 'export'
@@ -1257,7 +1269,7 @@ processNextCommand
 category: 'accessing'
 method: SuperDoitCommandParser
 projectsHome
-	^ projectsHome ifNil: [ '$ROWAN_PROJECTS_HOME' ]
+	^ projectsHome
 %
 
 category: 'accessing'
@@ -1438,6 +1450,12 @@ category: 'utiities'
 classmethod: SuperDoitExecution
 globalNamed: aString ifAbsent: absentBlock
 	^ (self globalNamed: aString) ifNil: absentBlock
+%
+
+category: 'utiities'
+classmethod: SuperDoitExecution
+_stdoutIsTerminal
+	^ GsFile stdout isTerminal not
 %
 
 !		Instance methods for 'SuperDoitExecution'
@@ -1756,7 +1774,8 @@ preDoitSpecLoad: specBlock
 				error:
 					'Rowan must be present in the image in order to use the specurls command' ].
 	rowanClass := SuperDoitExecution globalNamed: 'Rowan'.
-	rowanSemanticVersionNumberClass := SuperDoitExecution globalNamed: 'RwSemanticVersionNumber'.
+	rowanSemanticVersionNumberClass := SuperDoitExecution
+		globalNamed: 'RwSemanticVersionNumber'.
 	rowanVersion := (rowanClass respondsTo: #'version')
 		ifTrue: [ rowanClass version ]
 		ifFalse: [ rowanVersion := rowanSemanticVersionNumberClass fromString: '1.2.0' ].
@@ -1765,7 +1784,13 @@ preDoitSpecLoad: specBlock
 			projectSet := rowanProjectSetDefinitionClass new.
 			self _loadSpecs
 				do: [ :spec | 
-					specBlock cull: spec.
+					spec projectsHome
+						ifNil: [ 
+							self class commandParserInstance projectsHome
+								ifNotNil: [ :projectsHome | 
+									"if projectsHome command is present, then prime the spec with the value"
+									spec projectsHome: projectsHome ].
+							specBlock cull: spec ].
 					spec resolve readProjectSet
 						do: [ :project | projectSet addProject: project ] ].
 			^ projectSet load ].
@@ -1966,7 +1991,20 @@ parseAndExecuteScriptFile: scriptFilePath
 			self commandDefinition commands
 				addFirst: (SuperDoitOptionsCommand chunk: '{}') ].
 	self commandDefinition preClassCreationExecuteAgainst: self.	"make a pass to ensure that all commands that need to be processed BEFORE class creation get a chance to run (i'm looking at you SuperDoitInstVarNamesCommand"
-	self commandDefinition executeAgainst: self.
+	self commandDefinition
+		executeAgainst: self
+		onErrorDo: [ :error | 
+			"this block is intended to handle any errors that result in the execution of commands ... errors during doit command are expected to be excluded"
+			SuperDoitExecution _stdoutIsTerminal
+				ifTrue: [ 
+					"stdout is not a Terminal, so need to dump stack in the event of an error"
+					GsFile
+						gciLogServer: '---------------------';
+						gciLogServer: error description;
+						gciLogServer: '---------------------';
+						gciLogServer: (GsProcess stackReportToLevel: 300);
+						gciLogServer: '---------------------' ].
+			error pass ].
 	^ doitResult ]
 		ensure: [ self stream close ]
 %

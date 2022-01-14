@@ -11,16 +11,7 @@ executeAgainst: aCommandParser
 	[ stonStream atEnd ]
 		whileFalse: [ 
 			| obj |
-			obj := (SuperDoitExecution globalNamed: #STON) fromStream: stonStream.
+			obj := (SuperDoitExecution globalNamed: #'STON') fromStream: stonStream.
 			obj _isArray
-				ifTrue: [ 
-					aCommandParser specs
-						addAll:
-							(obj
-								collect: [ :each | 
-									each
-										projectsHome: aCommandParser projectsHome;
-										yourself ]) ]
-				ifFalse: [ 
-					obj projectsHome: aCommandParser projectsHome.
-					aCommandParser specs add: obj ] ]
+				ifTrue: [ aCommandParser specs addAll: obj ]
+				ifFalse: [ aCommandParser specs add: obj ] ]

@@ -14,7 +14,8 @@ preDoitSpecLoad: specBlock
 				error:
 					'Rowan must be present in the image in order to use the specurls command' ].
 	rowanClass := SuperDoitExecution globalNamed: 'Rowan'.
-	rowanSemanticVersionNumberClass := SuperDoitExecution globalNamed: 'RwSemanticVersionNumber'.
+	rowanSemanticVersionNumberClass := SuperDoitExecution
+		globalNamed: 'RwSemanticVersionNumber'.
 	rowanVersion := (rowanClass respondsTo: #'version')
 		ifTrue: [ rowanClass version ]
 		ifFalse: [ rowanVersion := rowanSemanticVersionNumberClass fromString: '1.2.0' ].
@@ -23,7 +24,13 @@ preDoitSpecLoad: specBlock
 			projectSet := rowanProjectSetDefinitionClass new.
 			self _loadSpecs
 				do: [ :spec | 
-					specBlock cull: spec.
+					spec projectsHome
+						ifNil: [ 
+							self class commandParserInstance projectsHome
+								ifNotNil: [ :projectsHome | 
+									"if projectsHome command is present, then prime the spec with the value"
+									spec projectsHome: projectsHome ].
+							specBlock cull: spec ].
 					spec resolve readProjectSet
 						do: [ :project | projectSet addProject: project ] ].
 			^ projectSet load ].
