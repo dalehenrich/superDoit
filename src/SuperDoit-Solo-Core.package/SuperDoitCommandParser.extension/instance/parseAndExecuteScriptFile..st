@@ -22,6 +22,8 @@ parseAndExecuteScriptFile: scriptFileReference
 					"stdout is not a Terminal, so need to dump stack in the event of an error"
 					GsFile
 						gciLogServer: '---------------------';
+						gciLogServer: 'Unhandled Error in script: ', scriptFileReference pathString;
+						gciLogServer: '---------------------';
 						gciLogServer: error description;
 						gciLogServer: '---------------------';
 						gciLogServer: (GsProcess stackReportToLevel: 300);
