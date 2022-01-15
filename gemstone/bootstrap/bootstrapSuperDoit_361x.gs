@@ -1989,16 +1989,19 @@ parseAndExecuteScriptFile: scriptFilePath
 		executeAgainst: self
 		onErrorDo: [ :error | 
 			"this block is intended to handle any errors that result in the execution of commands ... errors during doit command are expected to be excluded"
-			SuperDoitExecution _stdoutIsTerminal
+			(SuperDoitExecution _stdoutIsTerminal
+				or: [ (System gemConfigurationAt: 'GEM_LISTEN_FOR_DEBUG') == true ])
 				ifTrue: [ 
 					"stdout is not a Terminal, so need to dump stack in the event of an error"
 					GsFile
 						gciLogServer: '---------------------';
-						gciLogServer: 'Unhandled Error in script: ', scriptFilePath;
+						gciLogServer: 'Unhandled Error in script: ' , scriptFilePath;
 						gciLogServer: '---------------------';
 						gciLogServer: error description;
 						gciLogServer: '---------------------';
 						gciLogServer: (GsProcess stackReportToLevel: 300);
+						gciLogServer: '---------------------';
+						gciLogServer: 'GsProcess @' , GsProcess _current asOop printString;
 						gciLogServer: '---------------------' ].
 			error pass ].
 	^ doitResult ]
@@ -2088,18 +2091,21 @@ doit
 	^ self theDoit ]
 		on: Error
 		do: [ :ex | 
-			self _printStackOnDebugError
+			(self _printStackOnDebugError
+				or: [ (System gemConfigurationAt: 'GEM_LISTEN_FOR_DEBUG') == true ])
 				ifTrue: [ 
 					"when --debug option is set and stdout is not a terminal (i.e., cannot 
 						use topaz as interactive debugger), unconditionally print stack to 
 						stdout and exit"
 					GsFile
 						gciLogServer: '---------------------';
-						gciLogServer: 'Unhandled Error in script: ', self scriptPath pathString;
+						gciLogServer: 'Unhandled Error in script: ' , self scriptPath pathString;
 						gciLogServer: '---------------------';
 						gciLogServer: ex description;
 						gciLogServer: '---------------------';
 						gciLogServer: (GsProcess stackReportToLevel: 300);
+						gciLogServer: '---------------------';
+						gciLogServer: 'GsProcess @' , GsProcess _current asOop printString;
 						gciLogServer: '---------------------' ]
 				ifFalse: [ 
 					((self respondsTo: #'debug') and: [ self debug ])
