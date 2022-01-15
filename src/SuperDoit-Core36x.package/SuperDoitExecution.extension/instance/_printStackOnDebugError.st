@@ -6,4 +6,4 @@ _printStackOnDebugError
 
 	"To change default behavior, override in script"
 
-	^ self class _stdoutIsTerminal
+	^ self class _stdoutIsNotTerminal

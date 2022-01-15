@@ -1454,7 +1454,7 @@ globalNamed: aString ifAbsent: absentBlock
 
 category: 'utiities'
 classmethod: SuperDoitExecution
-_stdoutIsTerminal
+_stdoutIsNotTerminal
 	^ GsFile stdout isTerminal not
 %
 
@@ -1988,8 +1988,8 @@ parseAndExecuteScriptFile: scriptFilePath
 	self commandDefinition
 		executeAgainst: self
 		onErrorDo: [ :error | 
-			"this block is intended to handle any errors that result in the execution of commands ... errors during doit command are expected to be excluded"
-			(SuperDoitExecution _stdoutIsTerminal
+			"this block is intended to handle any errors that result in the execution of commands ... errors during doit command are expected to be handled elsewhere"
+			(SuperDoitExecution _stdoutIsNotTerminal
 				or: [ (System gemConfigurationAt: 'GEM_LISTEN_FOR_DEBUG') == true ])
 				ifTrue: [ 
 					"stdout is not a Terminal, so need to dump stack in the event of an error"

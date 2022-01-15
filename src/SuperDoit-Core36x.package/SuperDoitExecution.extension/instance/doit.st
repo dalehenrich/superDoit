@@ -8,8 +8,9 @@ doit
 	^ self theDoit ]
 		on: Error
 		do: [ :ex | 
-			(self _printStackOnDebugError
-				or: [ (System gemConfigurationAt: 'GEM_LISTEN_FOR_DEBUG') == true ])
+			| listenForDebug |
+			listenForDebug := (System gemConfigurationAt: 'GEM_LISTEN_FOR_DEBUG') == true.
+			(listenForDebug or: [ self _printStackOnDebugError ])
 				ifTrue: [ 
 					"when --debug option is set and stdout is not a terminal (i.e., cannot 
 						use topaz as interactive debugger), unconditionally print stack to 
@@ -23,8 +24,7 @@ doit
 						gciLogServer: (GsProcess stackReportToLevel: 300);
 						gciLogServer: '---------------------';
 						gciLogServer: 'GsProcess @' , GsProcess _current asOop printString;
-						gciLogServer: '---------------------' ]
-				ifFalse: [ 
-					((self respondsTo: #'debug') and: [ self debug ])
-						ifTrue: [ ex pass ] ].
+						gciLogServer: '---------------------' ].
+			(listenForDebug or: [ (self respondsTo: #'debug') and: [ self debug ] ])
+				ifTrue: [ ex pass ].
 			self exit: ex description withStatus: 1	"does not return" ]

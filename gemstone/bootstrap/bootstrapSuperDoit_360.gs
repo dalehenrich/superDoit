@@ -1454,7 +1454,7 @@ globalNamed: aString ifAbsent: absentBlock
 
 category: 'utiities'
 classmethod: SuperDoitExecution
-_stdoutIsTerminal
+_stdoutIsNotTerminal
 	^ GsFile stdout isTerminal not
 %
 
@@ -1988,8 +1988,8 @@ parseAndExecuteScriptFile: scriptFilePath
 	self commandDefinition
 		executeAgainst: self
 		onErrorDo: [ :error | 
-			"this block is intended to handle any errors that result in the execution of commands ... errors during doit command are expected to be excluded"
-			(SuperDoitExecution _stdoutIsTerminal
+			"this block is intended to handle any errors that result in the execution of commands ... errors during doit command are expected to be handled elsewhere"
+			(SuperDoitExecution _stdoutIsNotTerminal
 				or: [ (System gemConfigurationAt: 'GEM_LISTEN_FOR_DEBUG') == true ])
 				ifTrue: [ 
 					"stdout is not a Terminal, so need to dump stack in the event of an error"
@@ -2091,8 +2091,9 @@ doit
 	^ self theDoit ]
 		on: Error
 		do: [ :ex | 
-			(self _printStackOnDebugError
-				or: [ (System gemConfigurationAt: 'GEM_LISTEN_FOR_DEBUG') == true ])
+			| listenForDebug |
+			listenForDebug := (System gemConfigurationAt: 'GEM_LISTEN_FOR_DEBUG') == true.
+			(listenForDebug or: [ self _printStackOnDebugError ])
 				ifTrue: [ 
 					"when --debug option is set and stdout is not a terminal (i.e., cannot 
 						use topaz as interactive debugger), unconditionally print stack to 
@@ -2106,10 +2107,9 @@ doit
 						gciLogServer: (GsProcess stackReportToLevel: 300);
 						gciLogServer: '---------------------';
 						gciLogServer: 'GsProcess @' , GsProcess _current asOop printString;
-						gciLogServer: '---------------------' ]
-				ifFalse: [ 
-					((self respondsTo: #'debug') and: [ self debug ])
-						ifTrue: [ ex pass ] ].
+						gciLogServer: '---------------------' ].
+			(listenForDebug or: [ (self respondsTo: #'debug') and: [ self debug ] ])
+				ifTrue: [ ex pass ].
 			self exit: ex description withStatus: 1	"does not return" ]
 %
 
@@ -2145,7 +2145,7 @@ _printStackOnDebugError
 
 	"To change default behavior, override in script"
 
-	^ self class _stdoutIsTerminal
+	^ self class _stdoutIsNotTerminal
 %
 
 category: '*superdoit-stone-core'

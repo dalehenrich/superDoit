@@ -1,3 +1,3 @@
 utiities
-_stdoutIsTerminal
+_stdoutIsNotTerminal
 	^ GsFile stdout isTerminal not
