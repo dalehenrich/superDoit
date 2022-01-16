@@ -6,7 +6,7 @@ doit
 	self getAndVerifyOptions == self noResult
 		ifTrue: [ ^ self noResult ].
 	^ self theDoit ]
-		on: Error
+		on: Error , Halt
 		do: [ :ex | 
 			| listenForDebug |
 			listenForDebug := (System gemConfigurationAt: 'GEM_LISTEN_FOR_DEBUG') == true.
