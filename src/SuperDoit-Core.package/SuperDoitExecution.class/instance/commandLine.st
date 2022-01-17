@@ -7,7 +7,7 @@ commandLine
 			stream
 				nextPutAll: self basename;
 				space.
-			2 to: _scriptArgs size do: [ :index | 
+			1 to: _scriptArgs size do: [ :index | 
 				stream
 					nextPutAll: (_scriptArgs at: index);
 					space ].
