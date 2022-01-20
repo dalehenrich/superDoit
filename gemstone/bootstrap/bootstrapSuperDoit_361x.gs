@@ -614,7 +614,7 @@ category: 'execution'
 method: SuperDoitCommand
 executeAgainst: aCommandParser onErrorDo: errorBlock
 	[ self executeAgainst: aCommandParser ]
-		on: Error
+		on: Error , Halt
 		do: errorBlock
 %
 
@@ -1470,7 +1470,7 @@ commandLine
 			stream
 				nextPutAll: self basename;
 				space.
-			2 to: _scriptArgs size do: [ :index | 
+			1 to: _scriptArgs size do: [ :index | 
 				stream
 					nextPutAll: (_scriptArgs at: index);
 					space ].
@@ -2089,7 +2089,7 @@ doit
 	self getAndVerifyOptions == self noResult
 		ifTrue: [ ^ self noResult ].
 	^ self theDoit ]
-		on: Error
+		on: Error , Halt
 		do: [ :ex | 
 			| listenForDebug |
 			listenForDebug := (System gemConfigurationAt: 'GEM_LISTEN_FOR_DEBUG') == true.
@@ -2100,7 +2100,7 @@ doit
 						stdout and exit"
 					GsFile
 						gciLogServer: '---------------------';
-						gciLogServer: 'Unhandled Error in script: ' , self scriptPath pathString;
+						gciLogServer: 'Unhandled Error in script: ' , self scriptPath;
 						gciLogServer: '---------------------';
 						gciLogServer: ex description;
 						gciLogServer: '---------------------';
@@ -2119,7 +2119,7 @@ exit: message withStatus: statusInteger
 	"Does not return and terminates the os process with exit status <statusInteger>"
 
 	self logErrorMessage: message.
-	ExitClientError signal: 'explicit process exit' status: statusInteger
+	ExitClientError signal: message status: statusInteger
 %
 
 category: '*superdoit-core36x'
