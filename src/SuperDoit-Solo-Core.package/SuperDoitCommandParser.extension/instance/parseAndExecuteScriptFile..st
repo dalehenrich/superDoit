@@ -1,6 +1,6 @@
 *superdoit-solo-core
-parseAndExecuteScriptFile: scriptFileReference
-	scriptFileReference
+parseAndExecuteScriptFile: scriptFilePath
+	scriptFilePath asFileReference
 		readStreamDo: [ :fStream | 
 			self stream: (ZnBufferedReadStream on: fStream).
 			[ self done ]
@@ -23,7 +23,7 @@ parseAndExecuteScriptFile: scriptFileReference
 					"stdout is not a Terminal or we're expecting DEBUGGEM to be used (need GsProcess oop), so need to dump stack in the event of an error"
 					GsFile
 						gciLogServer: '---------------------';
-						gciLogServer: 'Unhandled Error in script: ', scriptFileReference pathString;
+						gciLogServer: 'Unhandled Error in script: ', scriptFilePath;
 						gciLogServer: '---------------------';
 						gciLogServer: error description;
 						gciLogServer: '---------------------';

@@ -4,7 +4,7 @@ processInputFile
                <path-to-topaz>/topaz <topaz arguments> -- <script-file-path> -- <script-args>
        "
 
-	| args scriptArgStart argIndex scriptPath scriptFile scriptArgs scriptArgIndex |
+	| args scriptArgStart argIndex scriptFile scriptArgs scriptArgIndex |
 	args := System commandLineArguments.
 	scriptArgStart := args indexOf: '--'.
 	argIndex := scriptArgStart + 1.	"arg after initial --"
@@ -16,9 +16,8 @@ processInputFile
 		ifTrue: [ #() ]
 		ifFalse: [ args copyFrom: scriptArgIndex + 1 to: args size ].
 
-	scriptPath := scriptFile asFileReference.
 	^ self new
-		scriptPath: scriptPath;
+		scriptPath: scriptFile;
 		scriptArgs: scriptArgs;
-		parseAndExecuteScriptFile: scriptPath;
+		parseAndExecuteScriptFile: scriptFile;
 		yourself
