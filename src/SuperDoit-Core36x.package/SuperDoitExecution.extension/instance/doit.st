@@ -17,7 +17,7 @@ doit
 						stdout and exit"
 					GsFile
 						gciLogServer: '---------------------';
-						gciLogServer: 'Unhandled Error in script: ' , self scriptPath pathString;
+						gciLogServer: 'Unhandled Error in script: ' , self scriptPath;
 						gciLogServer: '---------------------';
 						gciLogServer: ex description;
 						gciLogServer: '---------------------';
