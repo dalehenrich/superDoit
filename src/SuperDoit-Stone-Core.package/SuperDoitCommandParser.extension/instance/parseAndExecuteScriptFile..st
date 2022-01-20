@@ -31,7 +31,13 @@ parseAndExecuteScriptFile: scriptFilePath
 						gciLogServer: (GsProcess stackReportToLevel: 300);
 						gciLogServer: '---------------------';
 						gciLogServer: 'GsProcess @' , GsProcess _current asOop printString;
-						gciLogServer: '---------------------' ].
+						gciLogServer: '---------------------'.
+						GsFile
+							gciLogServer: '---------------------';
+							gciLogServer: 'Gem Configuration Report'.
+ 					 	System gemConfigurationReport keysAndValuesDo: [:key :val |
+							GsFile gciLogServer: key, '	::	', val asString ].
+						GsFile gciLogServer: '---------------------' ].
 			error pass ].
 	^ doitResult ]
 		ensure: [ self stream close ]
