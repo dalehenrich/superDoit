@@ -16,9 +16,10 @@ parseAndExecuteScriptFile: scriptFilePath
 	self commandDefinition
 		executeAgainst: self
 		onErrorDo: [ :error | 
-			"this block is intended to handle any errors that result in the execution of commands ... errors during doit command are expected to be excluded"
-			(SuperDoitExecution _stdoutIsNotTerminal
-				or: [ (System gemConfigurationAt: 'GEM_LISTEN_FOR_DEBUG') == true ])
+			| listenForDebug |
+			"this block is intended to handle any errors that result in the execution of commands ... errors during doit command are expected to be handled elsewhere"
+			listenForDebug := (System gemConfigurationAt: 'GEM_LISTEN_FOR_DEBUG') == true.
+			(SuperDoitExecution _stdoutIsNotTerminal or: [ listenForDebug ])
 				ifTrue: [ 
 					"stdout is not a Terminal or we're expecting DEBUGGEM to be used (need GsProcess oop), so need to dump stack in the event of an error"
 					GsFile
@@ -31,5 +32,7 @@ parseAndExecuteScriptFile: scriptFilePath
 						gciLogServer: '---------------------';
 						gciLogServer: 'GsProcess @' , GsProcess _current asOop printString;
 						gciLogServer: '---------------------' ].
-			error pass ].
+			(listenForDebug or: [ (self respondsTo: #'debug') and: [ self debug ] ])
+				ifTrue: [ error pass ].
+			self exit: error description withStatus: 1	"does not return"].
 			^ doitResult ]
