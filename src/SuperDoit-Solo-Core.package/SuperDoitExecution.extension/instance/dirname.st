@@ -1,3 +1,3 @@
 *superdoit-solo-core
 dirname
-	^ self scriptPath parent
+	^ self scriptPath asFileReference parent

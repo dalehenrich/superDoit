@@ -1,3 +1,3 @@
 *superdoit-solo-core
 basename
-	^ self scriptPath basename
+	^ self scriptPath asFileReference basename

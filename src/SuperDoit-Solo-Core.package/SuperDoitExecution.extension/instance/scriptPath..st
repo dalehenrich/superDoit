@@ -1,3 +1,3 @@
 *superdoit-solo-core
-scriptPath: aFileReference
-	_scriptPath := aFileReference
+scriptPath: aFilePath
+	_scriptPath := aFilePath
