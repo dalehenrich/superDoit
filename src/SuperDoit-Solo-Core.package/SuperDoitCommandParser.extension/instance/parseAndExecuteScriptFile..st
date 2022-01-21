@@ -34,5 +34,5 @@ parseAndExecuteScriptFile: scriptFilePath
 						gciLogServer: '---------------------' ].
 			(listenForDebug or: [ (self respondsTo: #'debug') and: [ self debug ] ])
 				ifTrue: [ error pass ].
-			self exit: error description withStatus: 1	"does not return"].
+			ExitClientError signal: error description status: 1	"does not return"].
 			^ doitResult ]
