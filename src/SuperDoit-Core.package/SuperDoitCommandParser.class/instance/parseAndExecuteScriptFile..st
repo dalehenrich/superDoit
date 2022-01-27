@@ -1,4 +1,4 @@
-*superdoit-stone-core
+parsing
 parseAndExecuteScriptFile: scriptFilePath
 	"keep a transient reference to the stream in case the receiver is persisted"
 
@@ -32,7 +32,16 @@ parseAndExecuteScriptFile: scriptFilePath
 						gciLogServer: (GsProcess stackReportToLevel: 300);
 						gciLogServer: '---------------------';
 						gciLogServer: 'GsProcess @' , GsProcess _current asOop printString;
-						gciLogServer: '---------------------' ].
+						gciLogServer: '---------------------'.
+					listenForDebug
+						ifTrue: [ error pass ].
+					(SuperDoitExecution globalNamed: 'ExitClientError')
+						ifNotNil: [ :class | 
+							"3.6.x and beyond"
+							GsFile stderr
+								nextPutAll: error description;
+								lf.
+							class signal: error description status: 1	"does not return" ] ].
 			error pass ].
 	^ doitResult ]
 		ensure: [ self stream close ]

@@ -1,4 +1,4 @@
-other
+parsing
 processNextCommand
 	| line words command commandSelector strm |
 	strm := self stream.
