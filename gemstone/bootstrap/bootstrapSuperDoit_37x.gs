@@ -2004,15 +2004,7 @@ parseAndExecuteScriptFile: scriptFilePath
 						gciLogServer: '---------------------';
 						gciLogServer: 'GsProcess @' , GsProcess _current asOop printString;
 						gciLogServer: '---------------------' ].
-			(listenForDebug or: [ (self respondsTo: #'debug') and: [ self debug ] ])
-				ifTrue: [ error pass ].
-			(SuperDoitExecution globalNamed: 'ExitClientError') 
-				ifNotNil: [:class | 
-					"3.6.x and beyond"
-					class signal: error description status: 1	"does not return" ]
-				ifNil: [
-					"If ExitClientError isn't present, we'll have to let the chips fall where they may"
-					error pass ] ].
+			error pass ].
 	^ doitResult ]
 		ensure: [ self stream close ]
 %
