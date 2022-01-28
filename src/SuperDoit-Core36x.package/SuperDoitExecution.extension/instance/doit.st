@@ -9,6 +9,10 @@ doit
 		on: Error , Halt
 		do: [ :ex | 
 			| listenForDebug |
+			(ex isKindOf: ExitClientError)
+				ifTrue: [ 
+					"honor exit client request"
+					ex pass ].
 			listenForDebug := (System gemConfigurationAt: 'GEM_LISTEN_FOR_DEBUG') == true.
 			(listenForDebug or: [ self _printStackOnDebugError ])
 				ifTrue: [ 

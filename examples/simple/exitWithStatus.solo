@@ -1,0 +1,26 @@
+#!/usr/bin/env superdoit_solo
+usage
+-----
+USAGE $basename [--help | -h] <exit-status>
+
+DESCRIPTION
+  exit the process with the given exit status. Can be checked with `echo $?`.
+
+OPTIONS
+  <exit-status>              desired exit status ... must be an integer
+  -h, --help                 display usage message
+  -D, --debug                bring up topaz debugger in the event of a script error
+
+EXAMPLES
+  $basename -h
+  $basename 0
+  $basename 185
+-----
+%
+doit
+	self positionalArgs size ~= 1 
+		ifTrue: [ self error: 'required positional exit status code missing'].
+	ExitClientError 
+		signal: 'explicit process exit' 
+		status: (self positionalArgs at: 1) asNumber
+%

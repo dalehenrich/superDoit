@@ -1247,8 +1247,15 @@ parseAndExecuteScriptFile: scriptFilePath
 	self commandDefinition
 		executeAgainst: self
 		onErrorDo: [ :error | 
-			| listenForDebug |
-			"this block is intended to handle any errors that result in the execution of commands ... errors during doit command are expected to be handled elsewhere"
+			| listenForDebug exitClientErrorClass |
+			exitClientErrorClass := SuperDoitExecution globalNamed: 'ExitClientError'.
+			exitClientErrorClass
+				ifNotNil: [ 
+					"this block is intended to handle any errors that result in the execution of commands ... errors during doit command are expected to be handled elsewhere"
+					(error isKindOf: exitClientErrorClass)
+						ifTrue: [ 
+							"honor exit client request"
+							error pass ] ].
 			listenForDebug := (System gemConfigurationAt: 'GEM_LISTEN_FOR_DEBUG') == true.
 			(SuperDoitExecution _stdoutIsNotTerminal or: [ listenForDebug ])
 				ifTrue: [ 
@@ -1265,7 +1272,7 @@ parseAndExecuteScriptFile: scriptFilePath
 						gciLogServer: '---------------------'.
 					listenForDebug
 						ifTrue: [ error pass ].
-					(SuperDoitExecution globalNamed: 'ExitClientError')
+					exitClientErrorClass
 						ifNotNil: [ :class | 
 							"3.6.x and beyond"
 							GsFile stderr
@@ -2102,6 +2109,10 @@ doit
 		on: Error , Halt
 		do: [ :ex | 
 			| listenForDebug |
+			(ex isKindOf: ExitClientError)
+				ifTrue: [ 
+					"honor exit client request"
+					ex pass ].
 			listenForDebug := (System gemConfigurationAt: 'GEM_LISTEN_FOR_DEBUG') == true.
 			(listenForDebug or: [ self _printStackOnDebugError ])
 				ifTrue: [ 
