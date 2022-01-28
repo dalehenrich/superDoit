@@ -1248,10 +1248,10 @@ parseAndExecuteScriptFile: scriptFilePath
 		executeAgainst: self
 		onErrorDo: [ :error | 
 			| listenForDebug exitClientErrorClass |
+			"this block is intended to handle any errors that result in the execution of commands ... errors during doit command are expected to be handled elsewhere"
 			exitClientErrorClass := SuperDoitExecution globalNamed: 'ExitClientError'.
 			exitClientErrorClass
 				ifNotNil: [ 
-					"this block is intended to handle any errors that result in the execution of commands ... errors during doit command are expected to be handled elsewhere"
 					(error isKindOf: exitClientErrorClass)
 						ifTrue: [ 
 							"honor exit client request"
