@@ -2119,16 +2119,31 @@ doit
 					"when --debug option is set and stdout is not a terminal (i.e., cannot 
 						use topaz as interactive debugger), unconditionally print stack to 
 						stdout and exit"
-					GsFile
-						gciLogServer: '---------------------';
-						gciLogServer: 'Unhandled Error in script: ' , self scriptPath;
-						gciLogServer: '---------------------';
-						gciLogServer: ex description;
-						gciLogServer: '---------------------';
-						gciLogServer: (GsProcess stackReportToLevel: 300);
-						gciLogServer: '---------------------';
-						gciLogServer: 'GsProcess @' , GsProcess _current asOop printString;
-						gciLogServer: '---------------------' ].
+					self stdout
+						nextPutAll: '---------------------';
+						lf;
+						nextPutAll: 'Unhandled Error in script: ' , self scriptPath;
+						lf;
+						nextPutAll: '---------------------';
+						lf;
+						nextPutAll: ex description;
+						lf;
+						nextPutAll: '---------------------';
+						lf;
+						nextPutAll: (GsProcess stackReportToLevel: 300);
+						lf;
+						nextPutAll: '---------------------';
+						lf;
+						nextPUtAll: 'GsProcess @' , GsProcess _current asOop printString;
+						yourself.
+					listenForDebug
+						ifTrue: [ 
+							self stdout
+								nextPutAll:
+									' (DEBUGGEM ' , (System gemVersionReport at: 'processId') asString , ')' ].
+					self stdout
+						nextPUtAll: '---------------------';
+						lf ].
 			(listenForDebug or: [ (self respondsTo: #'debug') and: [ self debug ] ])
 				ifTrue: [ ex pass ].
 			self exit: ex description withStatus: 1	"does not return" ]
