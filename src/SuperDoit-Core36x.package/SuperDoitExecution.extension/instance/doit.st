@@ -42,6 +42,7 @@ doit
 								nextPutAll:
 									' (DEBUGGEM ' , (System gemVersionReport at: 'processId') asString , ')' ].
 					self stdout
+						lf;
 						nextPutAll: '---------------------';
 						lf ].
 			(listenForDebug or: [ (self respondsTo: #'debug') and: [ self debug ] ])
