@@ -6,7 +6,7 @@ doit
 	self getAndVerifyOptions == self noResult
 		ifTrue: [ ^ self noResult ].
 	^ self theDoit ]
-		on: Error , Halt
+		on: Error , Halt, TestFailure
 		do: [ :ex | 
 			| listenForDebug |
 			(ex isKindOf: ExitClientError)
