@@ -2134,7 +2134,7 @@ doit
 						lf;
 						nextPutAll: '---------------------';
 						lf;
-						nextPUtAll: 'GsProcess @' , GsProcess _current asOop printString;
+						nextPutAll: 'GsProcess @' , GsProcess _current asOop printString;
 						yourself.
 					listenForDebug
 						ifTrue: [ 
