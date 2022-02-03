@@ -1080,15 +1080,19 @@ executeAgainst: aCommandParser onErrorDo: errorBlock
 
 category: 'export'
 method: SuperDoitCommandDefinition
-exportCommandsTo: scriptFileRef commandParser: commandParser executionClass: executionClass
-	scriptFileRef
-		writeStreamDo: [ :writeStream | 
-			self commands
-				do: [ :command | 
-					command
-						exportTo: writeStream
-						commandParser: commandParser
-						executionClass: executionClass ] ]
+exportCommandsTo: scriptFilePath commandParser: commandParser executionClass: executionClass
+	| writeStream |
+	writeStream := GsFile openWriteOnServer: scriptFilePath.
+	writeStream
+		ifNil: [ self error: 'Could not open ' , scriptFilePath , 'for writing' ].
+	[ 
+	self commands
+		do: [ :command | 
+			command
+				exportTo: writeStream
+				commandParser: commandParser
+				executionClass: executionClass ] ]
+		ensure: [ writeStream close ]
 %
 
 category: 'execution'
@@ -2071,10 +2075,14 @@ export
 					'export should only be performed on the SuperDoitExecutionClass class' ].
 	commandParser := self commandParserInstance.
 	executionInstance := self executionInstance.
-	scriptFileRef := executionInstance scriptPath asFileReference.
-	scriptFileRef exists
-		ifFalse: [ self error: 'cannot find the script file ', scriptFileRef pathString printString ].
-	commandParser commandDefinition exportCommandsTo: scriptFileRef commandParser: commandParser executionClass: self.
+	(GsFile existsOnServer: executionInstance scriptPath) exists
+		ifFalse: [ 
+			self
+				error: 'cannot find the script file ' , scriptFileRef pathString printString ].
+	commandParser commandDefinition
+		exportCommandsTo: executionInstance scriptPath
+		commandParser: commandParser
+		executionClass: self
 %
 
 category: '*superdoit-core35-'

@@ -13,7 +13,11 @@ export
 					'export should only be performed on the SuperDoitExecutionClass class' ].
 	commandParser := self commandParserInstance.
 	executionInstance := self executionInstance.
-	scriptFileRef := executionInstance scriptPath asFileReference.
-	scriptFileRef exists
-		ifFalse: [ self error: 'cannot find the script file ', scriptFileRef pathString printString ].
-	commandParser commandDefinition exportCommandsTo: scriptFileRef commandParser: commandParser executionClass: self.
+	(GsFile existsOnServer: executionInstance scriptPath) exists
+		ifFalse: [ 
+			self
+				error: 'cannot find the script file ' , scriptFileRef pathString printString ].
+	commandParser commandDefinition
+		exportCommandsTo: executionInstance scriptPath
+		commandParser: commandParser
+		executionClass: self
