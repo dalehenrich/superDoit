@@ -19,7 +19,7 @@ preDoitSpecLoad: specBlock
 	rowanVersion := (rowanClass respondsTo: #'version')
 		ifTrue: [ rowanClass version ]
 		ifFalse: [ rowanVersion := rowanSemanticVersionNumberClass fromString: '1.2.0' ].
-	rowanVersion <= (rowanSemanticVersionNumberClass fromString: '2.2.0')
+	rowanVersion < (rowanSemanticVersionNumberClass fromString: '3.0.0')
 		ifTrue: [ 
 			projectSet := rowanProjectSetDefinitionClass new.
 			self _loadSpecs
