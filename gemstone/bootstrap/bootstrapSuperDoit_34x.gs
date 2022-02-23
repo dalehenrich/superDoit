@@ -1456,6 +1456,8 @@ superDoitExecutionMetadataClass
 category: 'accessing'
 method: SuperDoitCommandParser
 usage
+	"trimRight so that solo script don't have trailing whitespace in EXAMPLES "
+
 	^ usage
 		ifNil: [ 
 			| stoneArgs stoneName |
@@ -1474,19 +1476,19 @@ OPTIONS
   -D, --debug                bring up topaz debugger in the event of a script error
 
 EXAMPLES
-  $basename --help  ' , stoneName
+  $basename --help' , ('  ' , stoneName) trimRight
 				,
 					'
-  $basename -h      ' , stoneName
+  $basename -h' , ('      ' , stoneName) trimRight
 				,
 					'
-  $basename --debug ' , stoneName
+  $basename --debug' , (' ' , stoneName) trimRight
 				,
 					'
-  $basename -D      ' , stoneName
+  $basename -D' , ('      ' , stoneName) trimRight
 				,
 					'
-  $basename         ' , stoneName
+  $basename' , ('         ' , stoneName) trimRight
 				,
 					'
 -----
