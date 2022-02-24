@@ -9,18 +9,19 @@ usage
 USAGE $basename [--help | -h] [--debug | -D] --addend=<number> | -a <number>
 
 DESCRIPTION
-  Evaluate the Smalltalk expression: 3+addend and return the result on stdout.
+  Evaluate the Smalltalk expression: 3+<number> and return the result on stdout.
 
 OPTIONS
-  <number>                   number to be added to 3
-  -h, --help                 display usage message
-  -D, --debug                bring up topaz debugger in the event of a script error
+  <number>                       number to be added to 3
+  -h, --help                     display usage message
+  -D, --debug                    bring up topaz debugger in the event of a script error
+	-a <number>, --addend=<number> required option to specify <number>
 
 EXAMPLES
   $basename --help
   $basename -h
-  $basename --debug
-  $basename -D
+  $basename --debug --addend=5
+  $basename -D -a 100
   $basename --addend=5
   $basename -a 100
 -----
