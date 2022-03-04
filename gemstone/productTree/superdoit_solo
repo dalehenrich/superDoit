@@ -33,7 +33,10 @@ if [ "$GEMSTONE"x = "x" ] ; then
 fi
 GEM_SOLO_EXTENT="$GEMSTONE/bin/extent0.rowan.dbf"
 
-export SUPERDOIT_DIR="$GEMSTONE/upgrade/projects/superDoit"
+# allow GEMSTONE users to easily reference a custom superDoit project by setting $SUPERDOIT_DIR
+if [ "$SUPERDOIT_DIR"x = "x" ] ; then
+	export SUPERDOIT_DIR="$GEMSTONE/upgrade/projects/superDoit"
+fi
 gemstoneDir="$SUPERDOIT_DIR/gemstone"
 
 skip="skip"
