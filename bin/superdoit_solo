@@ -11,7 +11,7 @@ set -e
 
 export SUPERDOIT_DIR="`dirname $0`/.."
 
-gemstoneDir="$SUPERDOIT_DIR/gemstone"
+export gemstoneDir="$SUPERDOIT_DIR/gemstone"
 
 scriptFile=$1
 shift
@@ -66,6 +66,7 @@ if [ "$skip"x = "x" ] ; then
 	# exit 0
 fi
 
+export SUPERDOIT_GEMSTONE_VERSION=`awk 'NR==2{print $1; exit}' $GEMSTONE/version.txt`
 $GEMSTONE/bin/topaz -l \
 	-I "$gemstoneDir/topazini_solo" \
 	-C "GEM_SOLO_EXTENT=$GEM_SOLO_EXTENT" \

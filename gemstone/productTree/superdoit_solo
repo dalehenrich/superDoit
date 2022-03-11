@@ -37,7 +37,7 @@ GEM_SOLO_EXTENT="$GEMSTONE/bin/extent0.rowan.dbf"
 if [ "$SUPERDOIT_DIR"x = "x" ] ; then
 	export SUPERDOIT_DIR="$GEMSTONE/upgrade/projects/superDoit"
 fi
-gemstoneDir="$SUPERDOIT_DIR/gemstone"
+export gemstoneDir="$SUPERDOIT_DIR/gemstone"
 
 skip="skip"
 if [ "$skip"x = "x" ] ; then
@@ -49,6 +49,7 @@ if [ "$skip"x = "x" ] ; then
 	# exit 0
 fi
 
+export SUPERDOIT_GEMSTONE_VERSION=`awk 'NR==2{print $1; exit}' $GEMSTONE/version.txt`
 $GEMSTONE/bin/topaz -l \
 	-I "$gemstoneDir/topazini_solo" \
 	-C "GEM_SOLO_EXTENT=$GEM_SOLO_EXTENT" \
