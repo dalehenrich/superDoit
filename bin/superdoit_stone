@@ -196,7 +196,16 @@ case $vers in
 			# superdoit_tpz=$gemstoneDir/superdoit_boot_2.tpz
 		fi
 		export superdoit_tpz
-		$GEMSTONE/bin/topaz $defaultTopazArgs $topazArgs \
-			-q -I "$ini" -- $scriptFile -- $scriptArgs
+		commandLine=()
+		commandLine+=("${defaultTopazArgs[@]}")
+		if [ "$topazArgs"x != x ] ; then
+			commandLine+=("${topazArgs[@]}")
+		fi
+		commandLine+=("-I" "$ini")
+	 	commandLine+=("-q" "--" "$scriptFile" "--" )
+		commandLine+=("${scriptArgs[@]}")
+		$GEMSTONE/bin/topaz "${commandLine[@]}"
+#		$GEMSTONE/bin/topaz $defaultTopazArgs $topazArgs \
+#			-q -I "$ini" -- $scriptFile -- $scriptArgs
 		;;
 esac

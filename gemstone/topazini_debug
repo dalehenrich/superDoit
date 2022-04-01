@@ -6,6 +6,8 @@
 #
 #	input $gemstoneDir/superdoit_boot_debug_2.tpz 
 #
+display oops
+
 output push /dev/null only
 input $SUPERDOIT_STONE_DIR/.topazini
 input $superdoit_tpz
