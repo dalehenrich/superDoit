@@ -1,25 +1,28 @@
 #!/usr/bin/env superdoit_stone
+# 
+# Example script for a superdoit script that uses the .topazini to login to a stone 
+# and executes with no arguments.
+#
 usage
 -----
-USAGE $basename [--help | -h] [--debug | -D] -- ( -r | -l | -L ) -I <path-to-.topazini> \
-                [<topaz-command-line-args>]
+USAGE $basename [--help | -h] [--debug | -D] [-- -I <path-to-.topazini>]
 
 DESCRIPTION
   Evaluate the Smalltalk expression: 3+4 and return the result on stdout.
 
 OPTIONS
-  <path-to-.topazini>        path to a .topazini file with a minimum of username, 
-                             password and stone name set
-  <topaz-command-line-args>  topaz options that should be passed to topaz when running
-                             running the script
+  <path-to-.topazini>        path to a .topazini file with a minimum of username,
+                             password and stone name set; if not present, there must be
+                             a .topazini in a standard location.
   -h, --help                 display usage message
   -D, --debug                bring up topaz debugger in the event of a script error
 
 EXAMPLES
-  $basename --help  -- -L -I ./.topazini
-  $basename -D      -- -L -I ./.topazini
-  $basename         -- -L -I ./.topazini
-  $basename         -- -L -I ./.topazini -T 100000
+  $basename --help  -- -I ./.topazini
+  $basename -h      -- -I ./.topazini
+  $basename --debug -- -I ./.topazini
+  $basename -D      -- -I ./.topazini
+  $basename         -- -I ./.topazini
 -----
 %
 doit
