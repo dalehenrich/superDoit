@@ -32,5 +32,5 @@ EXAMPLES
 -----
 %
 doit
-(self addend) asNumber + 3
+   (self addend) asNumber + 3
 %
