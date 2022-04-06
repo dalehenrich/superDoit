@@ -5,7 +5,7 @@
 #
 usage
 -----
-USAGE $basename [--help | -h] [--debug | -D] [-- ( -r | -l | -L ) -I <path-to-.topazini>
+USAGE $basename [--help | -h] [--debug | -D] [-- -I <path-to-.topazini>
 
 DESCRIPTION
   Write the Stone Version report for the current stone on stdout.
@@ -18,9 +18,9 @@ OPTIONS
   -D, --debug                bring up topaz debugger in the event of a script error
 
 EXAMPLES
-  $basename --help -- -L -I ./.topazini
-  $basename -D     -- -L -I ./.topazini
-  $basename        -- -L -I ./.topazini
+  $basename --help -- -I ./.topazini
+  $basename -D     -- -I ./.topazini
+  $basename        -- -I ./.topazini
 -----
 %
 doit
