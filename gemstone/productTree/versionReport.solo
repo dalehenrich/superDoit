@@ -1,4 +1,8 @@
 #!/usr/bin/env superdoit_solo
+# 
+# Example script for superdoit, that executes via a solo login and reports the version 
+# information for the client execution environment. 
+#
 usage
 -----
 USAGE $basename [--help | -h] [--debug | -D] 
@@ -11,13 +15,15 @@ OPTIONS
 
 EXAMPLES
   $basename --help
+  $basename -h
+  $basename --debug
   $basename -D
   $basename
 -----
 %
 doit
 	self stdout nextPutAll: '--------------------'; lf.
-	self stdout nextPutAll: 'Gem Version Report for ', self executionStoneName printString; lf.
+	self stdout nextPutAll: 'Gem Version Report for solo environment'; lf.
 	self stdout nextPutAll: '--------------------'; lf.
 	System gemVersionReport keysAndValuesDo: [:key :value |
 		self stdout

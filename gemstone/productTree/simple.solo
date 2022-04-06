@@ -1,0 +1,26 @@
+#!/usr/bin/env superdoit_solo
+#
+# Example script for a solo superdoit with no arguments
+#
+usage
+-----
+USAGE $basename [--help | -h] [--debug | -D]
+
+DESCRIPTION
+  Evaluate the Smalltalk expression: 3+4 and return the result on stdout.
+
+OPTIONS
+  -h, --help                 display usage message
+  -D, --debug                bring up topaz debugger in the event of a script error
+
+EXAMPLES
+  $basename --help
+  $basename -h
+  $basename --debug
+  $basename -D
+  $basename
+-----
+%
+doit
+        3 + 4
+%
