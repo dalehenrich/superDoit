@@ -1,4 +1,8 @@
 #!/usr/bin/env superdoit_stone
+#
+# Example script for superDoit with one argument, that logs in a a stone based on 
+# .topazini and returns a value based on the argument.
+#
 options
 {
 SuperDoitRequiredOptionWithRequiredArg long: 'addend' short: 'a'.
@@ -6,9 +10,7 @@ SuperDoitRequiredOptionWithRequiredArg long: 'addend' short: 'a'.
 %
 usage
 -----
-USAGE $basename [--help | -h] [--debug | -D] \
-      --addend=<number> | -a <number> \
-      -- ( -r | -l | -L ) -I <path-to-.topazini> [<topaz-command-line-args>]
+USAGE $basename [--help | -h] [--debug | -D] --addend=<number> | -a <number> [-- -I <path-to-.topazini> ]
 
 DESCRIPTION
   Evaluate the Smalltalk expression: 3+addend and return the result on stdout.
@@ -17,18 +19,16 @@ OPTIONS
   -a, --addend <number>      number to be added to 3
   -h, --help                 display usage message
   -D, --debug                bring up topaz debugger in the event of a script error
-  <path-to-.topazini>        path to a .topazini file with a minimum of username, 
+  <path-to-.topazini>        path to a .topazini file with a minimum of username,
                              password and stone name set
-  <topaz-command-line-args>  topaz options that should be passed to topaz when running
-                             running the script
 
 EXAMPLES
-  $basename --help     -- -L -I ./.topazini
-  $basename -D         -- -L -I ./.topazini
-  $basename --addend=5 -- -L -I ./.topazini
-  $basename -a 100     -- -L -I ./.topazini
+  $basename --help     -- -I ./.topazini
+  $basename -D         -- -I ./.topazini
+  $basename --addend=5 -- -I ./.topazini
+  $basename -a 100     -- -I ./.topazini
 -----
 %
 doit
-(self addend) asNumber + 3
+   (self addend) asNumber + 3
 %
