@@ -1,0 +1,36 @@
+%
+#!/usr/bin/env superdoit_solo
+#
+# Example script for superDoit with one argument, that logs in a solo session and
+# returns a value based on the argument.
+#
+options
+{
+SuperDoitRequiredOptionWithRequiredArg long: 'addend' short: 'a'.
+}
+%
+usage
+-----
+USAGE $basename [--help | -h] [--debug | -D] --addend=<number> | -a <number>
+
+DESCRIPTION
+  Evaluate the Smalltalk expression: 3+<number> and return the result on stdout.
+
+OPTIONS
+  <number>                       number to be added to 3
+  -h, --help                     display usage message
+  -D, --debug                    bring up topaz debugger in the event of a script error
+        -a <number>, --addend=<number> required option to specify <number>
+
+EXAMPLES
+  $basename --help
+  $basename -h
+  $basename --debug --addend=5
+  $basename -D -a 100
+  $basename --addend=5
+  $basename -a 100
+-----
+%
+doit
+(self addend) asNumber + 3
+%
