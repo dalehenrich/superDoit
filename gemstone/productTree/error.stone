@@ -1,4 +1,7 @@
 #!/usr/bin/env superdoit_stone
+#
+#  An example script that produces an error.
+#
 usage
 -----
 USAGE $basename [--help | -h] [--debug | -D] [-- -I <path-to-.topazini>]
