@@ -1,4 +1,7 @@
 #!/usr/bin/env superdoit_solo
+#
+#  An example script that logs in with a solo session and produces an error.
+#
 doit
 3 foo
 %
