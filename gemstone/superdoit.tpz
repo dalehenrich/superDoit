@@ -37,7 +37,7 @@ run
 			projectFromUrl: 'file:$SUPERDOIT_DIR/rowan/specs/SuperDoit_solo.ston'
 			diskUrl: 'file:$SUPERDOIT_DIR'.
 		superDoitTransientSymbolDictionaryName := 'SuperDoit_transientSymbolDictionary'.	"must match value in SuperDoitCommandParser class >> transientSymbolDictionaryName"
-		((rowanClass class respondsTo: #version) and: [ rowanClass version >= '3.0.0' asRwSemanticVersionNumber ])
+		((rowanClass respondsTo: #version) and: [ rowanClass version >= '3.0.0' asRwSemanticVersionNumber ])
 			ifTrue: [ resolvedProject gemstoneSetDefaultSymbolDictNameTo: superDoitTransientSymbolDictionaryName ]
 			ifFalse: [ resolvedProject _loadSpecification gemstoneSetDefaultSymbolDictNameTo: superDoitTransientSymbolDictionaryName ].
 		resolvedProject load ].
