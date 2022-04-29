@@ -1116,7 +1116,7 @@ classmethod: SuperDoitCommandParser
 transientSymbolDictionaryName
 	"must match values using superdoit_solo"
 
-	^ #'SuperDoit_trasientSymbolDictionary'
+	^ #'SuperDoit_transientSymbolDictionary'
 %
 
 !		Instance methods for 'SuperDoitCommandParser'
