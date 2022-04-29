@@ -31,13 +31,16 @@ run
 				GsFileIn fromServerPath: bootstrapSuperDoit_file ]
 			ifFalse: [ self error: 'Unsupported GemStone version (', gemstoneVersion, ') for using a non-Rowan extent for running .solo scripts' ] ]
 	ifNotNil: [:rowanClass |
-		| resolvedProject |
+		| resolvedProject superDoitTransientSymbolDictionaryName |
 		"install superDoit support code in image"
 		resolvedProject := rowanClass 
 			projectFromUrl: 'file:$SUPERDOIT_DIR/rowan/specs/SuperDoit_solo.ston'
-			gitUrl: 'file:$SUPERDOIT_DIR'.
-		resolvedProject _loadSpecification gemstoneSetDefaultSymbolDictNameTo: 'SuperDoit_trasientSymbolDictionary'.	"must match value in SuperDoitCommandParser class >> transientSymbolDictionaryName"
-	resolvedProject load ].
+			diskUrl: 'file:$SUPERDOIT_DIR'.
+		superDoitTransientSymbolDictionaryName := 'SuperDoit_transientSymbolDictionary'.	"must match value in SuperDoitCommandParser class >> transientSymbolDictionaryName"
+		((rowanClass class respondsTo: #version) and: [ rowanClass version >= '3.0.0' asRwSemanticVersionNumber ])
+			ifTrue: [ resolvedProject gemstoneSetDefaultSymbolDictNameTo: superDoitTransientSymbolDictionaryName ]
+			ifFalse: [ resolvedProject _loadSpecification gemstoneSetDefaultSymbolDictNameTo: superDoitTransientSymbolDictionaryName ].
+		resolvedProject load ].
 %
 run
 false ifTrue: [
