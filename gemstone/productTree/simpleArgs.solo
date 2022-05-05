@@ -1,4 +1,3 @@
-%
 #!/usr/bin/env superdoit_solo
 #
 # Example script for superDoit with one argument, that logs in a solo session and
