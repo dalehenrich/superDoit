@@ -101,7 +101,7 @@ generateBootstrapFiles: supportedGemStoneVersionMap
 		importSpec := RwSpecification fromUrl: specUrl.
 		importSpec
 			projectsHome: rootDir parent;
-			gemstoneSetDefaultSymbolDictNameTo: 'SuperDoit_transientSymbolDictionary'; 	"must match value in SuperDoitCommandParser class >> transientSymbolDictionaryName"
+			gemstoneSetDefaultSymbolDictNameTo: SuperDoitCommandParser transientSymbolDictionaryName;
 			yourself.
 		importProject := importSpec resolve read: attributes.
 		projectSetDefinition addProject: importProject.
