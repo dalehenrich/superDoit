@@ -10,7 +10,7 @@ doit
 	classVars: #( NotSet NoValue )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: SuperDoit_trasientSymbolDictionary
+	inDictionary: SuperDoit_transientSymbolDictionary
 	options: #()
 )
 		category: 'SuperDoit-Option';
@@ -25,7 +25,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: SuperDoit_trasientSymbolDictionary
+	inDictionary: SuperDoit_transientSymbolDictionary
 	options: #()
 )
 		category: 'SuperDoit-Option';
@@ -40,7 +40,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: SuperDoit_trasientSymbolDictionary
+	inDictionary: SuperDoit_transientSymbolDictionary
 	options: #()
 )
 		category: 'SuperDoit-Option';
@@ -55,7 +55,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: SuperDoit_trasientSymbolDictionary
+	inDictionary: SuperDoit_transientSymbolDictionary
 	options: #()
 )
 		category: 'SuperDoit-Option';
@@ -70,7 +70,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: SuperDoit_trasientSymbolDictionary
+	inDictionary: SuperDoit_transientSymbolDictionary
 	options: #()
 )
 		category: 'SuperDoit-Option';
@@ -85,7 +85,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: SuperDoit_trasientSymbolDictionary
+	inDictionary: SuperDoit_transientSymbolDictionary
 	options: #()
 )
 		category: 'SuperDoit-Command';
@@ -100,7 +100,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: SuperDoit_trasientSymbolDictionary
+	inDictionary: SuperDoit_transientSymbolDictionary
 	options: #()
 )
 		category: 'SuperDoit-Command';
@@ -116,7 +116,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: SuperDoit_trasientSymbolDictionary
+	inDictionary: SuperDoit_transientSymbolDictionary
 	options: #()
 )
 		category: 'SuperDoit-Command';
@@ -132,7 +132,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: SuperDoit_trasientSymbolDictionary
+	inDictionary: SuperDoit_transientSymbolDictionary
 	options: #()
 )
 		category: 'SuperDoit-Command';
@@ -148,7 +148,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: SuperDoit_trasientSymbolDictionary
+	inDictionary: SuperDoit_transientSymbolDictionary
 	options: #()
 )
 		category: 'SuperDoit-Command';
@@ -165,7 +165,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: SuperDoit_trasientSymbolDictionary
+	inDictionary: SuperDoit_transientSymbolDictionary
 	options: #()
 )
 		category: 'SuperDoit-Command';
@@ -181,7 +181,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: SuperDoit_trasientSymbolDictionary
+	inDictionary: SuperDoit_transientSymbolDictionary
 	options: #()
 )
 		category: 'SuperDoit-Command';
@@ -197,7 +197,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: SuperDoit_trasientSymbolDictionary
+	inDictionary: SuperDoit_transientSymbolDictionary
 	options: #()
 )
 		category: 'SuperDoit-Command';
@@ -213,7 +213,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: SuperDoit_trasientSymbolDictionary
+	inDictionary: SuperDoit_transientSymbolDictionary
 	options: #()
 )
 		category: 'SuperDoit-Command';
@@ -229,7 +229,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: SuperDoit_trasientSymbolDictionary
+	inDictionary: SuperDoit_transientSymbolDictionary
 	options: #()
 )
 		category: 'SuperDoit-Command';
@@ -245,7 +245,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: SuperDoit_trasientSymbolDictionary
+	inDictionary: SuperDoit_transientSymbolDictionary
 	options: #()
 )
 		category: 'SuperDoit-Command';
@@ -261,7 +261,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: SuperDoit_trasientSymbolDictionary
+	inDictionary: SuperDoit_transientSymbolDictionary
 	options: #()
 )
 		category: 'SuperDoit-Command';
@@ -277,7 +277,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: SuperDoit_trasientSymbolDictionary
+	inDictionary: SuperDoit_transientSymbolDictionary
 	options: #()
 )
 		category: 'SuperDoit-Command';
@@ -293,7 +293,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: SuperDoit_trasientSymbolDictionary
+	inDictionary: SuperDoit_transientSymbolDictionary
 	options: #()
 )
 		category: 'SuperDoit-Command';
@@ -308,7 +308,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: SuperDoit_trasientSymbolDictionary
+	inDictionary: SuperDoit_transientSymbolDictionary
 	options: #()
 )
 		category: 'SuperDoit-Core';
@@ -323,7 +323,7 @@ doit
 	classVars: #(  )
 	classInstVars: #(  )
 	poolDictionaries: #()
-	inDictionary: SuperDoit_trasientSymbolDictionary
+	inDictionary: SuperDoit_transientSymbolDictionary
 	options: #()
 )
 		category: 'SuperDoit-Core';
