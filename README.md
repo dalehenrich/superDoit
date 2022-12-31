@@ -23,7 +23,12 @@ BRANCH | STATUS
 3. [Branch naming conventions](#branch-naming-conventions)
 
 ## What is superDoit?
-`superDoit` is a scripting framework for writing shell scripts in [GemStone Smalltalk](https://gemtalksystems.com/products/gs64/) using [GemStone Topaz][topaz manual]
+`superDoit` is a scripting framework for writing shell scripts in [GemStone Smalltalk](https://gemtalksystems.com/products/gs64/) using [GemStone Topaz][topaz manual]. To install:
+```bash
+	cd <install dir>
+  git clone git@github.com:dalehenrich/superDoit.git
+	superDoit/bin/install.sh
+```
 
 ### Current best practices
 Current best practices for writing a [topaz solo bash scripts to report the sum total size of tranlog files in the given directory][Topaz Solo Scripting using bash to pass arguments] involves creating 3 separate files (see [Scripting with topaz solo using sh-bang][Scripting with topaz solo using she-bang] for resons why 3 files are needed to handle command line arguments in topaz solo scripts):
