@@ -4,5 +4,6 @@ set user SystemUser
 set password swordfish
 set solologin on
 
-display classoops
-
+display oops
+omit classoops
+set tab 2
