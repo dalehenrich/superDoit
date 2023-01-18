@@ -13,11 +13,11 @@ doit
 				ifTrue: [ 
 					"honor exit client request"
 					ex pass ].
-			interactive := self stdout isTerminal.
+			interactive := self _printStackOnDebugError not.
 			haveDebug := (System gemConfigurationAt: 'GEM_LISTEN_FOR_DEBUG') == true.
 			haveDebug
 				ifFalse: [ 
-					((self respondsTo: #'debug') and: [ self debug ])
+					((self respondsTo: #'debugGem') and: [ self debugGem ])
 						ifTrue: [ 
 							interactive
 								ifFalse: [ 

@@ -1402,7 +1402,8 @@ category: 'accessing'
 method: SuperDoitCommandParser
 standardOptionSpecs
 	^ {(SuperDoitOptionalOptionWithNoArg long: 'help' short: 'h').
-	(SuperDoitOptionalOptionWithNoArg long: 'debug' short: 'D')}
+	(SuperDoitOptionalOptionWithNoArg long: 'debug' short: 'D').
+	(SuperDoitOptionalOptionWithNoArg long: 'debugGem')}
 %
 
 category: 'accessing'
@@ -1479,15 +1480,22 @@ USAGE $basename [--help | -h] [--debug | -D]' , stoneArgs
 				,
 					'
 
-OPTIONS
-  -h, --help                 display usage message
-  -D, --debug                bring up topaz debugger in the event of a script error
+  --debugGem      If terminal is connected to stdout, behaves exactly like --debug.
+                  If terminal is not connected to stdout (i.e., non-interactive
+                  session), System class listenForDebugConnection is called, a
+                  stack is written to "stdout" and the session waits in an infinite
+                  loop until another topaz session attaches using the topaz 
+                  DEBUGGEM command. NOTE --debugGem should not be used with 
+                  GemStone older than 3.6.x.                                
 
 EXAMPLES
   $basename --help' , ('  ' , stoneName) trimRight
 				,
 					'
   $basename -h' , ('      ' , stoneName) trimRight
+				,
+					'
+  $basename --debugGem' , (' ' , stoneName) trimRight
 				,
 					'
   $basename --debug' , (' ' , stoneName) trimRight
