@@ -8,43 +8,38 @@ doit
 	^ self theDoit ]
 		on: Error , Halt, TestFailure
 		do: [ :ex | 
-			| listenForDebug |
-			(ex isKindOf: ExitClientError)
-				ifTrue: [ 
+			| haveDebug interactive |
+			(ex isKindOf: ExitClientError) ifTrue: [ 
 					"honor exit client request"
-					ex pass ].
-			listenForDebug := (System gemConfigurationAt: 'GEM_LISTEN_FOR_DEBUG') == true.
-			(listenForDebug or: [ self _printStackOnDebugError ])
-				ifTrue: [ 
-					"when --debug option is set and stdout is not a terminal (i.e., cannot 
-						use topaz as interactive debugger), unconditionally print stack to 
-						stdout and exit"
+					ex pass 
+      ].
+      interactive := self stdout isTerminal .
+			haveDebug := (System gemConfigurationAt: 'GEM_LISTEN_FOR_DEBUG') == true.
+			haveDebug ifFalse:[
+		    ((self respondsTo: #'debug') and: [ self debug ]) ifTrue:[
+          interactive ifFalse:[
+            self stdout nextPutAll: System listenForDebugConnection asString ; lf
+          ].
+          haveDebug := true . 
+        ].
+      ].
+			interactive 
+        ifTrue:[ ex pass ] 
+        ifFalse:[
 					self stdout
-						nextPutAll: '---------------------';
-						lf;
-						nextPutAll: 'Unhandled Error in script: ' , self scriptPath;
-						lf;
-						nextPutAll: '---------------------';
-						lf;
-						nextPutAll: ex description;
-						lf;
-						nextPutAll: '---------------------';
-						lf;
-						nextPutAll: (GsProcess stackReportToLevel: 300);
-						lf;
-						nextPutAll: '---------------------';
-						lf;
-						nextPutAll: 'GsProcess @' , GsProcess _current asOop printString;
-						yourself.
-					listenForDebug
-						ifTrue: [ 
-							self stdout
-								nextPutAll:
-									' (DEBUGGEM ' , (System gemVersionReport at: 'processId') asString , ')' ].
-					self stdout
-						lf;
-						nextPutAll: '---------------------';
-						lf ].
-			(listenForDebug or: [ (self respondsTo: #'debug') and: [ self debug ] ])
-				ifTrue: [ ex pass ].
-			self exit: ex description withStatus: 1	"does not return" ]
+						nextPutAll: '---------------------'; lf;
+						nextPutAll: 'Unhandled Error in script: ' , self scriptPath; lf;
+						nextPutAll: '---------------------'; lf;
+						nextPutAll: ex description; lf;
+						nextPutAll: '---------------------'; lf;
+						nextPutAll: (GsProcess stackReportToLevel: 300); lf;
+						nextPutAll: '---------------------'; lf;
+						nextPutAll: 'GsProcess @' , GsProcess _current asOop printString ; lf .
+          haveDebug ifTrue:[
+						self stdout nextPutAll: 'Waiting for topaz to attach: DEBUGGEM ', 
+									System gemProcessId asString, ' ', System listenForDebugConnection asString .
+            [ true ] whileTrue:[ Delay waitForSeconds: 1 ].
+          ].
+			    self exit: ex description withStatus: 1	"does not return"
+       ] 
+    ]

@@ -6,5 +6,5 @@ set solologin on
 
 iferr 1 topazwaitfordebug
 
-display classoops
+display oops
 set tab 2
