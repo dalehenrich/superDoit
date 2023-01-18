@@ -49,8 +49,9 @@ doit
 						ifTrue: [ 
 							self stdout
 								nextPutAll:
-									'Waiting for topaz to attach: DEBUGGEM ' , System gemProcessId asString , ' '
-										, System listenForDebugConnection asString;
+										'Waiting for topaz to attach: DEBUGGEM ' , System gemProcessId asString , ' '
+												, System listenForDebugConnection asString;
+								lf;
 								flush.
 							[ true ] whileTrue: [ Delay waitForSeconds: 1 ] ].
 					self exit: ex description withStatus: 1	"does not return" ] ]
