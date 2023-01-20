@@ -4,7 +4,7 @@
 #
 usage
 -----
-USAGE $basename [--help | -h] [--debug | -D] [-- -I <path-to-.topazini>]
+USAGE $basename [--help | -h] [--debug | -D] [--debugGem] [-- -I <path-to-.topazini>]
 
 DESCRIPTION
   Evaluate the Smalltalk expression: 3 foo and write the error message to stderr.
@@ -13,13 +13,17 @@ OPTIONS
   <path-to-.topazini>        path to a .topazini file with a minimum of username,
                              password and stone name set.  If omitted, there must be a
                              .topazini in a standard location.
-  -h, --help                 display usage message
-  -D, --debug                bring up topaz debugger in the event of a script error
+  -h, --help      display usage message
+  -D, --debug     bring up topaz debugger in the event of a script error
+  --debugGem      If terminal is connected to stdout, bring up debugger. If not,
+                  dump stack to stdout and wait for topaz to attach using topaz
+                  DEBUGGEM command.
 
 EXAMPLES
-  $basename --help  -- -I ./.topazini
-  $basename -D      -- -I ./.topazini
-  $basename         -- -I ./.topazini
+  $basename --help     -- -I ./.topazini
+  $basename -D         -- -I ./.topazini
+  $basename --debugGem -- -I ./.topazini
+  $basename            -- -I ./.topazini
 -----
 %
 doit

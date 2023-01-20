@@ -1483,13 +1483,10 @@ USAGE $basename [--help | -h] [--debug | -D] [--debugGem]' , stoneArgs
 OPTIONS
   -h, --help      display usage message
   -D, --debug     bring up topaz debugger in the event of a script error
-  --debugGem      If terminal is connected to stdout, behaves exactly like --debug.
-                  If terminal is not connected to stdout (i.e., non-interactive
-                  session), System class listenForDebugConnection is called, a
-                  stack is written to "stdout" and the session waits in an infinite
-                  loop until another topaz session attaches using the topaz 
-                  DEBUGGEM command. NOTE --debugGem should not be used with 
-                  GemStone older than 3.6.x.
+  --debugGem      If terminal is connected to stdout, bring up debugger. If not,
+                  dump stack to stdout and wait for topaz to attach using topaz
+                  DEBUGGEM command.
+
 EXAMPLES
   $basename --help' , ('  ' , stoneName) trimRight
 				,
@@ -1497,13 +1494,10 @@ EXAMPLES
   $basename -h' , ('      ' , stoneName) trimRight
 				,
 					'
-  $basename --debugGem' , (' ' , stoneName) trimRight
-				,
-					'
-  $basename --debug' , (' ' , stoneName) trimRight
-				,
-					'
   $basename -D' , ('      ' , stoneName) trimRight
+				,
+					'
+  $basename --debugGem' , ('      ' , stoneName) trimRight
 				,
 					'
   $basename' , ('         ' , stoneName) trimRight
@@ -2139,14 +2133,16 @@ doit
 	^ self theDoit ]
 		on: Error , Halt , TestFailure
 		do: [ :ex | 
-			| haveDebug interactive |
+			| haveDebugGem interactive haveDebug |
 			(ex isKindOf: ExitClientError)
 				ifTrue: [ 
 					"honor exit client request"
 					ex pass ].
 			interactive := self _printStackOnDebugError not.
-			haveDebug := (System gemConfigurationAt: 'GEM_LISTEN_FOR_DEBUG') == true.
-			haveDebug
+			haveDebugGem := (System gemConfigurationAt: 'GEM_LISTEN_FOR_DEBUG') == true.
+			haveDebug := ((self respondsTo: #'debugGem') and: [ self debugGem ])
+				or: [ (self respondsTo: #'debug') and: [ self debug ] ].
+			haveDebugGem
 				ifFalse: [ 
 					((self respondsTo: #'debugGem') and: [ self debugGem ])
 						ifTrue: [ 
@@ -2155,9 +2151,11 @@ doit
 									self stdout
 										nextPutAll: System listenForDebugConnection asString;
 										lf ].
-							haveDebug := true ] ].
+							haveDebugGem := true ] ].
 			interactive
-				ifTrue: [ ex pass ]
+				ifTrue: [ 
+					haveDebug
+						ifTrue: [ ex pass ] ]
 				ifFalse: [ 
 					self stdout
 						nextPutAll: '---------------------';
@@ -2176,15 +2174,16 @@ doit
 						lf;
 						nextPutAll: 'GsProcess @' , GsProcess _current asOop printString;
 						lf.
-					haveDebug
+					haveDebugGem
 						ifTrue: [ 
 							self stdout
 								nextPutAll:
-									'Waiting for topaz to attach: DEBUGGEM ' , System gemProcessId asString , ' '
-										, System listenForDebugConnection asString;
+										'Waiting for topaz to attach: DEBUGGEM ' , System gemProcessId asString , ' '
+												, System listenForDebugConnection asString;
+								lf;
 								flush.
-							[ true ] whileTrue: [ Delay waitForSeconds: 1 ] ].
-					self exit: ex description withStatus: 1	"does not return" ] ]
+							[ true ] whileTrue: [ Delay waitForSeconds: 1 ] ] ].
+			self exit: ex description withStatus: 1	"does not return" ]
 %
 
 category: '*superdoit-core36x'

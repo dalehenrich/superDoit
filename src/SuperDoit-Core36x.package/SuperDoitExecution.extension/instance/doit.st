@@ -8,14 +8,16 @@ doit
 	^ self theDoit ]
 		on: Error , Halt , TestFailure
 		do: [ :ex | 
-			| haveDebug interactive |
+			| haveDebugGem interactive haveDebug |
 			(ex isKindOf: ExitClientError)
 				ifTrue: [ 
 					"honor exit client request"
 					ex pass ].
 			interactive := self _printStackOnDebugError not.
-			haveDebug := (System gemConfigurationAt: 'GEM_LISTEN_FOR_DEBUG') == true.
-			haveDebug
+			haveDebugGem := (System gemConfigurationAt: 'GEM_LISTEN_FOR_DEBUG') == true.
+			haveDebug := ((self respondsTo: #'debugGem') and: [ self debugGem ])
+				or: [ (self respondsTo: #'debug') and: [ self debug ] ].
+			haveDebugGem
 				ifFalse: [ 
 					((self respondsTo: #'debugGem') and: [ self debugGem ])
 						ifTrue: [ 
@@ -24,9 +26,11 @@ doit
 									self stdout
 										nextPutAll: System listenForDebugConnection asString;
 										lf ].
-							haveDebug := true ] ].
+							haveDebugGem := true ] ].
 			interactive
-				ifTrue: [ ex pass ]
+				ifTrue: [ 
+					haveDebug
+						ifTrue: [ ex pass ] ]
 				ifFalse: [ 
 					self stdout
 						nextPutAll: '---------------------';
@@ -45,7 +49,7 @@ doit
 						lf;
 						nextPutAll: 'GsProcess @' , GsProcess _current asOop printString;
 						lf.
-					haveDebug
+					haveDebugGem
 						ifTrue: [ 
 							self stdout
 								nextPutAll:
@@ -53,5 +57,5 @@ doit
 												, System listenForDebugConnection asString;
 								lf;
 								flush.
-							[ true ] whileTrue: [ Delay waitForSeconds: 1 ] ].
-					self exit: ex description withStatus: 1	"does not return" ] ]
+							[ true ] whileTrue: [ Delay waitForSeconds: 1 ] ] ].
+			self exit: ex description withStatus: 1	"does not return" ]

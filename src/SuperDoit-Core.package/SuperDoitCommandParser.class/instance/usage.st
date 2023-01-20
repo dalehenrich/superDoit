@@ -19,7 +19,7 @@ OPTIONS
   -h, --help      display usage message
   -D, --debug     bring up topaz debugger in the event of a script error
   --debugGem      If terminal is connected to stdout, bring up debugger. If not,
-                  dump stack to stdout and wait for topaz to attach using topaz 
+                  dump stack to stdout and wait for topaz to attach using topaz
                   DEBUGGEM command.
 
 EXAMPLES

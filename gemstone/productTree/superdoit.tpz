@@ -6,7 +6,7 @@ run
 	sess := GsCurrentSession currentSession.
 	sess _transientSymbolList ifNil: [ System refreshTransientSymbolList ].
 	symbolList := sess transientSymbolList.
-	name := #'SuperDoit_trasientSymbolDictionary'.	"must match value in SuperDoitCommandParser class >> transientSymbolDictionaryName"
+	name := #'SuperDoit_transientSymbolDictionary'.	"must match value in SuperDoitCommandParser class >> transientSymbolDictionaryName"
 	(symbolList resolveSymbol: name)
 		ifNil: [
 			| systemDictionary |
