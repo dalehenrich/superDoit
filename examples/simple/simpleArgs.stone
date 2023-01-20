@@ -6,7 +6,7 @@ SuperDoitRequiredOptionWithRequiredArg long: 'addend' short: 'a'.
 %
 usage
 -----
-USAGE $basename [--help | -h] [--debug | -D] \
+USAGE $basename [--help | -h] [--debug | -D]  [--debugGem] \
       --addend=<number> | -a <number> \
       [-- [<stone-name> [<topaz-command-line-args>] ] ]
 
@@ -17,6 +17,9 @@ OPTIONS
   <number>                   number to be added to 3
   -h, --help                 display usage message
   -D, --debug                bring up topaz debugger in the event of a script error
+  --debugGem                 If terminal is connected to stdout, bring up debugger. If not,
+                             dump stack to stdout and wait for topaz to attach using topaz
+                             DEBUGGEM command.
   <stone-name>               Name of the GsDevKit_home stone. <stone-name> argument
                              may be skipped if the script is run in a GsDevKit_home
                              stone directory (i.e., $GS_HOME/server/stones/<stone-name>
@@ -25,9 +28,8 @@ OPTIONS
 
 EXAMPLES
   $basename --help     -- gs_360
-  $basename -h         -- gs_360
-  $basename --debug    -- gs_360
   $basename -D         -- gs_360
+  $basename --debugGem -- gs_360
   $basename --addend=5 -- gs_360
   $basename -a 100     -- gs_360
 -----

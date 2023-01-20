@@ -7,9 +7,12 @@ DESCRIPTION
   exit the process with the given exit status. Can be checked with `echo $?`.
 
 OPTIONS
-  <exit-status>              desired exit status ... must be an integer
-  -h, --help                 display usage message
-  -D, --debug                bring up topaz debugger in the event of a script error
+  <exit-status>   desired exit status ... must be an integer
+  -h, --help      display usage message
+  -D, --debug     bring up topaz debugger in the event of a script error
+  --debugGem      If terminal is connected to stdout, bring up debugger. If not,
+                  dump stack to stdout and wait for topaz to attach using topaz
+                  DEBUGGEM command.
 
 EXAMPLES
   $basename -h

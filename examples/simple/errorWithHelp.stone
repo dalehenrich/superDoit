@@ -1,21 +1,25 @@
 #!/usr/bin/env superdoit_stone
 usage
 -----
-USAGE $basename [--help | -h] [--debug | -D] [-- [<stone-name> [<topaz-command-line-args>] ] ]
+USAGE $basename [--help | -h] [--debug | -D] [--debugGem] [-- [<stone-name> [<topaz-command-line-args>] ] ]
 
 DESCRIPTION
   Generate an error.
 
 OPTIONS
-  -h, --help                 display usage message
-  -D, --debug                bring up topaz debugger in the event of a script error
+  -h, --help      display usage message
+  -D, --debug     bring up topaz debugger in the event of a script error
+  --debugGem      If terminal is connected to stdout, bring up debugger. If not,
+                  dump stack to stdout and wait for topaz to attach using topaz
+                  DEBUGGEM command.
+
 
 EXAMPLES
-  $basename --help  -- gs_360
-  $basename -h      -- gs_360
-  $basename --debug -- gs_360
-  $basename -D      -- gs_360
-  $basename         -- gs_360
+  $basename --help     -- gs_360
+  $basename -h         -- gs_360
+  $basename -D         -- gs_360
+  $basename --debugGem -- gs_360
+  $basename            -- gs_360
 -----
 %
 doit

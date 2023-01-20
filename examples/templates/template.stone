@@ -28,9 +28,9 @@ usage
 -----
 USAGE 
   # with GS_HOME set (<stone-name> optional if run in $GS_HOME/servers/stones/<stone-name> directory)
-  $basename [--help | -h] [--debug | -D] [-- [<stone-name> [<topaz-command-line-args>] ] ]
+  $basename [--help | -h] [--debug | -D]  [--debugGem] [-- [<stone-name> [<topaz-command-line-args>] ] ]
   # with GEMSTONE set
-  $basename [--help | -h] [--debug | -D] -- (-r | -l | -L) -I <path-to-.topazini> [<topaz-command-line-args>]
+  $basename [--help | -h] [--debug | -D]  [--debugGem] -- (-r | -l | -L) -I <path-to-.topazini> [<topaz-command-line-args>]
 
 DESCRIPTION
   <put your description here>
@@ -43,12 +43,15 @@ OPTIONS
                              running the script
   -h, --help                 display usage message
   -D, --debug                bring up topaz debugger in the event of a script error
+  --debugGem                 If terminal is connected to stdout, bring up debugger. If not,
+                             dump stack to stdout and wait for topaz to attach using topaz
+                             DEBUGGEM command.
 
 EXAMPLES
   $basename --help                           -- gs_351             # with GS_HOME set
   $basename -h                               -- -l -I ./.topazini  # with GEMSTONE set
   $basename -D <script-arguments>            <topaz-arguments>
-  $basename --debug <script-arguments>       <topaz-arguments>
+  $basename --debugGem <script-arguments>    <topaz-arguments>
   $basename <script-arguments>               <topaz-arguments>
 -----
 %
