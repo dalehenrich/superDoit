@@ -57,5 +57,5 @@ doit
 												, System listenForDebugConnection asString;
 								lf;
 								flush.
-							[ true ] whileTrue: [ Delay waitForSeconds: 1 ] ] ].
+							System waitForDebug ] ].
 			self exit: ex description withStatus: 1	"does not return" ]
