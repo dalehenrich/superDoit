@@ -2123,7 +2123,7 @@ dirname
 	self _splitName: self scriptPath to: [ :parentPath :basename | ^ parentPath ]
 %
 
-category: '*superdoit-core36x'
+category: '*superdoit-core36'
 method: SuperDoitExecution
 doit
 	"standard option handling ... for customization override in script"

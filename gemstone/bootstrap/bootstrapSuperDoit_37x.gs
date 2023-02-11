@@ -2123,7 +2123,7 @@ dirname
 	self _splitName: self scriptPath to: [ :parentPath :basename | ^ parentPath ]
 %
 
-category: '*superdoit-core36x'
+category: '*superdoit-core37x'
 method: SuperDoitExecution
 doit
 	"standard option handling ... for customization override in script"
@@ -2183,7 +2183,7 @@ doit
 												, System listenForDebugConnection asString;
 								lf;
 								flush.
-							[ true ] whileTrue: [ Delay waitForSeconds: 1 ] ] ].
+							System waitForDebug ] ].
 			self exit: ex description withStatus: 1	"does not return" ]
 %
 

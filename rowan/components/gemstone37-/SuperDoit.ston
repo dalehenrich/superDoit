@@ -1,0 +1,10 @@
+RwPlatformNestedProjectLoadComponentV2 {
+	#name : 'gemstone37-/SuperDoit',
+	#condition : [
+		'gs3.[7-]'
+	],
+	#packageNames : [
+		'SuperDoit-Core37x'
+	],
+	#comment : 'Mods used by 3.7.x and beyond'
+}

@@ -1,4 +1,4 @@
-*superdoit-core36x
+*superdoit-core36
 doit
 	"standard option handling ... for customization override in script"
 
@@ -57,5 +57,5 @@ doit
 												, System listenForDebugConnection asString;
 								lf;
 								flush.
-							System waitForDebug ] ].
+							[ true ] whileTrue: [ Delay waitForSeconds: 1 ] ] ].
 			self exit: ex description withStatus: 1	"does not return" ]
