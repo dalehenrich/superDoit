@@ -32,20 +32,11 @@ for arg in "$@"; do
 done
 
 export TARGET_GEMSTONE=$GEMSTONE
-if [ "$ARCHBASE"x != "x" ] ; then
-	# Internal GemStone private or sanctioned build (3.6.0 and newer)"
-  if [ -d "$ARCHBASE/fast42" ] ; then
-		# private build i386.Darwin"
-		export GEMSTONE="$ARCHBASE/fast42/gs/product"
-		GEM_SOLO_EXTENT="$ARCHBASE/fast42/gs/hidden/bin/extent0.rowan.dbf"
-  elif [ -d "$ARCHBASE/fast50" ] ; then
-		# private build x86_64.Linux"
-		export GEMSTONE="$ARCHBASE/fast50/gs/product"
-		GEM_SOLO_EXTENT="$ARCHBASE/fast50/gs/hidden/bin/extent0.rowan.dbf"
+if [ "$GEMSTONE"x != "x" ] ; then
+	if [ -f "$GEMSTONE/bin/extent0.rowan.dbf" ] ; then
+		GEM_SOLO_EXTENT=$GEMSTONE/bin/extent0.rowan.dbf
 	else
-		# sanctioned build"
-		export GEMSTONE="$ARCHBASE/fast/gs/product"
-		GEM_SOLO_EXTENT="$ARCHBASE/fast/gs/hidden/bin/extent0.rowan.dbf"
+		GEM_SOLO_EXTENT=$GEMSTONE/bin/extent0.dbf
 	fi
 else
 	# Installation using extent0.solo.dbf from GsDevKit_home
