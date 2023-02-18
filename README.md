@@ -2,9 +2,17 @@
 
 BRANCH | STATUS
 ------------- | -------------
+**v3** | [![**v3** build status](https://github.com/dalehenrich/superDoit/actions/workflows/ci.yml/badge.svg?branch=v3)](https://github.com/dalehenrich/superDoit/actions)
 **v2** | [![**v2** build status](https://github.com/dalehenrich/superDoit/actions/workflows/ci.yml/badge.svg?branch=v2)](https://github.com/dalehenrich/superDoit/actions)
 **v2.0** | [![**v2.0** build status](https://github.com/dalehenrich/superDoit/actions/workflows/ci.yml/badge.svg?branch=v2.0)](https://github.com/dalehenrich/superDoit/actions)
 **v2.1** | [![**v2.1** build status](https://github.com/dalehenrich/superDoit/actions/workflows/ci.yml/badge.svg?branch=v2.1)](https://github.com/dalehenrich/superDoit/actions)
+
+## Versions
+### v3
+Intended for versions of GemStone that are shipped with an extent0.rowan.dbf in $GEMSTONE/bin, GemStone 3.6.4 and newer versions of GemStone (currently tested thru 3.6.5). 
+
+### v2
+Intended for use with older versions of GemStone: 3.6.1, 3.6.0, 3.5.7, 3.5.0 (tested versions)
 
 ## Table of Contents
 1. [What is superDoit?](#what-is-superdoit)
