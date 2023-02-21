@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 #
 #	Version of _solo script designed to be embedded in the GemStone product tree.
-# Expect extent0.rowan.dbf (solo extent) to be found in $GEMSTNE/bin
+# Expect extent0.rowan.dbf (solo extent) to be found in $GEMSTONE/bin
 #
 #	Expected script command line:
 #		script [ <script-args> ] [ -- <topaz-command-line-args> ]
