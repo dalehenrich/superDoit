@@ -1,0 +1,4 @@
+#!/usr/bin/env baseimage_solo
+doit
+3 foo
+%

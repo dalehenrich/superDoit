@@ -1,11 +1,11 @@
 #! /usr/bin/env bash
 #
+#Version of _solo script designed to be embedded in the GemStone product tree.
+# Expect extent0.dbf (solo extent) to be found in $GEMSTONE/bin
+#
 #	Expected script command line:
 #		script [ <script-args> ] [ -- <topaz-command-line-args> ]
 #
-#	Not worried about duplicate topaz options at this point ... let the cards fall where they may
-#
-# set -x 
 
 set -e
 
@@ -31,17 +31,13 @@ for arg in "$@"; do
 		shift
 done
 
-export TARGET_GEMSTONE=$GEMSTONE
-if [ "$GEMSTONE"x != "x" ] ; then
-	if [ -f "$GEMSTONE/bin/extent0.rowan.dbf" ] ; then
-		GEM_SOLO_EXTENT=$GEMSTONE/bin/extent0.rowan.dbf
-	else
-		GEM_SOLO_EXTENT=$GEMSTONE/bin/extent0.dbf
-	fi
-else
+if [ "$GEMSTONE"x = "x" ] ; then
 	# Installation using extent0.solo.dbf from local superDoit project
 	export GEMSTONE="$gemstoneDir/solo/product"
-	GEM_SOLO_EXTENT="$gemstoneDir/solo/extent0.solo.dbf"
+	GEM_SOLO_EXTENT="$gemstoneDir/solo/extent0.dbf"
+else
+	# Use existing GEMSTONE
+	GEM_SOLO_EXTENT="$GEMSTONE/bin/extent0.dbf"
 fi
 
 skip="skip"
@@ -60,4 +56,4 @@ $GEMSTONE/bin/topaz -l \
 	-C "GEM_SOLO_EXTENT=$GEM_SOLO_EXTENT" \
 	-q \
 	${topazArgs[@]} \
-	-S $gemstoneDir/superdoit.tpz -- $scriptFile -- ${scriptArgs[@]}
+	-S $gemstoneDir/productTree/superdoit.tpz -- $scriptFile -- ${scriptArgs[@]}
