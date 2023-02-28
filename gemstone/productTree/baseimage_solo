@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 #
-#	Version of _solo script designed to be embedded in the GemStone product tree.
-# Expect extent0.rowan.dbf (solo extent) to be found in $GEMSTONE/bin
+#Version of _solo script designed to be embedded in the GemStone product tree.
+# Expect extent0.dbf (solo extent) to be found in $GEMSTONE/bin
 #
 #	Expected script command line:
 #		script [ <script-args> ] [ -- <topaz-command-line-args> ]
@@ -31,7 +31,7 @@ if [ "$GEMSTONE"x = "x" ] ; then
 	echo "Environment variable GEMSTONE must be defined"
 	exit 1
 fi
-GEM_SOLO_EXTENT="$GEMSTONE/bin/extent0.rowan.dbf"
+GEM_SOLO_EXTENT="$GEMSTONE/bin/extent0.dbf"
 
 # allow GEMSTONE users to easily reference a custom superDoit project by setting $SUPERDOIT_DIR
 if [ "$SUPERDOIT_DIR"x = "x" ] ; then
