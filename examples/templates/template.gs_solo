@@ -1,4 +1,4 @@
-#!/usr/bin/env baseimage_solo
+#!/usr/bin/env superdoit_baseimage_solo
 # Standard options are always present unless customoptions section is used
 #
 #options

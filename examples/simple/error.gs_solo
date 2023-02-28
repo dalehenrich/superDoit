@@ -1,4 +1,4 @@
-#!/usr/bin/env baseimage_solo
+#!/usr/bin/env superdoit_baseimage_solo
 doit
 3 foo
 %

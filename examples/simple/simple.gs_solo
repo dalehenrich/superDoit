@@ -1,4 +1,4 @@
-#!/usr/bin/env baseimage_solo
+#!/usr/bin/env superdoit_baseimage_solo
 usage
 -----
 USAGE $basename [--help | -h] [--debug | -D] [--debugGem]

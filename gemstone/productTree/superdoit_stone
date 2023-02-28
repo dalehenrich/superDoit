@@ -11,7 +11,7 @@ set -e
 export SUPERDOIT_CURRENT_DIR="`pwd`"
 # allow GEMSTONE users to easily reference a custom superDoit project by setting $SUPERDOIT_DIR
 if [ "$SUPERDOIT_DIR"x = "x" ] ; then
-	export SUPERDOIT_DIR="$GEMSTONE/upgrade/projects/superDoit"
+	export SUPERDOIT_DIR="$GEMSTONE/projects/superDoit"
 fi
 gemstoneDir="$SUPERDOIT_DIR/gemstone"
 
