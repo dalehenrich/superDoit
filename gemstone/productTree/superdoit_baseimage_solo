@@ -40,7 +40,7 @@ if [ "$SUPERDOIT_DIR"x = "x" ] ; then
 	if [[ "$SUPERDOIT_GEMSTONE_VERSION" == "3.6."* ]] ; then
 		export SUPERDOIT_DIR="$GEMSTONE/upgrade/projects/superDoit"
 	else
-		"3.7.x and later"
+		# 3.7.x and later
 		export SUPERDOIT_DIR="$GEMSTONE/projects/superDoit"
 	fi
 fi
