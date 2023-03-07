@@ -1,6 +1,7 @@
 #! /usr/bin/env bash
 
-products="`dirname $0`/.."
+superDoit="`dirname $0`/.."
+products=$superDoit/gemstone/products
 cd $products
 curl  -L -O -s -S "https://ftp.gemtalksystems.com/GemStone64/3.6.5/GemStone64Bit3.6.5-x86_64.Linux.zip"
 unzip GemStone64Bit3.6.5-x86_64.Linux.zip
