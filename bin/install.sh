@@ -29,14 +29,11 @@ case "$format" in
 	zip)
 		unzip ${dlname}.zip
 		;;
-	dmg)
-    # This will fail is there is more than one mountable volume in the dmg
-    attach_result=`hdiutil attach -plist ${dlname}.dmg`
-    attach_device=`echo $attach_result | xpath "//dict/array/dict[true]/key[.='dev-entry']/following-sibling::string[1]/text()" 2>/dev/null`
-    attach_path=`echo $attach_result | xpath "//dict/array/dict[true]/key[.='mount-point']/following-sibling::string[1]/text()" 2>/dev/null`
-    cp -R "${attach_path}/${dlname}" .
-    hdiutil detach ${attach_device}
 		;;
+	dmg)
+		VOLUME=`hdiutil attach ${dlname}.dmg | grep Volumes | awk '{print $3}'`
+		cp -rf $VOLUME/${dlname} .
+		hdiutil detach $VOLUME
 esac
 cd ../solo
 cp ../products/${dlname}/bin/extent0.rowan.dbf extent0.solo.dbf
