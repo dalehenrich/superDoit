@@ -29,11 +29,11 @@ case "$format" in
 	zip)
 		unzip ${dlname}.zip
 		;;
-		;;
 	dmg)
 		VOLUME=`hdiutil attach ${dlname}.dmg | grep Volumes | awk '{print $3}'`
 		cp -rf $VOLUME/${dlname} .
 		hdiutil detach $VOLUME
+		;;
 esac
 cd ../solo
 cp ../products/${dlname}/bin/extent0.rowan.dbf extent0.solo.dbf
