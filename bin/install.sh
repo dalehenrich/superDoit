@@ -23,6 +23,7 @@ case "$PLATFORM" in
 esac
 superDoit="`dirname $0`/.."
 products=$superDoit/gemstone/products
+echo "Downloading ${dlname} to `pwd` for $PLATFORM"
 cd $products
 curl  -L -O -S "https://ftp.gemtalksystems.com/GemStone64/${vers}/${dlname}.${format}"
 case "$format" in
