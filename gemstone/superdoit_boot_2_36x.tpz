@@ -1,4 +1,5 @@
-display classoops
+display oops
+set singlecolumn on
 input $gemstoneDir/superdoit_boot_debug_1_36x.tpz
 output pop
 input $gemstoneDir/superdoit_boot_debug_2.tpz

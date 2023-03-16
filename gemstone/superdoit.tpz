@@ -1,4 +1,5 @@
-display classoops
+display oops
+set singlecolumn on
 login
 run
 "create the transient symbol dictionary for superDoit"
