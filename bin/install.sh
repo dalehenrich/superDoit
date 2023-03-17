@@ -2,11 +2,6 @@
 
 set -ex
 
-local PLATFORM
-local dlname
-local format
-local gemstoneversion
-
 gemstoneversion=3.6.5
 
 PLATFORM="`uname -sm | tr ' ' '-'`"
