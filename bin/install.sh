@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-set -x
+set -ex
 
 local PLATFORM
 local dlname
@@ -35,9 +35,9 @@ cd $products
 
 if [ $# -eq 1 ]; then
 	commonProducts="$1"
-	if [ -d "${commonProducts}/${dlname}" ] then
+	if [ -d "${commonProducts}/${dlname}" ] ; then
 		echo "Making symbolic link in `pwd` to ${commonProducts}/${dlname} for $PLATFORM"
-		ln "${commonProducts}/${dlname}" .
+		ln -s "${commonProducts}/${dlname}" .
 	else
 		echo "Downloading ${dlname} to `pwd` for $PLATFORM"
 		curl  -L -O -S "https://ftp.gemtalksystems.com/GemStone64/${gemstoneversion}/${dlname}.${format}"
