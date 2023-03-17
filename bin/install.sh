@@ -1,4 +1,7 @@
 #! /usr/bin/env bash
+
+set -x
+
 local PLATFORM
 local dlname
 local format
