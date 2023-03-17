@@ -28,27 +28,29 @@ superDoit="`dirname $0`/.."
 products=$superDoit/gemstone/products
 cd $products
 
+needsDownload="true"
 if [ $# -eq 1 ]; then
 	commonProducts="$1"
 	if [ -d "${commonProducts}/${dlname}" ] ; then
 		echo "Making symbolic link in `pwd` to ${commonProducts}/${dlname} for $PLATFORM"
 		ln -s "${commonProducts}/${dlname}" .
-	else
-		echo "Downloading ${dlname} to `pwd` for $PLATFORM"
-		curl  -L -O -S "https://ftp.gemtalksystems.com/GemStone64/${gemstoneversion}/${dlname}.${format}"
-		case "$format" in
-			zip)
-				unzip ${dlname}.zip
-				;;
-			dmg)
-				VOLUME=`hdiutil attach ${dlname}.dmg | grep Volumes | awk '{print $3}'`
-				cp -rf ${VOLUME}/${dlname} .
-				hdiutil detach $VOLUME
-				;;
-		esac
+		needsDownload="false"
 	fi
 fi
-
+if [ "$needsDownload" = "true" ] ; then
+	echo "Downloading ${dlname} to `pwd` for $PLATFORM"
+	curl  -L -O -S "https://ftp.gemtalksystems.com/GemStone64/${gemstoneversion}/${dlname}.${format}"
+	case "$format" in
+		zip)
+			unzip ${dlname}.zip
+			;;
+		dmg)
+			VOLUME=`hdiutil attach ${dlname}.dmg | grep Volumes | awk '{print $3}'`
+			cp -rf ${VOLUME}/${dlname} .
+			hdiutil detach $VOLUME
+			;;
+	esac
+fi
 
 cd ../solo
 echo "Making symbolic link in `pwd` for $dlname" 
