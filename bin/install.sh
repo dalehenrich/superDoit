@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-set -ex
+set -e
 
 gemstoneversion=3.6.5
 
