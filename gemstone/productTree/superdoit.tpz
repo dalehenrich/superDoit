@@ -1,3 +1,9 @@
+#
+# Note that the following display and set commands should be appropriate for 
+# the version of topaz associated with the product that is using this
+# branch of superDoit as this file is only used when $GEMSTONE/bin is in your
+# PATH
+#
 display oops
 set singlecolumn on
 login
