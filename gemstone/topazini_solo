@@ -5,6 +5,6 @@ set password swordfish
 set solologin on
 
 display oops
+set singlecolumn on
 omit classoops
 set tab 2
-set singlecolumn on
