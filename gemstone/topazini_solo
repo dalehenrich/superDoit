@@ -7,3 +7,4 @@ set solologin on
 display oops
 omit classoops
 set tab 2
+set singlecolumn on
