@@ -2,7 +2,7 @@
 
 set -e
 
-gemstoneversion=3.6.5
+gemstoneversion=3.7.0
 
 PLATFORM="`uname -sm | tr ' ' '-'`"
 case "$PLATFORM" in

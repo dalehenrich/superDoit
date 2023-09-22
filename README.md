@@ -2,6 +2,7 @@
 
 BRANCH | STATUS
 ------------- | -------------
+**v4.1** | [![**v4.1** build status](https://github.com/dalehenrich/superDoit/actions/workflows/ci.yml/badge.svg?branch=v4.1)](https://github.com/dalehenrich/superDoit/actions)
 **v3** | [![**v3** build status](https://github.com/dalehenrich/superDoit/actions/workflows/ci.yml/badge.svg?branch=v3)](https://github.com/dalehenrich/superDoit/actions)
 **v3.1** | [![**v3.1** build status](https://github.com/dalehenrich/superDoit/actions/workflows/ci.yml/badge.svg?branch=v3.1)](https://github.com/dalehenrich/superDoit/actions)
 **v2** | [![**v2** build status](https://github.com/dalehenrich/superDoit/actions/workflows/ci.yml/badge.svg?branch=v2)](https://github.com/dalehenrich/superDoit/actions)
@@ -9,6 +10,9 @@ BRANCH | STATUS
 **v2.1** | [![**v2.1** build status](https://github.com/dalehenrich/superDoit/actions/workflows/ci.yml/badge.svg?branch=v2.1)](https://github.com/dalehenrich/superDoit/actions)
 
 ## Versions
+### v4.1
+Development version intended for use with GsDevKit_stone:v1.1.1 and GemStone 3.7.0
+
 ### v3
 Intended for .solo scripts used with versions of GemStone that are shipped with an extent0.rowan.dbf in $GEMSTONE/bin, GemStone 3.6.4 and newer versions of GemStone (currently tested thru 3.6.5). 
 
