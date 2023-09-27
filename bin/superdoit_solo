@@ -32,10 +32,6 @@ for arg in "$@"; do
 done
 
 export TARGET_GEMSTONE=$GEMSTONE
-if [ -f ".GDKStoneSpec.ston" ] && [ -d "product" ] && [ -f "product/bin/extent0.rowan.dbf" ]; then
-	# support GsDevKit_stones
-	export GEMSTONE="`pwd`/product"
-fi
 if [ "$GEMSTONE"x != "x" ] ; then
 	if [ -f "$GEMSTONE/bin/extent0.rowan.dbf" ] ; then
 		GEM_SOLO_EXTENT=$GEMSTONE/bin/extent0.rowan.dbf
