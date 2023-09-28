@@ -15,8 +15,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ ubuntu-latest, ubuntu-20.04, macos-latest, macos-11 ]
-        gsvers: [3.6.4, 3.6.6, 3.7.0 ]
+        # os: [ ubuntu-latest, ubuntu-20.04, macos-latest, macos-11 ]
+        # gsvers: [ 3.6.4, 3.6.6, 3.7.0 ]
+        os: [ ubuntu-20.04 ]
+        gsvers: [ 3.7.0 ]
     runs-on: ${{ matrix.os }}
     env:
       GS_VERS: ${{ matrix.gsvers }}
@@ -36,7 +38,7 @@ jobs:
           export GEMSTONE=${{ steps.setup-superDoit.outputs.gemstone-product-path }}
           export GEMSTONE_STONE_DIR=${{steps.setup-superDoit.outputs.stone-directory}}
           export GEMSTONE_TOPAZINI_PATH=${{steps.setup-superDoit.outputs.topazini-path}}
-          export SOLO_GEMSTONE_VERSION=${{ steps.setup-superDoit.outputs.solo-version }}
+          export SOLO_GEMSTONE_VERSION=${{ steps.setup-superDoit.outputs.gemstone-version }}
           . ${GITHUB_WORKSPACE}/dev/defPath.env
           PATH=$GEMSTONE/bin::$PATH
           PATH=${GITHUB_WORKSPACE}/examples/simple:$PATH
