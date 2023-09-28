@@ -24,7 +24,7 @@ jobs:
       GS_VERS: ${{ matrix.gsvers }}
       PLATFORM: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - id: setup-superDoit
         uses: dalehenrich/setup-superDoit@v4
         with:
