@@ -2,7 +2,10 @@
 
 set -e
 
-gemstoneversion=3.7.0
+gemstoneversion="$1"
+if [ "$gemstoneversion"x = "x" ]; then
+	gemstoneversion=3.7.0
+fi
 
 PLATFORM="`uname -sm | tr ' ' '-'`"
 case "$PLATFORM" in
