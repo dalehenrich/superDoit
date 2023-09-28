@@ -5,7 +5,7 @@ echo testExamples.topaz
 echo ==================
 
 test_simple_topaz() {
-if [[ "$GS_VERS" = "3.6."* ]] ; then
+if [[ "$GS_VERS" = "3.7."* ]] || [[ "$GS_VERS" = "3.6."* ]] ; then
 	# run without error and get right answer
 	seven=`simple.topaz	-lq -I $GEMSTONE_TOPAZINI_PATH`
 	assertEquals "wrong answer" '7' "${seven}"
