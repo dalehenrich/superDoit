@@ -11,7 +11,7 @@ BRANCH | STATUS
 
 ## Versions
 ### v4.1
-Development version intended for use with GsDevKit_stone:v1.1.1 and GemStone 3.7.0
+Development version intended for use with GsDevKit_stone:v1.1.1 and GemStone 3.6.4 and newer versions of GemStone (currently tested 3.6.4 thru 3.6.6 and 3.7.0).
 
 ### v3
 Intended for .solo scripts used with versions of GemStone that are shipped with an extent0.rowan.dbf in $GEMSTONE/bin, GemStone 3.6.4 and newer versions of GemStone (currently tested thru 3.6.5). 
