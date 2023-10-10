@@ -26,7 +26,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - id: setup-superDoit
-        uses: dalehenrich/setup-superDoit@v4
+        uses: dalehenrich/setup-superDoit@v3
         with:
           gemstone-version: ${{ matrix.gsvers }}
           superDoit-source: ${{ github.workspace }}
