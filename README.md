@@ -11,7 +11,9 @@ BRANCH | STATUS
 
 ## Versions
 ### v4.1
-Development version intended for use with GsDevKit_stone:v1.1.x;v2 and GemStone 3.5.3 and newer versions of GemStone (currently tested 3.5.3 thru 3.5.8, 3.6.4 thru 3.6.6, and 3.7.0).
+Stable branch intended for use with SmalltalkCI, GsDevKit_stones:v1.1.x;v2 and versions of GemStone that are shipped with an extent0.rowan.dbf in $GEMSTONE/bin (tested from GemStone 3.6.4 thru 3.7.0).
+Versions earlier than 3.6.4 are not currently supported, due to the fact that GsDevKit_stone is implemented expecting Rowan to be present for .solo scripts.
+GsDevKit_stones support is expected to eventually be extended versions as old as 3.4.0.
 
 ### v3
 Intended for .solo scripts used with versions of GemStone that are shipped with an extent0.rowan.dbf in $GEMSTONE/bin, GemStone 3.6.4 and newer versions of GemStone (currently tested thru 3.6.5). 
