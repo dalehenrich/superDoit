@@ -16,7 +16,8 @@ jobs:
       fail-fast: false
       matrix:
         os: [ ubuntu-latest, ubuntu-20.04, macos-latest, macos-11 ]
-        gsvers: [ 3.6.4, 3.6.5, 3.6.6, 3.7.0 ]
+        gsvers: [ 3.5.3, 3.5.8, 3.6.0, 3.6.4 ]
+        # gsvers: [ 3.5.3, 3.5.8, 3.6.0, 3.6.4, 3.6.5, 3.6.6, 3.7.0 ]
     runs-on: ${{ matrix.os }}
     env:
       GS_VERS: ${{ matrix.gsvers }}
