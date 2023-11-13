@@ -59,8 +59,14 @@ cd ../solo
 echo "Making symbolic link in `pwd` for $dlname" 
 ln -s ../products/${dlname} product
 
-echo "Copying extent0.rowan.dbf and extent0.dbf"
-cp ../products/${dlname}/bin/extent0.rowan.dbf extent0.solo.dbf
+if [ -e "../products/${dlname}/bin/extent0.rowan.dbf" ]; then 
+	echo "Copying extent0.rowan.dbf and extent0.solo.dbf"
+	cp ../products/${dlname}/bin/extent0.rowan.dbf extent0.solo.dbf
+else
+	echo "Copying extent0.dbf and extent0.solo.dbf"
+	cp ../products/${dlname}/bin/extent0.dbf extent0.solo.dbf
+fi
 chmod -w extent0.solo.dbf
+echo "Copying extent0.dbf to extent0.dbf"
 cp ../products/${dlname}/bin/extent0.dbf extent0.dbf
 chmod -w extent0.dbf
