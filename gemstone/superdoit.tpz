@@ -3,7 +3,6 @@
 # by the platform-specific gemstone/superdoit_boot_1*.tpz files
 #
 display oops
-set singlecolumn on
 login
 run
 "create the transient symbol dictionary for superDoit"
