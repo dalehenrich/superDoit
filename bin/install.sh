@@ -6,7 +6,7 @@ set -e
 #
 gemstoneversion="3.7.0"
 if [ "$gemstoneversion"x = "x" ]; then
-	break
+	exit 0
 fi
 PLATFORM="`uname -sm | tr ' ' '-'`"
 case "$PLATFORM" in
@@ -32,44 +32,43 @@ superDoit="`dirname $0`/.."
 products=$superDoit/gemstone/products
 cd $products
 
-needsDownload="true"
-if [ $# -eq 1 ]; then
-	commonProducts="$1"
-	if [ -d "${commonProducts}/${dlname}" ] ; then
-		echo "Making symbolic link in `pwd` to ${commonProducts}/${dlname} for $PLATFORM"
-		ln -s "${commonProducts}/${dlname}" .
-		needsDownload="false"
+if [ ! -d "$products/${dlname}" ]; then
+	needsDownload="true"
+	if [ $# -eq 1 ]; then
+		commonProducts="$1"
+		if [ -d "${commonProducts}/${dlname}" ] ; then
+			echo "Making symbolic link in `pwd` to ${commonProducts}/${dlname} for $PLATFORM"
+			ln -s "${commonProducts}/${dlname}" .
+			needsDownload="false"
+		fi
 	fi
-fi
-if [ "$needsDownload" = "true" ] ; then
-	echo "Downloading ${dlname} to `pwd` for $PLATFORM"
-	curl  -L -O -S "https://ftp.gemtalksystems.com/GemStone64/${gemstoneversion}/${dlname}.${format}"
-	case "$format" in
-		zip)
-			unzip ${dlname}.zip
-			;;
-		dmg)
-			VOLUME=`hdiutil attach ${dlname}.dmg | grep Volumes | awk '{print $3}'`
-			cp -rf ${VOLUME}/${dlname} .
-			hdiutil detach $VOLUME
-			;;
-	esac
-fi
-
-if [ "$gemstoneversion" = "3.7.0" ]; then
-	cd ../solo
-	echo "Making symbolic link in `pwd` for $dlname" 
-	ln -s ../products/${dlname} product
+	if [ "$needsDownload" = "true" ] ; then
+		echo "Downloading ${dlname} to `pwd` for $PLATFORM"
+		curl  -L -O -S "https://ftp.gemtalksystems.com/GemStone64/${gemstoneversion}/${dlname}.${format}"
+		case "$format" in
+			zip)
+				unzip ${dlname}.zip
+				;;
+			dmg)
+				VOLUME=`hdiutil attach ${dlname}.dmg | grep Volumes | awk '{print $3}'`
+				cp -rf ${VOLUME}/${dlname} .
+				hdiutil detach $VOLUME
+				;;
+		esac
+	fi
 	
-	echo "Copying extent0.rowan.dbf and extent0.solo.dbf"
-	cp ../products/${dlname}/bin/extent0.rowan.dbf extent0.solo.dbf
-	chmod -w extent0.solo.dbf
-	echo "Copying extent0.dbf to extent0.dbf"
-	cp ../products/${dlname}/bin/extent0.dbf extent0.dbf
-	chmod -w extent0.dbf
-
-	if [ "$1" = "3.7.0" ]; then
-		# only need to download 3.7.0 once
-		break 
+	if [ "$gemstoneversion" = "3.7.0" ]; then
+		cd ../solo
+		echo "Making symbolic link in `pwd` for $dlname" 
+		ln -s ../products/${dlname} product
+		
+		echo "Copying extent0.rowan.dbf and extent0.solo.dbf"
+		cp ../products/${dlname}/bin/extent0.rowan.dbf extent0.solo.dbf
+		chmod -w extent0.solo.dbf
+		echo "Copying extent0.dbf to extent0.dbf"
+		cp ../products/${dlname}/bin/extent0.dbf extent0.dbf
+		chmod -w extent0.dbf
 	fi
+else
+	echo "${dlname} has already been installed in `pwd` for $PLATFORM"
 fi
