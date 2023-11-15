@@ -1,5 +1,19 @@
 #! /usr/bin/env bash
 
+PLATFORM="`uname -sm | tr ' ' '-'`"
+case "$PLATFORM" in
+  Darwin-arm64) ;;
+  Darwin-x86_64) ;;
+	Linux-x86_64)
+		echo "no need to set up shared memory"
+		exit 0
+     ;;
+	*)
+		echo "This script should only be run on Mac (Darwin-i386 or Darwin-arm64), or Linux (Linux-x86_64) ). The result from \"uname -sm\" is \"`uname -sm`\""
+		exit 1
+     ;;
+esac
+
 totalMem="`sysctl hw.memsize | cut -f2 -d' '`"
 # Figure out the max shared memory segment size currently allowed
 shmmax="`sysctl kern.sysv.shmmax | cut -f2 -d' '`"
