@@ -1,0 +1,25 @@
+#!/usr/bin/env superdoit_rowan3_solo
+usage
+-----
+USAGE $basename [--help | -h] [--debug | -D] [--debugGem]
+
+DESCRIPTION
+  Evaluate the Smalltalk expression: 3+4 and return the result on stdout.
+
+OPTIONS
+  -h, --help      display usage message
+  -D, --debug     bring up topaz debugger in the event of a script error
+  --debugGem      If terminal is connected to stdout, bring up debugger. If not,
+                  dump stack to stdout and wait for topaz to attach using topaz
+                  DEBUGGEM command.
+
+EXAMPLES
+  $basename --help
+  $basename -D
+  $basename --debugGem
+  $basename
+-----
+%
+doit
+	^ 3 + 4
+%

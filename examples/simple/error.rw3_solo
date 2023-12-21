@@ -1,0 +1,4 @@
+#!/usr/bin/env superdoit_rowan3_solo
+doit
+3 foo
+%
