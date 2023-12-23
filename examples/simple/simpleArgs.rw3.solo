@@ -1,0 +1,33 @@
+#!/usr/bin/env superdoit_rowan3_solo
+options
+{
+SuperDoitRequiredOptionWithRequiredArg long: 'addend' short: 'a'.
+}
+%
+usage
+-----
+USAGE $basename [--help | -h] [--debug | -D] [--debugGem] --addend=<number> | -a <number>
+
+DESCRIPTION
+  Evaluate the Smalltalk expression: 3+<number> and return the result on stdout.
+
+OPTIONS
+  <number>                       number to be added to 3
+  -h, --help                     display usage message
+  -D, --debug                    bring up topaz debugger in the event of a script error
+  --debugGem                     If terminal is connected to stdout, bring up debugger. If not,
+                                 dump stack to stdout and wait for topaz to attach using topaz
+                                 DEBUGGEM command.
+	-a <number>, --addend=<number> required option to specify <number>
+
+EXAMPLES
+  $basename --help
+  $basename -D -a 100
+  $basename --debugGem --addend=5
+  $basename --addend=5
+  $basename -a 100
+-----
+%
+doit
+(self addend) asNumber + 3
+%

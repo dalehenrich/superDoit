@@ -1,0 +1,74 @@
+#!/usr/bin/env superdoit_rowan3_solo
+options
+{
+  SuperDoitOptionalOptionWithNoArg long: 'none' short: 'n'.
+  SuperDoitOptionalOptionWithRequiredArg long: 'required'.
+  SuperDoitOptionalOptionWithRequiredArg long: 'another' short: 'a'.
+	SuperDoitRequiredOptionWithRequiredArg long: 'must' short: 'm'.
+}
+%
+usage
+-----
+USAGE $basename [--help | -h] [--debug | -D] \
+      --must=<something> | -m <something>
+      [--required=<something>] \
+      [--another=<something> | -a <something>] \
+      [--none | -n] [<something>]...
+
+DESCRIPTION
+  Posix long and short argument handling support.
+
+  Specify desired options using the 'options' section:
+
+    options
+    {
+      SuperDoitOptionalOptionWithNoArg long: 'debug' short: 'D'.
+      SuperDoitOptionalOptionWithNoArg long: 'help' short: 'h'.
+      SuperDoitOptionalOptionWithNoArg long: 'none' short: 'n'.
+      SuperDoitOptionalOptionWithRequiredArg long: 'required'.
+      SuperDoitOptionalOptionWithRequiredArg long: 'another' short: 'a'.
+	    SuperDoitRequiredOptionWithRequiredArg long: 'must' short: 'm'.
+    }
+    %
+
+
+OPTIONS
+  <positional-arguments>     any number of positional arguments may be specified.
+  -h, --help                 display usage message
+  -D, --debug                bring up topaz debugger in the event of a script error
+  --required=<required-value>
+                             example of a long option with a required value.
+  -a, --another=<another-required-value>]
+                             example of a long and short option with a required value.
+  -n, --none                 example of a long and short option with no required value.
+  -m <required-value>, --must=<required-value>
+                             example of a required option with a required value. Must
+                             specified on the command line
+
+EXAMPLES
+  $basename --help 
+  $basename -h
+  $basename --debug --required=123 -na 456 -m must
+  $basename --none -m must
+  $basename -D -m must
+  $basename -m 123 
+  $basename 123 -m must
+  $basename 123 -m must 456 
+  $basename --must=must --required=123
+  $basename --must=must --another=123
+  $basename --must=must -a 123
+  $basename --optional=123
+  $basename --must=must -a 456
+  $basename --must=must -a 123
+  $basename --must=must -a 123 456
+  $basename --must=must 456 -r 123
+  $basename --must=must --required=123 --another=123
+  $basename -m must --required=123 789
+  $basename -m must --required=123 -a 123
+  $basename -m must --required=123 --another=123 789
+-----
+%
+doit
+	^ self commandLineSummary
+%
+
