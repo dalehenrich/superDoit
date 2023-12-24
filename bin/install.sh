@@ -32,7 +32,7 @@ superDoit="`dirname $0`/.."
 products=$superDoit/gemstone/products
 cd $products
 
-if [ ! -d "$products/${dlname}" ]; then
+if [ ! -d "${dlname}" ]; then
 	needsDownload="true"
 	if [ $# -eq 1 ]; then
 		commonProducts="$1"
