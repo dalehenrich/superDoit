@@ -40,6 +40,9 @@ jobs:
           . ${GITHUB_WORKSPACE}/dev/defPath.env
           PATH=$GEMSTONE/bin::$PATH
           PATH=${GITHUB_WORKSPACE}/examples/simple:$PATH
+          
+          # test that install.sh script can be run a second time without error (noop)
+          ${GITHUB_WORKSPACE}/bin/install.sh
 
           # list running stones
           gslist -lc
