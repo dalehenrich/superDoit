@@ -1271,7 +1271,7 @@ parseAndExecuteScriptFile: scriptFilePath
 						gciLogServer: '---------------------';
 						gciLogServer: 'Unhandled Error in script: ' , scriptFilePath;
 						gciLogServer: '---------------------';
-						gciLogServer: error description;
+						gciLogServer: error printString;
 						gciLogServer: '---------------------';
 						gciLogServer: (GsProcess stackReportToLevel: 300);
 						gciLogServer: '---------------------';
@@ -1283,9 +1283,9 @@ parseAndExecuteScriptFile: scriptFilePath
 						ifNotNil: [ :class | 
 							"3.6.x and beyond"
 							GsFile stderr
-								nextPutAll: error description;
+								nextPutAll: error printString;
 								lf.
-							class signal: error description status: 1	"does not return" ] ].
+							class signal: error printString status: 1	"does not return" ] ].
 			error pass ].
 	^ doitResult ]
 		ensure: [ self stream close ]
@@ -2165,7 +2165,7 @@ doit
 						lf;
 						nextPutAll: '---------------------';
 						lf;
-						nextPutAll: ex description;
+						nextPutAll: ex printString;
 						lf;
 						nextPutAll: '---------------------';
 						lf;
@@ -2184,7 +2184,7 @@ doit
 								lf;
 								flush.
 							System waitForDebug ] ].
-			self exit: ex description withStatus: 1	"does not return" ]
+			self exit: ex printString withStatus: 1	"does not return" ]
 %
 
 category: '*superdoit-core36x'

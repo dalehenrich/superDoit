@@ -34,7 +34,7 @@ parseAndExecuteScriptFile: scriptFilePath
 						gciLogServer: '---------------------';
 						gciLogServer: 'Unhandled Error in script: ' , scriptFilePath;
 						gciLogServer: '---------------------';
-						gciLogServer: error description;
+						gciLogServer: error printString;
 						gciLogServer: '---------------------';
 						gciLogServer: (GsProcess stackReportToLevel: 300);
 						gciLogServer: '---------------------';
@@ -46,9 +46,9 @@ parseAndExecuteScriptFile: scriptFilePath
 						ifNotNil: [ :class | 
 							"3.6.x and beyond"
 							GsFile stderr
-								nextPutAll: error description;
+								nextPutAll: error printString;
 								lf.
-							class signal: error description status: 1	"does not return" ] ].
+							class signal: error printString status: 1	"does not return" ] ].
 			error pass ].
 	^ doitResult ]
 		ensure: [ self stream close ]

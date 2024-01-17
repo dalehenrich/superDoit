@@ -39,7 +39,7 @@ doit
 						lf;
 						nextPutAll: '---------------------';
 						lf;
-						nextPutAll: ex description;
+						nextPutAll: ex printString;
 						lf;
 						nextPutAll: '---------------------';
 						lf;
@@ -58,4 +58,4 @@ doit
 								lf;
 								flush.
 							System waitForDebug ] ].
-			self exit: ex description withStatus: 1	"does not return" ]
+			self exit: ex printString withStatus: 1	"does not return" ]
