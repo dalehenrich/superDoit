@@ -2127,18 +2127,19 @@ category: '*superdoit-core37x'
 method: SuperDoitExecution
 doit
 	"standard option handling ... for customization override in script"
-
-	[ 
-	self getAndVerifyOptions == self noResult
-		ifTrue: [ ^ self noResult ].
-	^ self theDoit ]
+	| res gotEx |
+	res := [ 
+		self getAndVerifyOptions == self noResult ifTrue: [  self noResult ]
+			ifFalse:[  self theDoit ]
+	]
 		on: Error , Halt , TestFailure
 		do: [ :ex | 
 			| haveDebugGem interactive haveDebug |
 			(ex isKindOf: ExitClientError)
 				ifTrue: [ 
 					"honor exit client request"
-					ex pass ].
+					gotEx := ex .
+					ex return ].
 			interactive := self _printStackOnDebugError not.
 			haveDebugGem := (System gemConfigurationAt: 'GEM_LISTEN_FOR_DEBUG') == true.
 			haveDebug := ((self respondsTo: #'debugGem') and: [ self debugGem ])
@@ -2184,7 +2185,9 @@ doit
 								lf;
 								flush.
 							System waitForDebug ] ].
-			self exit: ex printString withStatus: 1	"does not return" ]
+			gotEx := ex ].
+	gotEx ifNotNil: [ self exit: gotEx printString withStatus: 1	"does not return" ].
+	^ res
 %
 
 category: '*superdoit-core36x'
