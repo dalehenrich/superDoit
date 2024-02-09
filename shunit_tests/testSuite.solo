@@ -49,7 +49,7 @@ test_testInstVars_solo() {
 test_testEnsureBlock_solo() {
 	resultFile=`mktemp`
 
-	testEnsureBlock.solo > $resultFile
+	testEnsureBlock.solo > stackllog 2> $resultFile
 	diff $resultFile ${GITHUB_WORKSPACE}/tests/expected/${SOLO_GEMSTONE_VERSION}/testEnsureBlock.ston	
 }
 
