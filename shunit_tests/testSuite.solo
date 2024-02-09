@@ -48,11 +48,12 @@ test_testInstVars_solo() {
 
 test_testEnsureBlock_solo() {
 	resultFile=`mktemp`
+	stackFile=`mktemp`
 
-	testEnsureBlock.solo > stack.log 2> $resultFile
+	testEnsureBlock.solo 1> $stackFile 2> $resultFile
 	exitStatus=$?
 echo "============================"
-cat stack.log
+cat $stackFile
 echo "++++++++++++++++++++++++++++"
 cat $resultFile
 echo "============================"
