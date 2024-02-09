@@ -49,8 +49,13 @@ test_testInstVars_solo() {
 test_testEnsureBlock_solo() {
 	resultFile=`mktemp`
 
-	testEnsureBlock.solo > stackllog 2> $resultFile
+	testEnsureBlock.solo > stack.log 2> $resultFile
 	exitStatus=$?
+echo "============================"
+cat stack.log
+echo "++++++++++++++++++++++++++++"
+cat $resultFile
+echo "============================"
 	assertEquals "expected exit status to be <1> not <${exitStatus}>" ${exitStatus} 1
 	diff $resultFile ${GITHUB_WORKSPACE}/tests/expected/${SOLO_GEMSTONE_VERSION}/testEnsureBlock.ston	
 }
