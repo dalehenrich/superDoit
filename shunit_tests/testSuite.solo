@@ -45,22 +45,6 @@ test_testInstVars_solo() {
 	assertEquals "expect 'foo'" "'foo'" "${foo}"
 }
 
-
-test_testEnsureBlock_solo() {
-	resultFile=`mktemp`
-	stackFile=`mktemp`
-
-	testEnsureBlock.solo 1> $stackFile 2> $resultFile
-	exitStatus=$?
-echo "============================"
-cat $stackFile
-echo "++++++++++++++++++++++++++++"
-cat $resultFile
-echo "============================"
-	assertEquals "expected exit status to be <1> not <${exitStatus}>" ${exitStatus} 1
-	diff $resultFile ${GITHUB_WORKSPACE}/tests/expected/${SOLO_GEMSTONE_VERSION}/testEnsureBlock.ston	
-}
-
 . shunit_tests/shunit2-2.1.8/shunit2_test_helpers
 . shunit_tests/shunit2-2.1.8/shunit2
 

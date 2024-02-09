@@ -25,7 +25,9 @@ EXAMPLES
 doit
 	"expect stderror to have error and validation messages; stdout will be stack"
 	[ self error: 'hit error' ]
-		ensure: [ self stderr nextPutAll: 'Ensure block ran'; lf ].
+		ensure: [ 
+			self stdout nextPutAll: 'Ensure block ran'; lf.
+			self stderr nextPutAll: 'Ensure block ran'; lf ].
 	self stdout nextPutAll: 'should not get here'; lf.
 	^ self noResult
 %
