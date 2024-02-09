@@ -58,7 +58,6 @@ doit
 												, System listenForDebugConnection asString;
 								lf;
 								flush.
-							System waitForDebug ] ].
-			gotEx := ex ].
+							System waitForDebug ] ] ].
 	gotEx ifNotNil: [ self exit: gotEx printString withStatus: 1	"does not return" ].
 	^ res
