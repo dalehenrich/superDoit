@@ -1,0 +1,33 @@
+---------------------
+Unhandled Error in script: /bosch1/users/dhenrich/_git/superDoit/tests/testEnsureBlock.solo
+---------------------
+a UserDefinedError occurred (error 2318), reason:halt, hit error
+---------------------
+1 [] in SuperDoitExecution >> doit @69 line 46  [GsNMethod 106683393]
+2 UserDefinedError (AbstractException) >> _executeHandler: @7 line 11  [GsNMethod 4394241]
+3 UserDefinedError (AbstractException) >> _signal @1 line 2  [GsNMethod 4219905]
+4 UserDefinedError (AbstractException) >> signal @2 line 47  [GsNMethod 4398337]
+5 SuperDoitExecutionClass (Object) >> error: @6 line 7  [GsNMethod 7928833]
+6 [] in Executed Code  @10 line 2  [GsNMethod 106683649]
+7 ExecBlock0 (ExecBlock) >> ensure: @2 line 12  [GsNMethod 7387905]
+8 Executed Code  @2 line 3  [GsNMethod 106683905]
+9 GsNMethod >> _executeInContext: @1 line 11  [GsNMethod 7240961]
+10 String >> evaluateInContext:symbolList: @3 line 10  [GsNMethod 7662849]
+11 SuperDoitExecutionClass (SuperDoitExecutionMetadataClass) >> theDoit @4 line 6  [GsNMethod 106684161]
+12 [] in SuperDoitExecution >> doit @18 line 6  [GsNMethod 106684417]
+13 ExecBlock0 (ExecBlock) >> on:do: @3 line 44  [GsNMethod 7386881]
+14 SuperDoitExecutionClass (SuperDoitExecution) >> doit @4 line 8  [GsNMethod 106684673]
+15 SuperDoitDoitCommand >> executeAgainst: @27 line 19  [GsNMethod 106684929]
+16 SuperDoitDoitCommand >> executeAgainst:onErrorDo: @2 line 4  [GsNMethod 106685185]
+17 [] in SuperDoitCommandDefinition >> executeAgainst:onErrorDo: @7 line 3  [GsNMethod 106685441]
+18 OrderedCollection (Collection) >> do: @5 line 10  [GsNMethod 3926785]
+19 SuperDoitCommandDefinition >> executeAgainst:onErrorDo: @3 line 3  [GsNMethod 106685697]
+20 [] in SuperDoitCommandParser >> parseAndExecuteScriptFile: @22 line 17  [GsNMethod 106685953]
+21 ExecBlock0 (ExecBlock) >> ensure: @2 line 12  [GsNMethod 7387905]
+22 SuperDoitCommandParser >> parseAndExecuteScriptFile: @4 line 53  [GsNMethod 106686209]
+23 SuperDoitCommandParser class >> processInputFile @29 line 21  [GsNMethod 106686465]
+24 Executed Code  @2 line 6  [GsNMethod 106686721]
+25 <Reenter marker>
+
+---------------------
+GsProcess @106824705
