@@ -31,7 +31,6 @@ run
 					ifTrue: [ '$gemstoneDir/bootstrap/bootstrapSuperDoit_361x.gs']
 					ifFalse: [ 
 						"3.7.x"
-GsFile stdout nextPutAll: 'loading from $gemstoneDir/bootstrap/bootstrapSuperDoit_37x.gs'.
 						'$gemstoneDir/bootstrap/bootstrapSuperDoit_37x.gs' ].
 				GsFileIn fromServerPath: bootstrapSuperDoit_file ]
 			ifFalse: [ self error: 'Unsupported GemStone version (', gemstoneVersion, ') for using a non-Rowan extent for running .solo scripts' ] ]
