@@ -40,6 +40,7 @@ jobs:
           export SOLO_GEMSTONE_VERSION=${{ steps.setup-superDoit.outputs.gemstone-version }}
           . ${GITHUB_WORKSPACE}/dev/defPath.env
           PATH=$GEMSTONE/bin::$PATH
+          PATH=${GITHUB_WORKSPACE}/bin:$PATH
           PATH=${GITHUB_WORKSPACE}/examples/simple:$PATH
           
           # test that install.sh script can be run a second time without error (noop)
