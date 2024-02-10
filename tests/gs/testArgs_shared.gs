@@ -13,6 +13,8 @@ true.
 %
 classMethod: SuperDoitTestArgsData
 testArgsArray
+	| gs37 |
+	gs37 := (System gemVersionReport at: 'gsVersion') beginsWith: '3.7'.
 	^ {
 		'123 -m must' -> (Dictionary new
 			at: 'args' 
@@ -215,21 +217,53 @@ testArgsArray
 						yourself);
 			yourself).
 
-		'--another=123' -> 'UserDefinedError: The required option ''must'' was not set.'.
-		'--must=must -a 123 --another=123' -> 'UserDefinedError: The option ''another'' has already been processed.'.
-		'--must=must -n --none' -> 'UserDefinedError: The option ''none'' has already been processed.'.
-		'--must=must -n -n' -> 'UserDefinedError: The option ''none'' has already been processed.'.
-		'--must=must -a 123 --another=456' -> 'UserDefinedError: The option ''another'' has already been processed.'.
-		'-m must -a --noshort' -> 'UserDefinedError: Missing required argument for option ''another'' [a]'.
-		'-m must --another' -> 'UserDefinedError: Missing required argument for option ''another'' [b]'.
-		'-m must -an' -> 'UserDefinedError: Missing required argument for option ''another'' [c]'.
-		'-m must -a' -> 'UserDefinedError: Missing required argument for option ''another'' [d]'.
-		'-a' -> 'UserDefinedError: Missing required argument for option ''another'' [d]'.
-		'-' -> 'UserDefinedError: Cannot handle naked dashes ''-'''.
-		'--unknown=something' -> 'UserDefinedError: Unknown option ''unknown'' [a]'.
-		'--unknown' -> 'UserDefinedError: Unknown option ''unknown'' [b]'.
-		'-x something' -> 'UserDefinedError: Unknown option ''x'' [c]'.
-		'-x' -> 'UserDefinedError: Unknown option ''x'' [c]'.
-		'--none=something' -> 'UserDefinedError: Unexpected argument ''something'' for option ''none'''.
+		gs37
+			ifTrue: [ '--another=123' -> 'a UserDefinedError occurred (error 2318), reason:halt, The required option ''must'' was not set.' ]
+			ifFalse: ['--another=123' -> 'UserDefinedError: The required option ''must'' was not set.' ].
+		gs37
+			ifTrue: [ '--must=must -a 123 --another=123' -> 'a UserDefinedError occurred (error 2318), reason:halt, The option ''another'' has already been processed.' ]
+			ifFalse: [ '--must=must -a 123 --another=123' -> 'UserDefinedError: The option ''another'' has already been processed.' ] .
+		gs37
+			ifTrue: [ '--must=must -n --none' -> 'a UserDefinedError occurred (error 2318), reason:halt, The option ''none'' has already been processed.']
+			ifFalse: [ '--must=must -n --none' -> 'UserDefinedError: The option ''none'' has already been processed.'].
+		gs37
+			ifTrue: [ '--must=must -n -n' -> 'a UserDefinedError occurred (error 2318), reason:halt, The option ''none'' has already been processed.' ]
+			ifFalse: [ '--must=must -n -n' -> 'UserDefinedError: The option ''none'' has already been processed.' ].
+		gs37
+			ifTrue: [ '--must=must -a 123 --another=456' -> 'a UserDefinedError occurred (error 2318), reason:halt, The option ''another'' has already been processed.' ]
+			ifFalse: [ '--must=must -a 123 --another=456' -> 'UserDefinedError: The option ''another'' has already been processed.' ].
+		gs37
+			ifTrue: [ '-m must -a --noshort' -> 'a UserDefinedError occurred (error 2318), reason:halt, Missing required argument for option ''another'' [a]' ]
+			ifFalse: [ '-m must -a --noshort' -> 'UserDefinedError: Missing required argument for option ''another'' [a]' ].
+		gs37
+			ifTrue: [ '-m must --another' -> 'a UserDefinedError occurred (error 2318), reason:halt, Missing required argument for option ''another'' [b]' ]
+			ifFalse: [ '-m must --another' -> 'UserDefinedError: Missing required argument for option ''another'' [b]' ].
+		gs37
+			ifTrue: [ '-m must -an' -> 'a UserDefinedError occurred (error 2318), reason:halt, Missing required argument for option ''another'' [c]' ]
+			ifFalse: [ '-m must -an' -> 'UserDefinedError: Missing required argument for option ''another'' [c]' ].
+		gs37
+			ifTrue: [ '-m must -a' -> 'a UserDefinedError occurred (error 2318), reason:halt, Missing required argument for option ''another'' [d]' ]
+			ifFalse: [ '-m must -a' -> 'UserDefinedError: Missing required argument for option ''another'' [d]' ].
+		gs37
+			ifTrue: [ '-a' -> 'a UserDefinedError occurred (error 2318), reason:halt, Missing required argument for option ''another'' [d]' ]
+			ifFalse: [ '-a' -> 'UserDefinedError: Missing required argument for option ''another'' [d]' ].
+		gs37
+			ifTrue: [ '-' -> 'a UserDefinedError occurred (error 2318), reason:halt, Cannot handle naked dashes ''-''' ]
+			ifFalse: [ '-' -> 'UserDefinedError: Cannot handle naked dashes ''-''' ].
+		gs37
+			ifTrue: [ '--unknown=something' -> 'a UserDefinedError occurred (error 2318), reason:halt, Unknown option ''unknown'' [a]' ]
+			ifFalse: [ '--unknown=something' -> 'UserDefinedError: Unknown option ''unknown'' [a]' ].
+		gs37
+			ifTrue: [  '--unknown' -> 'a UserDefinedError occurred (error 2318), reason:halt, Unknown option ''unknown'' [b]' ]
+			ifFalse: [ '--unknown' -> 'UserDefinedError: Unknown option ''unknown'' [b]' ].
+		gs37
+			ifTrue: [ '-x something' -> 'a UserDefinedError occurred (error 2318), reason:halt, Unknown option ''x'' [c]' ]
+			ifFalse: [ '-x something' -> 'UserDefinedError: Unknown option ''x'' [c]' ].
+		gs37
+			ifTrue: [ '-x' -> 'a UserDefinedError occurred (error 2318), reason:halt, Unknown option ''x'' [c]' ]
+			ifFalse: [ '-x' -> 'UserDefinedError: Unknown option ''x'' [c]' ].
+		gs37
+			ifTrue: [ '--none=something' -> 'a UserDefinedError occurred (error 2318), reason:halt, Unexpected argument ''something'' for option ''none''' ]
+			ifFalse: [ '--none=something' -> 'UserDefinedError: Unexpected argument ''something'' for option ''none''' ].
 	}
 %
