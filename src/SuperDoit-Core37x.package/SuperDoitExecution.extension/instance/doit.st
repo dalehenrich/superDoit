@@ -30,9 +30,6 @@ self stdout nextPutAll: '[0] before return'; lf.
 										nextPutAll: System listenForDebugConnection asString;
 										lf ].
 							haveDebugGem := true ] ].
-self stdout nextPutAll: '[3] interactive: ', interactive printString; lf.
-self stdout nextPutAll: '[3] haveDebug: ', haveDebug printString; lf.
-self stdout nextPutAll: '[3] haveDebugGem: ', haveDebug printString; lf.
 			interactive
 				ifTrue: [ 
 					haveDebug
@@ -56,19 +53,10 @@ self stdout nextPutAll: '[3] haveDebugGem: ', haveDebug printString; lf.
 						nextPutAll: 'GsProcess @' , GsProcess _current asOop printString;
 						lf.
 					haveDebugGem
-						ifTrue: [ 
-							self stdout
-								nextPutAll:
-										'Waiting for topaz to attach: DEBUGGEM ' , System gemProcessId asString , ' '
-												, System listenForDebugConnection asString;
-								lf;
-								flush.
-							System waitForDebug ] ].
-self stdout nextPutAll: '[1] before return'; lf.
+						ifTrue: [ System waitForDebug ] ].
 			ex return "allow ensure blocks to run" ].
 	gotEx 
 		ifNotNil: [
-self stdout nextPutAll: '[2] before final exit'; lf.
 			"exit script on with non-zero exit status"
 			self exit: gotEx printString withStatus: 1	"does not return" ].
 	^ res

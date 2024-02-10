@@ -26,9 +26,7 @@ doit
 	"expect stderror to have error and validation messages; stdout will be $stackFile
 		and stderr will be $resultFile in testSuite.solo"
 	[ self error: 'hit error' ]
-		ensure: [ 
-			self stderr nextPutAll: 'Ensure block ran'; lf; flush.
-			self stdout nextPutAll: 'Ensure block ran'; lf; flush ].
-	self stderr nextPutAll: 'should not get here'; lf; flush.
+		ensure: [ self stdout nextPutAll: 'Ensure block ran'; lf; flush ].
+	self stdout nextPutAll: 'should not get here'; lf; flush.
 	^ self noResult
 %
