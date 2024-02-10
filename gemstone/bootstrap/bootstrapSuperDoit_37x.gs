@@ -2135,11 +2135,12 @@ doit
 		on: Error , Halt , TestFailure
 		do: [ :ex | 
 			| haveDebugGem interactive haveDebug |
+			gotEx := ex.
 			(ex isKindOf: ExitClientError)
 				ifTrue: [ 
 					"honor exit client request"
-					gotEx := ex .
-					ex return ].
+					ex return. "allow ensure blocks to run"
+					ex pass ].
 			interactive := self _printStackOnDebugError not.
 			haveDebugGem := (System gemConfigurationAt: 'GEM_LISTEN_FOR_DEBUG') == true.
 			haveDebug := ((self respondsTo: #'debugGem') and: [ self debugGem ])
@@ -2184,8 +2185,12 @@ doit
 												, System listenForDebugConnection asString;
 								lf;
 								flush.
-							System waitForDebug ] ] ].
-	gotEx ifNotNil: [ self exit: gotEx printString withStatus: 1	"does not return" ].
+							System waitForDebug ] ].
+			ex return "allow ensure blocks to run" ].
+	gotEx 
+		ifNotNil: [
+			"exit script on with non-zero exit status"
+			self exit: gotEx printString withStatus: 1	"does not return" ].
 	^ res
 %
 
