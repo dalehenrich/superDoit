@@ -2139,6 +2139,7 @@ doit
 			(ex isKindOf: ExitClientError)
 				ifTrue: [ 
 					"honor exit client request"
+self stdout nextPutAll: '[0] before return'; lf.
 					ex return. "allow ensure blocks to run"
 					ex pass ].
 			interactive := self _printStackOnDebugError not.
@@ -2155,6 +2156,9 @@ doit
 										nextPutAll: System listenForDebugConnection asString;
 										lf ].
 							haveDebugGem := true ] ].
+self stdout nextPutAll: '[3] interactive: ', interactive printString; lf.
+self stdout nextPutAll: '[3] haveDebug: ', haveDebug printString; lf.
+self stdout nextPutAll: '[3] haveDebugGem: ', haveDebug printString; lf.
 			interactive
 				ifTrue: [ 
 					haveDebug
@@ -2186,9 +2190,11 @@ doit
 								lf;
 								flush.
 							System waitForDebug ] ].
+self stdout nextPutAll: '[1] before return'; lf.
 			ex return "allow ensure blocks to run" ].
 	gotEx 
 		ifNotNil: [
+self stdout nextPutAll: '[2] before final exit'; lf.
 			"exit script on with non-zero exit status"
 			self exit: gotEx printString withStatus: 1	"does not return" ].
 	^ res

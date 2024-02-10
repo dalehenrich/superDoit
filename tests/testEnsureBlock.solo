@@ -27,8 +27,8 @@ doit
 		and stderr will be $resultFile in testSuite.solo"
 	[ self error: 'hit error' ]
 		ensure: [ 
-			self stderr nextPutAll: 'Ensure block ran'; lf.
-			self stdout nextPutAll: 'Ensure block ran'; lf ].
-	self stderr nextPutAll: 'should not get here'; lf.
+			self stderr nextPutAll: 'Ensure block ran'; lf; flush.
+			self stdout nextPutAll: 'Ensure block ran'; lf; flush ].
+	self stderr nextPutAll: 'should not get here'; lf; flush.
 	^ self noResult
 %

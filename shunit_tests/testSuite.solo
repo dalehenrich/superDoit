@@ -51,11 +51,11 @@ test_testEnsureBlock_solo() {
 
 	testEnsureBlock.solo 1> $stackFile 2> $resultFile
 	exitStatus=$?
-echo "============================"
+echo "=========== $stackFile ================="
 cat $stackFile
 echo "++++++++++++++++++++++++++++"
 cat $resultFile
-echo "============================"
+echo "=========== $resultFile ================="
 	assertEquals "expected exit status to be <1> not <${exitStatus}>" ${exitStatus} 1
 	diff $resultFile ${GITHUB_WORKSPACE}/tests/expected/${SOLO_GEMSTONE_VERSION}/testEnsureBlock.ston	
 }
