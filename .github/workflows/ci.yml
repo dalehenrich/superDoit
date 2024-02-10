@@ -15,8 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        #        os: [ ubuntu-latest, ubuntu-20.04, macos-latest, macos-11 ]
-        os: [ ubuntu-latest ]
+        os: [ ubuntu-latest, ubuntu-20.04, macos-latest, macos-11 ]
         gsvers: [ 3.7.0 ]
     runs-on: ${{ matrix.os }}
     env:
