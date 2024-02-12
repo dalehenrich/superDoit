@@ -2176,8 +2176,8 @@ doit
 			ex return "allow ensure blocks to run" ].
 	gotEx 
 		ifNotNil: [
-			"exit script on with non-zero exit status ... use description to provide a user friendly error message"
-			self exit: gotEx description withStatus: 1	"does not return" ].
+			"exit script on with non-zero exit status ... use messageText to provide a user friendly (ANSI) error message"
+			self exit: gotEx messageText withStatus: 1	"does not return" ].
 	^ res
 %
 
