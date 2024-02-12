@@ -13,7 +13,6 @@ doit
 			(ex isKindOf: ExitClientError)
 				ifTrue: [ 
 					"honor exit client request"
-self stdout nextPutAll: '[0] before return'; lf.
 					ex return. "allow ensure blocks to run"
 					ex pass ].
 			interactive := self _printStackOnDebugError not.
