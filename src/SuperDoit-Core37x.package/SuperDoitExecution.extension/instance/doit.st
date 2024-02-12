@@ -22,13 +22,7 @@ doit
 			haveDebugGem
 				ifFalse: [ 
 					((self respondsTo: #'debugGem') and: [ self debugGem ])
-						ifTrue: [ 
-							interactive
-								ifFalse: [ 
-									self stdout
-										nextPutAll: System listenForDebugConnection asString;
-										lf ].
-							haveDebugGem := true ] ].
+						ifTrue: [ haveDebugGem := true ] ].
 			interactive
 				ifTrue: [ 
 					haveDebug
@@ -56,6 +50,6 @@ doit
 			ex return "allow ensure blocks to run" ].
 	gotEx 
 		ifNotNil: [
-			"exit script on with non-zero exit status"
-			self exit: gotEx printString withStatus: 1	"does not return" ].
+			"exit script on with non-zero exit status ... use description to provide a user friendly error message"
+			self exit: gotEx description withStatus: 1	"does not return" ].
 	^ res
