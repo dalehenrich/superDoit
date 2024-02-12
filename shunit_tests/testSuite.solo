@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 
 echo ==================
-echo testExamples.solo
+echo testSuite.solo
 echo ==================
 
 PATH=${GITHUB_WORKSPACE}/tests:$PATH
