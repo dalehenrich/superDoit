@@ -229,7 +229,7 @@ testArgsArray
 		'--unknown=something' -> 'UserDefinedError: Unknown option ''unknown'' [a]'.
 		'--unknown' -> 'UserDefinedError: Unknown option ''unknown'' [b]'.
 		'-x something' -> 'UserDefinedError: Unknown option ''x'' [c]'.
-		'-x' -> 'Unknown option ''x'' [c]'.
+		'-x' -> 'UserDefinedError: Unknown option ''x'' [c]'.
 		'--none=something' -> 'UserDefinedError: Unexpected argument ''something'' for option ''none'''.
 	}
 %
