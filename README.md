@@ -538,3 +538,4 @@ Primary work takes place on this branch and cannot be depended upon to be stable
 [FileSystem]: https://github.com/pharo-project/pharo/tree/Pharo9.0/src/FileSystem-Core
 [OrderedDictionary .superDoitCI.solo]: https://github.com/GsDevKit/OrderedDictionary/blob/rowanize/.superDoitCI.solo
 [OrderedDictionary github action]: https://github.com/GsDevKit/OrderedDictionary/runs/4415167050?check_suite_focus=true#step:5:27
+
