@@ -55,6 +55,16 @@ test_testEnsureBlock_solo() {
 	diff $resultFile ${GITHUB_WORKSPACE}/tests/expected/${SOLO_GEMSTONE_VERSION}/testEnsureBlock.ston	
 }
 
+test_testExitClientStatus_solo() {
+	resultFile=`mktemp`
+	stackFile=`mktemp`
+
+	testExitClientStatus.solo 1> $resultFile 2> $stackFile
+	exitStatus=$?
+	assertEquals "expected exit status to be <5> not <${exitStatus}>" ${exitStatus} 5
+	diff $resultFile ${GITHUB_WORKSPACE}/tests/expected/${SOLO_GEMSTONE_VERSION}/testExitClientStatus.ston	
+}
+
 . shunit_tests/shunit2-2.1.8/shunit2_test_helpers
 . shunit_tests/shunit2-2.1.8/shunit2
 
