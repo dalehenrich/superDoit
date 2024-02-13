@@ -25,7 +25,7 @@ EXAMPLES
 doit
 	"script should exit with exit status 5 and ensure block should run"
 	[ ExitClientError signal: 'exit client with status 5'  status: 5 ]
-		ensure: [ self stdout nextPutAll: 'Ensure block ran'; lf; flush ].
+		ensure: [ self stderr nextPutAll: 'Ensure block ran'; lf; flush ].
 	self error: 'should not get here'.
 	^ self noResult
 %
