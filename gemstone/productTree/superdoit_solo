@@ -47,6 +47,15 @@ if [ "$skip"x = "x" ] ; then
 fi
 
 export SUPERDOIT_GEMSTONE_VERSION=`awk 'NR==2{print $1; exit}' $GEMSTONE/version.txt`
+
+if [[ "$SUPERDOIT_GEMSTONE_VERSION" == "3.6."* ]] ; then
+	export SUPERDOIT_DIR="$GEMSTONE/upgrade/projects/superDoit"
+else
+	# 3.7.x and later
+	export SUPERDOIT_DIR="$GEMSTONE/projects/superDoit"
+fi
+export gemstoneDir="$SUPERDOIT_DIR/gemstone"
+
 $GEMSTONE/bin/topaz -l \
 	-I "$gemstoneDir/topazini_solo" \
 	-C "GEM_SOLO_EXTENT=$GEM_SOLO_EXTENT" \

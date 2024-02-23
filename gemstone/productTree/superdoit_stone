@@ -10,7 +10,6 @@ set -e
 
 export SUPERDOIT_CURRENT_DIR="`pwd`"
 export SUPERDOIT_DIR="$GEMSTONE/projects/superDoit"
-gemstoneDir="$SUPERDOIT_DIR/gemstone"
 
 # process command line args
 #		collect scriptFile, then scan for scriptArgs, if -- encountered, 
@@ -38,6 +37,16 @@ for arg in "$@"; do
 		shift
 done
 
+export SUPERDOIT_GEMSTONE_VERSION=`awk 'NR==2{print $1; exit}' $GEMSTONE/version.txt`
+
+if [[ "$SUPERDOIT_GEMSTONE_VERSION" == "3.6."* ]] ; then
+	export SUPERDOIT_DIR="$GEMSTONE/upgrade/projects/superDoit"
+else
+	# 3.7.x and later
+	export SUPERDOIT_DIR="$GEMSTONE/projects/superDoit"
+fi
+export gemstoneDir="$SUPERDOIT_DIR/gemstone"
+
 skip="skip"
 if [ "$skip"x = "x" ] ; then
 	echo "======================"
@@ -52,20 +61,19 @@ fi
 useBootstrapSuperDoit_file="true" # ... at the moment, this is the only valid value
 if [ "$useBootstrapSuperDoit_file" = "true" ]; then
 	# Rowan extent NOT NEEDED in stone ... bootstrap superDoit using .gs files
-	vers=`awk 'NR==2{print $1; exit}' $GEMSTONE/version.txt`
 	if [ ${#defaultTopazArgs[@]} -eq 0 ] ; then
 		defaultTopazArgs=("-L")		# if no topaz args specified, then default to -L
 	fi
 	topaziniArg=()	# -I should be defined by user on command line
-	case $vers in
+	case $SUPERDOIT_GEMSTONE_VERSION in
 		3.5.*|3.6.*|3.7.*) 
 			# supported versions
 			;;
 			*)
-				echo "using and GEMSTONE env vars not supported for version ${vers}, must use 3.5.x or greater"
+				echo "using and GEMSTONE env vars not supported for version ${SUPERDOIT_GEMSTONE_VERSION}, must use 3.5.x or greater"
 				exit 1
 		esac
-	case $vers in
+	case $SUPERDOIT_GEMSTONE_VERSION in
 		3.5.*) 
 			export bootstrapSuperDoit_file="$gemstoneDir/bootstrap/bootstrapSuperDoit_35x.gs"
 			superdoit_tpz=$gemstoneDir/superdoit_boot_1_35x.tpz
@@ -82,7 +90,7 @@ if [ "$useBootstrapSuperDoit_file" = "true" ]; then
 			export bootstrapSuperDoit_file="$gemstoneDir/bootstrap/bootstrapSuperDoit_37x.gs"
 			superdoit_tpz=$gemstoneDir/superdoit_boot_1_36x.tpz
 			;;
-		*) echo "unsupported gemstone version $vers"; exit 1 ;;
+		*) echo "unsupported gemstone version $SUPERDOIT_GEMSTONE_VERSION"; exit 1 ;;
 	esac
 else
 	# Rowan extent NEEDED in stone ... at the moment, it isn't clear how to tell when Rowan is present without starting stone
@@ -100,7 +108,7 @@ if [ "$skip"x = "x" ] ; then
 fi
 
 export gemstoneDir
-case $vers in
+case $SUPERDOIT_GEMSTONE_VERSION in
 	3.5.*|3.6.*|3.7.*)
 		commandLine=()
 		commandLine+=("${defaultTopazArgs[@]}")
