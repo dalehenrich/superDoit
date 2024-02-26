@@ -33,9 +33,6 @@ if [ "$GEMSTONE"x = "x" ] ; then
 fi
 GEM_SOLO_EXTENT="$GEMSTONE/bin/extent0.rowan.dbf"
 
-export SUPERDOIT_DIR="$GEMSTONE/projects/superDoit"
-export gemstoneDir="$SUPERDOIT_DIR/gemstone"
-
 skip="skip"
 if [ "$skip"x = "x" ] ; then
 	echo "======================"
@@ -48,12 +45,20 @@ fi
 
 export SUPERDOIT_GEMSTONE_VERSION=`awk 'NR==2{print $1; exit}' $GEMSTONE/version.txt`
 
-if [[ "$SUPERDOIT_GEMSTONE_VERSION" == "3.6."* ]] ; then
-	export SUPERDOIT_DIR="$GEMSTONE/upgrade/projects/superDoit"
-else
-	# 3.7.x and later
-	export SUPERDOIT_DIR="$GEMSTONE/projects/superDoit"
-fi
+case $SUPERDOIT_GEMSTONE_VERSION in
+	3.6.[4-9]) 
+		export SUPERDOIT_DIR="$GEMSTONE/upgrade/projects/superDoit"
+		;;
+	3.7.*)
+		export SUPERDOIT_DIR="$GEMSTONE/projects/superDoit"
+		;;
+	*)
+		if [ "$SUPERDOIT_DIR"x = "x" ] then;
+			echo "Expected SUPERDOIT env var to be defined"
+			exit 1
+		fi
+		;;
+esac
 export gemstoneDir="$SUPERDOIT_DIR/gemstone"
 
 $GEMSTONE/bin/topaz -l \
