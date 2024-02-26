@@ -53,7 +53,7 @@ case $SUPERDOIT_GEMSTONE_VERSION in
 		export SUPERDOIT_DIR="$GEMSTONE/projects/superDoit"
 		;;
 	*)
-		if [ "$SUPERDOIT_DIR"x = "x" ] then;
+		if [ "$SUPERDOIT_DIR"x = "x" ] ; then
 			echo "Expected SUPERDOIT env var to be defined"
 			exit 1
 		fi
