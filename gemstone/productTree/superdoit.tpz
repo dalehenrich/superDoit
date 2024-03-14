@@ -27,7 +27,8 @@ run
 		"Rowan not present ... bootstrap the  superDoit support code in image"
 		| gemstoneVersion |
 		gemstoneVersion := System gemEnvironmentVariable: 'SUPERDOIT_GEMSTONE_VERSION'.
-		(#( '3.6.4' '3.6.5' '3.6.6' '3.6.7' '3.7.0' '3.7.1' ) includes: gemstoneVersion)
+		((#( '3.6.4' '3.6.5' '3.6.6' '3.6.7' '3.6.8' '3.6.9') includes: gemstoneVersion) 
+			or: [gemstoneVersion beginsWith: '3.7'])
 			ifTrue: [ 
 				| bootstrapSuperDoit_file sess symbolList name |
 				bootstrapSuperDoit_file := (gemstoneVersion beginsWith: '3.6')
