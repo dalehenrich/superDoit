@@ -11,18 +11,18 @@ DESCRIPTION
   Evaluate the Smalltalk expression: 3+4 and return the result on stdout.
 
 OPTIONS
-  <path-to-.topazini>  Path to a .topazini file with a minimum of username, 
-                       password and stone name set. If this argument is omitted,
-                       there must be a .topazini in a standard location.
-  -h, --help           Display usage message.
-  -D, --debug          Bring up topaz debugger in the event of a script error.
+  <path-to-.topazini>        path to a .topazini file with a minimum of username,
+                             password and stone name set; if not present, there must be
+                             a .topazini in a standard location.
+  -h, --help                 display usage message
+  -D, --debug                bring up topaz debugger in the event of a script error
 
 EXAMPLES
-  $basename 
-  $basename -- -I ./.topazini
-  $basename -h 
+  $basename --help  -- -I ./.topazini
+  $basename -h      -- -I ./.topazini
   $basename --debug -- -I ./.topazini
-
+  $basename -D      -- -I ./.topazini
+  $basename         -- -I ./.topazini
 -----
 %
 doit

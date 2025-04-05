@@ -1,33 +1,4 @@
 #!/usr/bin/env superdoit_stone
-# 
-# Example script for a superdoit script that logs in to a Stone and produces an error.
-#
-usage
------
-USAGE $basename [--help | -h] [--debug | -D] [--debugGem] [-- -I <path-to-.topazini>]
-
-DESCRIPTION
-  Evaluate the Smalltalk expression: 3 foo and write the error message to stderr.
-
-OPTIONS
-  <path-to-.topazini>  Path to a .topazini file with a minimum of username, 
-                       password and stone name set. If this argument is omitted,
-                       there must be a .topazini in a standard location.
-  -h, --help           Display usage message.
-  -D, --debug          Bring up topaz debugger in the event of a script error.
-  --debugGem           If terminal is connected to stdout, bring up debugger. If not,
-                       dump stack to stdout and wait for topaz to attach using topaz
-                       DEBUGGEM command.
-
-EXAMPLES
-  $basename
-  $basename -- -I ./.topazini
-  $basename --help -- -I ./.topazini
-  $basename -D 
-  $basename --debugGem -- -I ./.topazini
-
------
-%
 doit
-   3 foo
+3 foo
 %

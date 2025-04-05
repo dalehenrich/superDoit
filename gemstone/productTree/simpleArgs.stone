@@ -1,6 +1,6 @@
 #!/usr/bin/env superdoit_stone
 #
-# Example script for superDoit with one argument, that logs in to a stone based on 
+# Example script for superDoit with one argument, that logs in a a stone based on 
 # .topazini and returns a value based on the argument.
 #
 options
@@ -10,21 +10,17 @@ SuperDoitRequiredOptionWithRequiredArg long: 'addend' short: 'a'.
 %
 usage
 -----
-USAGE $basename [--help | -h] [--debug | -D] [--debugGem] --addend=<number> | -a <number> [-- -I <path-to-.topazini> ]
+USAGE $basename [--help | -h] [--debug | -D] --addend=<number> | -a <number> [-- -I <path-to-.topazini> ]
 
 DESCRIPTION
   Evaluate the Smalltalk expression: 3+addend and return the result on stdout.
 
 OPTIONS
-  -a, --addend <number> <number> is a number that will be added to 3.
-  <path-to-.topazini>   Path to a .topazini file with a minimum of username, 
-                        password and stone name set. If this argument is omitted,
-                        there must be a .topazini in a standard location.
-  -h, --help            Display usage message.
-  -D, --debug           Bring up topaz debugger in the event of a script error
-  --debugGem            If terminal is connected to stdout, bring up debugger. If not,
-                        dump stack to stdout and wait for topaz to attach using topaz
-                        DEBUGGEM command.
+  -a, --addend <number>      number to be added to 3
+  -h, --help                 display usage message
+  -D, --debug                bring up topaz debugger in the event of a script error
+  <path-to-.topazini>        path to a .topazini file with a minimum of username,
+                             password and stone name set
 
 EXAMPLES
   $basename --help     -- -I ./.topazini

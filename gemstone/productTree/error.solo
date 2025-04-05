@@ -1,29 +1,7 @@
 #!/usr/bin/env superdoit_solo
-# 
-# Example script for a superdoit script that logs in solo and produces an error.
 #
-usage
------
-USAGE $basename [--help | -h] [--debug | -D] [--debugGem] 
-
-DESCRIPTION
-  Evaluate the Smalltalk expression: 3 foo and write the error message to stderr.
-
-OPTIONS
-  -h, --help           Display usage message.
-  -D, --debug          Bring up topaz debugger in the event of a script error.
-  --debugGem           If terminal is connected to stdout, bring up debugger. If not,
-                       dump stack to stdout and wait for topaz to attach using topaz
-                       DEBUGGEM command.
-
-EXAMPLES
-  $basename --help 
-  $basename -D        
-  $basename --debugGem 
-  $basename  
-  
------
-%
+#  An example script that logs in with a solo session and produces an error.
+#
 doit
-   3 foo
+3 foo
 %

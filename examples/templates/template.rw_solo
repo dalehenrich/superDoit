@@ -1,16 +1,13 @@
 #!/usr/bin/env superdoit_solo
-#
-# Template for a script that will run as a solo login to the Rowan distribution stone.
-# Standard options are always present unless customoptions section is used.
+# Standard options are always present unless customoptions section is used
 #
 #options
 #{
 #  SuperDoitOptionalOptionWithNoArg long: 'help' short: 'h'.
 #  SuperDoitOptionalOptionWithNoArg long: 'debug' short: 'D'.
-#  SuperDoitOptionalOptionWithNoArg long: 'debugGem'.
 #}
 #%
-# Example options section with args for -n/--noarg, -o/--optional, and -r/--required
+# Example options section
 #
 #options
 #{
@@ -29,26 +26,23 @@
 #
 usage
 -----
-USAGE $basename [--help | -h] [--debug | -D] [--debugGem] -- <topaz-command-line-args> 
+USAGE $basename [--help | -h] [--debug | -D] [--debugGem]
 
 DESCRIPTION
   <put your description here>
 
 OPTIONS
-  <topaz-command-line-args> Topaz options that should be passed to topaz when running
-                            the script.
-  -h, --help                Display usage message.
-  -D, --debug               Bring up topaz debugger in the event of a script error.
-  --debugGem                If terminal is connected to stdout, bring up debugger. If not,
-                            dump stack to stdout and wait for topaz to attach using topaz
-                            DEBUGGEM command.
+  -h, --help      display usage message
+  -D, --debug     bring up topaz debugger in the event of a script error
+  --debugGem      If terminal is connected to stdout, bring up debugger. If not,
+                  dump stack to stdout and wait for topaz to attach using topaz
+                  DEBUGGEM command.
 
 EXAMPLES
-  $basename 
   $basename --help
   $basename -D
-  $basename -- -T 100000
- 
+  $basename --debugGem
+  $basename  
 -----
 %
 doit
