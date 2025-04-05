@@ -12,8 +12,8 @@ BRANCH | STATUS
 
 ## Versions
 ### v4.2
-Development version intended for use with GsDevKit_stone:v2 and GemStone 3.5.3 and newer versions of GemStone. github actions for superDoit test 3.6.4 thru 3.6.6, and 3.7.0. while the GsDevKit_stones github actions tests 3.5.3, 3.5.8, 3.6.0.
-Note that GemStone either 3.7.0 or 3.7.1 is **required for all solo scripts**, which allows for supporting versions older that 3.6.4...
+Development version intended for use with GsDevKit_stone:v2 and GemStone 3.5.3 and newer versions of GemStone. github actions for superDoit test 3.6.4 thru 3.6.6, 3.7.0, 3.7.1 and 3.7.2. while the GsDevKit_stones github actions tests 3.5.3, 3.5.8, 3.6.0.
+Note that GemStone either 3.7.0 or 3.7.1 or 3.7.2 is **required for all solo scripts**, which allows for supporting versions older that 3.6.4...
 
 ### v4.1
 Stable branch intended for use with SmalltalkCI, GsDevKit_stones:v1.1.x and versions of GemStone that are shipped with an extent0.rowan.dbf in $GEMSTONE/bin (tested from GemStone 3.6.4 thru 3.7.0).
