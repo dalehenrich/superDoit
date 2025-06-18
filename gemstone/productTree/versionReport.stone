@@ -1,26 +1,28 @@
 #!/usr/bin/env superdoit_stone
 #
-# Example script for superdoit, that logs into a stone based on .topazini and reports the 
-# Stone version information for the stone that it logged into.  
+# Example script for superdoit, that logs into a stone based on .topazini and 
+# reports the Stone version information for the stone that it logged into.  
 #
 usage
 -----
-USAGE $basename [--help | -h] [--debug | -D] [-- -I <path-to-.topazini>
+USAGE $basename [--help | -h] [--debug | -D] [-- -I <path-to-.topazini>]
 
 DESCRIPTION
   Write the Stone Version report for the current stone on stdout.
 
 OPTIONS
-  <path-to-.topazini>        path to a .topazini file with a minimum of username, 
-                             password and stone name set.  If this argument is omitted,
-			     there must be a .topazini in a standard location.
-  -h, --help                 display usage message
-  -D, --debug                bring up topaz debugger in the event of a script error
+  <path-to-.topazini>  Path to a .topazini file with a minimum of username, 
+                       password and stone name set. If this argument is omitted,
+                       there must be a .topazini in a standard location.
+  -h, --help           Display usage message.
+  -D, --debug          Bring up topaz debugger in the event of a script error.
 
 EXAMPLES
-  $basename --help -- -I ./.topazini
-  $basename -D     -- -I ./.topazini
-  $basename        -- -I ./.topazini
+  $basename 
+  $basename -- -I ./.topazini
+  $basename --help 
+  $basename -D -- -I ./.topazini
+
 -----
 %
 doit
