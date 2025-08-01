@@ -4,6 +4,7 @@
 # branch of superDoit as this file is only used when $GEMSTONE/bin is in your
 # PATH
 #
+omit resultcheck
 display oops
 set singlecolumn on
 login
