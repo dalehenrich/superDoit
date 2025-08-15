@@ -9,7 +9,7 @@ if [ "$gemstoneversion"x = "x" ]; then
 	gemstoneversion="3.7.0"
 else
 	case "$gemstoneversion" in
-		3.7.0|3.7.1|3.7.2)
+		3.7.0|3.7.1|3.7.2|3.7.4.3)
 			# we're good
 			;;
 		*)
