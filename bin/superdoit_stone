@@ -118,6 +118,14 @@ useBootstrapSuperDoit_file="true" # ... at the moment, this is the only valid va
 if [ "$useBootstrapSuperDoit_file" = "true" ]; then
 	# Rowan extent NOT NEEDED in stone ... bootstrap superDoit using .gs files
 	vers=`awk 'NR==2{print $1; exit}' $GEMSTONE/version.txt`
+	# validate version number pattern
+	case $vers in
+  	'' | *[!0123456789.]* | .* | *. | *..* ) 
+			echo "invalid verstion number pattern: $vers
+			exit 1 ;;
+  	* ) # valid version number ;;
+	esac
+
 	if [ ${#defaultTopazArgs[@]} -eq 0 ] ; then
 		defaultTopazArgs=("-L")		# if no topaz args specified, then default to -L
 	fi
@@ -126,7 +134,7 @@ if [ "$useBootstrapSuperDoit_file" = "true" ]; then
 	else
 		topaziniArg=()	# -I should be defined by user on command line
 		case $vers in
-			3.5.*|3.6.*|3.7.*) 
+			3.5.*|3.6.*|3.7.*|3.8.*) 
 				# supported versions
 				;;
 			*)
@@ -149,7 +157,7 @@ if [ "$useBootstrapSuperDoit_file" = "true" ]; then
 			export bootstrapSuperDoit_file="$gemstoneDir/bootstrap/bootstrapSuperDoit_360.gs"
 			superdoit_tpz=$gemstoneDir/superdoit_boot_1_36x.tpz
 			;;
-		3.6.[1-9]) 
+		3.6.*) 
 			export bootstrapSuperDoit_file="$gemstoneDir/bootstrap/bootstrapSuperDoit_361x.gs"
 			superdoit_tpz=$gemstoneDir/superdoit_boot_1_36x.tpz
 			;;
