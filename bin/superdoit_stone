@@ -121,7 +121,7 @@ if [ "$useBootstrapSuperDoit_file" = "true" ]; then
 	# validate version number pattern
 	case $vers in
   	'' | *[!0123456789.]* | .* | *. | *..* ) 
-			echo "invalid verstion number pattern: $vers
+			echo "invalid verstion number pattern: $vers"
 			exit 1 ;;
   	* ) # valid version number ;;
 	esac

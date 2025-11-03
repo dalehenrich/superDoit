@@ -41,7 +41,7 @@ export SUPERDOIT_GEMSTONE_VERSION=`awk 'NR==2{print $1; exit}' $GEMSTONE/version
 # validate version number pattern
 case $SUPERDOIT_GEMSTONE_VERSION in
   '' | *[!0123456789.]* | .* | *. | *..* ) 
-		echo "invalid verstion number pattern: $SUPERDOIT_GEMSTONE_VERSION
+		echo "invalid verstion number pattern: $SUPERDOIT_GEMSTONE_VERSION"
 		exit 1 ;;
   * ) # valid version number ;;
 esac
