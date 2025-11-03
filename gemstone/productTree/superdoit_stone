@@ -131,5 +131,5 @@ case $SUPERDOIT_GEMSTONE_VERSION in
 #			-q \
 #			-S $superdoit_tpz -- $scriptFile -- $scriptArgs
 		;;
-	*) echo "unsupported gemstone version $vers (only supported in 3.5.x, 3.6.x and 3.7.x)"; exit 1 ;;
+	*) echo "unsupported gemstone version $SUPERDOIT_GEMSTONE_VERSION (only supported in 3.5.x, 3.6.x and 3.7.x)"; exit 1 ;;
 esac
