@@ -73,13 +73,13 @@ if [ "$useBootstrapSuperDoit_file" = "true" ]; then
 	fi
 	topaziniArg=()	# -I should be defined by user on command line
 	case $SUPERDOIT_GEMSTONE_VERSION in
-		3.5.*|3.6.*|3.7.*|3.8.*) 
+		3.5.*|3.6.*|3.7.*|3.8.*|3.9.*) 
 			# supported versions
 			;;
 			*)
 				echo "using and GEMSTONE env vars not supported for version ${SUPERDOIT_GEMSTONE_VERSION}, must use 3.5.x or greater"
 				exit 1
-		esac
+	esac
 	case $SUPERDOIT_GEMSTONE_VERSION in
 		3.5.*) 
 			export bootstrapSuperDoit_file="$gemstoneDir/bootstrap/bootstrapSuperDoit_35x.gs"
@@ -93,7 +93,7 @@ if [ "$useBootstrapSuperDoit_file" = "true" ]; then
 			export bootstrapSuperDoit_file="$gemstoneDir/bootstrap/bootstrapSuperDoit_361x.gs"
 			superdoit_tpz=$gemstoneDir/superdoit_boot_1_36x.tpz
 			;;
-		3.7.*) 
+		3.7.*|3.8.*|3.9.*) 
 			export bootstrapSuperDoit_file="$gemstoneDir/bootstrap/bootstrapSuperDoit_37x.gs"
 			superdoit_tpz=$gemstoneDir/superdoit_boot_1_36x.tpz
 			;;
@@ -116,7 +116,7 @@ fi
 
 export gemstoneDir
 case $SUPERDOIT_GEMSTONE_VERSION in
-	3.5.*|3.6.*|3.7.*)
+	3.5.*|3.6.*|3.7.*|3.8.*|3.9.*)
 		commandLine=()
 		commandLine+=("${defaultTopazArgs[@]}")
 		if [ "$topazArgs"x != x ] ; then
@@ -131,5 +131,5 @@ case $SUPERDOIT_GEMSTONE_VERSION in
 #			-q \
 #			-S $superdoit_tpz -- $scriptFile -- $scriptArgs
 		;;
-	*) echo "unsupported gemstone version $SUPERDOIT_GEMSTONE_VERSION (only supported in 3.5.x, 3.6.x and 3.7.x)"; exit 1 ;;
+	*) echo "unsupported gemstone version $SUPERDOIT_GEMSTONE_VERSION (only supported in 3.5.x or greater)"; exit 1 ;;
 esac

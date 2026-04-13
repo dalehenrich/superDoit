@@ -28,14 +28,14 @@ run
 		"Rowan not present ... bootstrap the  superDoit support code in image"
 		| gemstoneVersion |
 		gemstoneVersion := System gemEnvironmentVariable: 'SUPERDOIT_GEMSTONE_VERSION'.
-		((#( '3.6.4' '3.6.5' '3.6.6' '3.6.7' '3.6.8' '3.6.9') includes: gemstoneVersion) 
-			or: [gemstoneVersion beginsWith: '3.7'])
+		((((#( '3.6.4' '3.6.5' '3.6.6' '3.6.7' '3.6.8' '3.6.9') includes: gemstoneVersion) 
+			or: [gemstoneVersion beginsWith: '3.7']) or: [gemstoneVersion beginsWith: '3.8']) or: [gemstoneVersion beginsWith: '3.9'])
 			ifTrue: [ 
 				| bootstrapSuperDoit_file sess symbolList name |
 				bootstrapSuperDoit_file := (gemstoneVersion beginsWith: '3.6')
 					ifTrue: [ '$gemstoneDir/bootstrap/bootstrapSuperDoit_361x.gs']
 					ifFalse: [ 
-						"3.7.x"
+						"3.7.x, 3.8.x. 3.9.x"
 						'$gemstoneDir/bootstrap/bootstrapSuperDoit_37x.gs' ].
 				GsFileIn fromServerPath: bootstrapSuperDoit_file ]
 			ifFalse: [ self error: 'Unsupported GemStone version (', gemstoneVersion, ') for using a non-Rowan extent for running .solo scripts' ] ]
