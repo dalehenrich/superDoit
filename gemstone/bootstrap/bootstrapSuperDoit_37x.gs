@@ -2180,7 +2180,7 @@ doit
 			"exit script on with non-zero exit status ... use messageText to provide a user friendly (ANSI) error message"
 			exitClientMessage
 				ifNotNil: [ ExitClientError signal: exitClientMessage status: exitClientStatus "does not return" ].
-			self exit: gotEx messageText withStatus: 1	"does not return" ].
+			self exit: gotEx printString withStatus: 1	"does not return" ].
 	^ res
 %
 
