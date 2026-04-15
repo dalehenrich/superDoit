@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-set -e
+set -ex
 
 # Unconditionally download 3.7.0 along and ignor requested GemStone version.
 #
