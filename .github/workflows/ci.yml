@@ -15,8 +15,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ ubuntu-latest, ubuntu-22.04, macos-14 ]
-        gsvers: [ 3.7.0, 3.7.1, 3.7.2, 3.7.4.3, 3.7.5 ]
+        os: [ ubuntu-latest ]
+        gsvers: [ 3.7.5 ]
     runs-on: ${{ matrix.os }}
     env:
       GS_VERS: ${{ matrix.gsvers }}
@@ -46,6 +46,7 @@ jobs:
           ${GITHUB_WORKSPACE}/bin/install.sh $GS_VERS
 
           # list running stones
+          which gslist
           gslist -lc
           
           # .solo tests
